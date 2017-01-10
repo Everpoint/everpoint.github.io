@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: symbols/Editor.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: symbols/Editor.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>sGis.module('symbol.Editor', [
+    'Symbol',
+    'symbol.point.Point',
+    'symbol.point.Image',
+    'render.Point',
+    'render.Polyline',
+    'render.Polygon',
+    'render.Arc'
+], function(Symbol, PointSymbol, PointImageSymbol, PointRender, PolylineRender, PolygonRender, ArcRender) {
+    
+    'use strict';
+
+    /**
+     * Symbol of a highlighted feature for editor.
+     * @alias sGis.symbol.Editor
+     * @extends sGis.Symbol
+     */
+    class EditorSymbol extends Symbol {
+        /**
+         * @constructor
+         * @param {Object} [properties] - key-value list of properties to be assigned to the instance.
+         */
+        constructor(properties) {
+            super(properties);
+        }
+
+        renderFunction(feature, resolution, crs) {
+            var baseRender = this.baseSymbol.renderFunction(feature, resolution, crs);
+            var halo;
+            for (var i = 0; i &lt; baseRender.length; i++) {
+                if (baseRender[i] instanceof ArcRender) {
+                    halo = new ArcRender(baseRender[i].center, {
+                        fillColor: this.color,
+                        radius: parseFloat(baseRender[i].radius) + this.haloSize,
+                        strokeColor: 'transparent'
+                    });
+                    break;
+                } else if (baseRender[i] instanceof PolygonRender) {
+                    halo = new PolygonRender(baseRender[i].coordinates, {
+                        strokeColor: this.color,
+                        fillColor: this.color,
+                        strokeWidth: parseFloat(baseRender[i].strokeWidth) + 2 * this.haloSize
+                    });
+                    break;
+                } else if (baseRender[i] instanceof PolylineRender) {
+                    halo = new PolylineRender(baseRender[i].coordinates, {
+                        strokeColor: this.color,
+                        strokeWidth: parseFloat(baseRender[i].strokeWidth) + 2 * this.haloSize
+                    });
+                    break;
+                } else if (this.baseSymbol instanceof PointImageSymbol) {
+                    halo = new ArcRender(
+                        [
+                            baseRender[i].position[0] + (+this.baseSymbol.anchorPoint.x),
+                            baseRender[i].position[1] + (+this.baseSymbol.anchorPoint.y)
+                        ],
+                        {
+                            fillColor: this.color,
+                            radius: this.baseSymbol.width / 2 + this.haloSize,
+                            strokeColor: 'transparent'}
+                    );
+                    break;
+                }
+            }
+
+            if (halo) baseRender.unshift(halo);
+            return baseRender;
+        }
+    }
+
+    /**
+     * Base symbol of the feature. Used to render original feature with the highlight.
+     * @member {sGis.Symbol} baseSymbol
+     * @memberof sGis.symbol.Editor
+     * @instance
+     * @default new sGis.symbol.point.Point()
+     */
+    EditorSymbol.prototype.baseSymbol = new PointSymbol();
+
+    /**
+     * Color of the halo (highlight). Can be any valid css color string.
+     * @member {String} color
+     * @memberof sGis.symbol.Editor
+     * @instance
+     * @default "rgba(97,239,255,0.5)"
+     */
+    EditorSymbol.prototype.color = 'rgba(97,239,255,0.5)';
+
+    /**
+     * Size of the halo around the feature.
+     * @member {Number} haloSize
+     * @memberof sGis.symbol.Editor
+     * @instance
+     * @default
+     */
+    EditorSymbol.prototype.haloSize = 5;
+    
+    return EditorSymbol;
+    
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="sGis.Bbox.html">sGis.Bbox</a></li><li><a href="sGis.Control.html">sGis.Control</a></li><li><a href="sGis.control.Polyline.html">sGis.control.Polyline</a></li><li><a href="sGis.controls.Circle.html">sGis.controls.Circle</a></li><li><a href="sGis.controls.Editor.html">sGis.controls.Editor</a></li><li><a href="sGis.controls.MultiPoint.html">sGis.controls.MultiPoint</a></li><li><a href="sGis.controls.Point.html">sGis.controls.Point</a></li><li><a href="sGis.controls.PointEditor.html">sGis.controls.PointEditor</a></li><li><a href="sGis.controls.Poly.html">sGis.controls.Poly</a></li><li><a href="sGis.controls.PolyDrag.html">sGis.controls.PolyDrag</a></li><li><a href="sGis.controls.PolyEditor.html">sGis.controls.PolyEditor</a></li><li><a href="sGis.controls.Polyline.html">sGis.controls.Polyline</a></li><li><a href="sGis.controls.PolyTransform.html">sGis.controls.PolyTransform</a></li><li><a href="sGis.controls.Rectangle.html">sGis.controls.Rectangle</a></li><li><a href="sGis.controls.Snapping.html">sGis.controls.Snapping</a></li><li><a href="sGis.Crs_.html">sGis.Crs</a></li><li><a href="sGis.CRS.AlbersEqualArea.html">sGis.CRS.AlbersEqualArea</a></li><li><a href="sGis.DynamicLayer.html">sGis.DynamicLayer</a></li><li><a href="sGis.EventHandler.html">sGis.EventHandler</a></li><li><a href="sGis.Feature.html">sGis.Feature</a></li><li><a href="sGis.feature.Image.html">sGis.feature.Image</a></li><li><a href="sGis.feature.Label.html">sGis.feature.Label</a></li><li><a href="sGis.feature.Maptip.html">sGis.feature.Maptip</a></li><li><a href="sGis.feature.MultiPoint.html">sGis.feature.MultiPoint</a></li><li><a href="sGis.feature.Point.html">sGis.feature.Point</a></li><li><a href="sGis.feature.Poly.html">sGis.feature.Poly</a></li><li><a href="sGis.feature.Polygon.html">sGis.feature.Polygon</a></li><li><a href="sGis.feature.Polyline.html">sGis.feature.Polyline</a></li><li><a href="sGis.FeatureLayer.html">sGis.FeatureLayer</a></li><li><a href="sGis.Layer.html">sGis.Layer</a></li><li><a href="sGis.LayerGroup.html">sGis.LayerGroup</a></li><li><a href="sGis.Map.html">sGis.Map</a></li><li><a href="sGis.painter.DomPainter_.html">sGis.painter.DomPainter</a></li><li><a href="sGis.painter.domPainter.Container.html">sGis.painter.domPainter.Container</a></li><li><a href="sGis.painter.domPainter.EventDispatcher.html">sGis.painter.domPainter.EventDispatcher</a></li><li><a href="sGis.painter.domPainter.SvgRender.html">sGis.painter.domPainter.SvgRender</a></li><li><a href="sGis.Point.html">sGis.Point</a></li><li><a href="sGis.render.Arc.html">sGis.render.Arc</a></li><li><a href="sGis.render.HtmlElement.html">sGis.render.HtmlElement</a></li><li><a href="sGis.render.ImageRender.html">sGis.render.ImageRender</a></li><li><a href="sGis.render.Point.html">sGis.render.Point</a></li><li><a href="sGis.render.Polygon.html">sGis.render.Polygon</a></li><li><a href="sGis.render.Polyline.html">sGis.render.Polyline</a></li><li><a href="sGis.Symbol.html">sGis.Symbol</a></li><li><a href="sGis.symbol.Editor.html">sGis.symbol.Editor</a></li><li><a href="sGis.symbol.image.Image.html">sGis.symbol.image.Image</a></li><li><a href="sGis.symbol.label.Label.html">sGis.symbol.label.Label</a></li><li><a href="sGis.symbol.maptip.Simple.html">sGis.symbol.maptip.Simple</a></li><li><a href="sGis.symbol.point.Image.html">sGis.symbol.point.Image</a></li><li><a href="sGis.symbol.point.MaskedImage.html">sGis.symbol.point.MaskedImage</a></li><li><a href="sGis.symbol.point.Point.html">sGis.symbol.point.Point</a></li><li><a href="sGis.symbol.point.Square.html">sGis.symbol.point.Square</a></li><li><a href="sGis.symbol.polygon.BrushFill.html">sGis.symbol.polygon.BrushFill</a></li><li><a href="sGis.symbol.polygon.ImageFill.html">sGis.symbol.polygon.ImageFill</a></li><li><a href="sGis.symbol.polygon.Simple.html">sGis.symbol.polygon.Simple</a></li><li><a href="sGis.symbol.polyline.Simple.html">sGis.symbol.polyline.Simple</a></li><li><a href="sGis.TileLayer.html">sGis.TileLayer</a></li><li><a href="sGis.TileScheme.html">sGis.TileScheme</a></li><li><a href="sGis.utils.Color.html">sGis.utils.Color</a></li><li><a href="StateManager.html">StateManager</a></li></ul><h3>Events</h3><ul><li><a href="sGis.control.Polyline.html#event:drawingBegin">sGis.control.Polyline#drawingBegin</a></li><li><a href="sGis.control.Polyline.html#event:drawingFinish">sGis.control.Polyline#drawingFinish</a></li><li><a href="sGis.control.Polyline.html#event:pointAdd">sGis.control.Polyline#pointAdd</a></li><li><a href="sGis.controls.Circle.html#event:drawingBegin">sGis.controls.Circle#drawingBegin</a></li><li><a href="sGis.controls.Circle.html#event:drawingFinish">sGis.controls.Circle#drawingFinish</a></li><li><a href="sGis.controls.Editor.html#event:featureDeselect">sGis.controls.Editor#featureDeselect</a></li><li><a href="sGis.controls.Editor.html#event:featureRemove">sGis.controls.Editor#featureRemove</a></li><li><a href="sGis.controls.Editor.html#event:featureSelect">sGis.controls.Editor#featureSelect</a></li><li><a href="sGis.controls.MultiPoint.html#event:drawingBegin">sGis.controls.MultiPoint#drawingBegin</a></li><li><a href="sGis.controls.MultiPoint.html#event:drawingFinish">sGis.controls.MultiPoint#drawingFinish</a></li><li><a href="sGis.controls.MultiPoint.html#event:pointAdd">sGis.controls.MultiPoint#pointAdd</a></li><li><a href="sGis.controls.Point.html#event:drawingFinish">sGis.controls.Point#drawingFinish</a></li><li><a href="sGis.controls.PointEditor.html#event:edit">sGis.controls.PointEditor#edit</a></li><li><a href="sGis.controls.Poly.html#event:drawingBegin">sGis.controls.Poly#drawingBegin</a></li><li><a href="sGis.controls.Poly.html#event:drawingFinish">sGis.controls.Poly#drawingFinish</a></li><li><a href="sGis.controls.Poly.html#event:pointAdd">sGis.controls.Poly#pointAdd</a></li><li><a href="sGis.controls.PolyDrag.html#event:drawingBegin">sGis.controls.PolyDrag#drawingBegin</a></li><li><a href="sGis.controls.PolyDrag.html#event:drawingFinish">sGis.controls.PolyDrag#drawingFinish</a></li><li><a href="sGis.controls.PolyEditor.html#event:change">sGis.controls.PolyEditor#change</a></li><li><a href="sGis.controls.PolyEditor.html#event:edit">sGis.controls.PolyEditor#edit</a></li><li><a href="sGis.controls.Polyline.html#event:drawingBegin">sGis.controls.Polyline#drawingBegin</a></li><li><a href="sGis.controls.Polyline.html#event:drawingFinish">sGis.controls.Polyline#drawingFinish</a></li><li><a href="sGis.controls.Polyline.html#event:pointAdd">sGis.controls.Polyline#pointAdd</a></li><li><a href="sGis.controls.PolyTransform.html#event:rotationEnd">sGis.controls.PolyTransform#rotationEnd</a></li><li><a href="sGis.controls.PolyTransform.html#event:rotationStart">sGis.controls.PolyTransform#rotationStart</a></li><li><a href="sGis.controls.PolyTransform.html#event:scalingEnd">sGis.controls.PolyTransform#scalingEnd</a></li><li><a href="sGis.controls.PolyTransform.html#event:scalingStart">sGis.controls.PolyTransform#scalingStart</a></li><li><a href="sGis.controls.Rectangle.html#event:drawingBegin">sGis.controls.Rectangle#drawingBegin</a></li><li><a href="sGis.controls.Rectangle.html#event:drawingFinish">sGis.controls.Rectangle#drawingFinish</a></li><li><a href="sGis.DynamicLayer.html#event:propertyChange">sGis.DynamicLayer#propertyChange</a></li><li><a href="sGis.FeatureLayer.html#event:featureAdd">sGis.FeatureLayer#featureAdd</a></li><li><a href="sGis.FeatureLayer.html#event:featureRemove">sGis.FeatureLayer#featureRemove</a></li><li><a href="sGis.Layer.html#event:propertyChange">sGis.Layer#propertyChange</a></li><li><a href="sGis.LayerGroup.html#event:contentsChange">sGis.LayerGroup#contentsChange</a></li><li><a href="sGis.LayerGroup.html#event:layerAdd">sGis.LayerGroup#layerAdd</a></li><li><a href="sGis.LayerGroup.html#event:layerOrderChange">sGis.LayerGroup#layerOrderChange</a></li><li><a href="sGis.LayerGroup.html#event:layerRemove">sGis.LayerGroup#layerRemove</a></li><li><a href="sGis.Map.html#event:contentsChange">sGis.Map#contentsChange</a></li><li><a href="sGis.Map.html#event:layerAdd">sGis.Map#layerAdd</a></li><li><a href="sGis.Map.html#event:layerOrderChange">sGis.Map#layerOrderChange</a></li><li><a href="sGis.Map.html#event:layerRemove">sGis.Map#layerRemove</a></li><li><a href="sGis.TileLayer.html#event:propertyChange">sGis.TileLayer#propertyChange</a></li></ul><h3>Namespaces</h3><ul><li><a href="sGis.html">sGis</a></li><li><a href="sGis.CRS.html">sGis.CRS</a></li><li><a href="sGis.event.html">sGis.event</a></li><li><a href="sGis.feature_.html">sGis.feature</a></li><li><a href="sGis.geotools.html">sGis.geotools</a></li><li><a href="sGis.math.html">sGis.math</a></li><li><a href="sGis.painter.domPainter.html">sGis.painter.domPainter</a></li><li><a href="sGis.render.html">sGis.render</a></li><li><a href="sGis.serializer.html">sGis.serializer</a></li><li><a href="sGis.symbol_.html">sGis.symbol</a></li><li><a href="sGis.symbol.label.html">sGis.symbol.label</a></li><li><a href="sGis.symbol.maptip.html">sGis.symbol.maptip</a></li><li><a href="sGis.symbol.point.html">sGis.symbol.point</a></li><li><a href="sGis.symbol.polygon.html">sGis.symbol.polygon</a></li><li><a href="sGis.symbol.polyline.html">sGis.symbol.polyline</a></li><li><a href="sGis.utils.html">sGis.utils</a></li></ul><h3>Mixins</h3><ul><li><a href="sGisEvent.html">sGisEvent</a></li></ul><h3>Interfaces</h3><ul><li><a href="sGis.IPoint.html">sGis.IPoint</a></li><li><a href="sGis.IRender.html">sGis.IRender</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Tue Jan 10 2017 17:46:28 GMT+0300 (Russia TZ 2 Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
