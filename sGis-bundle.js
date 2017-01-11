@@ -8634,13 +8634,13 @@ sGis.module('Map', ['utils', 'CRS', 'Point', 'Bbox', 'LayerGroup', 'TileScheme']
                 var adjustedResolution = this.getAdjustedResolution(resolution);
                 var newPosition = this._getScaledPosition(adjustedResolution, basePoint);
                 this.animateTo(newPosition, adjustedResolution);
-                this.fire('animationStart');
             }
         }, {
             key: 'animateTo',
             value: function animateTo(point, resolution) {
                 this.stopAnimation();
 
+                this.fire('animationStart');
                 var originalPosition = this.centerPoint;
                 var originalResolution = this.resolution;
                 var dx = point.x - originalPosition.x;
