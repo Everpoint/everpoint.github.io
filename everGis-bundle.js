@@ -9166,6 +9166,808 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+sGis.module('Feature', ['utils', 'CRS', 'Bbox', 'EventHandler'], function (utils, CRS, Bbox, EventHandler) {
+
+    'use strict';
+
+    var defaults = {
+        _crs: CRS.geo,
+        _symbol: null,
+        _hidden: false
+    };
+
+    var Feature = function (_EventHandler) {
+        _inherits(Feature, _EventHandler);
+
+        _createClass(Feature, null, [{
+            key: 'setDefaultCrs',
+            value: function setDefaultCrs(crs) {
+                Feature.prototype._crs = crs;
+            }
+        }]);
+
+        function Feature() {
+            var properties = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+            _classCallCheck(this, Feature);
+
+            var _this = _possibleConstructorReturn(this, (Feature.__proto__ || Object.getPrototypeOf(Feature)).call(this));
+
+            var copy = utils.extend({}, properties);
+            if (copy.crs) {
+                _this._crs = copy.crs;
+                delete copy.crs;
+            }
+
+            utils.init(_this, copy, true);
+            return _this;
+        }
+
+        _createClass(Feature, [{
+            key: 'render',
+            value: function render(resolution, crs) {
+                if (this._hidden || !this.symbol) return [];
+                if (!this._needToRender(resolution, crs)) return this._rendered.renders;
+
+                this._rendered = {
+                    resolution: resolution,
+                    crs: crs,
+                    renders: this.symbol.renderFunction(this, resolution, crs)
+                };
+
+                return this._rendered.renders;
+            }
+        }, {
+            key: '_needToRender',
+            value: function _needToRender(resolution, crs) {
+                return !this._rendered || this._rendered.resolution !== resolution || this._rendered.crs !== crs;
+            }
+        }, {
+            key: 'getRenderCache',
+            value: function getRenderCache() {
+                return this._rendered;
+            }
+        }, {
+            key: 'redraw',
+            value: function redraw() {
+                delete this._rendered;
+            }
+        }, {
+            key: 'hide',
+            value: function hide() {
+                this._hidden = true;
+            }
+        }, {
+            key: 'show',
+            value: function show() {
+                this._hidden = false;
+            }
+        }, {
+            key: 'setTempSymbol',
+            value: function setTempSymbol(symbol) {
+                this._tempSymbol = symbol;
+                this.redraw();
+            }
+        }, {
+            key: 'clearTempSymbol',
+            value: function clearTempSymbol() {
+                this._tempSymbol = null;
+                this.redraw();
+            }
+        }, {
+            key: 'isTempSymbolSet',
+            get: function get() {
+                return !!this._tempSymbol;
+            }
+        }, {
+            key: 'originalSymbol',
+            get: function get() {
+                return this._symbol;
+            }
+        }, {
+            key: 'crs',
+            get: function get() {
+                return this._crs;
+            }
+        }, {
+            key: 'symbol',
+            get: function get() {
+                return this._tempSymbol || this._symbol;
+            },
+            set: function set(symbol) {
+                this._symbol = symbol;
+                this.redraw();
+            }
+        }, {
+            key: 'hidden',
+            get: function get() {
+                return this._hidden;
+            }
+        }, {
+            key: 'bbox',
+            get: function get() {
+                return new Bbox([Math.MIN_VALUE, Math.MIN_VALUE], [Math.MAX_VALUE, Math.MAX_VALUE], this.crs);
+            }
+        }]);
+
+        return Feature;
+    }(EventHandler);
+
+    utils.extend(Feature.prototype, defaults);
+
+    return Feature;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('feature.Image', ['utils', 'Feature', 'symbol.image.Image'], function (utils, Feature, ImageSymbol) {
+
+    'use strict';
+
+    var defaults = {
+        _src: null,
+        _symbol: new ImageSymbol()
+    };
+
+    var ImageF = function (_Feature) {
+        _inherits(ImageF, _Feature);
+
+        function ImageF(bbox, properties) {
+            _classCallCheck(this, ImageF);
+
+            var _this = _possibleConstructorReturn(this, (ImageF.__proto__ || Object.getPrototypeOf(ImageF)).call(this, properties));
+
+            _this.bbox = bbox;
+            return _this;
+        }
+
+        _createClass(ImageF, [{
+            key: '_needToRender',
+            value: function _needToRender(resolution, crs) {
+                return !this.getRenderCache();
+            }
+        }, {
+            key: 'src',
+            get: function get() {
+                return this._src;
+            },
+            set: function set(src) {
+                this._src = src;
+                this.redraw();
+            }
+        }, {
+            key: 'bbox',
+            get: function get() {
+                return this._bbox;
+            },
+            set: function set(bbox) {
+                this._bbox = bbox.projectTo(this.crs);
+                this.redraw();
+            }
+        }]);
+
+        return ImageF;
+    }(Feature);
+
+    utils.extend(ImageF.prototype, defaults);
+
+    return ImageF;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('feature.Label', ['utils', 'Feature', 'symbol.label.Label', 'Bbox', 'Point'], function (utils, Feature, LabelSymbol, Bbox, Point) {
+    'use strict';
+
+    var defaults = {
+        _content: '',
+        _symbol: new LabelSymbol()
+    };
+
+    var Label = function (_Feature) {
+        _inherits(Label, _Feature);
+
+        function Label(position, properties) {
+            _classCallCheck(this, Label);
+
+            var _this = _possibleConstructorReturn(this, (Label.__proto__ || Object.getPrototypeOf(Label)).call(this, properties));
+
+            _this.coordinates = position;
+            return _this;
+        }
+
+        _createClass(Label, [{
+            key: 'position',
+            get: function get() {
+                return this._position;
+            },
+            set: function set(position) {
+                this._position = position;
+                this.redraw();
+            }
+        }, {
+            key: 'point',
+            get: function get() {
+                return new Point(this.position, this.crs);
+            },
+            set: function set(point) {
+                this.position = point.projectTo(this.crs).position;
+            }
+        }, {
+            key: 'coordinates',
+            get: function get() {
+                return this._position.slice();
+            },
+            set: function set(point) {
+                this.position = point.slice();
+            }
+        }, {
+            key: 'content',
+            get: function get() {
+                return this._content;
+            },
+            set: function set(content) {
+                this._content = content;
+                this.redraw();
+            }
+        }, {
+            key: 'bbox',
+            get: function get() {
+                return new Bbox(this.position, this.position, this.crs);
+            }
+        }]);
+
+        return Label;
+    }(Feature);
+
+    utils.extend(Label.prototype, defaults);
+
+    return Label;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('feature.Maptip', ['Feature', 'Point', 'Bbox', 'symbol.maptip.Simple'], function (Feature, Point, Bbox, MaptipSymbol) {
+
+    'use strict';
+
+    var Maptip = function (_Feature) {
+        _inherits(Maptip, _Feature);
+
+        function Maptip(position, properties) {
+            _classCallCheck(this, Maptip);
+
+            var _this = _possibleConstructorReturn(this, (Maptip.__proto__ || Object.getPrototypeOf(Maptip)).call(this, properties));
+
+            _this._position = position;
+            return _this;
+        }
+
+        _createClass(Maptip, [{
+            key: 'projectTo',
+            value: function projectTo(crs) {
+                var projected = this.point.projectTo(crs);
+                return new Maptip(projected.position, { crs: crs, content: this.content });
+            }
+        }, {
+            key: 'content',
+            get: function get() {
+                return this._content;
+            },
+            set: function set(content) {
+                this._content = content;
+                this.redraw();
+            }
+        }, {
+            key: 'position',
+            get: function get() {
+                return this._position;
+            },
+            set: function set(position) {
+                this._position = position;
+                this.redraw();
+            }
+        }, {
+            key: 'point',
+            get: function get() {
+                return new Point(this.position, this.crs);
+            }
+        }, {
+            key: 'x',
+            get: function get() {
+                return this.position[0];
+            }
+        }, {
+            key: 'y',
+            get: function get() {
+                return this.position[1];
+            }
+        }, {
+            key: 'bbox',
+            get: function get() {
+                return new Bbox(this._position, this._position, this.crs);
+            }
+        }]);
+
+        return Maptip;
+    }(Feature);
+
+    Maptip.prototype._symbol = new MaptipSymbol();
+
+    return Maptip;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('feature.MultiPoint', ['Feature', 'Point', 'Bbox', 'feature.Point', 'symbol.point.Point'], function (Feature, Point, Bbox, PointF, PointSymbol) {
+    'use strict';
+
+    var MultiPoint = function (_Feature) {
+        _inherits(MultiPoint, _Feature);
+
+        function MultiPoint() {
+            var points = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+            var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+            _classCallCheck(this, MultiPoint);
+
+            var _this = _possibleConstructorReturn(this, (MultiPoint.__proto__ || Object.getPrototypeOf(MultiPoint)).call(this, properties));
+
+            _this._points = points;
+            return _this;
+        }
+
+        _createClass(MultiPoint, [{
+            key: 'projectTo',
+            value: function projectTo(crs) {
+                var _this2 = this;
+
+                var projected = [];
+                this._points.forEach(function (point) {
+                    projected.push(new Point(point, _this2.crs).projectTo(crs).coordinates);
+                });
+
+                return new MultiPoint(projected, { symbol: this.symbol, crs: crs });
+            }
+        }, {
+            key: 'clone',
+            value: function clone() {
+                return this.projectTo(this.crs);
+            }
+        }, {
+            key: 'addPoint',
+            value: function addPoint(point) {
+                if (point.position && point.crs) {
+                    this._points.push(point.projectTo(this.crs).position);
+                } else {
+                    this._points.push([point[0], point[1]]);
+                }
+                this._update();
+            }
+        }, {
+            key: '_update',
+            value: function _update() {
+                this._bbox = null;
+                this.redraw();
+            }
+        }, {
+            key: 'render',
+            value: function render(resolution, crs) {
+                var _this3 = this;
+
+                if (this.hidden || !this.symbol) return [];
+                if (!this._needToRender(resolution, crs)) return this._rendered.renders;
+
+                var renders = [];
+                this._points.forEach(function (point) {
+                    var f = new PointF(point, { crs: _this3.crs, symbol: _this3.symbol });
+                    renders = renders.concat(f.render(resolution, crs));
+                });
+
+                this._rendered = {
+                    resolution: resolution,
+                    crs: crs,
+                    renders: renders
+                };
+
+                return this._rendered.renders;
+            }
+        }, {
+            key: 'points',
+            get: function get() {
+                return this._points;
+            },
+            set: function set(points) {
+                this._points = points.slice();
+                this._update();
+            }
+        }, {
+            key: 'bbox',
+            get: function get() {
+                if (this._bbox) return this._bbox;
+                var xMin = Number.MAX_VALUE;
+                var yMin = Number.MAX_VALUE;
+                var xMax = Number.MIN_VALUE;
+                var yMax = Number.MIN_VALUE;
+
+                this._points.forEach(function (point) {
+                    xMin = Math.min(xMin, point[0]);
+                    yMin = Math.min(yMin, point[1]);
+                    xMax = Math.max(xMax, point[0]);
+                    yMax = Math.max(yMax, point[1]);
+                });
+
+                this._bbox = new Bbox([xMin, yMin], [xMax, yMax], this.crs);
+                return this._bbox;
+            }
+        }, {
+            key: 'coordinates',
+            get: function get() {
+                return this._points.slice();
+            },
+            set: function set(points) {
+                this.points = points;
+            }
+        }]);
+
+        return MultiPoint;
+    }(Feature);
+
+    MultiPoint.prototype._symbol = new PointSymbol();
+
+    return MultiPoint;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('feature.Point', ['utils', 'Feature', 'Crs', 'Point', 'Bbox', 'symbol.point.Point'], function (utils, Feature, Crs, Point, Bbox, PointSymbol) {
+
+    'use strict';
+
+    var PointF = function (_Feature) {
+        _inherits(PointF, _Feature);
+
+        function PointF(position, properties) {
+            _classCallCheck(this, PointF);
+
+            var _this = _possibleConstructorReturn(this, (PointF.__proto__ || Object.getPrototypeOf(PointF)).call(this, properties));
+
+            _this._position = position;
+            return _this;
+        }
+
+        _createClass(PointF, [{
+            key: 'projectTo',
+            value: function projectTo(crs) {
+                var projected = Point.prototype.projectTo.call(this, crs);
+                return new PointF(projected.position, { crs: crs, symbol: this.symbol });
+            }
+        }, {
+            key: 'clone',
+            value: function clone() {
+                return this.projectTo(this.crs);
+            }
+        }, {
+            key: 'bbox',
+            get: function get() {
+                return new Bbox(this._position, this._position, this.crs);
+            }
+        }, {
+            key: 'position',
+            get: function get() {
+                return [].concat(this._position);
+            },
+            set: function set(position) {
+                this._position = position;
+                this.redraw();
+            }
+        }, {
+            key: 'point',
+            get: function get() {
+                return new Point(this.position, this.crs);
+            },
+            set: function set(point) {
+                this.position = point.projectTo(this.crs).position;
+            }
+        }, {
+            key: 'x',
+            get: function get() {
+                return this._position[0];
+            },
+            set: function set(x) {
+                this._position[0] = x;
+                this.redraw();
+            }
+        }, {
+            key: 'y',
+            get: function get() {
+                return this._position[1];
+            },
+            set: function set(y) {
+                this._position[1] = y;
+                this.redraw();
+            }
+        }, {
+            key: 'coordinates',
+            get: function get() {
+                return this.position.slice();
+            },
+            set: function set(position) {
+                this.position = position.slice();
+            }
+        }]);
+
+        return PointF;
+    }(Feature);
+
+    PointF.prototype._symbol = new PointSymbol();
+
+    return PointF;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('feature.Poly', ['utils', 'Feature', 'Bbox', 'geotools'], function (utils, Feature, Bbox, geotools) {
+
+    'use strict';
+
+    var Poly = function (_Feature) {
+        _inherits(Poly, _Feature);
+
+        function Poly(rings, properties) {
+            _classCallCheck(this, Poly);
+
+            var _this = _possibleConstructorReturn(this, (Poly.__proto__ || Object.getPrototypeOf(Poly)).call(this, properties));
+
+            if (rings && rings.length > 0) {
+                if (rings[0].length > 0 && !Array.isArray(rings[0][0])) rings = [rings];
+                _this.rings = utils.copyArray(rings);
+            } else {
+                _this._rings = [[]];
+            }
+            return _this;
+        }
+
+        _createClass(Poly, [{
+            key: 'addPoint',
+            value: function addPoint(point, ringN) {
+                if (!ringN) ringN = this._rings.length - 1;
+                this.setPoint(ringN, this._rings[ringN].length, point);
+            }
+        }, {
+            key: 'removePoint',
+            value: function removePoint(ringN, index) {
+                this._rings[ringN].splice(index, 1);
+                if (this._rings[ringN].length === 0) {
+                    this.removeRing(ringN);
+                }
+                this._update();
+            }
+        }, {
+            key: 'removeRing',
+            value: function removeRing(ringN) {
+                this._rings.splice(ringN, 1);
+                this._update();
+            }
+        }, {
+            key: '_update',
+            value: function _update() {
+                this._bbox = null;
+                this.redraw();
+            }
+        }, {
+            key: 'clone',
+            value: function clone() {
+                return new Poly(this.rings, { crs: this.crs });
+            }
+        }, {
+            key: 'projectTo',
+            value: function projectTo(crs) {
+                var projected = geotools.projectRings(this.rings, this.crs, crs);
+                return new Poly(projected, { crs: crs, symbol: this.symbol });
+            }
+        }, {
+            key: 'setRing',
+            value: function setRing(ringN, ring) {
+                ringN = Math.min(ringN, this._rings.length);
+                this._rings[ringN] = ring;
+                this._update();
+            }
+        }, {
+            key: 'setPoint',
+            value: function setPoint(ringN, pointN, point) {
+                pointN = Math.min(pointN, this._rings[ringN].length);
+                this._rings[ringN][pointN] = point.position && point.projectTo ? point.projectTo(this.crs).position : point;
+                this._update();
+            }
+        }, {
+            key: 'insertPoint',
+            value: function insertPoint(ringN, pointN, point) {
+                pointN = Math.min(pointN, this._rings[ringN].length);
+                this._rings[ringN].splice(pointN, 0, [0, 0]);
+                this.setPoint(ringN, pointN, point);
+            }
+        }, {
+            key: 'rings',
+            get: function get() {
+                return this._rings;
+            },
+            set: function set(rings) {
+                this._rings = rings;
+                this._update();
+            }
+        }, {
+            key: 'bbox',
+            get: function get() {
+                if (this._bbox) return this._bbox;
+                var xMin = Number.MAX_VALUE;
+                var yMin = Number.MAX_VALUE;
+                var xMax = -Number.MAX_VALUE;
+                var yMax = -Number.MAX_VALUE;
+
+                this._rings.forEach(function (ring) {
+                    ring.forEach(function (point) {
+                        xMin = Math.min(xMin, point[0]);
+                        yMin = Math.min(yMin, point[1]);
+                        xMax = Math.max(xMax, point[0]);
+                        yMax = Math.max(yMax, point[1]);
+                    });
+                });
+
+                this._bbox = new Bbox([xMin, yMin], [xMax, yMax], this.crs);
+                return this._bbox;
+            }
+        }, {
+            key: 'centroid',
+            get: function get() {
+                var bbox = this.bbox;
+                var x = (bbox.xMin + bbox.xMax) / 2;
+                var y = (bbox.yMin + bbox.yMax) / 2;
+                return [x, y];
+            }
+        }, {
+            key: 'coordinates',
+            get: function get() {
+                return utils.copyArray(this._rings);
+            },
+            set: function set(rings) {
+                this.rings = utils.copyArray(rings);
+            }
+        }]);
+
+        return Poly;
+    }(Feature);
+
+    return Poly;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('feature.Polygon', ['feature.Poly', 'symbol.polygon.Simple'], function (Poly, PolygonSymbol) {
+
+    'use strict';
+
+    var Polygon = function (_Poly) {
+        _inherits(Polygon, _Poly);
+
+        function Polygon() {
+            _classCallCheck(this, Polygon);
+
+            return _possibleConstructorReturn(this, (Polygon.__proto__ || Object.getPrototypeOf(Polygon)).apply(this, arguments));
+        }
+
+        _createClass(Polygon, [{
+            key: 'clone',
+            value: function clone() {
+                return new Polygon(this.rings, { crs: this.crs, symbol: this.originalSymbol });
+            }
+        }]);
+
+        return Polygon;
+    }(Poly);
+
+    Polygon.prototype._symbol = new PolygonSymbol();
+
+    Polygon.prototype.isEnclosed = true;
+
+    return Polygon;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('feature.Polyline', ['feature.Poly', 'symbol.polyline.Simple'], function (Poly, PolylineSymbol) {
+
+    'use strict';
+
+    var Polyline = function (_Poly) {
+        _inherits(Polyline, _Poly);
+
+        function Polyline() {
+            _classCallCheck(this, Polyline);
+
+            return _possibleConstructorReturn(this, (Polyline.__proto__ || Object.getPrototypeOf(Polyline)).apply(this, arguments));
+        }
+
+        _createClass(Polyline, [{
+            key: 'clone',
+            value: function clone() {
+                return new Polyline(this.rings, { crs: this.crs, symbol: this.originalSymbol });
+            }
+        }]);
+
+        return Polyline;
+    }(Poly);
+
+    Polyline.prototype._symbol = new PolylineSymbol();
+
+    return Polyline;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 sGis.module('controls.Circle', ['controls.PolyDrag', 'feature.Polygon'], function (PolyDrag, Polygon) {
 
     'use strict';
@@ -10968,808 +11770,6 @@ sGis.module('controls.Snapping', ['Control', 'FeatureLayer', 'feature.Point', 's
 });
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-sGis.module('Feature', ['utils', 'CRS', 'Bbox', 'EventHandler'], function (utils, CRS, Bbox, EventHandler) {
-
-    'use strict';
-
-    var defaults = {
-        _crs: CRS.geo,
-        _symbol: null,
-        _hidden: false
-    };
-
-    var Feature = function (_EventHandler) {
-        _inherits(Feature, _EventHandler);
-
-        _createClass(Feature, null, [{
-            key: 'setDefaultCrs',
-            value: function setDefaultCrs(crs) {
-                Feature.prototype._crs = crs;
-            }
-        }]);
-
-        function Feature() {
-            var properties = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-            _classCallCheck(this, Feature);
-
-            var _this = _possibleConstructorReturn(this, (Feature.__proto__ || Object.getPrototypeOf(Feature)).call(this));
-
-            var copy = utils.extend({}, properties);
-            if (copy.crs) {
-                _this._crs = copy.crs;
-                delete copy.crs;
-            }
-
-            utils.init(_this, copy, true);
-            return _this;
-        }
-
-        _createClass(Feature, [{
-            key: 'render',
-            value: function render(resolution, crs) {
-                if (this._hidden || !this.symbol) return [];
-                if (!this._needToRender(resolution, crs)) return this._rendered.renders;
-
-                this._rendered = {
-                    resolution: resolution,
-                    crs: crs,
-                    renders: this.symbol.renderFunction(this, resolution, crs)
-                };
-
-                return this._rendered.renders;
-            }
-        }, {
-            key: '_needToRender',
-            value: function _needToRender(resolution, crs) {
-                return !this._rendered || this._rendered.resolution !== resolution || this._rendered.crs !== crs;
-            }
-        }, {
-            key: 'getRenderCache',
-            value: function getRenderCache() {
-                return this._rendered;
-            }
-        }, {
-            key: 'redraw',
-            value: function redraw() {
-                delete this._rendered;
-            }
-        }, {
-            key: 'hide',
-            value: function hide() {
-                this._hidden = true;
-            }
-        }, {
-            key: 'show',
-            value: function show() {
-                this._hidden = false;
-            }
-        }, {
-            key: 'setTempSymbol',
-            value: function setTempSymbol(symbol) {
-                this._tempSymbol = symbol;
-                this.redraw();
-            }
-        }, {
-            key: 'clearTempSymbol',
-            value: function clearTempSymbol() {
-                this._tempSymbol = null;
-                this.redraw();
-            }
-        }, {
-            key: 'isTempSymbolSet',
-            get: function get() {
-                return !!this._tempSymbol;
-            }
-        }, {
-            key: 'originalSymbol',
-            get: function get() {
-                return this._symbol;
-            }
-        }, {
-            key: 'crs',
-            get: function get() {
-                return this._crs;
-            }
-        }, {
-            key: 'symbol',
-            get: function get() {
-                return this._tempSymbol || this._symbol;
-            },
-            set: function set(symbol) {
-                this._symbol = symbol;
-                this.redraw();
-            }
-        }, {
-            key: 'hidden',
-            get: function get() {
-                return this._hidden;
-            }
-        }, {
-            key: 'bbox',
-            get: function get() {
-                return new Bbox([Math.MIN_VALUE, Math.MIN_VALUE], [Math.MAX_VALUE, Math.MAX_VALUE], this.crs);
-            }
-        }]);
-
-        return Feature;
-    }(EventHandler);
-
-    utils.extend(Feature.prototype, defaults);
-
-    return Feature;
-});
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-sGis.module('feature.Image', ['utils', 'Feature', 'symbol.image.Image'], function (utils, Feature, ImageSymbol) {
-
-    'use strict';
-
-    var defaults = {
-        _src: null,
-        _symbol: new ImageSymbol()
-    };
-
-    var ImageF = function (_Feature) {
-        _inherits(ImageF, _Feature);
-
-        function ImageF(bbox, properties) {
-            _classCallCheck(this, ImageF);
-
-            var _this = _possibleConstructorReturn(this, (ImageF.__proto__ || Object.getPrototypeOf(ImageF)).call(this, properties));
-
-            _this.bbox = bbox;
-            return _this;
-        }
-
-        _createClass(ImageF, [{
-            key: '_needToRender',
-            value: function _needToRender(resolution, crs) {
-                return !this.getRenderCache();
-            }
-        }, {
-            key: 'src',
-            get: function get() {
-                return this._src;
-            },
-            set: function set(src) {
-                this._src = src;
-                this.redraw();
-            }
-        }, {
-            key: 'bbox',
-            get: function get() {
-                return this._bbox;
-            },
-            set: function set(bbox) {
-                this._bbox = bbox.projectTo(this.crs);
-                this.redraw();
-            }
-        }]);
-
-        return ImageF;
-    }(Feature);
-
-    utils.extend(ImageF.prototype, defaults);
-
-    return ImageF;
-});
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-sGis.module('feature.Label', ['utils', 'Feature', 'symbol.label.Label', 'Bbox', 'Point'], function (utils, Feature, LabelSymbol, Bbox, Point) {
-    'use strict';
-
-    var defaults = {
-        _content: '',
-        _symbol: new LabelSymbol()
-    };
-
-    var Label = function (_Feature) {
-        _inherits(Label, _Feature);
-
-        function Label(position, properties) {
-            _classCallCheck(this, Label);
-
-            var _this = _possibleConstructorReturn(this, (Label.__proto__ || Object.getPrototypeOf(Label)).call(this, properties));
-
-            _this.coordinates = position;
-            return _this;
-        }
-
-        _createClass(Label, [{
-            key: 'position',
-            get: function get() {
-                return this._position;
-            },
-            set: function set(position) {
-                this._position = position;
-                this.redraw();
-            }
-        }, {
-            key: 'point',
-            get: function get() {
-                return new Point(this.position, this.crs);
-            },
-            set: function set(point) {
-                this.position = point.projectTo(this.crs).position;
-            }
-        }, {
-            key: 'coordinates',
-            get: function get() {
-                return this._position.slice();
-            },
-            set: function set(point) {
-                this.position = point.slice();
-            }
-        }, {
-            key: 'content',
-            get: function get() {
-                return this._content;
-            },
-            set: function set(content) {
-                this._content = content;
-                this.redraw();
-            }
-        }, {
-            key: 'bbox',
-            get: function get() {
-                return new Bbox(this.position, this.position, this.crs);
-            }
-        }]);
-
-        return Label;
-    }(Feature);
-
-    utils.extend(Label.prototype, defaults);
-
-    return Label;
-});
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-sGis.module('feature.Maptip', ['Feature', 'Point', 'Bbox', 'symbol.maptip.Simple'], function (Feature, Point, Bbox, MaptipSymbol) {
-
-    'use strict';
-
-    var Maptip = function (_Feature) {
-        _inherits(Maptip, _Feature);
-
-        function Maptip(position, properties) {
-            _classCallCheck(this, Maptip);
-
-            var _this = _possibleConstructorReturn(this, (Maptip.__proto__ || Object.getPrototypeOf(Maptip)).call(this, properties));
-
-            _this._position = position;
-            return _this;
-        }
-
-        _createClass(Maptip, [{
-            key: 'projectTo',
-            value: function projectTo(crs) {
-                var projected = this.point.projectTo(crs);
-                return new Maptip(projected.position, { crs: crs, content: this.content });
-            }
-        }, {
-            key: 'content',
-            get: function get() {
-                return this._content;
-            },
-            set: function set(content) {
-                this._content = content;
-                this.redraw();
-            }
-        }, {
-            key: 'position',
-            get: function get() {
-                return this._position;
-            },
-            set: function set(position) {
-                this._position = position;
-                this.redraw();
-            }
-        }, {
-            key: 'point',
-            get: function get() {
-                return new Point(this.position, this.crs);
-            }
-        }, {
-            key: 'x',
-            get: function get() {
-                return this.position[0];
-            }
-        }, {
-            key: 'y',
-            get: function get() {
-                return this.position[1];
-            }
-        }, {
-            key: 'bbox',
-            get: function get() {
-                return new Bbox(this._position, this._position, this.crs);
-            }
-        }]);
-
-        return Maptip;
-    }(Feature);
-
-    Maptip.prototype._symbol = new MaptipSymbol();
-
-    return Maptip;
-});
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-sGis.module('feature.MultiPoint', ['Feature', 'Point', 'Bbox', 'feature.Point', 'symbol.point.Point'], function (Feature, Point, Bbox, PointF, PointSymbol) {
-    'use strict';
-
-    var MultiPoint = function (_Feature) {
-        _inherits(MultiPoint, _Feature);
-
-        function MultiPoint() {
-            var points = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-            var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-            _classCallCheck(this, MultiPoint);
-
-            var _this = _possibleConstructorReturn(this, (MultiPoint.__proto__ || Object.getPrototypeOf(MultiPoint)).call(this, properties));
-
-            _this._points = points;
-            return _this;
-        }
-
-        _createClass(MultiPoint, [{
-            key: 'projectTo',
-            value: function projectTo(crs) {
-                var _this2 = this;
-
-                var projected = [];
-                this._points.forEach(function (point) {
-                    projected.push(new Point(point, _this2.crs).projectTo(crs).coordinates);
-                });
-
-                return new MultiPoint(projected, { symbol: this.symbol, crs: crs });
-            }
-        }, {
-            key: 'clone',
-            value: function clone() {
-                return this.projectTo(this.crs);
-            }
-        }, {
-            key: 'addPoint',
-            value: function addPoint(point) {
-                if (point.position && point.crs) {
-                    this._points.push(point.projectTo(this.crs).position);
-                } else {
-                    this._points.push([point[0], point[1]]);
-                }
-                this._update();
-            }
-        }, {
-            key: '_update',
-            value: function _update() {
-                this._bbox = null;
-                this.redraw();
-            }
-        }, {
-            key: 'render',
-            value: function render(resolution, crs) {
-                var _this3 = this;
-
-                if (this.hidden || !this.symbol) return [];
-                if (!this._needToRender(resolution, crs)) return this._rendered.renders;
-
-                var renders = [];
-                this._points.forEach(function (point) {
-                    var f = new PointF(point, { crs: _this3.crs, symbol: _this3.symbol });
-                    renders = renders.concat(f.render(resolution, crs));
-                });
-
-                this._rendered = {
-                    resolution: resolution,
-                    crs: crs,
-                    renders: renders
-                };
-
-                return this._rendered.renders;
-            }
-        }, {
-            key: 'points',
-            get: function get() {
-                return this._points;
-            },
-            set: function set(points) {
-                this._points = points.slice();
-                this._update();
-            }
-        }, {
-            key: 'bbox',
-            get: function get() {
-                if (this._bbox) return this._bbox;
-                var xMin = Number.MAX_VALUE;
-                var yMin = Number.MAX_VALUE;
-                var xMax = Number.MIN_VALUE;
-                var yMax = Number.MIN_VALUE;
-
-                this._points.forEach(function (point) {
-                    xMin = Math.min(xMin, point[0]);
-                    yMin = Math.min(yMin, point[1]);
-                    xMax = Math.max(xMax, point[0]);
-                    yMax = Math.max(yMax, point[1]);
-                });
-
-                this._bbox = new Bbox([xMin, yMin], [xMax, yMax], this.crs);
-                return this._bbox;
-            }
-        }, {
-            key: 'coordinates',
-            get: function get() {
-                return this._points.slice();
-            },
-            set: function set(points) {
-                this.points = points;
-            }
-        }]);
-
-        return MultiPoint;
-    }(Feature);
-
-    MultiPoint.prototype._symbol = new PointSymbol();
-
-    return MultiPoint;
-});
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-sGis.module('feature.Point', ['utils', 'Feature', 'Crs', 'Point', 'Bbox', 'symbol.point.Point'], function (utils, Feature, Crs, Point, Bbox, PointSymbol) {
-
-    'use strict';
-
-    var PointF = function (_Feature) {
-        _inherits(PointF, _Feature);
-
-        function PointF(position, properties) {
-            _classCallCheck(this, PointF);
-
-            var _this = _possibleConstructorReturn(this, (PointF.__proto__ || Object.getPrototypeOf(PointF)).call(this, properties));
-
-            _this._position = position;
-            return _this;
-        }
-
-        _createClass(PointF, [{
-            key: 'projectTo',
-            value: function projectTo(crs) {
-                var projected = Point.prototype.projectTo.call(this, crs);
-                return new PointF(projected.position, { crs: crs, symbol: this.symbol });
-            }
-        }, {
-            key: 'clone',
-            value: function clone() {
-                return this.projectTo(this.crs);
-            }
-        }, {
-            key: 'bbox',
-            get: function get() {
-                return new Bbox(this._position, this._position, this.crs);
-            }
-        }, {
-            key: 'position',
-            get: function get() {
-                return [].concat(this._position);
-            },
-            set: function set(position) {
-                this._position = position;
-                this.redraw();
-            }
-        }, {
-            key: 'point',
-            get: function get() {
-                return new Point(this.position, this.crs);
-            },
-            set: function set(point) {
-                this.position = point.projectTo(this.crs).position;
-            }
-        }, {
-            key: 'x',
-            get: function get() {
-                return this._position[0];
-            },
-            set: function set(x) {
-                this._position[0] = x;
-                this.redraw();
-            }
-        }, {
-            key: 'y',
-            get: function get() {
-                return this._position[1];
-            },
-            set: function set(y) {
-                this._position[1] = y;
-                this.redraw();
-            }
-        }, {
-            key: 'coordinates',
-            get: function get() {
-                return this.position.slice();
-            },
-            set: function set(position) {
-                this.position = position.slice();
-            }
-        }]);
-
-        return PointF;
-    }(Feature);
-
-    PointF.prototype._symbol = new PointSymbol();
-
-    return PointF;
-});
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-sGis.module('feature.Poly', ['utils', 'Feature', 'Bbox', 'geotools'], function (utils, Feature, Bbox, geotools) {
-
-    'use strict';
-
-    var Poly = function (_Feature) {
-        _inherits(Poly, _Feature);
-
-        function Poly(rings, properties) {
-            _classCallCheck(this, Poly);
-
-            var _this = _possibleConstructorReturn(this, (Poly.__proto__ || Object.getPrototypeOf(Poly)).call(this, properties));
-
-            if (rings && rings.length > 0) {
-                if (rings[0].length > 0 && !Array.isArray(rings[0][0])) rings = [rings];
-                _this.rings = utils.copyArray(rings);
-            } else {
-                _this._rings = [[]];
-            }
-            return _this;
-        }
-
-        _createClass(Poly, [{
-            key: 'addPoint',
-            value: function addPoint(point, ringN) {
-                if (!ringN) ringN = this._rings.length - 1;
-                this.setPoint(ringN, this._rings[ringN].length, point);
-            }
-        }, {
-            key: 'removePoint',
-            value: function removePoint(ringN, index) {
-                this._rings[ringN].splice(index, 1);
-                if (this._rings[ringN].length === 0) {
-                    this.removeRing(ringN);
-                }
-                this._update();
-            }
-        }, {
-            key: 'removeRing',
-            value: function removeRing(ringN) {
-                this._rings.splice(ringN, 1);
-                this._update();
-            }
-        }, {
-            key: '_update',
-            value: function _update() {
-                this._bbox = null;
-                this.redraw();
-            }
-        }, {
-            key: 'clone',
-            value: function clone() {
-                return new Poly(this.rings, { crs: this.crs });
-            }
-        }, {
-            key: 'projectTo',
-            value: function projectTo(crs) {
-                var projected = geotools.projectRings(this.rings, this.crs, crs);
-                return new Poly(projected, { crs: crs, symbol: this.symbol });
-            }
-        }, {
-            key: 'setRing',
-            value: function setRing(ringN, ring) {
-                ringN = Math.min(ringN, this._rings.length);
-                this._rings[ringN] = ring;
-                this._update();
-            }
-        }, {
-            key: 'setPoint',
-            value: function setPoint(ringN, pointN, point) {
-                pointN = Math.min(pointN, this._rings[ringN].length);
-                this._rings[ringN][pointN] = point.position && point.projectTo ? point.projectTo(this.crs).position : point;
-                this._update();
-            }
-        }, {
-            key: 'insertPoint',
-            value: function insertPoint(ringN, pointN, point) {
-                pointN = Math.min(pointN, this._rings[ringN].length);
-                this._rings[ringN].splice(pointN, 0, [0, 0]);
-                this.setPoint(ringN, pointN, point);
-            }
-        }, {
-            key: 'rings',
-            get: function get() {
-                return this._rings;
-            },
-            set: function set(rings) {
-                this._rings = rings;
-                this._update();
-            }
-        }, {
-            key: 'bbox',
-            get: function get() {
-                if (this._bbox) return this._bbox;
-                var xMin = Number.MAX_VALUE;
-                var yMin = Number.MAX_VALUE;
-                var xMax = -Number.MAX_VALUE;
-                var yMax = -Number.MAX_VALUE;
-
-                this._rings.forEach(function (ring) {
-                    ring.forEach(function (point) {
-                        xMin = Math.min(xMin, point[0]);
-                        yMin = Math.min(yMin, point[1]);
-                        xMax = Math.max(xMax, point[0]);
-                        yMax = Math.max(yMax, point[1]);
-                    });
-                });
-
-                this._bbox = new Bbox([xMin, yMin], [xMax, yMax], this.crs);
-                return this._bbox;
-            }
-        }, {
-            key: 'centroid',
-            get: function get() {
-                var bbox = this.bbox;
-                var x = (bbox.xMin + bbox.xMax) / 2;
-                var y = (bbox.yMin + bbox.yMax) / 2;
-                return [x, y];
-            }
-        }, {
-            key: 'coordinates',
-            get: function get() {
-                return utils.copyArray(this._rings);
-            },
-            set: function set(rings) {
-                this.rings = utils.copyArray(rings);
-            }
-        }]);
-
-        return Poly;
-    }(Feature);
-
-    return Poly;
-});
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-sGis.module('feature.Polygon', ['feature.Poly', 'symbol.polygon.Simple'], function (Poly, PolygonSymbol) {
-
-    'use strict';
-
-    var Polygon = function (_Poly) {
-        _inherits(Polygon, _Poly);
-
-        function Polygon() {
-            _classCallCheck(this, Polygon);
-
-            return _possibleConstructorReturn(this, (Polygon.__proto__ || Object.getPrototypeOf(Polygon)).apply(this, arguments));
-        }
-
-        _createClass(Polygon, [{
-            key: 'clone',
-            value: function clone() {
-                return new Polygon(this.rings, { crs: this.crs, symbol: this.originalSymbol });
-            }
-        }]);
-
-        return Polygon;
-    }(Poly);
-
-    Polygon.prototype._symbol = new PolygonSymbol();
-
-    Polygon.prototype.isEnclosed = true;
-
-    return Polygon;
-});
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-sGis.module('feature.Polyline', ['feature.Poly', 'symbol.polyline.Simple'], function (Poly, PolylineSymbol) {
-
-    'use strict';
-
-    var Polyline = function (_Poly) {
-        _inherits(Polyline, _Poly);
-
-        function Polyline() {
-            _classCallCheck(this, Polyline);
-
-            return _possibleConstructorReturn(this, (Polyline.__proto__ || Object.getPrototypeOf(Polyline)).apply(this, arguments));
-        }
-
-        _createClass(Polyline, [{
-            key: 'clone',
-            value: function clone() {
-                return new Polyline(this.rings, { crs: this.crs, symbol: this.originalSymbol });
-            }
-        }]);
-
-        return Polyline;
-    }(Poly);
-
-    Polyline.prototype._symbol = new PolylineSymbol();
-
-    return Polyline;
-});
-'use strict';
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 sGis.module('serializer.symbolSerializer', ['utils'], function (utils) {
@@ -11931,6 +11931,55 @@ sGis.module('render.HtmlElement', [], function () {
     }();
 
     return HtmlElement;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+sGis.module('render.HtmlNode', [], function () {
+
+    'use strict';
+
+    var HtmlNode = function () {
+        function HtmlNode(node, position, onAfterDisplayed) {
+            _classCallCheck(this, HtmlNode);
+
+            this._node = node;
+            this._position = position;
+            this.onAfterDisplayed = onAfterDisplayed;
+        }
+
+        _createClass(HtmlNode, [{
+            key: 'getNode',
+            value: function getNode(callback) {
+                callback(null, this._node);
+            }
+        }, {
+            key: 'contains',
+            value: function contains(position) {
+                var width = this._node.clientWidth || this._node.offsetWidth || 0;
+                var height = this._node.clientHeight || this._node.offsetHeight || 0;
+
+                return this._position[0] < position.x && this._position[1] < position.y && this._position[0] + width > position.x && this._position[1] + height > position.y;
+            }
+        }, {
+            key: 'position',
+            get: function get() {
+                return this._position;
+            }
+        }], [{
+            key: 'isVector',
+            get: function get() {
+                return false;
+            }
+        }]);
+
+        return HtmlNode;
+    }();
+
+    return HtmlNode;
 });
 'use strict';
 
@@ -13022,6 +13071,54 @@ sGis.module('utils', ['event'], function (ev) {
                     callback();
                 }, 1000 / 30);
             }
+        },
+
+        debounce: function debounce(func, ms) {
+
+            var state = null;
+
+            var COOLDOWN = 1;
+
+            return function () {
+                if (state) return;
+
+                func.apply(this, arguments);
+
+                state = COOLDOWN;
+
+                setTimeout(function () {
+                    state = null;
+                }, ms);
+            };
+        },
+        throttle: function throttle(func, ms) {
+
+            var isThrottled = false,
+                savedArgs,
+                savedThis;
+
+            function wrapper() {
+
+                if (isThrottled) {
+                    savedArgs = arguments;
+                    savedThis = this;
+                    return;
+                }
+
+                func.apply(this, arguments);
+
+                isThrottled = true;
+
+                setTimeout(function () {
+                    isThrottled = false;
+                    if (savedArgs) {
+                        wrapper.apply(savedThis, savedArgs);
+                        savedArgs = savedThis = null;
+                    }
+                }, ms);
+            }
+
+            return wrapper;
         },
 
         extend: function extend(target, source) {
