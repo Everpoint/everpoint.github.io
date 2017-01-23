@@ -8748,10 +8748,10 @@ sGis.module('Map', ['utils', 'CRS', 'Point', 'Bbox', 'LayerGroup', 'TileScheme']
             set: function set(resolution) {
                 if (resolution !== null) {
                     var maxResolution = this.maxResolution;
-                    if (resolution < maxResolution) utils.error('maxResolution cannot be less then minResolution');
+                    if (resolution > maxResolution) utils.error('maxResolution cannot be less then minResolution');
                 }
                 this._minResolution = resolution;
-                if (this.resolution > this.minResolution) this.resolution = resolution;
+                if (this.resolution < this.minResolution) this.resolution = resolution;
             }
         }, {
             key: 'maxResolution',
@@ -13996,6 +13996,11 @@ sGis.module('painter.domPainter.EventDispatcher', ['event', 'utils'], function (
                     for (var i = layerRenderers.length - 1; i >= 0; i--) {
                         var details = {};
                         var targetObject = layerRenderers[i].getEventCatcher(name, [data.position.x, data.position.y], details);
+
+                        if (name === 'mousemove' && !targetObject) {
+                            targetObject = layerRenderers[i].getEventCatcher('mouseover', [data.position.x, data.position.y], details);
+                        }
+
                         if (targetObject) {
                             data.intersectionType = details.intersectionType;
                             sGisEvent = targetObject.fire(name, data);
@@ -14276,7 +14281,7 @@ sGis.module('painter.domPainter.LayerRenderer', ['Bbox', 'painter.domPainter.Can
     var defaults = {
         delayedUpdateTime: 500,
 
-        listensFor: ['click', 'dblclick', 'dragStart', 'mousemove']
+        listensFor: ['click', 'dblclick', 'dragStart', 'mousemove', 'mouseover']
     };
 
     var LayerRenderer = function () {
