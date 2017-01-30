@@ -23,7 +23,7 @@
             services: ['osm']
         });
 
-        sp.api.geocode('Ростов, Пушкинская ул. 67', ['ya'],sGis.CRS.geo)
+        sp.api.geocode('Ростов, Пушкинская ул. 67', ['ya'], sGis.CRS.geo)
             .then(function(result) {
                 if (result.length === 0) return;
 
