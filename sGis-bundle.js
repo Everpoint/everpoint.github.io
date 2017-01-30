@@ -6765,8 +6765,8 @@ module.exports = _dereq_(23);
 
     var sGis = {};
 
-    sGis.version = "0.2.2";
-    sGis.releaseDate = "21.12.2016";
+    sGis.version = "0.2.3";
+    sGis.releaseDate = "30.01.2017";
 
     var loadedModules = { 'sGis': sGis };
     var loadingDefs = [];
@@ -11770,6 +11770,55 @@ sGis.module('feature.Polyline', ['feature.Poly', 'symbol.polyline.Simple'], func
 });
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+sGis.module('serializer.symbolSerializer', ['utils'], function (utils) {
+
+    'use strict';
+
+    var symbolDescriptions = {};
+
+    return {
+        registerSymbol: function registerSymbol(constructor, description, properties) {
+            symbolDescriptions[description] = { Constructor: constructor, properties: properties };
+        },
+
+        serialize: function serialize(symbol) {
+            var keys = Object.keys(symbolDescriptions);
+            for (var i = 0; i < keys.length; i++) {
+                var desc = symbolDescriptions[keys[i]];
+
+                if (symbol instanceof desc.Constructor) {
+                    var _ret = function () {
+                        var serialized = { symbolName: keys[i] };
+                        desc.properties.forEach(function (prop) {
+                            serialized[prop] = symbol[prop];
+                        });
+                        return {
+                            v: serialized
+                        };
+                    }();
+
+                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+                }
+            }
+
+            utils.error('Unknown type of symbol.');
+        },
+
+        deserialize: function deserialize(desc) {
+            if (!symbolDescriptions[desc.symbolName]) utils.error('Unknown type of symbol.');
+            var symbol = new symbolDescriptions[desc.symbolName].Constructor();
+            symbolDescriptions[desc.symbolName].properties.forEach(function (prop) {
+                symbol[prop] = desc[prop];
+            });
+
+            return symbol;
+        }
+    };
+});
+'use strict';
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -11865,7 +11914,10 @@ sGis.module('render.HtmlElement', [], function () {
                 var width = this._lastNode.clientWidth || this._lastNode.offsetWidth || 0;
                 var height = this._lastNode.clientHeight || this._lastNode.offsetHeight || 0;
 
-                return this._position[0] < position.x && this._position[1] < position.y && this._position[0] + width > position.x && this._position[1] + height > position.y;
+                var x = this._position[0] + (this.offset && this.offset[0] || 0);
+                var y = this._position[1] + (this.offset && this.offset[1] || 0);
+
+                return x < position[0] && y < position[1] && x + width > position[0] && y + height > position[1];
             }
         }, {
             key: 'position',
@@ -11915,7 +11967,10 @@ sGis.module('render.HtmlNode', [], function () {
                 var width = this._node.clientWidth || this._node.offsetWidth || 0;
                 var height = this._node.clientHeight || this._node.offsetHeight || 0;
 
-                return this._position[0] < position.x && this._position[1] < position.y && this._position[0] + width > position.x && this._position[1] + height > position.y;
+                var x = this._position[0] + (this.offset && this.offset[0] || 0);
+                var y = this._position[1] + (this.offset && this.offset[1] || 0);
+
+                return x < position[0] && y < position[1] && x + width > position[0] && y + height > position[1];
             }
         }, {
             key: 'position',
@@ -12162,55 +12217,6 @@ sGis.module('render.Polyline', ['utils', 'geotools'], function (utils, geotools)
     utils.extend(Polyline.prototype, defaults);
 
     return Polyline;
-});
-'use strict';
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-sGis.module('serializer.symbolSerializer', ['utils'], function (utils) {
-
-    'use strict';
-
-    var symbolDescriptions = {};
-
-    return {
-        registerSymbol: function registerSymbol(constructor, description, properties) {
-            symbolDescriptions[description] = { Constructor: constructor, properties: properties };
-        },
-
-        serialize: function serialize(symbol) {
-            var keys = Object.keys(symbolDescriptions);
-            for (var i = 0; i < keys.length; i++) {
-                var desc = symbolDescriptions[keys[i]];
-
-                if (symbol instanceof desc.Constructor) {
-                    var _ret = function () {
-                        var serialized = { symbolName: keys[i] };
-                        desc.properties.forEach(function (prop) {
-                            serialized[prop] = symbol[prop];
-                        });
-                        return {
-                            v: serialized
-                        };
-                    }();
-
-                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-                }
-            }
-
-            utils.error('Unknown type of symbol.');
-        },
-
-        deserialize: function deserialize(desc) {
-            if (!symbolDescriptions[desc.symbolName]) utils.error('Unknown type of symbol.');
-            var symbol = new symbolDescriptions[desc.symbolName].Constructor();
-            symbolDescriptions[desc.symbolName].properties.forEach(function (prop) {
-                symbol[prop] = desc[prop];
-            });
-
-            return symbol;
-        }
-    };
 });
 'use strict';
 
@@ -14606,7 +14612,9 @@ sGis.module('painter.domPainter.LayerRenderer', ['Bbox', 'painter.domPainter.Can
                 if (this._featureIsLoading(feature)) return;
                 this._removeForRemoval(feature);
 
-                var renders = feature.render(this._master.map.resolution, this._master.map.crs);
+                this._currentResolution = this._master.map.resolution;
+
+                var renders = feature.render(this._currentResolution, this._master.map.crs);
 
                 var isMixedRender = false;
                 var canvasIsUsed = this._useCanvas && renders[0] && renders[0].isVector;
@@ -14670,7 +14678,9 @@ sGis.module('painter.domPainter.LayerRenderer', ['Bbox', 'painter.domPainter.Can
                     if (render.bbox) {
                         container.addNode(node, render.width || node.width, render.height || node.height, render.bbox);
                     } else if (render.position || svgRender.position) {
-                        container.addFixedSizeNode(node, render.position || svgRender.position, render.offset);
+                        var k = _this7._currentResolution / container.resolution;
+                        var position = render.position || svgRender.position;
+                        container.addFixedSizeNode(node, [position[0] * k, position[1] * k], render.offset);
                     }
 
                     _this7._renderNodeMap.set(render, node);
@@ -14890,7 +14900,7 @@ sGis.module('painter.domPainter.LayerRenderer', ['Bbox', 'painter.domPainter.Can
                             if (render.bbox) {
                                 lastContainer.addNode(node, render.width || node.width, render.height || node.height, render.bbox);
                             } else if (render.position) {
-                                var k = container.resolution / lastContainer.resolution;
+                                var k = _this12._currentResolution / lastContainer.resolution;
                                 lastContainer.addFixedSizeNode(node, [render.position[0] * k, render.position[1] * k], render.offset);
                             } else {
                                 (function () {

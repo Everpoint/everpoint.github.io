@@ -6765,8 +6765,8 @@ module.exports = _dereq_(23);
 
     var sGis = {};
 
-    sGis.version = "0.2.2";
-    sGis.releaseDate = "21.12.2016";
+    sGis.version = "0.2.3";
+    sGis.releaseDate = "30.01.2017";
 
     var loadedModules = { 'sGis': sGis };
     var loadingDefs = [];
@@ -11770,6 +11770,55 @@ sGis.module('feature.Polyline', ['feature.Poly', 'symbol.polyline.Simple'], func
 });
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+sGis.module('serializer.symbolSerializer', ['utils'], function (utils) {
+
+    'use strict';
+
+    var symbolDescriptions = {};
+
+    return {
+        registerSymbol: function registerSymbol(constructor, description, properties) {
+            symbolDescriptions[description] = { Constructor: constructor, properties: properties };
+        },
+
+        serialize: function serialize(symbol) {
+            var keys = Object.keys(symbolDescriptions);
+            for (var i = 0; i < keys.length; i++) {
+                var desc = symbolDescriptions[keys[i]];
+
+                if (symbol instanceof desc.Constructor) {
+                    var _ret = function () {
+                        var serialized = { symbolName: keys[i] };
+                        desc.properties.forEach(function (prop) {
+                            serialized[prop] = symbol[prop];
+                        });
+                        return {
+                            v: serialized
+                        };
+                    }();
+
+                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+                }
+            }
+
+            utils.error('Unknown type of symbol.');
+        },
+
+        deserialize: function deserialize(desc) {
+            if (!symbolDescriptions[desc.symbolName]) utils.error('Unknown type of symbol.');
+            var symbol = new symbolDescriptions[desc.symbolName].Constructor();
+            symbolDescriptions[desc.symbolName].properties.forEach(function (prop) {
+                symbol[prop] = desc[prop];
+            });
+
+            return symbol;
+        }
+    };
+});
+'use strict';
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -11865,7 +11914,10 @@ sGis.module('render.HtmlElement', [], function () {
                 var width = this._lastNode.clientWidth || this._lastNode.offsetWidth || 0;
                 var height = this._lastNode.clientHeight || this._lastNode.offsetHeight || 0;
 
-                return this._position[0] < position.x && this._position[1] < position.y && this._position[0] + width > position.x && this._position[1] + height > position.y;
+                var x = this._position[0] + (this.offset && this.offset[0] || 0);
+                var y = this._position[1] + (this.offset && this.offset[1] || 0);
+
+                return x < position[0] && y < position[1] && x + width > position[0] && y + height > position[1];
             }
         }, {
             key: 'position',
@@ -11915,7 +11967,10 @@ sGis.module('render.HtmlNode', [], function () {
                 var width = this._node.clientWidth || this._node.offsetWidth || 0;
                 var height = this._node.clientHeight || this._node.offsetHeight || 0;
 
-                return this._position[0] < position.x && this._position[1] < position.y && this._position[0] + width > position.x && this._position[1] + height > position.y;
+                var x = this._position[0] + (this.offset && this.offset[0] || 0);
+                var y = this._position[1] + (this.offset && this.offset[1] || 0);
+
+                return x < position[0] && y < position[1] && x + width > position[0] && y + height > position[1];
             }
         }, {
             key: 'position',
@@ -12162,55 +12217,6 @@ sGis.module('render.Polyline', ['utils', 'geotools'], function (utils, geotools)
     utils.extend(Polyline.prototype, defaults);
 
     return Polyline;
-});
-'use strict';
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-sGis.module('serializer.symbolSerializer', ['utils'], function (utils) {
-
-    'use strict';
-
-    var symbolDescriptions = {};
-
-    return {
-        registerSymbol: function registerSymbol(constructor, description, properties) {
-            symbolDescriptions[description] = { Constructor: constructor, properties: properties };
-        },
-
-        serialize: function serialize(symbol) {
-            var keys = Object.keys(symbolDescriptions);
-            for (var i = 0; i < keys.length; i++) {
-                var desc = symbolDescriptions[keys[i]];
-
-                if (symbol instanceof desc.Constructor) {
-                    var _ret = function () {
-                        var serialized = { symbolName: keys[i] };
-                        desc.properties.forEach(function (prop) {
-                            serialized[prop] = symbol[prop];
-                        });
-                        return {
-                            v: serialized
-                        };
-                    }();
-
-                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-                }
-            }
-
-            utils.error('Unknown type of symbol.');
-        },
-
-        deserialize: function deserialize(desc) {
-            if (!symbolDescriptions[desc.symbolName]) utils.error('Unknown type of symbol.');
-            var symbol = new symbolDescriptions[desc.symbolName].Constructor();
-            symbolDescriptions[desc.symbolName].properties.forEach(function (prop) {
-                symbol[prop] = desc[prop];
-            });
-
-            return symbol;
-        }
-    };
 });
 'use strict';
 
@@ -14606,7 +14612,9 @@ sGis.module('painter.domPainter.LayerRenderer', ['Bbox', 'painter.domPainter.Can
                 if (this._featureIsLoading(feature)) return;
                 this._removeForRemoval(feature);
 
-                var renders = feature.render(this._master.map.resolution, this._master.map.crs);
+                this._currentResolution = this._master.map.resolution;
+
+                var renders = feature.render(this._currentResolution, this._master.map.crs);
 
                 var isMixedRender = false;
                 var canvasIsUsed = this._useCanvas && renders[0] && renders[0].isVector;
@@ -14670,7 +14678,9 @@ sGis.module('painter.domPainter.LayerRenderer', ['Bbox', 'painter.domPainter.Can
                     if (render.bbox) {
                         container.addNode(node, render.width || node.width, render.height || node.height, render.bbox);
                     } else if (render.position || svgRender.position) {
-                        container.addFixedSizeNode(node, render.position || svgRender.position, render.offset);
+                        var k = _this7._currentResolution / container.resolution;
+                        var position = render.position || svgRender.position;
+                        container.addFixedSizeNode(node, [position[0] * k, position[1] * k], render.offset);
                     }
 
                     _this7._renderNodeMap.set(render, node);
@@ -14890,7 +14900,7 @@ sGis.module('painter.domPainter.LayerRenderer', ['Bbox', 'painter.domPainter.Can
                             if (render.bbox) {
                                 lastContainer.addNode(node, render.width || node.width, render.height || node.height, render.bbox);
                             } else if (render.position) {
-                                var k = container.resolution / lastContainer.resolution;
+                                var k = _this12._currentResolution / lastContainer.resolution;
                                 lastContainer.addFixedSizeNode(node, [render.position[0] * k, render.position[1] * k], render.offset);
                             } else {
                                 (function () {
@@ -16304,6 +16314,27 @@ sGis.module('spatialProcessor.Api', ['utils'], function (utils) {
                 return this._operation('serviceCatalog/dependencies', { name: name });
             }
         }, {
+            key: 'geocode',
+            value: function geocode(query, providers) {
+                var crs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : sGis.CRS.wgs84;
+
+                var requestCRS = crs === sGis.CRS.geo ? sGis.CRS.wgs84 : crs;
+
+                var sr = requestCRS.stringDescription;
+                return this._operation('geocode', { sr: sr, providers: JSON.stringify(providers), query: query }).then(function (response) {
+                    if (!Array.isArray(response)) throw new Exception('Search failed');
+
+                    return response.map(function (item) {
+                        if (crs === sGis.CRS.geo) {
+                            var position = [item.Geometry[1], item.Geometry[0]];
+                            return { address: item.Address, source: item.Source, score: item.Score, position: position, point: new sGis.Point(position, crs) };
+                        } else {
+                            return { address: item.Address, source: item.Source, score: item.Score, position: item.Geometry, point: new sGis.Point(item.Geometry, crs) };
+                        }
+                    });
+                });
+            }
+        }, {
             key: 'url',
             get: function get() {
                 return this._url;
@@ -16805,12 +16836,12 @@ sGis.module('spatialProcessor.Connector', ['utils', 'EventHandler', 'spatialProc
             }
         },
 
-        registerOperation: function registerOperation(operationId, callback) {
+        registerOperation: function registerOperation(operationId, callback, progressCallback) {
             if (this._latestOperationNotification && this._latestOperationNotification.operation.id === operationId) {
                 callback(this._latestOperationNotification);
                 this._latestOperationNotification = null;
             } else {
-                this._operationList[operationId] = callback;
+                this._operationList[operationId] = { finalCallback: callback, progressCallback: progressCallback };
             }
         },
 
@@ -16876,8 +16907,12 @@ sGis.module('spatialProcessor.Connector', ['utils', 'EventHandler', 'spatialProc
         'DAS': function DAS(connector, data, type) {
             var response = sGis.spatialProcessor.parseXML(data);
             if (connector._operationList[response.operation.id]) {
-                connector._operationList[response.operation.id](response);
-                delete connector._operationList[response.operation.id];
+                if (response.operation.status === 'Running') {
+                    if (connector._operationList[response.operation.id].progressCallback) connector._operationList[response.operation.id].progressCallback(response);
+                } else {
+                    connector._operationList[response.operation.id].finalCallback(response);
+                    delete connector._operationList[response.operation.id];
+                }
             } else {
                 connector._latestOperationNotification = response;
             }
@@ -17212,6 +17247,49 @@ sGis.module('spatialProcessor.DataAccessService', ['spatialProcessor.Controller'
                     success: success
                 };
             });
+        },
+
+        calculateBuffers: function calculateBuffers(properties) {
+            this.__operation(function () {
+                var params = {
+                    distances: JSON.stringify(properties.distances),
+                    unionResults: properties.unionResults,
+                    subtractObject: properties.subtractObject,
+                    processDelay: properties.processDelay,
+                    subtractInnerBuffer: properties.subtractInnerBuffer,
+                    sourceServiceName: properties.sourceServiceName,
+                    targetServiceName: properties.targetServiceName
+                };
+
+                return {
+                    operation: 'buffer',
+                    dataParameters: params,
+                    success: properties.success,
+                    error: properties.error,
+                    requested: properties.requested
+                };
+            });
+        },
+
+        buildIsochroneByStorage: function buildIsochroneByStorage(properties) {
+            this.__operation(function () {
+                var duration = 'duration=' + properties.duration;
+                var solver = 'solver=' + properties.solver;
+                var sourceServiceName = 'sourceServiceName=' + properties.sourceServiceName;
+                var targetServiceName = 'targetServiceName=' + properties.targetServiceName;
+
+                var param = [duration, solver, sourceServiceName, targetServiceName].join('&');
+
+                if (properties.resolutionK) param += '&resolutionK=' + properties.resolutionK;
+                if (properties.uniteResults !== undefined) param += '&uniteResults=' + properties.uniteResults;
+                return {
+                    operation: 'isochroneByStorage',
+                    dataParameters: param,
+                    success: properties.success,
+                    error: properties.error,
+                    requested: properties.requested
+                };
+            });
         }
     };
 
@@ -17311,7 +17389,7 @@ sGis.module('spatialProcessor.LayerManager', ['utils', 'EventHandler', 'spatialP
                 }
 
                 var prevLayer = this._layersMap.get(container);
-                var index = prevLayer && this._layerGroup.indexOf(prevLayer) || -1;
+                var index = prevLayer && this._layerGroup.indexOf(prevLayer);
                 if (index !== -1) {
                     this._layerGroup.removeLayer(prevLayer);
                 } else {
@@ -17346,7 +17424,11 @@ sGis.module('spatialProcessor.LayerManager', ['utils', 'EventHandler', 'spatialP
                 });
                 var currIndex = this._containers.indexOf(container);
                 var index = currIndex + direction;
-                if (index < 0 || index >= this._containers.length) return;
+                if (index < 0) {
+                    index = 0;
+                } else if (index >= this._containers.length) {
+                    index = this._containers.length - 1;
+                }
 
                 this._containers = utils.arrayMove(this._containers, currIndex, index);
                 this._layerGroup.insertLayer(container.layer, index);
@@ -17380,8 +17462,10 @@ sGis.module('spatialProcessor.LayerManager', ['utils', 'EventHandler', 'spatialP
         }, {
             key: 'getDisplayedServiceList',
             value: function getDisplayedServiceList() {
-                return this.getServiceList().filter(function (service) {
-                    return service.layer && service.isDisplayed && !(service.layer instanceof LayerGroup);
+                return this.getServiceList().filter(function (_ref) {
+                    var layer = _ref.layer,
+                        isDisplayed = _ref.isDisplayed;
+                    return layer && isDisplayed && !(layer instanceof LayerGroup);
                 });
             }
         }, {
@@ -17411,15 +17495,15 @@ sGis.module('spatialProcessor.LayerManager', ['utils', 'EventHandler', 'spatialP
         return LayerManager;
     }(EventHandler);
 
-    Project.registerCustomDataItem('services', function (_ref) {
-        var layerManager = _ref.layerManager;
+    Project.registerCustomDataItem('services', function (_ref2) {
+        var layerManager = _ref2.layerManager;
 
         if (!layerManager) return;
         return layerManager.containers.map(function (container) {
             return saveContainer(container);
         });
-    }, function (descriptions, _ref2) {
-        var layerManager = _ref2.layerManager;
+    }, function (descriptions, _ref3) {
+        var layerManager = _ref3.layerManager;
 
         if (!layerManager || !descriptions) return;
 
@@ -17575,7 +17659,7 @@ sGis.module('spatialProcessor.Printer', ['utils'], function (utils) {
             for (var i = 0, len = services.length; i < len; i++) {
                 var service = services[i];
                 description.ServiceStateDefinition.push({
-                    UniqueName: service.name || service.id,
+                    UniqueName: service.view && service.view.name || service.name || service.id,
                     Opactiy: service.layer.opacity,
                     IsVisible: service.isDisplayed,
                     Title: service.Name,
@@ -17793,7 +17877,7 @@ sGis.module('SpatialProcessor', ['utils', 'Point', 'Map', 'painter.DomPainter', 
                 this._connector = new Connector(properties.url, properties.login, properties.password);
             }
 
-            this._map = new Map();
+            this._map = new Map({ position: properties.position, resolution: properties.resolution });
             this.api = this._connector.api;
             this._painter = new DomRenderer(this._map, { wrapper: properties.mapWrapper });
             this.layerManager = new LayerManager(this.connector, this.map, this.api, this._painter);
@@ -17822,6 +17906,12 @@ sGis.module('SpatialProcessor', ['utils', 'Point', 'Map', 'painter.DomPainter', 
                 if (properties.projectName) {
                     this.project.load(properties.projectName);
                 }
+            }
+        }, {
+            key: 'kill',
+            value: function kill() {
+                if (this._connector) this._connector.cancelNotificationRequest();
+                this._map.wrapper = null;
             }
         }, {
             key: 'map',
@@ -17870,8 +17960,8 @@ sGis.module('SpatialProcessor', ['utils', 'Point', 'Map', 'painter.DomPainter', 
         if (resolution) map.resolution = resolution;
     });
 
-    SpatialProcessor.version = "0.2.2";
-    SpatialProcessor.releaseDate = "21.12.2016";
+    SpatialProcessor.version = "0.2.3";
+    SpatialProcessor.releaseDate = "30.01.2017";
 
     return SpatialProcessor;
 });
@@ -18902,69 +18992,6 @@ sGis.module('spatialProcessor.parseXML', ['feature.Point', 'feature.Polyline', '
 });
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-sGis.module('spatialProcessor.controller.Buffer', ['spatialProcessor.Controller', 'spatialProcessor.ControllerManager'], function (Controller, ControllerlManager) {
-    'use strict';
-
-    var Buffer = function (_Controller) {
-        _inherits(Buffer, _Controller);
-
-        function Buffer(connector, options) {
-            _classCallCheck(this, Buffer);
-
-            var _this = _possibleConstructorReturn(this, (Buffer.__proto__ || Object.getPrototypeOf(Buffer)).call(this));
-
-            _this._type = 'buffer';
-            _this.__initialize(connector, { sync: true });
-            return _this;
-        }
-
-        _createClass(Buffer, [{
-            key: 'calculateBuffers',
-            value: function calculateBuffers(properties) {
-                this.__operation(function () {
-                    var params = {
-                        distances: JSON.stringify(properties.distances),
-                        unionResults: properties.unionResults,
-                        subtractObject: properties.subtractObject,
-                        processDelay: properties.processDelay,
-                        subtractInnerBuffer: properties.subtractInnerBuffer,
-                        sourceServiceName: properties.sourceServiceName,
-                        targetServiceName: properties.targetServiceName
-                    };
-
-                    return {
-                        operation: 'buffer',
-                        dataParameters: params,
-                        success: properties.success,
-                        error: properties.error,
-                        requested: properties.requested
-                    };
-                });
-            }
-        }, {
-            key: 'mapServer',
-            get: function get() {
-                return this._layer;
-            }
-        }]);
-
-        return Buffer;
-    }(Controller);
-
-    ControllerlManager.registerController('buffer', Buffer);
-
-    return Buffer;
-});
-'use strict';
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -18993,7 +19020,7 @@ sGis.module('spatialProcessor.Controller', ['utils', 'spatialProcessor.utils', '
 
     var ext = {
         _display: true,
-
+        createDataViewOnInit: true,
         show: function show() {
             if (this._layer) {
                 this._layer.display = true;
@@ -19051,13 +19078,7 @@ sGis.module('spatialProcessor.Controller', ['utils', 'spatialProcessor.utils', '
                         self._id = response.ServiceId;
                         if (response.DataViewServiceName) {
                             self._layerName = response.DataViewServiceName;
-                            self._serviceContainer = new ServiceContainer(self._spatialProcessor, self._layerName);
-                            self._serviceContainer.once('stateUpdate', function () {
-                                if (self._serviceContainer.service) {
-                                    self._service = self._serviceContainer.service;
-                                    if (self._map) self._map.addLayer(self._service.layer);
-                                }
-                            });
+                            self.createDataViewOnInit && self._createContainer();
                         }
 
                         if (callback) callback.call(self);
@@ -19074,14 +19095,25 @@ sGis.module('spatialProcessor.Controller', ['utils', 'spatialProcessor.utils', '
             });
         },
 
-        _failInitialization: function _failInitialization() {
+        _createContainer: function _createContainer() {
             var _this2 = this;
+
+            this._serviceContainer = new ServiceContainer(this._spatialProcessor, this._layerName);
+            this._serviceContainer.once('stateUpdate', function () {
+                if (_this2._serviceContainer.service) {
+                    _this2._service = _this2._serviceContainer.service;
+                    if (_this2._map) _this2._map.addLayer(_this2._service.layer);
+                }
+            });
+        },
+        _failInitialization: function _failInitialization() {
+            var _this3 = this;
 
             sGis.utils.message('Could not create controller ' + this._type);
             this.fire('initError');
             this._failed = true;
             this._operationQueue.forEach(function (operation) {
-                _this2.__operation(operation);
+                _this3.__operation(operation);
             });
         },
 
@@ -19141,7 +19173,7 @@ sGis.module('spatialProcessor.Controller', ['utils', 'spatialProcessor.utils', '
                                     } else {
                                         if (parameters.error) parameters.error(result);
                                     }
-                                });
+                                }, parameters.onProgress);
                             }
                         } else if (response.status === 'error' && parameters.error) {
                             parameters.error(data);
@@ -19693,18 +19725,8 @@ sGis.module('spatialProcessor.controller.ImportData', ['spatialProcessor.Control
                     dataParameters: param,
                     success: properties.success,
                     error: properties.error,
-                    requested: properties.requested
-                };
-            });
-        },
-
-        getProgress: function getProgress(properties) {
-            this.__operation(function () {
-                return {
-                    operation: 'getProgress',
-                    success: properties.success,
-                    error: properties.error,
-                    requested: properties.requested
+                    requested: properties.requested,
+                    onProgress: properties.onProgress
                 };
             });
         }
@@ -19895,28 +19917,8 @@ sGis.module('spatialProcessor.controller.Routing', ['spatialProcessor.Controller
                     requested: properties.requested
                 };
             });
-        },
-
-        buildIsochroneByStorage: function buildIsochroneByStorage(properties) {
-            this.__operation(function () {
-                var duration = 'duration=' + properties.duration;
-                var solver = 'solver=' + properties.solver;
-                var sourceServiceName = 'sourceServiceName=' + properties.sourceServiceName;
-                var targetServiceName = 'targetServiceName=' + properties.targetServiceName;
-
-                var param = [duration, solver, sourceServiceName, targetServiceName].join('&');
-
-                if (properties.resolutionK) param += '&resolutionK=' + properties.resolutionK;
-                if (properties.uniteResults !== undefined) param += '&uniteResults=' + properties.uniteResults;
-                return {
-                    operation: 'isochroneByStorage',
-                    dataParameters: param,
-                    success: properties.success,
-                    error: properties.error,
-                    requested: properties.requested
-                };
-            });
         }
+
     });
 
     ControllerManager.registerController('routing', Routing);
@@ -19944,6 +19946,7 @@ sGis.module('spatialProcessor.controller.TempView', ['spatialProcessor.Controlle
 
             var _this = _possibleConstructorReturn(this, (TempView.__proto__ || Object.getPrototypeOf(TempView)).call(this, { _type: 'tempView' }));
 
+            _this.createDataViewOnInit = false;
             _this.__initialize(connector, { sync: true }, function () {
                 this.initialized = true;
                 this.fire('initialize');
@@ -19956,7 +19959,7 @@ sGis.module('spatialProcessor.controller.TempView', ['spatialProcessor.Controlle
             value: function resetView(_ref) {
                 var sourceServiceName = _ref.sourceServiceName,
                     requested = _ref.requested,
-                    success = _ref.success,
+                    _success = _ref.success,
                     error = _ref.error;
 
                 this.__operation(function () {
@@ -19971,7 +19974,7 @@ sGis.module('spatialProcessor.controller.TempView', ['spatialProcessor.Controlle
                         operation: 'resetView',
                         dataParameters: paramsString,
                         success: function success() {
-                            _this2._updateView();
+                            _this2._updateView().then(_success);
                         },
                         error: error,
                         requested: requested
@@ -19983,12 +19986,17 @@ sGis.module('spatialProcessor.controller.TempView', ['spatialProcessor.Controlle
             value: function _updateView() {
                 var _this3 = this;
 
-                if (!this._layerName) return;
+                return new Promise(function (resolve, reject) {
+                    !_this3._layerName && reject(new Error('Temp view layer name error'));
 
-                this._serviceContainer = new ServiceContainer(this._spatialProcessor, this._layerName);
-                this._serviceContainer.once('stateUpdate', function () {
-                    _this3._service = _this3._serviceContainer.service;
-                    _this3.fire('viewUpdate');
+                    _this3._serviceContainer = new ServiceContainer(_this3._spatialProcessor, _this3._layerName);
+                    _this3._serviceContainer.once('stateUpdate', function () {
+                        _this3._service = _this3._serviceContainer.service;
+                        _this3.fire('viewUpdate');
+
+                        !_this3._service && reject(new Error('State update error'));
+                        resolve(_this3._service);
+                    });
                 });
             }
         }, {
@@ -20912,9 +20920,16 @@ sGis.module('spatialProcessor.services.TileService', ['spatialProcessor.services
                 }
 
                 this._tileScheme = tileScheme;
-
-                var url = this.serviceInfo.sourceUrl || this.url + 'tile/{z}/{y}/{x}' + (this.connector.sessionId ? '?_sb=' + this.connector.sessionId : '');
-                this._layer = new TileLayer(url, { tileScheme: tileScheme, crs: this.crs, isDisplayed: this.isDisplayed });
+                this._layer = new TileLayer(this._getUrl(), { tileScheme: tileScheme, crs: this.crs, isDisplayed: this.isDisplayed });
+            }
+        }, {
+            key: '_getUrl',
+            value: function _getUrl() {
+                if (this.serviceInfo.sourceUrl) {
+                    return this.serviceInfo.sourceUrl.replace(/^https?:/, '');
+                } else {
+                    return this.url + 'tile/{z}/{y}/{x}' + (this.connector.sessionId ? '?_sb=' + this.connector.sessionId : '');
+                }
             }
         }, {
             key: 'tileScheme',

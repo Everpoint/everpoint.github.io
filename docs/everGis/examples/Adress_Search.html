@@ -20,11 +20,22 @@
 
         var sp = new sGis.SpatialProcessor({
             url: 'http://evg-inst.everpoint.ru/EverCloud/SpatialProcessor/IIS/',
-            mapWrapper: 'map',
             services: ['osm']
         });
 
-        sp.map.centerPoint = new sGis.Point([59.94, 30.43]);
+        sp.api.geocode('Ростов, Пушкинская ул. 67', ['ya'],sGis.CRS.geo)
+            .then(function(result) {
+                if (result.length === 0) return;
+
+                sp.map.centerPoint = result[0].point;
+                sp.map.resolution = sp.map.tileScheme.getAdjustedResolution(1);
+
+                var featureLayer = new sGis.FeatureLayer({features: [new sGis.feature.Point(result[0].position, { symbol: new sGis.symbol.point.Image() })]});
+                sp.map.addLayer(featureLayer);
+
+                sp.painter.wrapper = 'map';
+            });
+
     }
 </script>
 </body>
