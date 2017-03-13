@@ -6765,8 +6765,8 @@ module.exports = _dereq_(23);
 
     var sGis = {};
 
-    sGis.version = "0.2.3";
-    sGis.releaseDate = "30.01.2017";
+    sGis.version = "0.2.4";
+    sGis.releaseDate = "06.03.2017";
 
     var loadedModules = { 'sGis': sGis };
     var loadingDefs = [];
@@ -6864,6 +6864,12 @@ sGis.module('Bbox', ['utils', 'CRS', 'Point'], function (utils, CRS, Point) {
                 for (var i = 0; i < 4; i++) {
                     if (!utils.softEquals(this._p[i], target[i])) return false;
                 }return this._crs.equals(bbox.crs);
+            }
+        }, {
+            key: 'intersect',
+            value: function intersect(bbox) {
+                bbox = bbox.crs === this.crs ? bbox : bbox.projectTo(this.crs);
+                return new Bbox([Math.min(this.xMin, bbox.xMin), Math.min(this.yMin, bbox.yMin)], [Math.max(this.xMax, bbox.xMax), Math.max(this.yMax, bbox.yMax)], this.crs);
             }
         }, {
             key: 'intersects',
@@ -7987,6 +7993,15 @@ sGis.module('geotools', ['math', 'utils', 'CRS', 'Point'], function (math, utils
         return result;
     };
 
+    geotools.projectPoints = function (ring, fromCrs, toCrs) {
+        var projection = fromCrs.projectionTo(toCrs);
+        var projectedRing = [];
+        ring.forEach(function (position) {
+            projectedRing.push(projection(position));
+        });
+        return projectedRing;
+    };
+
     function polygonArea(coord) {
         coord = coord.concat([coord[0]]);
 
@@ -8139,40 +8154,78 @@ sGis.module('geotools', ['math', 'utils', 'CRS', 'Point'], function (math, utils
     }
 
     geotools.transform = function (features, matrix, center) {
+        var mapCrs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
         if (Array.isArray(features)) {
             features.forEach(function (feature) {
-                return transformFeature(feature, matrix, center);
+                return transformFeature(feature, matrix, center, mapCrs);
             });
         } else {
-            transformFeature(features, matrix, center);
+            transformFeature(features, matrix, center, mapCrs);
         }
     };
 
     geotools.rotate = function (features, angle, center) {
+        var mapCrs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
         var sin = Math.sin(angle);
         var cos = Math.cos(angle);
 
-        geotools.transform(features, [[cos, sin, 0], [-sin, cos, 0], [0, 0, 1]], center);
+        geotools.transform(features, [[cos, sin, 0], [-sin, cos, 0], [0, 0, 1]], center, mapCrs);
     };
 
     geotools.scale = function (features, scale, center) {
-        geotools.transform(features, [[scale[0], 0, 0], [0, scale[1], 0], [0, 0, 1]], center);
+        var mapCrs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
+        geotools.transform(features, [[scale[0], 0, 0], [0, scale[1], 0], [0, 0, 1]], center, mapCrs);
     };
 
     geotools.move = function (features, translate) {
-        geotools.transform(features, [[1, 0, 0], [0, 1, 1], [translate[0], translate[1], 1]], [0, 0]);
+        var mapCrs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+        geotools.transform(features, [[1, 0, 0], [0, 1, 1], [translate[0], translate[1], 1]], [0, 0], mapCrs);
     };
 
     function transformFeature(feature, matrix, center) {
-        var base = center.crs ? center.projectTo(feature.crs).position : center;
+        var mapCrs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
+        var targetCrs = mapCrs || feature.crs;
+        var base = center.crs ? center.projectTo(targetCrs).position : center;
+
         if (feature.rings) {
             var rings = feature.rings;
+            if (targetCrs !== feature.crs) {
+                rings = geotools.projectRings(rings, feature.crs, targetCrs);
+            }
             transformRings(rings, matrix, base);
+
+            if (targetCrs !== feature.crs) {
+                rings = geotools.projectRings(rings, targetCrs, feature.crs);
+            }
+
             feature.rings = rings;
         } else if (feature.points) {
-            feature.points = transformRing(feature.points, matrix, base);
+            var points = feature.points;
+            if (targetCrs !== feature.crs) {
+                points = geotools.projectRings(points, feature.crs, targetCrs);
+            }
+            points = transformRing(points, matrix, base);
+
+            if (targetCrs !== feature.crs) {
+                points = geotools.projectRings(points, targetCrs, feature.crs);
+            }
+            feature.points = points;
         } else if (feature.position) {
-            feature.position = transformRing([feature.position], matrix, base)[0];
+            var _points = [feature.position];
+            if (targetCrs !== feature.crs) {
+                _points = geotools.projectRings(_points, feature.crs, targetCrs);
+            }
+            _points = transformRing(_points, matrix, base);
+
+            if (targetCrs !== feature.crs) {
+                _points = geotools.projectRings(_points, targetCrs, feature.crs);
+            }
+            feature.position = _points[0];
         }
     }
 
@@ -8863,6 +8916,14 @@ sGis.module('Point', ['utils', 'CRS'], function (utils, CRS) {
             get: function get() {
                 return this._crs;
             }
+        }, {
+            key: 'coordinates',
+            get: function get() {
+                return this.position.slice();
+            },
+            set: function set(position) {
+                this.position = position.slice();
+            }
         }]);
 
         return Point;
@@ -9230,8 +9291,8 @@ sGis.module('Control', ['utils', 'EventHandler'], function (utils, EventHandler)
 
             var _this = _possibleConstructorReturn(this, (Control.__proto__ || Object.getPrototypeOf(Control)).call(this));
 
-            _this._map = map;
             utils.init(_this, properties, true);
+            _this._map = map;
             return _this;
         }
 
@@ -9265,6 +9326,7 @@ sGis.module('Control', ['utils', 'EventHandler'], function (utils, EventHandler)
                 return this._isActive;
             },
             set: function set(bool) {
+                if (!this._map) return;
                 bool = !!bool;
                 if (this._isActive === bool) return;
                 this._isActive = bool;
@@ -9308,7 +9370,9 @@ sGis.module('controls.Editor', ['utils', 'Control', 'symbol.Editor', 'controls.P
     var Editor = function (_Control) {
         _inherits(Editor, _Control);
 
-        function Editor(map, options) {
+        function Editor(map) {
+            var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
             _classCallCheck(this, Editor);
 
             var _this = _possibleConstructorReturn(this, (Editor.__proto__ || Object.getPrototypeOf(Editor)).call(this, map, options));
@@ -9328,6 +9392,8 @@ sGis.module('controls.Editor', ['utils', 'Control', 'symbol.Editor', 'controls.P
             _this._handleFeatureRemove = _this._handleFeatureRemove.bind(_this);
 
             _this._handleKeyDown = _this._handleKeyDown.bind(_this);
+
+            _this.isActive = options.isActive;
             return _this;
         }
 
@@ -9351,6 +9417,7 @@ sGis.module('controls.Editor', ['utils', 'Control', 'symbol.Editor', 'controls.P
                 this.activeLayer.features.forEach(this._setListener, this);
                 this.activeLayer.on('featureAdd', this._handleFeatureAdd);
                 this.activeLayer.on('featureRemove', this._handleFeatureRemove);
+                this.activeLayer.redraw();
                 this.map.on('click', this._onMapClick.bind(this));
 
                 event.add(document, 'keydown', this._handleKeyDown);
@@ -9378,7 +9445,7 @@ sGis.module('controls.Editor', ['utils', 'Control', 'symbol.Editor', 'controls.P
         }, {
             key: '_onMapClick',
             value: function _onMapClick() {
-                if (!this.ignoreEvents) this._deactivate();
+                if (!this.ignoreEvents) this._deselect();
             }
         }, {
             key: '_deactivate',
@@ -9623,13 +9690,17 @@ sGis.module('controls.MultiPoint', ['utils', 'Control', 'FeatureLayer', 'symbol.
     var MultiPoint = function (_Control) {
         _inherits(MultiPoint, _Control);
 
-        function MultiPoint(map, properties) {
+        function MultiPoint(map) {
+            var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
             _classCallCheck(this, MultiPoint);
 
             var _this = _possibleConstructorReturn(this, (MultiPoint.__proto__ || Object.getPrototypeOf(MultiPoint)).call(this, map, properties));
 
             _this._handleClick = _this._handleClick.bind(_this);
             _this._handleDblclick = _this._handleDblclick.bind(_this);
+
+            _this.isActive = properties.isActive;
             return _this;
         }
 
@@ -9749,12 +9820,15 @@ sGis.module('controls.Point', ['Control', 'feature.Point', 'symbol.point.Point']
     var PointControl = function (_Control) {
         _inherits(PointControl, _Control);
 
-        function PointControl(map, properties) {
+        function PointControl(map) {
+            var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
             _classCallCheck(this, PointControl);
 
             var _this = _possibleConstructorReturn(this, (PointControl.__proto__ || Object.getPrototypeOf(PointControl)).call(this, map, properties));
 
             _this._handleClick = _this._handleClick.bind(_this);
+            _this.isActive = properties.isActive;
             return _this;
         }
 
@@ -9805,7 +9879,9 @@ sGis.module('controls.PointEditor', ['Control', 'controls.Snapping'], function (
     var PointEditor = function (_Control) {
         _inherits(PointEditor, _Control);
 
-        function PointEditor(map, options) {
+        function PointEditor(map) {
+            var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
             _classCallCheck(this, PointEditor);
 
             var _this = _possibleConstructorReturn(this, (PointEditor.__proto__ || Object.getPrototypeOf(PointEditor)).call(this, map, options));
@@ -9815,6 +9891,7 @@ sGis.module('controls.PointEditor', ['Control', 'controls.Snapping'], function (
             _this._handleDragEnd = _this._handleDragEnd.bind(_this);
 
             _this._snapping = new Snapping(map);
+            _this.isActive = options.isActive;
             return _this;
         }
 
@@ -9903,7 +9980,9 @@ sGis.module('controls.Poly', ['utils', 'Control', 'FeatureLayer'], function (uti
     var PolyControl = function (_Control) {
         _inherits(PolyControl, _Control);
 
-        function PolyControl(FeatureClass, symbol, map, properties) {
+        function PolyControl(FeatureClass, symbol, map) {
+            var properties = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+
             _classCallCheck(this, PolyControl);
 
             var _this = _possibleConstructorReturn(this, (PolyControl.__proto__ || Object.getPrototypeOf(PolyControl)).call(this, map, properties));
@@ -9916,6 +9995,8 @@ sGis.module('controls.Poly', ['utils', 'Control', 'FeatureLayer'], function (uti
             _this._handleClick = _this._handleClick.bind(_this);
             _this._handleMousemove = _this._handleMousemove.bind(_this);
             _this._handleDblclick = _this._handleDblclick.bind(_this);
+
+            _this.isActive = properties.isActive;
             return _this;
         }
 
@@ -10064,7 +10145,9 @@ sGis.module('controls.PolyDrag', ['Control', 'FeatureLayer', 'symbol.polygon.Sim
     var PolyDrag = function (_Control) {
         _inherits(PolyDrag, _Control);
 
-        function PolyDrag(map, properties) {
+        function PolyDrag(map) {
+            var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
             _classCallCheck(this, PolyDrag);
 
             var _this = _possibleConstructorReturn(this, (PolyDrag.__proto__ || Object.getPrototypeOf(PolyDrag)).call(this, map, properties));
@@ -10074,6 +10157,8 @@ sGis.module('controls.PolyDrag', ['Control', 'FeatureLayer', 'symbol.polygon.Sim
             _this._handleDragStart = _this._handleDragStart.bind(_this);
             _this._handleDrag = _this._handleDrag.bind(_this);
             _this._handleDragEnd = _this._handleDragEnd.bind(_this);
+
+            _this.isActive = properties.isActive;
             return _this;
         }
 
@@ -10166,7 +10251,9 @@ sGis.module('controls.PolyEditor', ['Control', 'controls.Snapping', 'geotools', 
     var PolyEditor = function (_Control) {
         _inherits(PolyEditor, _Control);
 
-        function PolyEditor(map, options) {
+        function PolyEditor(map) {
+            var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
             _classCallCheck(this, PolyEditor);
 
             var _this = _possibleConstructorReturn(this, (PolyEditor.__proto__ || Object.getPrototypeOf(PolyEditor)).call(this, map, options));
@@ -10178,6 +10265,8 @@ sGis.module('controls.PolyEditor', ['Control', 'controls.Snapping', 'geotools', 
             _this._handleDrag = _this._handleDrag.bind(_this);
             _this._handleDragEnd = _this._handleDragEnd.bind(_this);
             _this._handleDblClick = _this._handleDblClick.bind(_this);
+
+            _this.isActive = options.isActive;
             return _this;
         }
 
@@ -10232,25 +10321,31 @@ sGis.module('controls.PolyEditor', ['Control', 'controls.Snapping', 'geotools', 
                 var activeIndex = intersection[1];
 
                 var ring = this._activeFeature.rings[activeRing];
-                var point = ring[activeIndex];
-                var evPoint = sGisEvent.point.projectTo(this._activeFeature.crs).position;
+                var firstPoint = this._getProjectedPoint(ring[activeIndex], this._activeFeature.crs);
+                var evPoint = sGisEvent.point.position;
 
                 var symbol = this.vertexHoverSymbol;
 
                 var targetDist = this.vertexSize * this.map.resolution;
+                var point = firstPoint;
                 var currDist = distance(point, evPoint);
                 if (currDist > targetDist) {
                     var nextIndex = (activeIndex + 1) % ring.length;
-                    point = ring[nextIndex];
+                    point = this._getProjectedPoint(ring[nextIndex], this._activeFeature.crs);
                     var nextDist = distance(point, evPoint);
                     if (nextDist > targetDist) {
                         symbol = this.sideHoverSymbol;
-                        point = geotools.pointToLineProjection(evPoint, [ring[activeIndex], point]);
+                        point = geotools.pointToLineProjection(evPoint, [firstPoint, point]);
                     }
                 }
 
                 var feature = new Point(point, { crs: this.map.crs, symbol: symbol });
                 this._tempLayer.features = [feature];
+            }
+        }, {
+            key: '_getProjectedPoint',
+            value: function _getProjectedPoint(position, fromCrs) {
+                return new sGis.Point(position, fromCrs).projectTo(this.map.crs).position;
             }
         }, {
             key: '_handleDragStart',
@@ -10260,8 +10355,8 @@ sGis.module('controls.PolyEditor', ['Control', 'controls.Snapping', 'geotools', 
                 var intersection = sGisEvent.intersectionType;
                 if (Array.isArray(intersection) && this.vertexChangeAllowed) {
                     var ring = this._activeFeature.rings[intersection[0]];
-                    var point = ring[intersection[1]];
-                    var evPoint = sGisEvent.point.projectTo(this._activeFeature.crs).position;
+                    var point = this._getProjectedPoint(ring[intersection[1]], this._activeFeature.crs);
+                    var evPoint = sGisEvent.point.position;
 
                     this._activeRing = intersection[0];
 
@@ -10271,7 +10366,7 @@ sGis.module('controls.PolyEditor', ['Control', 'controls.Snapping', 'geotools', 
                         this._activeIndex = intersection[1];
                     } else {
                         var nextIndex = (intersection[1] + 1) % ring.length;
-                        point = ring[nextIndex];
+                        point = this._getProjectedPoint(ring[nextIndex], this._activeFeature.crs);
                         var nextDist = distance(point, evPoint);
                         if (nextDist < targetDist) {
                             this._activeIndex = nextIndex;
@@ -10326,7 +10421,7 @@ sGis.module('controls.PolyEditor', ['Control', 'controls.Snapping', 'geotools', 
         }, {
             key: '_handleFeatureDrag',
             value: function _handleFeatureDrag(sGisEvent) {
-                geotools.move([this._activeFeature], [-sGisEvent.offset.x, -sGisEvent.offset.y]);
+                geotools.move([this._activeFeature], [-sGisEvent.offset.x, -sGisEvent.offset.y], this.map.crs);
                 this._activeFeature.redraw();
                 if (this.activeLayer) this.activeLayer.redraw();
 
@@ -10468,7 +10563,9 @@ sGis.module('controls.PolyTransform', ['Control', 'FeatureLayer', 'feature.Point
     var PolyTransform = function (_Control) {
         _inherits(PolyTransform, _Control);
 
-        function PolyTransform(map, options) {
+        function PolyTransform(map) {
+            var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
             _classCallCheck(this, PolyTransform);
 
             var _this = _possibleConstructorReturn(this, (PolyTransform.__proto__ || Object.getPrototypeOf(PolyTransform)).call(this, map, options));
@@ -10478,6 +10575,8 @@ sGis.module('controls.PolyTransform', ['Control', 'FeatureLayer', 'feature.Point
             _this._handleRotationEnd = _this._handleRotationEnd.bind(_this);
 
             _this._handleScalingEnd = _this._handleScalingEnd.bind(_this);
+
+            _this.isActive = options.isActive;
             return _this;
         }
 
@@ -10511,7 +10610,7 @@ sGis.module('controls.PolyTransform', ['Control', 'FeatureLayer', 'feature.Point
         }, {
             key: '_setRotationHandle',
             value: function _setRotationHandle() {
-                this._rotationHandle = new PointFeature([0, 0], { crs: this._activeFeature.crs, symbol: this.rotationHandleSymbol });
+                this._rotationHandle = new PointFeature([0, 0], { crs: this.map.crs, symbol: this.rotationHandleSymbol });
                 this._updateRotationHandle();
                 this._rotationHandle.on('dragStart', this._handleRotationStart);
                 this._rotationHandle.on('drag', this._handleRotation);
@@ -10530,7 +10629,7 @@ sGis.module('controls.PolyTransform', ['Control', 'FeatureLayer', 'feature.Point
                     var yk = 1 - Math.floor(i / 3);
                     symbol.offset = { x: this.scaleHandleOffset * xk, y: this.scaleHandleOffset * yk };
 
-                    this._scaleHandles[i] = new PointFeature([0, 0], { symbol: symbol, crs: this._activeFeature.crs });
+                    this._scaleHandles[i] = new PointFeature([0, 0], { symbol: symbol, crs: this.map.crs });
                     this._scaleHandles[i].on('dragStart', this._handleScalingStart.bind(this, i));
                     this._scaleHandles[i].on('drag', this._handleScaling.bind(this, i));
                     this._scaleHandles[i].on('dragEnd', this._handleScalingEnd);
@@ -10544,7 +10643,7 @@ sGis.module('controls.PolyTransform', ['Control', 'FeatureLayer', 'feature.Point
             value: function _handleRotationStart(sGisEvent) {
                 if (this.ignoreEvents) return;
 
-                this._rotationBase = this._activeFeature.bbox.center.position;
+                this._rotationBase = this._activeFeature.bbox.center.projectTo(this.map.crs).position;
                 sGisEvent.draggingObject = this._rotationHandle;
                 sGisEvent.stopPropagation();
 
@@ -10560,7 +10659,7 @@ sGis.module('controls.PolyTransform', ['Control', 'FeatureLayer', 'feature.Point
                 var alpha2 = sGisEvent.point.x === this._rotationBase[0] ? Math.PI / 2 : Math.atan2(sGisEvent.point.y - this._rotationBase[1], sGisEvent.point.x - this._rotationBase[0]);
                 var angle = alpha2 - alpha1;
 
-                geotools.rotate(this._activeFeature, angle, this._rotationBase);
+                geotools.rotate(this._activeFeature, angle, this._rotationBase, this.map.crs);
                 if (this.activeLayer) this.activeLayer.redraw();
                 this._updateHandles();
             }
@@ -10580,13 +10679,13 @@ sGis.module('controls.PolyTransform', ['Control', 'FeatureLayer', 'feature.Point
         }, {
             key: '_updateRotationHandle',
             value: function _updateRotationHandle() {
-                var bbox = this._activeFeature.bbox;
+                var bbox = this._activeFeature.bbox.projectTo(this.map.crs);
                 this._rotationHandle.position = [(bbox.xMin + bbox.xMax) / 2, bbox.yMax];
             }
         }, {
             key: '_updateScaleHandles',
             value: function _updateScaleHandles() {
-                var bbox = this._activeFeature.bbox;
+                var bbox = this._activeFeature.bbox.projectTo(this.map.crs);
                 var xs = [bbox.xMin, (bbox.xMin + bbox.xMax) / 2, bbox.xMax];
                 var ys = [bbox.yMin, (bbox.yMin + bbox.yMax) / 2, bbox.yMax];
 
@@ -10616,7 +10715,7 @@ sGis.module('controls.PolyTransform', ['Control', 'FeatureLayer', 'feature.Point
                 var baseY = yIndex === 0 ? 2 : yIndex === 2 ? 0 : 1;
                 var basePoint = this._scaleHandles[baseX + 3 * baseY].position;
 
-                var bbox = this._activeFeature.bbox;
+                var bbox = this._activeFeature.bbox.projectTo(this.map.crs);
                 var resolution = this.map.resolution;
                 var tolerance = MIN_SIZE * resolution;
                 var width = bbox.width;
@@ -10626,7 +10725,7 @@ sGis.module('controls.PolyTransform', ['Control', 'FeatureLayer', 'feature.Point
                 var yScale = baseY === 1 ? 1 : (height + (baseY - 1) * sGisEvent.offset.y) / height;
                 if (height < tolerance && yScale < 1) yScale = 1;
 
-                geotools.scale(this._activeFeature, [xScale, yScale], basePoint);
+                geotools.scale(this._activeFeature, [xScale, yScale], basePoint, this.map.crs);
                 if (this.activeLayer) this.activeLayer.redraw();
                 this._updateHandles();
             }
@@ -10728,12 +10827,15 @@ sGis.module('controls.Snapping', ['Control', 'FeatureLayer', 'feature.Point', 's
     var Snapping = function (_Control) {
         _inherits(Snapping, _Control);
 
-        function Snapping(map, options) {
+        function Snapping(map) {
+            var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
             _classCallCheck(this, Snapping);
 
             var _this = _possibleConstructorReturn(this, (Snapping.__proto__ || Object.getPrototypeOf(Snapping)).call(this, map, options));
 
             _this._onMouseMove = _this._onMouseMove.bind(_this);
+            _this.isActive = options.isActive;
             return _this;
         }
 
@@ -11770,55 +11872,6 @@ sGis.module('feature.Polyline', ['feature.Poly', 'symbol.polyline.Simple'], func
 });
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-sGis.module('serializer.symbolSerializer', ['utils'], function (utils) {
-
-    'use strict';
-
-    var symbolDescriptions = {};
-
-    return {
-        registerSymbol: function registerSymbol(constructor, description, properties) {
-            symbolDescriptions[description] = { Constructor: constructor, properties: properties };
-        },
-
-        serialize: function serialize(symbol) {
-            var keys = Object.keys(symbolDescriptions);
-            for (var i = 0; i < keys.length; i++) {
-                var desc = symbolDescriptions[keys[i]];
-
-                if (symbol instanceof desc.Constructor) {
-                    var _ret = function () {
-                        var serialized = { symbolName: keys[i] };
-                        desc.properties.forEach(function (prop) {
-                            serialized[prop] = symbol[prop];
-                        });
-                        return {
-                            v: serialized
-                        };
-                    }();
-
-                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-                }
-            }
-
-            utils.error('Unknown type of symbol.');
-        },
-
-        deserialize: function deserialize(desc) {
-            if (!symbolDescriptions[desc.symbolName]) utils.error('Unknown type of symbol.');
-            var symbol = new symbolDescriptions[desc.symbolName].Constructor();
-            symbolDescriptions[desc.symbolName].properties.forEach(function (prop) {
-                symbol[prop] = desc[prop];
-            });
-
-            return symbol;
-        }
-    };
-});
-'use strict';
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -12220,6 +12273,70 @@ sGis.module('render.Polyline', ['utils', 'geotools'], function (utils, geotools)
 });
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+sGis.module('serializer.symbolSerializer', ['utils', 'utils.Color'], function (utils, Color) {
+
+    'use strict';
+
+    var symbolDescriptions = {};
+
+    return {
+        registerSymbol: function registerSymbol(constructor, description, properties) {
+            symbolDescriptions[description] = { Constructor: constructor, properties: properties };
+        },
+
+        serialize: function serialize(symbol) {
+            var colorsFormat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+            var keys = Object.keys(symbolDescriptions);
+            for (var i = 0; i < keys.length; i++) {
+                var desc = symbolDescriptions[keys[i]];
+
+                if (symbol instanceof desc.Constructor) {
+                    var _ret = function () {
+                        var serialized = { symbolName: keys[i] };
+                        desc.properties.forEach(function (prop) {
+                            var value = symbol[prop];
+                            if (colorsFormat) {
+                                var color = new Color(value);
+                                if (color.isValid) value = color.toString(colorsFormat);
+                            }
+                            serialized[prop] = value;
+                        });
+                        return {
+                            v: serialized
+                        };
+                    }();
+
+                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+                }
+            }
+
+            utils.error('Unknown type of symbol.');
+        },
+
+        deserialize: function deserialize(desc) {
+            var colorsFormat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+            if (!symbolDescriptions[desc.symbolName]) utils.error('Unknown type of symbol.');
+            var symbol = new symbolDescriptions[desc.symbolName].Constructor();
+            symbolDescriptions[desc.symbolName].properties.forEach(function (prop) {
+                var val = desc[prop];
+                if (colorsFormat) {
+                    var color = new Color(val);
+                    if (color.isValid && color.format === colorsFormat) val = color.toString('rgba');
+                }
+
+                symbol[prop] = val;
+            });
+
+            return symbol;
+        }
+    };
+});
+'use strict';
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -12550,6 +12667,9 @@ sGis.module('utils.Color', ['utils'], function (utils) {
             _classCallCheck(this, Color);
 
             this._original = string;
+
+            if (!utils.isString(string)) string = string.toString();
+
             this._color = string && string.trim() || 'transparent';
             this._setChannels();
         }
@@ -13138,6 +13258,13 @@ sGis.module('utils', ['event'], function (ev) {
                 target[key] = source[key];
             });
             return target;
+        },
+
+        mixin: function mixin(target, source) {
+            Object.getOwnPropertyNames(source).forEach(function (key) {
+                if (key === 'constructor') return;
+                Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+            });
         },
 
         softEquals: function softEquals(a, b) {

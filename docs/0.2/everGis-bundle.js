@@ -6765,8 +6765,8 @@ module.exports = _dereq_(23);
 
     var sGis = {};
 
-    sGis.version = "0.2.3";
-    sGis.releaseDate = "30.01.2017";
+    sGis.version = "0.2.4";
+    sGis.releaseDate = "06.03.2017";
 
     var loadedModules = { 'sGis': sGis };
     var loadingDefs = [];
@@ -6864,6 +6864,12 @@ sGis.module('Bbox', ['utils', 'CRS', 'Point'], function (utils, CRS, Point) {
                 for (var i = 0; i < 4; i++) {
                     if (!utils.softEquals(this._p[i], target[i])) return false;
                 }return this._crs.equals(bbox.crs);
+            }
+        }, {
+            key: 'intersect',
+            value: function intersect(bbox) {
+                bbox = bbox.crs === this.crs ? bbox : bbox.projectTo(this.crs);
+                return new Bbox([Math.min(this.xMin, bbox.xMin), Math.min(this.yMin, bbox.yMin)], [Math.max(this.xMax, bbox.xMax), Math.max(this.yMax, bbox.yMax)], this.crs);
             }
         }, {
             key: 'intersects',
@@ -7987,6 +7993,15 @@ sGis.module('geotools', ['math', 'utils', 'CRS', 'Point'], function (math, utils
         return result;
     };
 
+    geotools.projectPoints = function (ring, fromCrs, toCrs) {
+        var projection = fromCrs.projectionTo(toCrs);
+        var projectedRing = [];
+        ring.forEach(function (position) {
+            projectedRing.push(projection(position));
+        });
+        return projectedRing;
+    };
+
     function polygonArea(coord) {
         coord = coord.concat([coord[0]]);
 
@@ -8139,40 +8154,78 @@ sGis.module('geotools', ['math', 'utils', 'CRS', 'Point'], function (math, utils
     }
 
     geotools.transform = function (features, matrix, center) {
+        var mapCrs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
         if (Array.isArray(features)) {
             features.forEach(function (feature) {
-                return transformFeature(feature, matrix, center);
+                return transformFeature(feature, matrix, center, mapCrs);
             });
         } else {
-            transformFeature(features, matrix, center);
+            transformFeature(features, matrix, center, mapCrs);
         }
     };
 
     geotools.rotate = function (features, angle, center) {
+        var mapCrs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
         var sin = Math.sin(angle);
         var cos = Math.cos(angle);
 
-        geotools.transform(features, [[cos, sin, 0], [-sin, cos, 0], [0, 0, 1]], center);
+        geotools.transform(features, [[cos, sin, 0], [-sin, cos, 0], [0, 0, 1]], center, mapCrs);
     };
 
     geotools.scale = function (features, scale, center) {
-        geotools.transform(features, [[scale[0], 0, 0], [0, scale[1], 0], [0, 0, 1]], center);
+        var mapCrs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
+        geotools.transform(features, [[scale[0], 0, 0], [0, scale[1], 0], [0, 0, 1]], center, mapCrs);
     };
 
     geotools.move = function (features, translate) {
-        geotools.transform(features, [[1, 0, 0], [0, 1, 1], [translate[0], translate[1], 1]], [0, 0]);
+        var mapCrs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+        geotools.transform(features, [[1, 0, 0], [0, 1, 1], [translate[0], translate[1], 1]], [0, 0], mapCrs);
     };
 
     function transformFeature(feature, matrix, center) {
-        var base = center.crs ? center.projectTo(feature.crs).position : center;
+        var mapCrs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
+        var targetCrs = mapCrs || feature.crs;
+        var base = center.crs ? center.projectTo(targetCrs).position : center;
+
         if (feature.rings) {
             var rings = feature.rings;
+            if (targetCrs !== feature.crs) {
+                rings = geotools.projectRings(rings, feature.crs, targetCrs);
+            }
             transformRings(rings, matrix, base);
+
+            if (targetCrs !== feature.crs) {
+                rings = geotools.projectRings(rings, targetCrs, feature.crs);
+            }
+
             feature.rings = rings;
         } else if (feature.points) {
-            feature.points = transformRing(feature.points, matrix, base);
+            var points = feature.points;
+            if (targetCrs !== feature.crs) {
+                points = geotools.projectRings(points, feature.crs, targetCrs);
+            }
+            points = transformRing(points, matrix, base);
+
+            if (targetCrs !== feature.crs) {
+                points = geotools.projectRings(points, targetCrs, feature.crs);
+            }
+            feature.points = points;
         } else if (feature.position) {
-            feature.position = transformRing([feature.position], matrix, base)[0];
+            var _points = [feature.position];
+            if (targetCrs !== feature.crs) {
+                _points = geotools.projectRings(_points, feature.crs, targetCrs);
+            }
+            _points = transformRing(_points, matrix, base);
+
+            if (targetCrs !== feature.crs) {
+                _points = geotools.projectRings(_points, targetCrs, feature.crs);
+            }
+            feature.position = _points[0];
         }
     }
 
@@ -8863,6 +8916,14 @@ sGis.module('Point', ['utils', 'CRS'], function (utils, CRS) {
             get: function get() {
                 return this._crs;
             }
+        }, {
+            key: 'coordinates',
+            get: function get() {
+                return this.position.slice();
+            },
+            set: function set(position) {
+                this.position = position.slice();
+            }
         }]);
 
         return Point;
@@ -9230,8 +9291,8 @@ sGis.module('Control', ['utils', 'EventHandler'], function (utils, EventHandler)
 
             var _this = _possibleConstructorReturn(this, (Control.__proto__ || Object.getPrototypeOf(Control)).call(this));
 
-            _this._map = map;
             utils.init(_this, properties, true);
+            _this._map = map;
             return _this;
         }
 
@@ -9265,6 +9326,7 @@ sGis.module('Control', ['utils', 'EventHandler'], function (utils, EventHandler)
                 return this._isActive;
             },
             set: function set(bool) {
+                if (!this._map) return;
                 bool = !!bool;
                 if (this._isActive === bool) return;
                 this._isActive = bool;
@@ -9308,7 +9370,9 @@ sGis.module('controls.Editor', ['utils', 'Control', 'symbol.Editor', 'controls.P
     var Editor = function (_Control) {
         _inherits(Editor, _Control);
 
-        function Editor(map, options) {
+        function Editor(map) {
+            var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
             _classCallCheck(this, Editor);
 
             var _this = _possibleConstructorReturn(this, (Editor.__proto__ || Object.getPrototypeOf(Editor)).call(this, map, options));
@@ -9328,6 +9392,8 @@ sGis.module('controls.Editor', ['utils', 'Control', 'symbol.Editor', 'controls.P
             _this._handleFeatureRemove = _this._handleFeatureRemove.bind(_this);
 
             _this._handleKeyDown = _this._handleKeyDown.bind(_this);
+
+            _this.isActive = options.isActive;
             return _this;
         }
 
@@ -9351,6 +9417,7 @@ sGis.module('controls.Editor', ['utils', 'Control', 'symbol.Editor', 'controls.P
                 this.activeLayer.features.forEach(this._setListener, this);
                 this.activeLayer.on('featureAdd', this._handleFeatureAdd);
                 this.activeLayer.on('featureRemove', this._handleFeatureRemove);
+                this.activeLayer.redraw();
                 this.map.on('click', this._onMapClick.bind(this));
 
                 event.add(document, 'keydown', this._handleKeyDown);
@@ -9378,7 +9445,7 @@ sGis.module('controls.Editor', ['utils', 'Control', 'symbol.Editor', 'controls.P
         }, {
             key: '_onMapClick',
             value: function _onMapClick() {
-                if (!this.ignoreEvents) this._deactivate();
+                if (!this.ignoreEvents) this._deselect();
             }
         }, {
             key: '_deactivate',
@@ -9623,13 +9690,17 @@ sGis.module('controls.MultiPoint', ['utils', 'Control', 'FeatureLayer', 'symbol.
     var MultiPoint = function (_Control) {
         _inherits(MultiPoint, _Control);
 
-        function MultiPoint(map, properties) {
+        function MultiPoint(map) {
+            var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
             _classCallCheck(this, MultiPoint);
 
             var _this = _possibleConstructorReturn(this, (MultiPoint.__proto__ || Object.getPrototypeOf(MultiPoint)).call(this, map, properties));
 
             _this._handleClick = _this._handleClick.bind(_this);
             _this._handleDblclick = _this._handleDblclick.bind(_this);
+
+            _this.isActive = properties.isActive;
             return _this;
         }
 
@@ -9749,12 +9820,15 @@ sGis.module('controls.Point', ['Control', 'feature.Point', 'symbol.point.Point']
     var PointControl = function (_Control) {
         _inherits(PointControl, _Control);
 
-        function PointControl(map, properties) {
+        function PointControl(map) {
+            var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
             _classCallCheck(this, PointControl);
 
             var _this = _possibleConstructorReturn(this, (PointControl.__proto__ || Object.getPrototypeOf(PointControl)).call(this, map, properties));
 
             _this._handleClick = _this._handleClick.bind(_this);
+            _this.isActive = properties.isActive;
             return _this;
         }
 
@@ -9805,7 +9879,9 @@ sGis.module('controls.PointEditor', ['Control', 'controls.Snapping'], function (
     var PointEditor = function (_Control) {
         _inherits(PointEditor, _Control);
 
-        function PointEditor(map, options) {
+        function PointEditor(map) {
+            var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
             _classCallCheck(this, PointEditor);
 
             var _this = _possibleConstructorReturn(this, (PointEditor.__proto__ || Object.getPrototypeOf(PointEditor)).call(this, map, options));
@@ -9815,6 +9891,7 @@ sGis.module('controls.PointEditor', ['Control', 'controls.Snapping'], function (
             _this._handleDragEnd = _this._handleDragEnd.bind(_this);
 
             _this._snapping = new Snapping(map);
+            _this.isActive = options.isActive;
             return _this;
         }
 
@@ -9903,7 +9980,9 @@ sGis.module('controls.Poly', ['utils', 'Control', 'FeatureLayer'], function (uti
     var PolyControl = function (_Control) {
         _inherits(PolyControl, _Control);
 
-        function PolyControl(FeatureClass, symbol, map, properties) {
+        function PolyControl(FeatureClass, symbol, map) {
+            var properties = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+
             _classCallCheck(this, PolyControl);
 
             var _this = _possibleConstructorReturn(this, (PolyControl.__proto__ || Object.getPrototypeOf(PolyControl)).call(this, map, properties));
@@ -9916,6 +9995,8 @@ sGis.module('controls.Poly', ['utils', 'Control', 'FeatureLayer'], function (uti
             _this._handleClick = _this._handleClick.bind(_this);
             _this._handleMousemove = _this._handleMousemove.bind(_this);
             _this._handleDblclick = _this._handleDblclick.bind(_this);
+
+            _this.isActive = properties.isActive;
             return _this;
         }
 
@@ -10064,7 +10145,9 @@ sGis.module('controls.PolyDrag', ['Control', 'FeatureLayer', 'symbol.polygon.Sim
     var PolyDrag = function (_Control) {
         _inherits(PolyDrag, _Control);
 
-        function PolyDrag(map, properties) {
+        function PolyDrag(map) {
+            var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
             _classCallCheck(this, PolyDrag);
 
             var _this = _possibleConstructorReturn(this, (PolyDrag.__proto__ || Object.getPrototypeOf(PolyDrag)).call(this, map, properties));
@@ -10074,6 +10157,8 @@ sGis.module('controls.PolyDrag', ['Control', 'FeatureLayer', 'symbol.polygon.Sim
             _this._handleDragStart = _this._handleDragStart.bind(_this);
             _this._handleDrag = _this._handleDrag.bind(_this);
             _this._handleDragEnd = _this._handleDragEnd.bind(_this);
+
+            _this.isActive = properties.isActive;
             return _this;
         }
 
@@ -10166,7 +10251,9 @@ sGis.module('controls.PolyEditor', ['Control', 'controls.Snapping', 'geotools', 
     var PolyEditor = function (_Control) {
         _inherits(PolyEditor, _Control);
 
-        function PolyEditor(map, options) {
+        function PolyEditor(map) {
+            var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
             _classCallCheck(this, PolyEditor);
 
             var _this = _possibleConstructorReturn(this, (PolyEditor.__proto__ || Object.getPrototypeOf(PolyEditor)).call(this, map, options));
@@ -10178,6 +10265,8 @@ sGis.module('controls.PolyEditor', ['Control', 'controls.Snapping', 'geotools', 
             _this._handleDrag = _this._handleDrag.bind(_this);
             _this._handleDragEnd = _this._handleDragEnd.bind(_this);
             _this._handleDblClick = _this._handleDblClick.bind(_this);
+
+            _this.isActive = options.isActive;
             return _this;
         }
 
@@ -10232,25 +10321,31 @@ sGis.module('controls.PolyEditor', ['Control', 'controls.Snapping', 'geotools', 
                 var activeIndex = intersection[1];
 
                 var ring = this._activeFeature.rings[activeRing];
-                var point = ring[activeIndex];
-                var evPoint = sGisEvent.point.projectTo(this._activeFeature.crs).position;
+                var firstPoint = this._getProjectedPoint(ring[activeIndex], this._activeFeature.crs);
+                var evPoint = sGisEvent.point.position;
 
                 var symbol = this.vertexHoverSymbol;
 
                 var targetDist = this.vertexSize * this.map.resolution;
+                var point = firstPoint;
                 var currDist = distance(point, evPoint);
                 if (currDist > targetDist) {
                     var nextIndex = (activeIndex + 1) % ring.length;
-                    point = ring[nextIndex];
+                    point = this._getProjectedPoint(ring[nextIndex], this._activeFeature.crs);
                     var nextDist = distance(point, evPoint);
                     if (nextDist > targetDist) {
                         symbol = this.sideHoverSymbol;
-                        point = geotools.pointToLineProjection(evPoint, [ring[activeIndex], point]);
+                        point = geotools.pointToLineProjection(evPoint, [firstPoint, point]);
                     }
                 }
 
                 var feature = new Point(point, { crs: this.map.crs, symbol: symbol });
                 this._tempLayer.features = [feature];
+            }
+        }, {
+            key: '_getProjectedPoint',
+            value: function _getProjectedPoint(position, fromCrs) {
+                return new sGis.Point(position, fromCrs).projectTo(this.map.crs).position;
             }
         }, {
             key: '_handleDragStart',
@@ -10260,8 +10355,8 @@ sGis.module('controls.PolyEditor', ['Control', 'controls.Snapping', 'geotools', 
                 var intersection = sGisEvent.intersectionType;
                 if (Array.isArray(intersection) && this.vertexChangeAllowed) {
                     var ring = this._activeFeature.rings[intersection[0]];
-                    var point = ring[intersection[1]];
-                    var evPoint = sGisEvent.point.projectTo(this._activeFeature.crs).position;
+                    var point = this._getProjectedPoint(ring[intersection[1]], this._activeFeature.crs);
+                    var evPoint = sGisEvent.point.position;
 
                     this._activeRing = intersection[0];
 
@@ -10271,7 +10366,7 @@ sGis.module('controls.PolyEditor', ['Control', 'controls.Snapping', 'geotools', 
                         this._activeIndex = intersection[1];
                     } else {
                         var nextIndex = (intersection[1] + 1) % ring.length;
-                        point = ring[nextIndex];
+                        point = this._getProjectedPoint(ring[nextIndex], this._activeFeature.crs);
                         var nextDist = distance(point, evPoint);
                         if (nextDist < targetDist) {
                             this._activeIndex = nextIndex;
@@ -10326,7 +10421,7 @@ sGis.module('controls.PolyEditor', ['Control', 'controls.Snapping', 'geotools', 
         }, {
             key: '_handleFeatureDrag',
             value: function _handleFeatureDrag(sGisEvent) {
-                geotools.move([this._activeFeature], [-sGisEvent.offset.x, -sGisEvent.offset.y]);
+                geotools.move([this._activeFeature], [-sGisEvent.offset.x, -sGisEvent.offset.y], this.map.crs);
                 this._activeFeature.redraw();
                 if (this.activeLayer) this.activeLayer.redraw();
 
@@ -10468,7 +10563,9 @@ sGis.module('controls.PolyTransform', ['Control', 'FeatureLayer', 'feature.Point
     var PolyTransform = function (_Control) {
         _inherits(PolyTransform, _Control);
 
-        function PolyTransform(map, options) {
+        function PolyTransform(map) {
+            var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
             _classCallCheck(this, PolyTransform);
 
             var _this = _possibleConstructorReturn(this, (PolyTransform.__proto__ || Object.getPrototypeOf(PolyTransform)).call(this, map, options));
@@ -10478,6 +10575,8 @@ sGis.module('controls.PolyTransform', ['Control', 'FeatureLayer', 'feature.Point
             _this._handleRotationEnd = _this._handleRotationEnd.bind(_this);
 
             _this._handleScalingEnd = _this._handleScalingEnd.bind(_this);
+
+            _this.isActive = options.isActive;
             return _this;
         }
 
@@ -10511,7 +10610,7 @@ sGis.module('controls.PolyTransform', ['Control', 'FeatureLayer', 'feature.Point
         }, {
             key: '_setRotationHandle',
             value: function _setRotationHandle() {
-                this._rotationHandle = new PointFeature([0, 0], { crs: this._activeFeature.crs, symbol: this.rotationHandleSymbol });
+                this._rotationHandle = new PointFeature([0, 0], { crs: this.map.crs, symbol: this.rotationHandleSymbol });
                 this._updateRotationHandle();
                 this._rotationHandle.on('dragStart', this._handleRotationStart);
                 this._rotationHandle.on('drag', this._handleRotation);
@@ -10530,7 +10629,7 @@ sGis.module('controls.PolyTransform', ['Control', 'FeatureLayer', 'feature.Point
                     var yk = 1 - Math.floor(i / 3);
                     symbol.offset = { x: this.scaleHandleOffset * xk, y: this.scaleHandleOffset * yk };
 
-                    this._scaleHandles[i] = new PointFeature([0, 0], { symbol: symbol, crs: this._activeFeature.crs });
+                    this._scaleHandles[i] = new PointFeature([0, 0], { symbol: symbol, crs: this.map.crs });
                     this._scaleHandles[i].on('dragStart', this._handleScalingStart.bind(this, i));
                     this._scaleHandles[i].on('drag', this._handleScaling.bind(this, i));
                     this._scaleHandles[i].on('dragEnd', this._handleScalingEnd);
@@ -10544,7 +10643,7 @@ sGis.module('controls.PolyTransform', ['Control', 'FeatureLayer', 'feature.Point
             value: function _handleRotationStart(sGisEvent) {
                 if (this.ignoreEvents) return;
 
-                this._rotationBase = this._activeFeature.bbox.center.position;
+                this._rotationBase = this._activeFeature.bbox.center.projectTo(this.map.crs).position;
                 sGisEvent.draggingObject = this._rotationHandle;
                 sGisEvent.stopPropagation();
 
@@ -10560,7 +10659,7 @@ sGis.module('controls.PolyTransform', ['Control', 'FeatureLayer', 'feature.Point
                 var alpha2 = sGisEvent.point.x === this._rotationBase[0] ? Math.PI / 2 : Math.atan2(sGisEvent.point.y - this._rotationBase[1], sGisEvent.point.x - this._rotationBase[0]);
                 var angle = alpha2 - alpha1;
 
-                geotools.rotate(this._activeFeature, angle, this._rotationBase);
+                geotools.rotate(this._activeFeature, angle, this._rotationBase, this.map.crs);
                 if (this.activeLayer) this.activeLayer.redraw();
                 this._updateHandles();
             }
@@ -10580,13 +10679,13 @@ sGis.module('controls.PolyTransform', ['Control', 'FeatureLayer', 'feature.Point
         }, {
             key: '_updateRotationHandle',
             value: function _updateRotationHandle() {
-                var bbox = this._activeFeature.bbox;
+                var bbox = this._activeFeature.bbox.projectTo(this.map.crs);
                 this._rotationHandle.position = [(bbox.xMin + bbox.xMax) / 2, bbox.yMax];
             }
         }, {
             key: '_updateScaleHandles',
             value: function _updateScaleHandles() {
-                var bbox = this._activeFeature.bbox;
+                var bbox = this._activeFeature.bbox.projectTo(this.map.crs);
                 var xs = [bbox.xMin, (bbox.xMin + bbox.xMax) / 2, bbox.xMax];
                 var ys = [bbox.yMin, (bbox.yMin + bbox.yMax) / 2, bbox.yMax];
 
@@ -10616,7 +10715,7 @@ sGis.module('controls.PolyTransform', ['Control', 'FeatureLayer', 'feature.Point
                 var baseY = yIndex === 0 ? 2 : yIndex === 2 ? 0 : 1;
                 var basePoint = this._scaleHandles[baseX + 3 * baseY].position;
 
-                var bbox = this._activeFeature.bbox;
+                var bbox = this._activeFeature.bbox.projectTo(this.map.crs);
                 var resolution = this.map.resolution;
                 var tolerance = MIN_SIZE * resolution;
                 var width = bbox.width;
@@ -10626,7 +10725,7 @@ sGis.module('controls.PolyTransform', ['Control', 'FeatureLayer', 'feature.Point
                 var yScale = baseY === 1 ? 1 : (height + (baseY - 1) * sGisEvent.offset.y) / height;
                 if (height < tolerance && yScale < 1) yScale = 1;
 
-                geotools.scale(this._activeFeature, [xScale, yScale], basePoint);
+                geotools.scale(this._activeFeature, [xScale, yScale], basePoint, this.map.crs);
                 if (this.activeLayer) this.activeLayer.redraw();
                 this._updateHandles();
             }
@@ -10728,12 +10827,15 @@ sGis.module('controls.Snapping', ['Control', 'FeatureLayer', 'feature.Point', 's
     var Snapping = function (_Control) {
         _inherits(Snapping, _Control);
 
-        function Snapping(map, options) {
+        function Snapping(map) {
+            var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
             _classCallCheck(this, Snapping);
 
             var _this = _possibleConstructorReturn(this, (Snapping.__proto__ || Object.getPrototypeOf(Snapping)).call(this, map, options));
 
             _this._onMouseMove = _this._onMouseMove.bind(_this);
+            _this.isActive = options.isActive;
             return _this;
         }
 
@@ -11770,55 +11872,6 @@ sGis.module('feature.Polyline', ['feature.Poly', 'symbol.polyline.Simple'], func
 });
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-sGis.module('serializer.symbolSerializer', ['utils'], function (utils) {
-
-    'use strict';
-
-    var symbolDescriptions = {};
-
-    return {
-        registerSymbol: function registerSymbol(constructor, description, properties) {
-            symbolDescriptions[description] = { Constructor: constructor, properties: properties };
-        },
-
-        serialize: function serialize(symbol) {
-            var keys = Object.keys(symbolDescriptions);
-            for (var i = 0; i < keys.length; i++) {
-                var desc = symbolDescriptions[keys[i]];
-
-                if (symbol instanceof desc.Constructor) {
-                    var _ret = function () {
-                        var serialized = { symbolName: keys[i] };
-                        desc.properties.forEach(function (prop) {
-                            serialized[prop] = symbol[prop];
-                        });
-                        return {
-                            v: serialized
-                        };
-                    }();
-
-                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-                }
-            }
-
-            utils.error('Unknown type of symbol.');
-        },
-
-        deserialize: function deserialize(desc) {
-            if (!symbolDescriptions[desc.symbolName]) utils.error('Unknown type of symbol.');
-            var symbol = new symbolDescriptions[desc.symbolName].Constructor();
-            symbolDescriptions[desc.symbolName].properties.forEach(function (prop) {
-                symbol[prop] = desc[prop];
-            });
-
-            return symbol;
-        }
-    };
-});
-'use strict';
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -12220,6 +12273,70 @@ sGis.module('render.Polyline', ['utils', 'geotools'], function (utils, geotools)
 });
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+sGis.module('serializer.symbolSerializer', ['utils', 'utils.Color'], function (utils, Color) {
+
+    'use strict';
+
+    var symbolDescriptions = {};
+
+    return {
+        registerSymbol: function registerSymbol(constructor, description, properties) {
+            symbolDescriptions[description] = { Constructor: constructor, properties: properties };
+        },
+
+        serialize: function serialize(symbol) {
+            var colorsFormat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+            var keys = Object.keys(symbolDescriptions);
+            for (var i = 0; i < keys.length; i++) {
+                var desc = symbolDescriptions[keys[i]];
+
+                if (symbol instanceof desc.Constructor) {
+                    var _ret = function () {
+                        var serialized = { symbolName: keys[i] };
+                        desc.properties.forEach(function (prop) {
+                            var value = symbol[prop];
+                            if (colorsFormat) {
+                                var color = new Color(value);
+                                if (color.isValid) value = color.toString(colorsFormat);
+                            }
+                            serialized[prop] = value;
+                        });
+                        return {
+                            v: serialized
+                        };
+                    }();
+
+                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+                }
+            }
+
+            utils.error('Unknown type of symbol.');
+        },
+
+        deserialize: function deserialize(desc) {
+            var colorsFormat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+            if (!symbolDescriptions[desc.symbolName]) utils.error('Unknown type of symbol.');
+            var symbol = new symbolDescriptions[desc.symbolName].Constructor();
+            symbolDescriptions[desc.symbolName].properties.forEach(function (prop) {
+                var val = desc[prop];
+                if (colorsFormat) {
+                    var color = new Color(val);
+                    if (color.isValid && color.format === colorsFormat) val = color.toString('rgba');
+                }
+
+                symbol[prop] = val;
+            });
+
+            return symbol;
+        }
+    };
+});
+'use strict';
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -12550,6 +12667,9 @@ sGis.module('utils.Color', ['utils'], function (utils) {
             _classCallCheck(this, Color);
 
             this._original = string;
+
+            if (!utils.isString(string)) string = string.toString();
+
             this._color = string && string.trim() || 'transparent';
             this._setChannels();
         }
@@ -13138,6 +13258,13 @@ sGis.module('utils', ['event'], function (ev) {
                 target[key] = source[key];
             });
             return target;
+        },
+
+        mixin: function mixin(target, source) {
+            Object.getOwnPropertyNames(source).forEach(function (key) {
+                if (key === 'constructor') return;
+                Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+            });
         },
 
         softEquals: function softEquals(a, b) {
@@ -15869,7 +15996,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-sGis.module('spatialProcessor.Api', ['utils'], function (utils) {
+sGis.module('sp.Api', ['utils', 'sp.serializers.JsonSerializer'], function (utils, JsonSerializer) {
 
     'use strict';
 
@@ -15899,7 +16026,10 @@ sGis.module('spatialProcessor.Api', ['utils'], function (utils) {
                 return this._operation('serviceCatalog/list', {
                     filter: properties.filter,
                     jsfilter: properties.jsfilter,
-                    serviceTypes: ['DataView', 'LayerGroup', 'DataSourceService']
+                    serviceTypes: properties.serviceTypes,
+                    owners: properties.owners,
+                    startFrom: properties.startFrom,
+                    take: properties.take
                 });
             }
         }, {
@@ -16154,6 +16284,7 @@ sGis.module('spatialProcessor.Api', ['utils'], function (utils) {
                 var name = _ref4.name,
                     alias = _ref4.alias,
                     description = _ref4.description,
+                    preview = _ref4.preview,
                     isShared = _ref4.isShared,
                     srid = _ref4.srid,
                     geometryType = _ref4.geometryType,
@@ -16164,6 +16295,7 @@ sGis.module('spatialProcessor.Api', ['utils'], function (utils) {
                     Alias: alias,
                     Description: description,
                     IsShared: isShared,
+                    Preview: preview,
                     AttributesDefinition: attributeDefinition,
                     Srid: srid,
                     GeometryType: geometryType
@@ -16291,25 +16423,38 @@ sGis.module('spatialProcessor.Api', ['utils'], function (utils) {
                 return this._operation('data/get', params);
             }
         }, {
+            key: 'pickByGeometry',
+            value: function pickByGeometry(_ref9) {
+                var services = _ref9.services,
+                    geometry = _ref9.geometry,
+                    resolution = _ref9.resolution;
+
+                return this._operation('data/pickByGeometry', { services: services, geom: JSON.stringify(JsonSerializer.serializeGeometry(geometry)), res: resolution }).then(function (response) {
+                    return response.map(function (x) {
+                        return JsonSerializer.deserializeFeature(x, geometry.crs);
+                    });
+                });
+            }
+        }, {
             key: 'getFunctionList',
-            value: function getFunctionList(_ref9) {
-                var targetServiceName = _ref9.targetServiceName;
+            value: function getFunctionList(_ref10) {
+                var targetServiceName = _ref10.targetServiceName;
 
                 return this._operation('functions/list', { targetServiceName: targetServiceName });
             }
         }, {
             key: 'validateExpression',
-            value: function validateExpression(_ref10) {
-                var targetServiceName = _ref10.targetServiceName,
-                    expression = _ref10.expression,
-                    resultType = _ref10.resultType;
+            value: function validateExpression(_ref11) {
+                var targetServiceName = _ref11.targetServiceName,
+                    expression = _ref11.expression,
+                    resultType = _ref11.resultType;
 
                 return this._operation('functions/validateExpression', { targetServiceName: targetServiceName, expression: expression, resultType: resultType });
             }
         }, {
             key: 'getServiceDependencies',
-            value: function getServiceDependencies(_ref11) {
-                var name = _ref11.name;
+            value: function getServiceDependencies(_ref12) {
+                var name = _ref12.name;
 
                 return this._operation('serviceCatalog/dependencies', { name: name });
             }
@@ -16348,7 +16493,7 @@ sGis.module('spatialProcessor.Api', ['utils'], function (utils) {
 });
 'use strict';
 
-sGis.module('spatialProcessor.ClusteringService', ['utils', 'FeatureLayer', 'feature.Point', 'Map'], function (utils, FeatureLayer, Point, Map) {
+sGis.module('sp.ClusteringService', ['utils', 'FeatureLayer', 'feature.Point', 'Map'], function (utils, FeatureLayer, Point, Map) {
     'use strict';
 
     var ClusteringService = function ClusteringService(serverConnector, name, options) {
@@ -16495,7 +16640,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-sGis.module('spatialProcessor.ClusterLayer', ['Point', 'feature.Point', 'feature.Polygon', 'spatialProcessor.ClusterSymbol', 'Layer', 'utils'], function (Point, PointF, Polygon, ClusterSymbol, Layer, utils) {
+sGis.module('sp.ClusterLayer', ['Point', 'feature.Point', 'feature.Polygon', 'sp.ClusterSymbol', 'Layer', 'utils'], function (Point, PointF, Polygon, ClusterSymbol, Layer, utils) {
 
     var defaults = {
         sessionId: null,
@@ -16592,7 +16737,13 @@ sGis.module('spatialProcessor.ClusterLayer', ['Point', 'feature.Point', 'feature
 
                 var features = [];
                 clusters.forEach(function (cluster) {
-                    features.push(new PointF(cluster.Center, { crs: crs, symbol: _this3._symbol, objectCount: cluster.ObjectCount, aggregations: cluster.Aggregations, setNo: cluster.SetNo, bouningPolygon: new Polygon(cluster.BoundingGeometry, { crs: crs }) }));
+                    features.push(new PointF(cluster.Center, {
+                        crs: crs,
+                        symbol: _this3._symbol,
+                        objectCount: cluster.ObjectCount,
+                        aggregations: cluster.Aggregations,
+                        setNo: cluster.SetNo,
+                        boundingPolygon: new Polygon(cluster.BoundingGeometry, { crs: crs }) }));
                 });
 
                 this._features = features;
@@ -16625,52 +16776,134 @@ sGis.module('spatialProcessor.ClusterLayer', ['Point', 'feature.Point', 'feature
     return ClusterLayer;
 });
 
-sGis.module('spatialProcessor.ClusterSymbol', ['utils', 'symbol.point.Point', 'render.Arc'], function (utils, PointSymbol, Arc) {
-
-    var symbolDefaults = {
-        maxCount: 1024,
-        minSize: 24,
-        maxSize: 72,
-        haloColor: 'rgba(0, 183, 255, 0.3)',
-        mainColor: 'rgba(0, 205, 255, 0.78)',
-        haloK: 1.5
-    };
-
+sGis.module('sp.ClusterSymbol', ['utils', 'symbol.point.Point', 'render.Arc'], function (utils, PointSymbol, Arc) {
     var ClusterSymbol = function (_PointSymbol) {
         _inherits(ClusterSymbol, _PointSymbol);
 
         function ClusterSymbol() {
             _classCallCheck(this, ClusterSymbol);
 
-            var _this4 = _possibleConstructorReturn(this, (ClusterSymbol.__proto__ || Object.getPrototypeOf(ClusterSymbol)).call(this));
-
-            _this4.strokeColor = '#003d63';
-            _this4.fillColor = 'rgba(0, 183, 255, 0.78)';
-            return _this4;
+            return _possibleConstructorReturn(this, (ClusterSymbol.__proto__ || Object.getPrototypeOf(ClusterSymbol)).apply(this, arguments));
         }
 
         _createClass(ClusterSymbol, [{
             key: 'renderFunction',
             value: function renderFunction(feature, resolution, crs) {
-                var points = _get(ClusterSymbol.prototype.__proto__ || Object.getPrototypeOf(ClusterSymbol.prototype), 'renderFunction', this).call(this, feature, resolution, crs);
-                if (feature.objectCount === 1) return points;
+                var renders = _get(ClusterSymbol.prototype.__proto__ || Object.getPrototypeOf(ClusterSymbol.prototype), 'renderFunction', this).call(this, feature, resolution, crs);
+                this._applySizeClassifier(renders[0], feature);
 
-                var k = Math.log2(feature.objectCount) / Math.log2(this.maxCount);
-                if (k > 1) k = 1;
-                var size = this.minSize + (this.maxSize - this.minSize) * k;
-                points[0].radius = size / 2;
-                points[0].strokeColor = 'transparent';
-                points[0].fillColor = this.haloColor;
+                if (this.pieAggregationIndex >= 0) {
+                    var pieChart = this._applyChartClassifier(feature, renders[0].center, renders[0].radius);
+                    if (pieChart && pieChart.length > 0) {
+                        renders[0].radius *= 0.5;
+                        renders = pieChart.concat(renders);
+                    }
+                }
 
-                points[1] = new Arc(points[0].center, { radius: points[0].radius / this.haloK, fillColor: this.mainColor, strokeColor: 'transparent' });
-                return points;
+                return renders;
+            }
+        }, {
+            key: '_applySizeClassifier',
+            value: function _applySizeClassifier(circleRender, feature) {
+                if (feature.objectCount === undefined || !this.minSize || !this.maxSize || !this.sizeAggregationMaxValue) return;
+
+                var minSize = this.minSize;
+                var maxSize = this.maxSize;
+                var maxCount = this.sizeAggregationMaxValue;
+                var value = this.sizeAggregationIndex <= 0 ? feature.objectCount : feature.aggregations[this.sizeAggregationIndex].value;
+                var size = Math.min(this.maxSize, minSize + value / maxCount * (maxSize - minSize));
+                circleRender.radius = size / 2;
+            }
+        }, {
+            key: '_applyChartClassifier',
+            value: function _applyChartClassifier(feature, center, radius) {
+                var _this5 = this;
+
+                if (!feature.aggregations || !feature.aggregations[this.pieAggregationIndex]) return;
+                var aggr = feature.aggregations[this.pieAggregationIndex];
+                var totalCount = feature.objectCount;
+
+                if (!aggr) return;
+                var startAngle = 0;
+                var pies = aggr.filter(function (x) {
+                    return x.count > 0;
+                }).map(function (x) {
+                    var angle = x.count / totalCount * Math.PI * 2;
+                    var fillColor = _this5._pieGroups[x.value] || _this5.fillColor;
+
+                    var arc = new Arc(center, {
+                        fillColor: fillColor,
+                        strokeColor: _this5.strokeColor,
+                        strokeWidth: _this5.strokeWidth,
+                        radius: radius,
+                        startAngle: startAngle,
+                        endAngle: startAngle + angle,
+                        isSector: true
+                    });
+
+                    startAngle += angle;
+                    return arc;
+                });
+
+                return pies;
+            }
+        }, {
+            key: 'resetClassification',
+            value: function resetClassification() {
+                this.sizeAggregationIndex = -1;
+                this.sizeAggregationMaxValue = 1;
+                this.pieAggregationIndex = -1;
+                this._pieGroups = {};
+            }
+        }, {
+            key: 'addPieGroup',
+            value: function addPieGroup(attributeValue, color) {
+                this._pieGroups[attributeValue] = color;
+            }
+        }, {
+            key: 'clone',
+            value: function clone() {
+                return new ClusterSymbol(this.serialize());
+            }
+        }, {
+            key: 'serialize',
+            value: function serialize() {
+                return {
+                    size: this.size,
+                    fillColor: this.fillColor,
+                    strokeColor: this.strokeColor,
+                    strokeWidth: this.strokeWidth,
+                    clusterSize: this.clusterSize,
+                    minSize: this.minSize,
+                    maxSize: this.maxSize,
+                    sizeAggregationIndex: this.sizeAggregationIndex,
+                    sizeAggregationMaxValue: this.sizeAggregationMaxValue,
+                    pieAggregationIndex: this.pieAggregationIndex,
+                    _pieGroups: this._pieGroups
+                };
             }
         }]);
 
         return ClusterSymbol;
     }(PointSymbol);
 
-    utils.extend(ClusterSymbol.prototype, symbolDefaults);
+    Object.assign(ClusterSymbol.prototype, {
+        size: 50,
+        fillColor: 'rgba(0, 183, 255, 1)',
+        strokeColor: 'white',
+        strokeWidth: 2,
+
+        clusterSize: 64,
+
+        minSize: 0,
+        maxSize: 0,
+        sizeAggregationIndex: -1,
+        sizeAggregationMaxValue: 0,
+
+        pieAggregationIndex: -1,
+        _pieGroups: {}
+
+    });
 
     return ClusterSymbol;
 });
@@ -16682,25 +16915,31 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-sGis.module('spatialProcessor.Connector', ['utils', 'EventHandler', 'spatialProcessor.Api'], function (utils, EventHandler, Api) {
+sGis.module('sp.Connector', ['utils', 'EventHandler', 'sp.Api', 'sp.serializers.xmlSerializer'], function (utils, EventHandler, Api, xmlSerializer) {
     'use strict';
 
     var Connector = function (_EventHandler) {
         _inherits(Connector, _EventHandler);
 
-        function Connector(url, login, password) {
+        function Connector(url, authServiceUrl, _ref) {
+            var login = _ref.login,
+                password = _ref.password,
+                sessionId = _ref.sessionId;
+
             _classCallCheck(this, Connector);
 
             var _this = _possibleConstructorReturn(this, (Connector.__proto__ || Object.getPrototypeOf(Connector)).call(this));
 
             _this._url = url;
+            _this.apiLoginUrl = authServiceUrl;
+
             _this._notificationListners = {};
             _this._objectSelectorListeners = [];
             _this._operationList = {};
 
             _this._failedNotificationRequests = 0;
 
-            if (login) _this.initializeSession(login, password);
+            _this.initializeSession({ login: login, password: password, sessionId: sessionId });
 
             _this.api = new Api(_this);
             return _this;
@@ -16710,8 +16949,6 @@ sGis.module('spatialProcessor.Connector', ['utils', 'EventHandler', 'spatialProc
     }(EventHandler);
 
     var ext = {
-        _synchronizationTimer: null,
-
         apiLoginUrl: '%sp%Strategis.JsClient/ApiLogin.aspx',
 
         addNotificationListner: function addNotificationListner(tag, string, callback) {
@@ -16732,48 +16969,56 @@ sGis.module('spatialProcessor.Connector', ['utils', 'EventHandler', 'spatialProc
             if (index !== -1) this._objectSelectorListeners.splice(index, 1);
         },
 
-        initializeSession: function initializeSession(login, password) {
-            var self = this;
-            if (password) {
-                var spUrl = this._url.substr(-4, 4) === 'IIS/' ? this._url.substr(0, this._url.length - 4) : this._url,
-                    url = this.apiLoginUrl.replace(/%sp%/, spUrl) + '?userName=' + login + '&password=' + encodeURIComponent(password) + '&ts=' + new Date().getTime();
-                sGis.utils.ajax({
-                    url: url,
-                    success: function success(data, textStatus) {
-                        if (data === '') {
-                            sGis.utils.message('Could not get session ID');
-                        } else {
-                            var response = JSON.parse(data);
+        initializeSession: function initializeSession(_ref2) {
+            var _this2 = this;
 
-                            if (response.Success && response.Message) {
-                                initialize(response.Message);
+            var login = _ref2.login,
+                password = _ref2.password,
+                sessionId = _ref2.sessionId;
 
-                                self.fire('sessionInitialized');
+            this.initializationPromise = new Promise(function (resolve, reject) {
+                var self = _this2;
+                if (login && password) {
+                    var spUrl = _this2._url.substr(-4, 4) === 'IIS/' ? _this2._url.substr(0, _this2._url.length - 4) : _this2._url,
+                        url = _this2.apiLoginUrl.replace(/%sp%/, spUrl) + '?userName=' + login + '&password=' + encodeURIComponent(password) + '&ts=' + new Date().getTime();
+                    sGis.utils.ajax({
+                        url: url,
+                        success: function success(data, textStatus) {
+                            if (data === '') {
+                                sGis.utils.message('Could not get session ID');
                             } else {
-                                sGis.utils.error('Could not get session. Server responded with: ' + data);
+                                var response = JSON.parse(data);
+
+                                if (response.Success && response.Message) {
+                                    initialize(response.Message);
+
+                                    self.fire('sessionInitialized');
+                                } else {
+                                    sGis.utils.error('Could not get session. Server responded with: ' + data);
+                                    reject('Could not get session. Server responded with: ' + data);
+                                }
                             }
+                        },
+
+                        error: function error() {
+                            sGis.utils.message('Could not get session ID');
+                            reject('Could not get session ID');
                         }
-                    },
+                    });
+                } else {
+                    initialize(sessionId);
+                }
 
-                    error: function error() {
-                        sGis.utils.message('Could not get session ID');
-                    }
-                });
-            } else {
-                initialize(login);
-            }
+                function initialize(id) {
+                    self._sessionId = encodeURIComponent(id);
 
-            function initialize(id) {
-                setListners(self, self._rootMapItem);
-                self._sessionId = encodeURIComponent(id);
+                    if (id) self.requestNotifications();
 
-                self.requestNotifications();
-
-                escapePrintMethod(self);
-            }
+                    escapePrintMethod(self);
+                    resolve(id);
+                }
+            });
         },
-
-        synchronize: function synchronize() {},
 
         requestNotifications: function requestNotifications() {
             this._aborted = false;
@@ -16789,8 +17034,8 @@ sGis.module('spatialProcessor.Connector', ['utils', 'EventHandler', 'spatialProc
                     }
                     if (data && data.Notifications) {
                         for (var i in data.Notifications) {
-                            if (sGis.spatialProcessor.processNotification[data.Notifications[i].tag]) {
-                                sGis.spatialProcessor.processNotification[data.Notifications[i].tag](self, data.Notifications[i].data, data.Notifications[i].type);
+                            if (notificationProcessors[data.Notifications[i].tag]) {
+                                notificationProcessors[data.Notifications[i].tag](self, data.Notifications[i].data, data.Notifications[i].type);
                             } else {
                                 sGis.utils.message(data.Notifications[i].tag);
                             }
@@ -16827,15 +17072,6 @@ sGis.module('spatialProcessor.Connector', ['utils', 'EventHandler', 'spatialProc
             if (this._notificationRequestObject) this._notificationRequestObject.abort();
         },
 
-        getMapItemById: function getMapItemById(id) {
-            var mapItems = this._rootMapItem.getChildren(true);
-            for (var i in mapItems) {
-                if (mapItems[i].id === id) {
-                    return mapItems[i];
-                }
-            }
-        },
-
         registerOperation: function registerOperation(operationId, callback, progressCallback) {
             if (this._latestOperationNotification && this._latestOperationNotification.operation.id === operationId) {
                 callback(this._latestOperationNotification);
@@ -16843,27 +17079,16 @@ sGis.module('spatialProcessor.Connector', ['utils', 'EventHandler', 'spatialProc
             } else {
                 this._operationList[operationId] = { finalCallback: callback, progressCallback: progressCallback };
             }
-        },
-
-        getServiceList: function getServiceList(callback) {
-            sGis.utils.ajax({
-                url: this._url + '?f=json' + this.sessionSuffix,
-                success: function success(data) {
-                    try {
-                        var response = JSON.parse(data);
-                    } catch (e) {
-                        response = data;
-                    }
-                    callback(response);
-                },
-                error: function error(data) {
-                    callback(data);
-                }
-            });
         }
     };
 
     Object.defineProperties(Connector.prototype, {
+        sid: {
+            get: function get() {
+                return decodeURIComponent(this.sessionId);
+            }
+        },
+
         sessionId: {
             get: function get() {
                 return this._sessionId;
@@ -16897,7 +17122,7 @@ sGis.module('spatialProcessor.Connector', ['utils', 'EventHandler', 'spatialProc
 
     utils.extend(Connector.prototype, ext);
 
-    sGis.spatialProcessor.processNotification = {
+    var notificationProcessors = {
         'dynamic layer': function dynamicLayer(connector, data, type) {
             if (connector._notificationListners['dynamic layer'] && connector._notificationListners['dynamic layer'][data]) {
                 connector._notificationListners['dynamic layer'][data]();
@@ -16905,7 +17130,7 @@ sGis.module('spatialProcessor.Connector', ['utils', 'EventHandler', 'spatialProc
         },
 
         'DAS': function DAS(connector, data, type) {
-            var response = sGis.spatialProcessor.parseXML(data);
+            var response = xmlSerializer.deserialize(data);
             if (connector._operationList[response.operation.id]) {
                 if (response.operation.status === 'Running') {
                     if (connector._operationList[response.operation.id].progressCallback) connector._operationList[response.operation.id].progressCallback(response);
@@ -16931,36 +17156,6 @@ sGis.module('spatialProcessor.Connector', ['utils', 'EventHandler', 'spatialProc
         }
     };
 
-    function setListners(connector, mapItem) {}
-
-    function getMapItemDescription(mapItem, isRoot) {
-        var description = {
-            Id: mapItem.id,
-            IsVisible: mapItem.isActive,
-            Name: mapItem.name,
-            IsRoot: isRoot,
-            Operations: mapItem.serverOperations,
-            Children: []
-        };
-
-        if (mapItem.getOpacity) {
-            description.Opacity = mapItem.getOpacity();
-        } else {
-            description.Opacity = 1.0;
-        }
-
-        if (mapItem.getChildren) {
-            var children = mapItem.getChildren();
-            if (sGis.utils.isArray(children)) {
-                for (var i in children) {
-                    description.Children.push(children[i].id);
-                }
-            }
-        }
-
-        return description;
-    }
-
     function escapePrintMethod(connector) {
         var print = window.print;
         window.print = function () {
@@ -16978,7 +17173,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-sGis.module('spatialProcessor.ControllerManager', ['utils'], function (utils) {
+sGis.module('sp.ControllerManager', ['utils', 'LayerGroup', 'sp.controllers.ViewableController'], function (utils, LayerGroup, ViewableController) {
 
     var registry = {};
 
@@ -16989,6 +17184,9 @@ sGis.module('spatialProcessor.ControllerManager', ['utils'], function (utils) {
             this._controllers = {};
             this._connector = connector;
             this._map = map;
+
+            this._layerGroup = new LayerGroup();
+            this._map.addLayer(this._layerGroup);
         }
 
         _createClass(ControllerManager, [{
@@ -17000,8 +17198,18 @@ sGis.module('spatialProcessor.ControllerManager', ['utils'], function (utils) {
         }, {
             key: 'createController',
             value: function createController(name) {
+                var _this = this;
+
                 if (!registry[name]) utils.error('Unknown controller: ' + name);
-                return new registry[name](this._connector, { map: this._map });
+                var controller = new registry[name](this._connector, { map: this._map });
+
+                if (controller instanceof ViewableController) {
+                    controller.updateView().then(function () {
+                        _this._layerGroup.addLayer(controller.service.layer);
+                    });
+                }
+
+                return controller;
             }
         }], [{
             key: 'registerController',
@@ -17018,282 +17226,373 @@ sGis.module('spatialProcessor.ControllerManager', ['utils'], function (utils) {
 });
 'use strict';
 
-sGis.module('spatialProcessor.DataAccessService', ['spatialProcessor.Controller'], function (Controller) {
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+sGis.module('sp.DataFilter', ['serializer.symbolSerializer', 'sp.Labeling', 'sp.ClusterSymbol', 'utils'], function (serializer, LabelingConst, ClusterSymbol, utils) {
+
     'use strict';
 
-    var DataAccessService = function DataAccessService(serverConnector, name) {
-        this._sp = serverConnector;
-        this._spatialProcessor = serverConnector;
+    var DataFilter = function () {
+        function DataFilter() {
+            var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-        this._url = this._spatialProcessor.url;
-        this._id = name;
+            _classCallCheck(this, DataFilter);
 
-        this._operationQueue = [];
-    };
-
-    DataAccessService.prototype = {
-        __operation: sGis.spatialProcessor.Controller.prototype.__operation,
-        query: sGis.spatialProcessor.Controller.prototype.query,
-        queryByGeometry: sGis.spatialProcessor.Controller.prototype.queryByGeometry,
-        save: sGis.spatialProcessor.Controller.prototype.save,
-        createObject: sGis.spatialProcessor.Controller.prototype.createObject,
-        autoComplete: sGis.spatialProcessor.Controller.prototype.autoComplete,
-        reshape: sGis.spatialProcessor.Controller.prototype.reshape,
-        cut: sGis.spatialProcessor.Controller.prototype.cut,
-
-        getServicesCatalog: function getServicesCatalog(properties) {
-            var dataParameters = properties.filter ? 'filter=' + properties.filter : '';
-
-            this.__operation(function () {
-                return {
-                    operation: 'getServicesCatalog',
-                    dataParameters: dataParameters,
-                    requested: properties.requested,
-                    error: properties.error,
-                    success: function success(response) {
-                        if (properties.success) {
-                            properties.success(response.content);
-                        }
-                    }
-                };
-            });
-        },
-
-        getTemplates: function getTemplates(properties) {
-            this.__operation(function () {
-                return {
-                    operation: 'getTemplates',
-                    dataParameters: 'StorageId=' + properties.storageId,
-                    cache: false,
-                    requested: properties.requested,
-                    error: properties.error,
-                    success: function success(response) {
-                        if (properties.success) {
-                            var templates = [];
-                            for (var i = 0; i < response.content.length; i++) {
-                                templates.push(new sGis.spatialProcessor.Template(response.content[i].Content, response.content[i].FileName));
-                            }
-
-                            properties.success(templates);
-                        }
-                    }
-                };
-            });
-        },
-
-        clientMapInfo: function clientMapInfo(properties) {
-            this.__operation(function () {
-                return {
-                    operation: 'clientMapInfo',
-                    dataParameters: 'info=' + encodeURIComponent(JSON.stringify({ sr: properties.map.crs.getWkidString() })),
-                    requested: properties.requested,
-                    error: properties.error,
-                    success: properties.success
-                };
-            });
-        },
-
-        projectGeometry: sGis.spatialProcessor.Controller.prototype.projectGeometry,
-
-        getScalarValue: function getScalarValue(properties) {
-            this.__operation(function () {
-                return {
-                    operation: 'selectScalarValue',
-                    dataParameters: 'serviceName=' + properties.serviceName + '&query=' + properties.query,
-                    requested: properties.requested,
-                    error: properties.error,
-                    success: properties.success
-                };
-            });
-        },
-
-        subtractStorage: function subtractStorage(properties) {
-            this.__operation(function () {
-                return {
-                    operation: 'storageDiff',
-                    dataParameters: 'a=' + properties.source + '&b=' + properties.deduction + '&target=' + properties.target,
-                    requested: properties.requested,
-                    error: properties.error,
-                    success: properties.success
-                };
-            });
-        },
-
-        clearStorage: function clearStorage(properties) {
-            this.__operation(function () {
-                return {
-                    operation: 'clear',
-                    dataParameters: 'id=' + properties.storageId,
-                    requested: properties.requested,
-                    error: properties.error,
-                    success: properties.success
-                };
-            });
-        },
-
-        copy: function copy(_ref) {
-            var sourceServiceName = _ref.sourceServiceName,
-                targetServiceName = _ref.targetServiceName,
-                _ref$objectIds = _ref.objectIds,
-                objectIds = _ref$objectIds === undefined ? null : _ref$objectIds,
-                requested = _ref.requested,
-                success = _ref.success,
-                error = _ref.error;
-
-            var dataParameters = {
-                sourceServiceName: sourceServiceName,
-                targetServiceName: targetServiceName,
-                objectIds: objectIds ? JSON.stringify(objectIds) : null
-            };
-
-            var paramString = Object.keys(dataParameters).filter(function (key) {
-                return dataParameters[key];
-            }).map(function (key) {
-                return key + '=' + dataParameters[key];
-            }).join('&');
-
-            this.__operation(function () {
-                return {
-                    operation: 'copy',
-                    dataParameters: paramString,
-                    requested: requested,
-                    error: error,
-                    success: success
-                };
-            });
-        },
-
-        aggregate: function aggregate(_ref2) {
-            var geometrySourceServiceName = _ref2.geometrySourceServiceName,
-                dataSourceServiceName = _ref2.dataSourceServiceName,
-                targetServiceName = _ref2.targetServiceName,
-                aggregations = _ref2.aggregations,
-                requested = _ref2.requested,
-                success = _ref2.success,
-                error = _ref2.error;
-
-            var dataParameters = {
-                geometrySourceServiceName: geometrySourceServiceName,
-                dataSourceServiceName: dataSourceServiceName,
-                targetServiceName: targetServiceName,
-                aggregations: JSON.stringify(aggregations)
-            };
-
-            var paramString = Object.keys(dataParameters).filter(function (key) {
-                return dataParameters[key];
-            }).map(function (key) {
-                return key + '=' + dataParameters[key];
-            }).join('&');
-
-            this.__operation(function () {
-                return {
-                    operation: 'aggregate',
-                    dataParameters: paramString,
-                    requested: requested,
-                    error: error,
-                    success: success
-                };
-            });
-        },
-
-        batchEdit: function batchEdit(_ref3) {
-            var serviceName = _ref3.serviceName,
-                attribute = _ref3.attribute,
-                expression = _ref3.expression,
-                condition = _ref3.condition,
-                requested = _ref3.requested,
-                success = _ref3.success,
-                error = _ref3.error;
-
-            var dataParameters = { serviceName: serviceName, attribute: attribute, expression: encodeURIComponent(expression), condition: condition };
-            var paramString = Object.keys(dataParameters).filter(function (key) {
-                return dataParameters[key];
-            }).map(function (key) {
-                return key + '=' + dataParameters[key];
-            }).join('&');
-
-            this.__operation(function () {
-                return {
-                    operation: 'batchFuncEdit',
-                    dataParameters: paramString,
-                    requested: requested,
-                    error: error,
-                    success: success
-                };
-            });
-        },
-
-        geocode: function geocode(_ref4) {
-            var query = _ref4.query,
-                crs = _ref4.crs,
-                providers = _ref4.providers,
-                requested = _ref4.requested,
-                error = _ref4.error,
-                success = _ref4.success;
-
-            var dataParameters = { query: encodeURIComponent(query), sr: crs.stringDescription, providers: providers && JSON.stringify(providers) };
-            var paramString = Object.keys(dataParameters).filter(function (key) {
-                return dataParameters[key];
-            }).map(function (key) {
-                return key + '=' + dataParameters[key];
-            }).join('&');
-
-            this.__operation(function () {
-                return {
-                    operation: 'geocode',
-                    dataParameters: paramString,
-                    requested: requested,
-                    error: error,
-                    success: success
-                };
-            });
-        },
-
-        calculateBuffers: function calculateBuffers(properties) {
-            this.__operation(function () {
-                var params = {
-                    distances: JSON.stringify(properties.distances),
-                    unionResults: properties.unionResults,
-                    subtractObject: properties.subtractObject,
-                    processDelay: properties.processDelay,
-                    subtractInnerBuffer: properties.subtractInnerBuffer,
-                    sourceServiceName: properties.sourceServiceName,
-                    targetServiceName: properties.targetServiceName
-                };
-
-                return {
-                    operation: 'buffer',
-                    dataParameters: params,
-                    success: properties.success,
-                    error: properties.error,
-                    requested: properties.requested
-                };
-            });
-        },
-
-        buildIsochroneByStorage: function buildIsochroneByStorage(properties) {
-            this.__operation(function () {
-                var duration = 'duration=' + properties.duration;
-                var solver = 'solver=' + properties.solver;
-                var sourceServiceName = 'sourceServiceName=' + properties.sourceServiceName;
-                var targetServiceName = 'targetServiceName=' + properties.targetServiceName;
-
-                var param = [duration, solver, sourceServiceName, targetServiceName].join('&');
-
-                if (properties.resolutionK) param += '&resolutionK=' + properties.resolutionK;
-                if (properties.uniteResults !== undefined) param += '&uniteResults=' + properties.uniteResults;
-                return {
-                    operation: 'isochroneByStorage',
-                    dataParameters: param,
-                    success: properties.success,
-                    error: properties.error,
-                    requested: properties.requested
-                };
-            });
+            Object.assign(this, options);
         }
+
+        _createClass(DataFilter, [{
+            key: 'serialize',
+            value: function serialize() {
+                var serialized = {
+                    Title: this.title,
+                    Symbol: null,
+                    Condition: this.condition,
+                    Labeling: null,
+                    MaxResolution: this.maxResolution,
+                    MinResolution: this.minResolution,
+                    ChildFilters: null,
+                    SerializationData: { serializationData: this.serializationData }
+                };
+
+                if (this.symbol instanceof ClusterSymbol) {
+                    serialized.SerializationData.clusterSymbol = this.symbol.serialize();
+                    serialized.SerializationData.clusterLabel = this.labeling && this.labeling.serialize();
+                    serialized.SerializationData.aggregations = this.aggregations;
+                } else {
+                    serialized.Symbol = this.symbol && serializer.serialize(this.symbol, 'hex');
+                    serialized.Labeling = this.labeling && this.labeling.serialize();
+                }
+
+                serialized.ChildFilters = this._serializeChildren();
+
+                serialized.SerializationData = JSON.stringify(serialized.SerializationData);
+
+                return serialized;
+            }
+        }, {
+            key: '_serializeChildren',
+            value: function _serializeChildren() {
+                var _this = this;
+
+                if (!this.childFilters || this.childFilters.length === 0) return null;
+                if (this.childFilters[0] instanceof DataFilter) {
+                    return this.childFilters.map(function (child) {
+                        return child.serialize();
+                    });
+                } else {
+                    var _ret = function () {
+                        var base = new DataFilter({ condition: _this.condition, symbol: _this.symbol });
+                        var unfolded = [base];
+                        _this.childFilters.forEach(function (child) {
+                            unfolded = child.unfold(unfolded);
+                        });
+
+                        if (unfolded.length === 0) return {
+                                v: null
+                            };
+                        return {
+                            v: unfolded.map(function (child) {
+                                return child.serialize();
+                            })
+                        };
+                    }();
+
+                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+                }
+            }
+        }, {
+            key: 'clone',
+            value: function clone() {
+                return new DataFilter({
+                    title: this.title,
+                    condition: this.condition,
+                    minResolution: this.minResolution,
+                    maxResolution: this.maxResolution,
+                    symbol: this.symbol && this.symbol.clone(),
+                    labeling: this.labeling && this.labeling.clone() || new LabelingConst(),
+                    childFilters: this.childFilters.map(function (x) {
+                        return x.clone();
+                    }),
+
+                    aggregations: this.aggregations && this.aggregations.slice(),
+
+                    serializationData: this.serializationData
+                });
+            }
+        }], [{
+            key: 'deserialize',
+            value: function deserialize(_ref) {
+                var Title = _ref.Title,
+                    _Symbol = _ref.Symbol,
+                    Condition = _ref.Condition,
+                    Labeling = _ref.Labeling,
+                    MaxResolution = _ref.MaxResolution,
+                    MinResolution = _ref.MinResolution,
+                    ChildFilters = _ref.ChildFilters,
+                    SerializationData = _ref.SerializationData;
+
+                var serializationData = {};
+                try {
+                    serializationData = utils.parseJSON(SerializationData) || {};
+                } catch (e) {}
+
+                var result = new DataFilter({
+                    condition: Condition,
+                    minResolution: MinResolution,
+                    maxResolution: MaxResolution,
+                    symbol: _Symbol && serializer.deserialize(_Symbol, 'hex8'),
+                    labeling: Labeling && new LabelingConst(Labeling) || new LabelingConst(),
+                    title: Title,
+                    childFilters: ChildFilters && ChildFilters.map(function (x) {
+                        return DataFilter.deserialize(x);
+                    }) || [],
+                    serializationData: serializationData.serializationData
+                });
+
+                if (serializationData.clusterSymbol) {
+                    result.symbol = new ClusterSymbol(serializationData.clusterSymbol);
+                    result.labeling = serializationData.clusterLabel;
+                    result.aggregations = serializationData.aggregations;
+                }
+
+                return result;
+            }
+        }]);
+
+        return DataFilter;
+    }();
+
+    Object.assign(DataFilter.prototype, {
+        condition: null,
+        minResolution: -1,
+        maxResolution: -1,
+        symbol: null,
+        labeling: null,
+        childFilters: [],
+        title: null,
+
+        aggregations: null,
+
+        serializationData: null
+    });
+
+    return DataFilter;
+});
+
+sGis.module('sp.Labeling', [], function () {
+    var Labeling = function () {
+        function Labeling() {
+            var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+            _classCallCheck(this, Labeling);
+
+            Object.assign(this, options);
+        }
+
+        _createClass(Labeling, [{
+            key: 'clone',
+            value: function clone() {
+                var _this2 = this;
+
+                var copy = new Labeling();
+                Object.keys(defaultLabeling).forEach(function (key) {
+                    copy[key] = _this2[key];
+                    if (key === 'border') copy[key] = {
+                        Brush: _this2.border.Brush,
+                        Thickness: _this2.border.Thickness
+                    };
+                });
+                return copy;
+            }
+        }, {
+            key: 'serialize',
+            value: function serialize() {
+                var _this3 = this;
+
+                if (!this.isActive) return null;
+
+                var result = {};
+                Object.keys(defaultLabeling).forEach(function (key) {
+                    result[key] = _this3[key];
+                    if (key === 'border') result[key] = {
+                        Brush: _this3.border.Brush,
+                        Thickness: _this3.border.Thickness
+                    };
+                });
+
+                return result;
+            }
+        }]);
+
+        return Labeling;
+    }();
+
+    var defaultLabeling = {
+        fieldFormat: 'Текст подписи',
+        attributes: [],
+        fontName: 'Arial',
+        fontSize: 10,
+        fontStyle: null,
+        fontWeight: 300,
+        fontColor: '#ff000000',
+        background: '#ffffffff',
+        border: {
+            Brush: '#ffffffff',
+            Thickness: 1
+        },
+        borderRadius: 0,
+        showBox: true,
+        boxMaxWidth: 128,
+        boxMargin: 3,
+        horizontalAlignment: 'Center',
+        verticalAlignment: 'Bottom',
+        offset: [3, 3],
+        offsetFromSymbol: true,
+        isActive: false,
+        isBoxDisplayed: true
     };
 
-    return DataAccessService;
+    Object.assign(Labeling.prototype, defaultLabeling);
+
+    return Labeling;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+sGis.module('sp.DataOperation', ['sp.utils', 'EventHandler'], function (utils, EventHandler) {
+
+    'use strict';
+
+    var DataOperation = function () {
+        function DataOperation(connector, controller, operationName, properties) {
+            var _this = this;
+
+            _classCallCheck(this, DataOperation);
+
+            this._promise = new Promise(function (resolve, reject) {
+                controller.initializationPromise.then(function () {
+                    var url = '' + connector.url + controller.name + '/' + operationName;
+                    var params = Object.assign({ '_sb': connector.sid }, properties);
+                    var paramsStrings = Object.keys(params).filter(function (key) {
+                        return params[key] !== null && params[key] !== undefined;
+                    }).map(function (key) {
+                        var value = params[key] instanceof Object ? JSON.stringify(params[key]) : params[key];
+                        if (typeof value === 'string') value = encodeURIComponent(value);
+                        return key + '=' + value;
+                    });
+
+                    _this.resolve = resolve;
+                    _this.reject = reject;
+
+                    utils.ajaxp({
+                        url: url,
+                        type: 'POST',
+                        data: paramsStrings.join('&')
+                    }).then(function (data) {
+                        var response = parseOperationResponse(data[0]);
+                        if (!response || response.status !== 'success') reject('Unexpected response from server for ' + _this._controller.name + '/' + _this._operationName + ' operation');
+                        _this.id = response.operationId;
+                        connector.registerOperation(response.operationId, _this._finalHandler.bind(_this), _this._progressHandler.bind(_this));
+                        _this.fire('requested');
+                    }).catch(function (response) {
+                        reject(response);
+                    });
+                }).catch(function () {
+                    reject('Controller ' + controller.type + ' failed to initialize. Operation ' + operationName + ' is cancelled.');
+                });
+            });
+
+            this._controller = controller;
+            this._operationName = operationName;
+        }
+
+        _createClass(DataOperation, [{
+            key: 'then',
+            value: function then(func) {
+                return this._promise.then(func);
+            }
+        }, {
+            key: 'catch',
+            value: function _catch() {
+                return this._promise.catch(func);
+            }
+        }, {
+            key: '_finalHandler',
+            value: function _finalHandler(_ref) {
+                var operation = _ref.operation,
+                    content = _ref.content;
+
+                if (operation.status === 'Success') {
+                    this.resolve(content);
+                } else {
+                    this.reject('Operation ' + this._operationName + ' failed');
+                }
+            }
+        }, {
+            key: '_progressHandler',
+            value: function _progressHandler(data) {
+                this.fire('progressUpdate', { progress: data.content });
+            }
+        }]);
+
+        return DataOperation;
+    }();
+
+    utils.mixin(DataOperation.prototype, EventHandler.prototype);
+
+    function parseOperationResponse(data) {
+        if (data.charAt(0) === '{') {
+            return parseOperationError(data);
+        } else {
+            return parseOperationSuccess(data);
+        }
+    }
+
+    function parseOperationError(data) {
+        var response = void 0;
+        try {
+            response = JSON.parse(data);
+        } catch (e) {
+            response = data;
+        } finally {
+            response.status = 'error';
+        }
+        return response;
+    }
+
+    function parseOperationSuccess(data) {
+        var parser = new DOMParser(),
+            xml = parser.parseFromString(data, 'text/xml'),
+            attributes = xml.getElementsByTagName('Defered')[0].attributes,
+            initDataNode = xml.getElementsByTagName('InitializationData')[0],
+            response = {
+            status: 'success'
+        };
+
+        for (var i in attributes) {
+            if (attributes[i].nodeName === 'Id') {
+                response.operationId = attributes[i].nodeValue;
+            } else if (attributes[i].nodeName === 'Name') {
+                response.operationName = attributes[i].nodeValue;
+            }
+        }
+
+        if (initDataNode) {
+            response.initializationData = JSON.parse(initDataNode.childNodes[0].nodeValue);
+        }
+
+        return response;
+    }
+
+    return DataOperation;
 });
 // EMPTY FILE
 "use strict";
@@ -17307,70 +17606,62 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-sGis.module('spatialProcessor.LayerManager', ['utils', 'EventHandler', 'spatialProcessor.Project', 'spatialProcessor.services.ServiceContainer', 'LayerGroup'], function (utils, EventHandler, Project, ServiceContainer, LayerGroup) {
-    var LayerManager = function (_EventHandler) {
-        _inherits(LayerManager, _EventHandler);
+sGis.module('sp.LayerManager', ['sp.ServiceGroup', 'sp.Project', 'sp.services.ServiceContainer', 'sp.DataFilter', 'utils'], function (ServiceGroup, Project, ServiceContainer, DataFilter, utils) {
+    var LayerManager = function (_ServiceGroup) {
+        _inherits(LayerManager, _ServiceGroup);
 
-        function LayerManager(connector, map, api, painter) {
+        function LayerManager(connector, map) {
             _classCallCheck(this, LayerManager);
 
-            var _this = _possibleConstructorReturn(this, (LayerManager.__proto__ || Object.getPrototypeOf(LayerManager)).call(this));
+            var _this = _possibleConstructorReturn(this, (LayerManager.__proto__ || Object.getPrototypeOf(LayerManager)).call(this, '__root'));
 
             _this._map = map;
-            _this._api = api;
             _this._connector = connector;
-            _this._painter = painter;
-            _this._containers = [];
-            _this._layersMap = new Map();
+            _this._map.addLayer(_this.layer);
+
+            _this.ready = new Promise(function (resolve) {
+                return _this._resolveReady = resolve;
+            });
             return _this;
         }
 
         _createClass(LayerManager, [{
             key: 'init',
             value: function init() {
-                var services = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-                this._layerGroup = new LayerGroup();
-
-                this._map.addLayer(this._layerGroup);
-
-                this.loadFromSettings(services);
-            }
-        }, {
-            key: 'loadFromSettings',
-            value: function loadFromSettings(services) {
                 var _this2 = this;
 
-                services.forEach(function (name) {
-                    _this2.loadService(name);
-                });
+                var services = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+                Promise.all(services.map(function (name) {
+                    return new Promise(function (resolve) {
+                        return _this2.loadWithPromise(name).then(resolve).catch(resolve);
+                    });
+                })).then(this._resolveReady);
             }
         }, {
             key: 'loadService',
             value: function loadService(name) {
                 var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
+                var parent = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
-                if (this.getService(name)) throw new Error('Service ' + name + ' is already in the list');
+                if (this.getServiceContainer(name, true)) throw new Error('Service ' + name + ' is already in the list');
 
                 var container = new ServiceContainer(this._connector, name);
-                container.on('stateUpdate', this._updateService.bind(this, container));
-
-                if (index < 0 || index > this._containers.length) index = this._containers.length;
-                this._containers.splice(index, 0, container);
-                this._layerGroup.insertLayer(container.layer, index);
-                this._layersMap.set(container, container.layer);
-
-                this.fire('serviceAdd');
+                if (parent) {
+                    parent.insertService(container, index);
+                } else {
+                    this.insertService(container, index);
+                }
 
                 return container;
             }
         }, {
             key: 'loadWithPromise',
-            value: function loadWithPromise(name) {
+            value: function loadWithPromise(name, parent) {
                 var _this3 = this;
 
                 return new Promise(function (resolve, reject) {
-                    var container = _this3.loadService(name);
+                    var container = _this3.loadService(name, -1, parent);
                     container.on('stateUpdate', function () {
                         if (container.service) {
                             resolve(container);
@@ -17381,148 +17672,86 @@ sGis.module('spatialProcessor.LayerManager', ['utils', 'EventHandler', 'spatialP
                 });
             }
         }, {
-            key: '_updateService',
-            value: function _updateService(container) {
-                if (this._layerGroup.contains(container.layer)) {
-                    this.fire('serviceUpdate');
-                    return;
-                }
-
-                var prevLayer = this._layersMap.get(container);
-                var index = prevLayer && this._layerGroup.indexOf(prevLayer);
-                if (index !== -1) {
-                    this._layerGroup.removeLayer(prevLayer);
-                } else {
-                    index = this._layerGroup.layers.length;
-                }
-                this._layerGroup.insertLayer(container.layer, index);
-                this._layersMap.set(container, container.layer);
-                this.fire('serviceUpdate');
-            }
-        }, {
-            key: 'removeService',
-            value: function removeService(name) {
-                var container = this.getService(name, false);
-
-                if (!container) {
-                    return;
-                }
-
-                this._layerGroup.removeLayer(container.layer);
-                this._containers.splice(this._containers.indexOf(container), 1);
-                this._layersMap.delete(container);
-
-                this.fire('serviceRemove', { container: container });
-
-                return container.name;
-            }
-        }, {
-            key: 'moveService',
-            value: function moveService(name, direction) {
-                var container = this._containers.find(function (x) {
-                    return x.name === name;
-                });
-                var currIndex = this._containers.indexOf(container);
-                var index = currIndex + direction;
-                if (index < 0) {
-                    index = 0;
-                } else if (index >= this._containers.length) {
-                    index = this._containers.length - 1;
-                }
-
-                this._containers = utils.arrayMove(this._containers, currIndex, index);
-                this._layerGroup.insertLayer(container.layer, index);
-                this.fire('serviceMove', { serviceContainer: container, index: index });
-
-                return index;
-            }
-        }, {
             key: 'updateService',
             value: function updateService(name) {
-                var index = this._containers.indexOf(this.getService(name, false));
-                this.removeService(name);
-                this.loadService(name, index);
-            }
-        }, {
-            key: 'getService',
-            value: function getService(serviceName) {
-                var recurse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+                var container = this.getServiceContainer(name, true);
+                if (!container) utils.error('Service is not in the group');
 
-                for (var i = 0; i < this._containers.length; i++) {
-                    if (this._containers[i].name === serviceName) return this._containers[i];
-                    if (this._containers[i].service && this._containers[i].service.viewContainer && this._containers[i].service.viewContainer.name === serviceName) return this._containers[i].service.viewContainer;
-                    if (recurse && this._containers[i].service && this._containers[i].service.getService) {
-                        var result = this._containers[i].service.getService(serviceName);
-                        if (result) return result;
-                    }
-                }
+                var parent = this.getParent(container);
+                var index = parent.children.indexOf(container);
+                parent.removeService(container);
 
-                return null;
+                this.loadService(name, index, parent);
             }
         }, {
-            key: 'getDisplayedServiceList',
-            value: function getDisplayedServiceList() {
-                return this.getServiceList().filter(function (_ref) {
-                    var layer = _ref.layer,
-                        isDisplayed = _ref.isDisplayed;
-                    return layer && isDisplayed && !(layer instanceof LayerGroup);
-                });
-            }
-        }, {
-            key: 'getServiceList',
-            value: function getServiceList() {
-                var services = [];
-                for (var i = 0; i < this._containers.length; i++) {
-                    if (this._containers[i].service) {
-                        services.push(this._containers[i].service);
-                        if (this._containers[i].service.getServices) services = services.concat(this._containers[i].service.getServices(true));
-                    }
-                }
-                return services;
-            }
-        }, {
-            key: 'containers',
-            get: function get() {
-                return this._containers;
-            }
-        }, {
-            key: 'layers',
-            get: function get() {
-                return this._layerGroup;
+            key: 'replaceService',
+            value: function replaceService(oldName, newName) {
+                var current = this.getServiceContainer(oldName, true);
+                if (!current) utils.error('Service is not in the group');
+
+                var parent = this.getParent(current);
+                var index = parent.children.indexOf(current);
+                parent.removeService(current);
+
+                this.loadService(newName, index, parent);
             }
         }]);
 
         return LayerManager;
-    }(EventHandler);
+    }(ServiceGroup);
 
-    Project.registerCustomDataItem('services', function (_ref2) {
-        var layerManager = _ref2.layerManager;
+    Project.registerCustomDataItem('services', function (_ref) {
+        var layerManager = _ref.layerManager;
 
         if (!layerManager) return;
-        return layerManager.containers.map(function (container) {
+        return layerManager.children.map(function (container) {
             return saveContainer(container);
         });
-    }, function (descriptions, _ref3) {
-        var layerManager = _ref3.layerManager;
+    }, function (descriptions, _ref2) {
+        var layerManager = _ref2.layerManager;
 
         if (!layerManager || !descriptions) return;
 
         descriptions.forEach(function (serviceDesc) {
-            var container = layerManager.getService(serviceDesc.serviceName, false);
-            if (container) return restoreServiceParameters(container, serviceDesc);
-            layerManager.loadWithPromise(serviceDesc.serviceName).then(function (service) {
-                restoreServiceParameters(service, serviceDesc);
-            }).catch(function () {});
+            var container = layerManager.getServiceContainer(serviceDesc.serviceName, false);
+            if (container) return restoreServiceParameters(container, serviceDesc, layerManager);
+
+            restoreService(layerManager, serviceDesc);
         });
     });
 
-    function restoreServiceParameters(container, desc) {
+    function restoreService(layerManager, serviceDesc, parent) {
+        if (serviceDesc.isFolder) {
+            var service = new ServiceGroup(serviceDesc.serviceName, { alias: serviceDesc.alias });
+            var container = new ServiceContainer(layerManager._connector, serviceDesc.serviceName, { service: service });
+            (parent || layerManager).insertService(container);
+            return restoreServiceParameters(container, serviceDesc, layerManager);
+        }
+
+        layerManager.loadWithPromise(serviceDesc.serviceName, parent).then(function (service) {
+            restoreServiceParameters(service, serviceDesc, layerManager);
+        }).catch(function () {});
+    }
+
+    function restoreServiceParameters(container, desc, layerManager) {
+        var service = container.service;
+        var view = service && service.view || service;
+
         if (desc.opacity !== undefined) container.layer.opacity = desc.opacity;
         if (desc.resolutionLimits) container.layer.resolutionLimits = desc.resolutionLimits;
         if (desc.isDisplayed !== undefined && container.service) container.service.isDisplayed = desc.isDisplayed;
-        if (desc.filter && container.service && container.service.setCustomFilter) container.service.setCustomFilter(desc.filter);
+        if (desc.filter && view && view.setDataFilter) {
+            view.setDataFilter(DataFilter.deserialize(desc.filter));
+        } else if (desc.customFilter && view && view.setCustomFilter) {
+            view.setCustomFilter(desc.customFilter);
+        }
         if (desc.meta && container.service) container.service.meta = desc.meta;
-        if (desc.children && container.service && container.service.children) {
+
+        if (desc.isFolder && desc.children) {
+            desc.children.forEach(function (child) {
+                restoreService(layerManager, child, container.service);
+            });
+        } else if (desc.children && container.service && container.service.children) {
             container.service.children.forEach(function (child) {
                 var childDesc = desc.children.find(function (x) {
                     return x.serviceName === child.name;
@@ -17535,10 +17764,13 @@ sGis.module('spatialProcessor.LayerManager', ['utils', 'EventHandler', 'spatialP
     function saveContainer(container) {
         return {
             serviceName: container.name,
+            isFolder: container.service && container.service instanceof ServiceGroup,
+            alias: container.service && container.service.alias,
             opacity: container.layer && container.layer.opacity,
             resolutionLimits: container.layer && container.layer.resolutionLimits,
             isDisplayed: container.service && container.service.isDisplayed,
-            filter: container.service && container.service.customFilter,
+            filter: container.service && (container.service.tempFilterApplied && container.service.dataFilter.serialize() || container.service.view && container.service.view.tempFilterApplied && container.service.view.dataFilter.serialize()),
+            customFilter: container.service && (container.service.customFilter || container.service.view && container.service.view.customFilter),
             meta: container.service && container.service.meta,
             children: saveChildren(container.service)
         };
@@ -17555,7 +17787,9 @@ sGis.module('spatialProcessor.LayerManager', ['utils', 'EventHandler', 'spatialP
 });
 'use strict';
 
-sGis.module('spatialProcessor.Printer', ['utils'], function (utils) {
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+sGis.module('sp.Printer', ['sp.utils'], function (utils) {
     'use strict';
 
     var defaults = {
@@ -17578,53 +17812,46 @@ sGis.module('spatialProcessor.Printer', ['utils'], function (utils) {
     };
 
     Printer.prototype = {
-        getTemplates: function getTemplates(properties) {
-            sGis.utils.ajax({
-                url: this._serverConnector.url + 'export/templates/' + (this._serverConnector.sessionId ? '?_sb=' + this._serverConnector.sessionId : ''),
-                cache: false,
-                success: function success(data) {
-                    try {
-                        var templates = sGis.utils.parseJSON(data);
-                    } catch (e) {
-                        if (properties.error) properties.error('Incorrect response: ' + data);
-                    }
+        getTemplates: function getTemplates() {
+            var _this = this;
 
-                    if (properties.success) properties.success(templates);
-                },
-                error: function error(data) {
-                    if (properties.error) properties.error('Server responded with error: ' + data);
-                }
+            return this._serverConnector.initializationPromise.then(function () {
+                return utils.ajaxp({
+                    url: _this._serverConnector.url + 'export/templates/' + (_this._serverConnector.sessionId ? '?_sb=' + _this._serverConnector.sessionId : ''),
+                    cache: false
+                });
+            }).then(function (_ref) {
+                var _ref2 = _slicedToArray(_ref, 1),
+                    data = _ref2[0];
+
+                return utils.parseJSON(data);
             });
         },
 
         getPreview: function getPreview(properties) {
-            var successHandler = properties.success,
-                self = this;
-            properties.success = function () {
-                var link = self._serverConnector.url + 'export/preview/?noHeader=true&f=binary' + self._serverConnector.sessionSuffix + '&ts=' + Date.now();
-                if (successHandler) successHandler(link);
-            };
+            var _this2 = this;
 
-            this.__store(properties);
+            return this.__store(properties).then(function () {
+                return _this2._serverConnector.url + 'export/preview/?noHeader=true&f=binary' + _this2._serverConnector.sessionSuffix + '&ts=' + Date.now();
+            });
         },
 
         getImage: function getImage(properties) {
-            var successHandler = properties.success,
-                self = this;
-            properties.success = function () {
-                var link = self._serverConnector.url + 'export/print/?noHeader=true&f=' + (properties.useApi ? 'json' : 'binary') + self._serverConnector.sessionSuffix + '&ts=' + Date.now() + (properties.useApi ? '&asLink=true' : '');
-                if (successHandler) {
-                    if (properties.useApi) {
-                        sGis.utils.ajax({ url: link, success: function success(id) {
-                                successHandler(id);
-                            } });
-                    } else {
-                        successHandler(link);
-                    }
-                }
-            };
+            var _this3 = this;
 
-            this.__store(properties);
+            return this.__store(properties).then(function () {
+                var link = _this3._serverConnector.url + 'export/print/?noHeader=true&f=' + (properties.useApi ? 'json' : 'binary') + _this3._serverConnector.sessionSuffix + '&ts=' + Date.now() + (properties.useApi ? '&asLink=true' : '');
+                if (properties.useApi) {
+                    return utils.ajaxp({ url: link }).then(function (_ref3) {
+                        var _ref4 = _slicedToArray(_ref3, 1),
+                            id = _ref4[0];
+
+                        return id;
+                    });
+                } else {
+                    return link;
+                }
+            });
         },
 
         __store: function __store(properties) {
@@ -17662,88 +17889,33 @@ sGis.module('spatialProcessor.Printer', ['utils'], function (utils) {
                     UniqueName: service.view && service.view.name || service.name || service.id,
                     Opactiy: service.layer.opacity,
                     IsVisible: service.isDisplayed,
-                    Title: service.Name,
+                    Title: service.name,
                     CustomParameters: {},
                     Layers: [{ LayerId: -1, LegendItemId: -1, Children: [] }]
                 });
             }
 
-            sGis.utils.ajax({
+            description.Legend = {
+                LayerId: -1,
+                LegendItemId: -1,
+                Children: services.filter(function (x) {
+                    return x.hasLegend;
+                }).map(function (x) {
+                    return {
+                        Name: x.alias || x.name,
+                        ServiceFullName: x.name
+                    };
+                })
+            };
+
+            return utils.ajaxp({
                 url: this._serverConnector.url + 'export/store/' + (this._serverConnector.sessionId ? '?_sb=' + this._serverConnector.sessionId : ''),
                 type: 'POST',
                 data: 'exportDefinition=' + encodeURIComponent(JSON.stringify(description)) + '&f=json',
-                cache: false,
-                success: properties.success,
-                error: properties.error
+                cache: false
             });
         }
     };
-
-    function getLayerTree(mapItems) {
-        var tree = [];
-        for (var i = 0, len = mapItems.length; i < len; i++) {
-            var mapItem = mapItems[i];
-            if (hasLegend(mapItem)) {
-                if (mapItem instanceof sGis.mapItem.MapServer) {
-                    tree.push({
-                        LayerId: -1,
-                        LegendItemId: -1,
-                        Name: mapItem.name,
-                        Children: getLayerTree(mapItem.children)
-                    });
-                } else if (mapItem instanceof sGis.mapItem.DynamicServiceLayer && mapItem.isDisplayed) {
-                    if (mapItem.children && mapItem.children.length > 0) {
-                        tree.push({
-                            LayerId: -1,
-                            LegendItemId: -1,
-                            Name: mapItem.name,
-                            Children: getLayerTree(mapItem.children)
-                        });
-                    } else {
-                        var legend = mapItem.legend,
-                            legendItems = [];
-
-                        for (var j = 0, length = legend.length; j < length; j++) {
-                            legendItems.push({
-                                Type: 2,
-                                ServiceFullName: mapItem.parentName,
-                                Name: legend[j].label,
-                                LegendItemId: j,
-                                LayerId: legend[j].label ? undefined : mapItem.layerId,
-                                Children: []
-                            });
-                        }
-
-                        tree.push({
-                            LayerId: -1,
-                            LegendItemId: -1,
-                            Name: mapItem.name,
-                            Children: legendItems
-                        });
-                    }
-                }
-            }
-        }
-
-        return tree;
-    }
-
-    function hasLegend(mapItem) {
-        if (mapItem instanceof sGis.mapItem.DynamicServiceLayer) {
-            var legend = mapItem.legend;
-            if (legend && legend.length > 0) {
-                return true;
-            }
-        }
-
-        var children = mapItem.getChildren();
-        for (var i = 0, len = children.length; i < len; i++) {
-            if (hasLegend(children[i])) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     return Printer;
 });
@@ -17753,7 +17925,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-sGis.module('spatialProcessor.Project', ['utils'], function (utils) {
+sGis.module('sp.Project', ['utils'], function (utils) {
 
     'use strict';
 
@@ -17775,7 +17947,7 @@ sGis.module('spatialProcessor.Project', ['utils'], function (utils) {
                 var _this = this;
 
                 this._isLoading = true;
-                this._api.operation('projects/load', { name: name }).then(function (response) {
+                return this._api.operation('projects/load', { name: name }).then(function (response) {
                     _this._isLoading = false;
                     _this._name = name;
                     _this.alias = response.alias;
@@ -17822,12 +17994,13 @@ sGis.module('spatialProcessor.Project', ['utils'], function (utils) {
             }
         }, {
             key: 'save',
-            value: function save() {
+            value: function save(isShared) {
                 var operation = this._isLoaded ? 'projects/update' : 'projects/create';
                 return this._api.operation(operation, {
                     name: this.name,
                     alias: this.alias,
-                    description: this.description
+                    description: this.description,
+                    isShared: !!isShared
                 }, JSON.stringify(this._data));
             }
         }, {
@@ -17864,32 +18037,263 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-sGis.module('SpatialProcessor', ['utils', 'Point', 'Map', 'painter.DomPainter', 'spatialProcessor.Connector', 'spatialProcessor.LayerManager', 'spatialProcessor.DataAccessService', 'EventHandler', 'spatialProcessor.ControllerManager', 'spatialProcessor.Project', 'spatialProcessor.services.MapService'], function (utils, Point, Map, DomRenderer, Connector, LayerManager, DataAccessService, EventHandler, ControllerManager, Project, MapService) {
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('sp.ServiceGroup', ['utils', 'LayerGroup', 'EventHandler'], function (utils, LayerGroup, EventHandler) {
+    'use strict';
+
+    var ServiceGroup = function (_EventHandler) {
+        _inherits(ServiceGroup, _EventHandler);
+
+        function ServiceGroup(name) {
+            var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+            _classCallCheck(this, ServiceGroup);
+
+            var _this = _possibleConstructorReturn(this, (ServiceGroup.__proto__ || Object.getPrototypeOf(ServiceGroup)).call(this));
+
+            _this._name = name;
+            _this._children = options.children || [];
+
+            _this.alias = options.alias;
+
+            _this._isDisplayed = true;
+            _this._layer = new LayerGroup();
+
+            _this._forwardEvent = _this.forwardEvent.bind(_this);
+            _this._onStateUpdate = _this._onStateUpdate.bind(_this);
+
+            _this._children.forEach(function (container) {
+                return _this._setListeners(container);
+            });
+            return _this;
+        }
+
+        _createClass(ServiceGroup, [{
+            key: 'insertService',
+            value: function insertService(container) {
+                var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
+
+                if (index < 0 || index > this._children.length) index = this._children.length;
+
+                var currIndex = this._children.indexOf(container);
+                if (currIndex >= 0) {
+                    if (currIndex === index || currIndex + 1 === index) return;
+                    this._children.splice(currIndex, 1);
+                    if (index > currIndex) index--;
+                }
+
+                this._children.splice(index, 0, container);
+                this._updateChildLayers();
+
+                if (currIndex === -1) this._setListeners(container);
+                this.fire('contentChange');
+            }
+        }, {
+            key: '_setListeners',
+            value: function _setListeners(container) {
+                container.on('stateUpdate', this._onStateUpdate);
+            }
+        }, {
+            key: '_removeListeners',
+            value: function _removeListeners(container) {
+                container.off('stateUpdate', this._onStateUpdate);
+            }
+        }, {
+            key: '_onStateUpdate',
+            value: function _onStateUpdate(e) {
+                this._updateChildLayers();
+                this._forwardEvent(e);
+            }
+        }, {
+            key: 'removeService',
+            value: function removeService(container) {
+                var index = this._children.indexOf(container);
+                if (index === -1) utils.error('Service is not in the group.');
+
+                this._children.splice(index, 1);
+                this._updateChildLayers();
+                this._removeListeners(container);
+                this.fire('contentChange');
+            }
+        }, {
+            key: '_updateChildLayers',
+            value: function _updateChildLayers() {
+                var _this2 = this;
+
+                var layers = this._children.filter(function (container) {
+                    return container.service && container.service.layer;
+                }).map(function (container) {
+                    return container.service.layer;
+                });
+
+                layers.forEach(function (layer, index) {
+                    if (_this2._layer.layers[index] !== layer) _this2._layer.insertLayer(layer, index);
+                });
+
+                while (this._layer.layers.length > layers.length) {
+                    this._layer.removeLayer(this._layer.layers[this._layer.layers.length - 1]);
+                }
+            }
+        }, {
+            key: 'getService',
+            value: function getService(serviceName) {
+                var recurse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+                var container = this.getServiceContainer(serviceName, recurse);
+                return container && container.service || null;
+            }
+        }, {
+            key: 'getServiceContainer',
+            value: function getServiceContainer(serviceName) {
+                var recurse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+                if (!serviceName) return null;
+
+                for (var i = 0; i < this._children.length; i++) {
+                    if (this._children[i].name === serviceName || this._children[i].localName === serviceName) return this._children[i];
+                    if (recurse && this._children[i].service && this._children[i].service.children) {
+                        var found = this._children[i].service.getServiceContainer(serviceName, true);
+                        if (found) return found;
+                    }
+                }
+
+                return null;
+            }
+        }, {
+            key: 'getServices',
+            value: function getServices(recurse) {
+                var children = [];
+                this._children.forEach(function (c) {
+                    if (!c.service) return;
+                    children.push(c.service);
+                    if (recurse && c.service.getServices) children = children.concat(c.service.getServices(true));
+                });
+
+                return children;
+            }
+        }, {
+            key: 'getDisplayedServices',
+            value: function getDisplayedServices() {
+                var recurse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+                return this.getServices(recurse).filter(function (s) {
+                    return s.layer && s.isDisplayed && !(s.layer instanceof LayerGroup);
+                });
+            }
+        }, {
+            key: 'contains',
+            value: function contains(container) {
+                var recurse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+                var isContain = false;
+                this._children.forEach(function (child) {
+                    if (child === container || recurse && child.service && child.service.children && child.service.contains(container)) {
+                        isContain = true;
+                    }
+                });
+
+                return isContain;
+            }
+        }, {
+            key: 'getParent',
+            value: function getParent(container) {
+                if (this._children.includes(container)) return this;
+                var groups = this.children.filter(function (x) {
+                    return x.service && x.service instanceof ServiceGroup;
+                });
+                for (var i = 0; i < groups.length; i++) {
+                    var parent = groups[i].service.getParent(container);
+                    if (parent) return parent;
+                }
+                return null;
+            }
+        }, {
+            key: 'name',
+            get: function get() {
+                return this._name;
+            }
+        }, {
+            key: 'layer',
+            get: function get() {
+                return this._layer;
+            }
+        }, {
+            key: 'children',
+            get: function get() {
+                return this._children;
+            }
+        }, {
+            key: 'isDisplayed',
+            get: function get() {
+                return this._layer.isDisplayed;
+            },
+            set: function set(bool) {
+                if (this._layer.isDisplayed !== bool) {
+                    this._layer.isDisplayed = bool;
+                    this.fire('visibilityChange');
+                }
+            }
+        }]);
+
+        return ServiceGroup;
+    }(EventHandler);
+
+    return ServiceGroup;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+sGis.module('SpatialProcessor', ['utils', 'Point', 'Map', 'painter.DomPainter', 'sp.Connector', 'sp.LayerManager', 'sp.controllers.DataAccessService', 'EventHandler', 'sp.ControllerManager', 'sp.Project', 'sp.services.MapService', 'sp.services.ServiceContainer', 'sp.services.TileService'], function (utils, Point, Map, DomRenderer, Connector, LayerManager, DataAccessService, EventHandler, ControllerManager, Project, MapService, ServiceContainer, TileService) {
     'use strict';
 
     var SpatialProcessor = function () {
         function SpatialProcessor(properties) {
             _classCallCheck(this, SpatialProcessor);
 
-            if (properties.sessionId) {
-                this._connector = new Connector(properties.url, properties.sessionId);
+            var sessionId = properties.sessionId,
+                url = properties.url,
+                login = properties.login,
+                password = properties.password,
+                position = properties.position,
+                resolution = properties.resolution,
+                mapWrapper = properties.mapWrapper,
+                services = properties.services,
+                projectName = properties.projectName,
+                baseService = properties.baseService,
+                centerPoint = properties.centerPoint,
+                authServiceUrl = properties.authServiceUrl;
+
+
+            if (!authServiceUrl) authServiceUrl = this._guessAuthServiceUrl(url);
+
+            if (sessionId) {
+                this._connector = new Connector(url, authServiceUrl, { sessionId: sessionId });
             } else {
-                this._connector = new Connector(properties.url, properties.login, properties.password);
+                this._connector = new Connector(url, authServiceUrl, { login: login, password: password });
             }
 
-            this._map = new Map({ position: properties.position, resolution: properties.resolution });
+            this._map = new Map();
+            this._painter = new DomRenderer(this._map);
+
+            if (!baseService) this._initMapParams({ position: position, resolution: resolution, mapWrapper: mapWrapper, centerPoint: centerPoint });
+
             this.api = this._connector.api;
-            this._painter = new DomRenderer(this._map, { wrapper: properties.mapWrapper });
-            this.layerManager = new LayerManager(this.connector, this.map, this.api, this._painter);
+            this.layerManager = new LayerManager(this.connector, this.map);
             this.controllerManager = new ControllerManager(this.connector, this.map);
             this._login = properties.login;
 
             this.project = new Project(this.api);
 
-            if (this._connector.sessionId || !properties.login) {
-                this._init(properties);
+            if (this._connector.sessionId || !login) {
+                this._init({ services: services, projectName: projectName, baseService: baseService, position: position, resolution: resolution, mapWrapper: mapWrapper, centerPoint: centerPoint });
             } else {
-                this._connector.once('sessionInitialized', this._init.bind(this, properties));
+                this._connector.once('sessionInitialized', this._init.bind(this, { services: services, projectName: projectName, baseService: baseService, position: position, resolution: resolution, mapWrapper: mapWrapper, centerPoint: centerPoint }));
             }
 
             this._dataAccessService = new DataAccessService(this._connector, 'DataAccess');
@@ -17897,14 +18301,27 @@ sGis.module('SpatialProcessor', ['utils', 'Point', 'Map', 'painter.DomPainter', 
 
         _createClass(SpatialProcessor, [{
             key: '_init',
-            value: function _init(properties) {
-                this.layerManager.init(properties.services);
+            value: function _init(_ref) {
+                var services = _ref.services,
+                    projectName = _ref.projectName,
+                    baseService = _ref.baseService,
+                    position = _ref.position,
+                    resolution = _ref.resolution,
+                    mapWrapper = _ref.mapWrapper,
+                    centerPoint = _ref.centerPoint;
+
+                if (baseService) {
+                    this._baseServiceContainer = new ServiceContainer(this._connector, baseService);
+                    this._baseServiceContainer.once('stateUpdate', this._onBaseServiceInit.bind(this, { position: position, resolution: resolution, mapWrapper: mapWrapper, centerPoint: centerPoint }));
+                }
+
+                this.layerManager.init(services);
 
                 this.project.setContext('map', this._map);
                 this.project.setContext('layerManager', this.layerManager);
 
-                if (properties.projectName) {
-                    this.project.load(properties.projectName);
+                if (projectName) {
+                    this.project.load(projectName);
                 }
             }
         }, {
@@ -17912,6 +18329,43 @@ sGis.module('SpatialProcessor', ['utils', 'Point', 'Map', 'painter.DomPainter', 
             value: function kill() {
                 if (this._connector) this._connector.cancelNotificationRequest();
                 this._map.wrapper = null;
+            }
+        }, {
+            key: '_initMapParams',
+            value: function _initMapParams(_ref2) {
+                var position = _ref2.position,
+                    resolution = _ref2.resolution,
+                    mapWrapper = _ref2.mapWrapper,
+                    centerPoint = _ref2.centerPoint;
+
+                if (position) {
+                    this._map.position = position;
+                } else if (centerPoint) {
+                    this._map.centerPoint = centerPoint;
+                }
+
+                if (resolution) this._map.resolution = resolution;
+                if (mapWrapper) this._painter.wrapper = mapWrapper;
+            }
+        }, {
+            key: '_onBaseServiceInit',
+            value: function _onBaseServiceInit(params) {
+                if (!this._baseServiceContainer.service) {
+                    console.error('Base service initialization failed. Error: ' + this._baseServiceContainer.error);
+                } else if (!(this._baseServiceContainer.service instanceof TileService)) {
+                    console.error('Base service must be a tile service, but loaded service does not support tile rendering.');
+                } else {
+                    this._map.crs = this.baseService.crs;
+                    this._map.tileScheme = this.baseService.tileScheme;
+                    this._map.insertLayer(this.baseService.layer, 0);
+                }
+
+                this._initMapParams(params);
+            }
+        }, {
+            key: '_guessAuthServiceUrl',
+            value: function _guessAuthServiceUrl(spUrl) {
+                return spUrl.replace('SpatialProcessor/IIS/', 'Strategis.Server.Authorization/Authorize.svc/Login');
             }
         }, {
             key: 'map',
@@ -17938,21 +18392,26 @@ sGis.module('SpatialProcessor', ['utils', 'Point', 'Map', 'painter.DomPainter', 
             get: function get() {
                 return this._dataAccessService;
             }
+        }, {
+            key: 'baseService',
+            get: function get() {
+                return this._baseServiceContainer && this._baseServiceContainer.service;
+            }
         }]);
 
         return SpatialProcessor;
     }();
 
-    Project.registerCustomDataItem('map', function (_ref) {
-        var map = _ref.map;
+    Project.registerCustomDataItem('map', function (_ref3) {
+        var map = _ref3.map;
 
         if (!map) return;
         return { position: map.position, resolution: map.resolution, crsCode: MapService.serializeCrs(map.crs) };
-    }, function (_ref2, _ref3) {
-        var position = _ref2.position,
-            resolution = _ref2.resolution,
-            crsCode = _ref2.crsCode;
-        var map = _ref3.map;
+    }, function (_ref4, _ref5) {
+        var position = _ref4.position,
+            resolution = _ref4.resolution,
+            crsCode = _ref4.crsCode;
+        var map = _ref5.map;
 
         if (!map) return;
         if (crsCode) map.crs = MapService.parseCrs(crsCode);
@@ -17960,14 +18419,16 @@ sGis.module('SpatialProcessor', ['utils', 'Point', 'Map', 'painter.DomPainter', 
         if (resolution) map.resolution = resolution;
     });
 
-    SpatialProcessor.version = "0.2.3";
-    SpatialProcessor.releaseDate = "30.01.2017";
+    SpatialProcessor.version = "0.2.4";
+    SpatialProcessor.releaseDate = "06.03.2017";
+
+    sGis.spatialProcessor = sGis.sp;
 
     return SpatialProcessor;
 });
 'use strict';
 
-sGis.module('spatialProcessor.utils', ['utils'], function (utils) {
+sGis.module('sp.utils', ['utils'], function (utils) {
     'use strict';
 
     sGis.utils.parseXmlJsonNode = function (node) {
@@ -18056,16 +18517,1058 @@ sGis.module('spatialProcessor.utils', ['utils'], function (utils) {
         return newArray;
     };
 
-    return {};
+    return utils;
+});
+'use strict';
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('sp.controllers.Controller', ['sp.utils', 'sp.controllers.DataAccessBase'], function (utils, DataAccessBase) {
+    'use strict';
+
+    var Controller = function (_DataAccessBase) {
+        _inherits(Controller, _DataAccessBase);
+
+        function Controller(type, connector) {
+            var properties = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+            _classCallCheck(this, Controller);
+
+            var _this = _possibleConstructorReturn(this, (Controller.__proto__ || Object.getPrototypeOf(Controller)).call(this, connector));
+
+            Object.assign(_this, properties);
+
+            _this._type = type;
+            _this._initialize();
+            return _this;
+        }
+
+        _createClass(Controller, [{
+            key: '_initialize',
+            value: function _initialize() {
+                var _this2 = this;
+
+                if (this.connector.sessionId) {
+                    this.init(this._createController());
+                    return;
+                }
+
+                this.init(new Promise(function (resolve, reject) {
+                    _this2.connector.on('sessionInitialized', function () {
+                        _this2._createController().then(resolve).catch(reject);
+                    });
+                }));
+            }
+        }, {
+            key: '_createController',
+            value: function _createController() {
+                var _this3 = this;
+
+                return utils.ajaxp({
+                    url: '' + this._connector.url + this.controllerServiceName + '/?_sb=' + this._connector.sessionId,
+                    type: 'POST',
+                    data: 'create=' + this._type
+                }).then(function (_ref) {
+                    var _ref2 = _slicedToArray(_ref, 3),
+                        response = _ref2[0],
+                        status = _ref2[1],
+                        reject = _ref2[2];
+
+                    _this3._initData = JSON.parse(response);
+                    var ServiceId = _this3._initData.ServiceId;
+                    if (!ServiceId) throw new Error('Server did not return controller id');
+                    _this3._id = ServiceId;
+
+                    return _this3.name;
+                });
+            }
+        }, {
+            key: 'remove',
+            value: function remove() {
+                Promise.reject(this.initializationPromise);
+                if (!this._id) return;
+
+                return utils.axajp({
+                    url: '' + this._connector.url + this.controllerServiceName + '/?_sb=' + this._connector.sessionId,
+                    type: 'POST',
+                    data: 'delete=' + this._id
+                });
+            }
+        }, {
+            key: 'name',
+            get: function get() {
+                return this.controllerServiceName + '/' + this._id;
+            }
+        }, {
+            key: 'type',
+            get: function get() {
+                return this._type;
+            }
+        }, {
+            key: 'initData',
+            get: function get() {
+                return this._initData;
+            }
+        }]);
+
+        return Controller;
+    }(DataAccessBase);
+
+    Controller.prototype.controllerServiceName = 'ControllerService';
+
+    return Controller;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('sp.controllers.DataAccessBase', ['EventHandler', 'sp.DataOperation', 'sp.serializers.xmlSerializer'], function (EventHandler, DataOperation, xmlSerializer) {
+    'use strict';
+
+    var DataAccessBase = function (_EventHandler) {
+        _inherits(DataAccessBase, _EventHandler);
+
+        function DataAccessBase(connector) {
+            _classCallCheck(this, DataAccessBase);
+
+            var _this = _possibleConstructorReturn(this, (DataAccessBase.__proto__ || Object.getPrototypeOf(DataAccessBase)).call(this));
+
+            _this._connector = connector;
+            return _this;
+        }
+
+        _createClass(DataAccessBase, [{
+            key: 'init',
+            value: function init(initializationPromise) {
+                var _this2 = this;
+
+                this.initializationPromise = initializationPromise.then(function (name) {
+                    return _this2._name = name;
+                });
+            }
+        }, {
+            key: 'operation',
+            value: function operation(operationName, params) {
+                var expectsFeatures = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+                var operation = new DataOperation(this._connector, this, operationName, params);
+                if (expectsFeatures) {
+                    return operation.then(function (response) {
+                        return xmlSerializer.deserializeFeatures(response);
+                    });
+                }
+                return operation;
+            }
+        }, {
+            key: 'name',
+            get: function get() {
+                return this._name;
+            }
+        }, {
+            key: 'connector',
+            get: function get() {
+                return this._connector;
+            }
+        }]);
+
+        return DataAccessBase;
+    }(EventHandler);
+
+    return DataAccessBase;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('sp.controllers.DataAccessService', ['sp.controllers.DataAccessBase', 'sp.serializers.JsonSerializer', 'sp.serializers.xmlSerializer'], function (DataAccessBase, JsonSerializer, xmlSerializer) {
+    'use strict';
+
+    var DataAccessService = function (_DataAccessBase) {
+        _inherits(DataAccessService, _DataAccessBase);
+
+        function DataAccessService(connector, _ref) {
+            var _ref$serviceName = _ref.serviceName,
+                serviceName = _ref$serviceName === undefined ? 'DataAccess' : _ref$serviceName;
+
+            _classCallCheck(this, DataAccessService);
+
+            var _this = _possibleConstructorReturn(this, (DataAccessService.__proto__ || Object.getPrototypeOf(DataAccessService)).call(this, connector, serviceName));
+
+            _this.init(new Promise(function (resolve) {
+                return resolve(serviceName);
+            }));
+            return _this;
+        }
+
+        _createClass(DataAccessService, [{
+            key: 'queryById',
+            value: function queryById(properties) {
+                var serviceName = properties.serviceName,
+                    objectIds = properties.objectIds;
+
+                return this.operation('queryById', { serviceName: serviceName, objectIds: objectIds }, true);
+            }
+        }, {
+            key: 'queryByGeometry',
+            value: function queryByGeometry(properties) {
+                var serviceName = properties.serviceName,
+                    geometry = properties.geometry,
+                    resolution = properties.resolution;
+
+                var serialized = JsonSerializer.serializeGeometry(geometry);
+                return this.operation('queryByGeometry', { serviceName: serviceName, geometry: serialized, resolution: resolution }, true);
+            }
+        }, {
+            key: 'updateFeatures',
+            value: function updateFeatures(properties) {
+                var features = properties.features,
+                    serviceName = properties.serviceName;
+
+                var serialized = xmlSerializer.serializeGeometryEdit({ updated: features }, false, true);
+                return this.operation('edit', { action: 'edit', edit: serialized, serviceName: serviceName });
+            }
+        }, {
+            key: 'saveEdit',
+            value: function saveEdit(properties) {
+                var added = properties.added,
+                    updated = properties.updated,
+                    serviceName = properties.serviceName;
+
+                var serialized = xmlSerializer.serializeGeometryEdit({ added: added, updated: updated }, false, true);
+                return this.operation('edit', { action: 'edit', edit: serialized, serviceName: serviceName });
+            }
+        }, {
+            key: 'deleteFeatures',
+            value: function deleteFeatures(properties) {
+                var ids = properties.ids,
+                    serviceName = properties.serviceName;
+
+                var serialized = xmlSerializer.serializeGeometryEdit({ deleted: ids }, false, true);
+                return this.operation('edit', { action: 'edit', edit: serialized, serviceName: serviceName });
+            }
+        }, {
+            key: 'createFeature',
+            value: function createFeature(properties) {
+                var serviceName = properties.serviceName,
+                    geometry = properties.geometry,
+                    _properties$attribute = properties.attributes,
+                    attributes = _properties$attribute === undefined ? null : _properties$attribute;
+
+                var serialized = JsonSerializer.serializeGeometry(geometry);
+                return this.operation('createVisualObject', { geometry: serialized, serviceName: serviceName, attributes: attributes });
+            }
+        }, {
+            key: 'autoComplete',
+            value: function autoComplete(properties) {
+                var serviceName = properties.serviceName,
+                    line = properties.line,
+                    ids = properties.ids;
+
+                var serialized = JsonSerializer.serializeGeometry(line);
+                return this.operation('autoComplete', { serviceName: serviceName, line: [serialized], ids: ids });
+            }
+        }, {
+            key: 'reshape',
+            value: function reshape(properties) {
+                var serviceName = properties.serviceName,
+                    line = properties.line,
+                    ids = properties.ids;
+
+                var serialized = JsonSerializer.serializeGeometry(line);
+                return this.operation('reshape', { serviceName: serviceName, line: [serialized], ids: ids });
+            }
+        }, {
+            key: 'cut',
+            value: function cut(properties) {
+                var serviceName = properties.serviceName,
+                    line = properties.line,
+                    ids = properties.ids;
+
+                var serialized = JsonSerializer.serializeGeometry(line);
+                return this.operation('cut', { serviceName: serviceName, line: [serialized], ids: ids });
+            }
+        }, {
+            key: 'projectGeometry',
+            value: function projectGeometry(properties) {
+                var features = properties.features,
+                    sourceSr = properties.sourceSr,
+                    destinationSr = properties.destinationSr;
+
+                var geometry = features.map(function (x) {
+                    return { rings: x.rings };
+                });
+                return this.operation('gcProject', { sourceGeom: geometry, sourceSr: sourceSr, destSr: destinationSr });
+            }
+        }, {
+            key: 'getScalarValue',
+            value: function getScalarValue(properties) {
+                var serviceName = properties.serviceName,
+                    query = properties.query;
+
+                return this.operation('selectScalarValue', { serviceName: serviceName, query: query });
+            }
+        }, {
+            key: 'copyFeatures',
+            value: function copyFeatures(properties) {
+                var sourceServiceName = properties.sourceServiceName,
+                    targetServiceName = properties.targetServiceName,
+                    _properties$objectIds = properties.objectIds,
+                    objectIds = _properties$objectIds === undefined ? null : _properties$objectIds;
+
+                return this.operation('copy', { sourceServiceName: sourceServiceName, targetServiceName: targetServiceName, objectIds: objectIds });
+            }
+        }, {
+            key: 'aggregate',
+            value: function aggregate(properties) {
+                var geometrySourceServiceName = properties.geometrySourceServiceName,
+                    dataSourceServiceName = properties.dataSourceServiceName,
+                    targetServiceName = properties.targetServiceName,
+                    aggregations = properties.aggregations;
+
+                return this.operation('aggregate', { geometrySourceServiceName: geometrySourceServiceName, dataSourceServiceName: dataSourceServiceName, targetServiceName: targetServiceName, aggregations: aggregations });
+            }
+        }, {
+            key: 'batchEdit',
+            value: function batchEdit(properties) {
+                var serviceName = properties.serviceName,
+                    attribute = properties.attribute,
+                    expression = properties.expression,
+                    condition = properties.condition;
+
+                return this.operation('batchFuncEdit', { serviceName: serviceName, attribute: attribute, expression: expression, condition: condition });
+            }
+        }, {
+            key: 'geocode',
+            value: function geocode(properties) {
+                var query = properties.query,
+                    crs = properties.crs,
+                    providers = properties.providers;
+
+                return this.operation('geocode', { query: query, crs: crs.description, providers: providers });
+            }
+        }, {
+            key: 'calculateBuffers',
+            value: function calculateBuffers(properties) {
+                var distances = properties.distances,
+                    _properties$unionResu = properties.unionResults,
+                    unionResults = _properties$unionResu === undefined ? false : _properties$unionResu,
+                    _properties$subtractO = properties.subtractObject,
+                    subtractObject = _properties$subtractO === undefined ? false : _properties$subtractO,
+                    _properties$processDe = properties.processDelay,
+                    processDelay = _properties$processDe === undefined ? null : _properties$processDe,
+                    _properties$subtractI = properties.subtractInnerBuffer,
+                    subtractInnerBuffer = _properties$subtractI === undefined ? false : _properties$subtractI,
+                    sourceServiceName = properties.sourceServiceName,
+                    targetServiceName = properties.targetServiceName;
+
+                return this.operation('buffer', { distances: distances, unionResults: unionResults, subtractInnerBuffer: subtractInnerBuffer, subtractObject: subtractObject, processDelay: processDelay, sourceServiceName: sourceServiceName, targetServiceName: targetServiceName });
+            }
+        }, {
+            key: 'buildIsochroneByStorage',
+            value: function buildIsochroneByStorage(properties) {
+                var duration = properties.duration,
+                    solver = properties.solver,
+                    sourceServiceName = properties.sourceServiceName,
+                    targetServiceName = properties.targetServiceName,
+                    _properties$resolutio = properties.resolutionK,
+                    resolutionK = _properties$resolutio === undefined ? null : _properties$resolutio,
+                    _properties$uniteResu = properties.uniteResults,
+                    uniteResults = _properties$uniteResu === undefined ? false : _properties$uniteResu;
+
+                return this.operation('isochroneByStorage', { duration: duration, solver: solver, sourceServiceName: sourceServiceName, targetServiceName: targetServiceName, resolutionK: resolutionK, uniteResults: uniteResults });
+            }
+        }]);
+
+        return DataAccessService;
+    }(DataAccessBase);
+
+    return DataAccessService;
+});
+'use strict';
+
+sGis.module('sp.controller.DitIntegration', ['sp.Controller'], function (Controller) {
+    'use strict';
+
+    var DitIntegration = function DitIntegration(spatialProcessor, options) {
+        this._map = options.map;
+
+        var self = this;
+        this.__initialize(spatialProcessor, {}, function () {
+            self._mapServer = options.sp.addService('VisualObjectsRendering/' + this._mapServiceId);
+            self._layer = self._mapServer;
+
+            self.initialized = true;
+            self.fire('initialize');
+        });
+    };
+
+    DitIntegration.prototype = new sGis.sp.Controller({
+        _type: 'integrationLayer',
+
+        loadLayerData: function loadLayerData(properties) {
+            this.__operation(function () {
+                return {
+                    operation: 'loadLayerData',
+                    dataParameters: 'layerId=' + encodeURIComponent(properties.layerId),
+                    success: properties.success,
+                    error: properties.error,
+                    requested: properties.requested
+                };
+            });
+        },
+
+        disintegrate: function disintegrate(properties) {
+            var self = this;
+            this.__operation(function () {
+                var param = 'layerId=' + encodeURIComponent(properties.layerId) + '&moduleId=' + encodeURIComponent(properties.moduleId) + '&shitId=' + encodeURIComponent(properties.queryId);
+                return { operation: 'disintegrate',
+                    dataParameters: param,
+                    requested: properties.requested,
+
+                    success: function success() {
+                        if (properties.success) {
+                            properties.success();
+                        }
+                    },
+                    error: properties.error
+                };
+            });
+        },
+
+        fullyDisintegrate: function fullyDisintegrate(properties) {
+            var self = this;
+            this.__operation(function () {
+                var param = 'layerId=' + encodeURIComponent(properties.layerId) + '&moduleId=' + encodeURIComponent(properties.moduleId) + '&shitId=' + encodeURIComponent(properties.queryId);
+                return { operation: 'fullyDisintegrate',
+                    dataParameters: param,
+                    requested: properties.requested,
+
+                    success: function success() {
+                        if (properties.success) {
+                            properties.success();
+                        }
+                    },
+                    error: properties.error
+                };
+            });
+        }
+    });
+
+    Object.defineProperties(DitIntegration.prototype, {
+        tree: {
+            get: function get() {
+                return this._tree;
+            }
+        },
+
+        isActive: {
+            get: function get() {
+                return this._layer.map === null;
+            }
+        },
+
+        mapServer: {
+            get: function get() {
+                return this._mapServer;
+            }
+        }
+    });
+
+    return DitIntegration;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('sp.controllers.ImportData', ['sp.controllers.Controller', 'sp.ControllerManager'], function (Controller, ControllerManager) {
+    'use strict';
+
+    var ImportData = function (_Controller) {
+        _inherits(ImportData, _Controller);
+
+        function ImportData(connector, properties) {
+            _classCallCheck(this, ImportData);
+
+            return _possibleConstructorReturn(this, (ImportData.__proto__ || Object.getPrototypeOf(ImportData)).call(this, 'importData', connector, properties));
+        }
+
+        _createClass(ImportData, [{
+            key: 'load',
+            value: function load(properties) {
+                var fileId = properties.fileId,
+                    configuration = properties.configuration;
+
+                return this.operation('load', { uploadSlot: fileId, configuration: configuration });
+            }
+        }, {
+            key: 'import',
+            value: function _import(properties) {
+                var serviceName = properties.serviceName,
+                    attributeMapping = properties.attributeMapping,
+                    configuration = properties.configuration;
+
+                return this.operation('import', { serviceName: serviceName, attributeMapping: attributeMapping, configuration: configuration });
+            }
+        }]);
+
+        return ImportData;
+    }(Controller);
+
+    ControllerManager.registerController('importData', ImportData);
+
+    return ImportData;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('sp.controllers.ObjectSelector', ['sp.controllers.ViewableController', 'sp.ControllerManager', 'sp.serializers.JsonSerializer'], function (ViewableController, ControllerManager, JsonSerializer) {
+    'use strict';
+
+    var ObjectSelector = function (_ViewableController) {
+        _inherits(ObjectSelector, _ViewableController);
+
+        function ObjectSelector(connector, properties) {
+            _classCallCheck(this, ObjectSelector);
+
+            var _this = _possibleConstructorReturn(this, (ObjectSelector.__proto__ || Object.getPrototypeOf(ObjectSelector)).call(this, 'objectSelector', connector, properties));
+
+            _this.map = properties.map;
+            _this._setNotificationListener();
+            return _this;
+        }
+
+        _createClass(ObjectSelector, [{
+            key: '_setNotificationListener',
+            value: function _setNotificationListener() {
+                var _this2 = this;
+
+                this.connector.addObjectSelectorListener(function (data) {
+                    _this2.fire('update', { data: data });
+                });
+            }
+        }, {
+            key: 'select',
+            value: function select(properties) {
+                var geometry = properties.geometry,
+                    _properties$mode = properties.mode,
+                    mode = _properties$mode === undefined ? 0 : _properties$mode,
+                    services = properties.services;
+
+                var serialized = JsonSerializer.serializeGeometry(geometry);
+
+                return this.operation('select', { geom: serialized, res: this.map && this.map.resolution, mode: mode, services: services, sr: this.map && this.map.crs.description });
+            }
+        }, {
+            key: 'pickByGeometry',
+            value: function pickByGeometry(properties) {
+                var geometry = properties.geometry,
+                    services = properties.services;
+
+                var serialized = JsonSerializer.serializeGeometry(geometry);
+
+                return this.operation('pick', { geom: serialized, res: this.map && this.map.resolution, services: services, sr: this.map && this.map.crs.description }, true);
+            }
+        }, {
+            key: 'pickById',
+            value: function pickById(properties) {
+                var ids = properties.ids,
+                    serviceName = properties.serviceName,
+                    _properties$mode2 = properties.mode,
+                    mode = _properties$mode2 === undefined ? 0 : _properties$mode2;
+
+                return this.operation('pickById', { ids: [{ ServiceName: serviceName, ObjectIds: ids }], mode: mode }, true);
+            }
+        }, {
+            key: 'selectByStorage',
+            value: function selectByStorage(properties) {
+                var geometryService = properties.geometryService,
+                    services = properties.services,
+                    _properties$mode3 = properties.mode,
+                    mode = _properties$mode3 === undefined ? 0 : _properties$mode3,
+                    _properties$operation = properties.operation,
+                    operation = _properties$operation === undefined ? null : _properties$operation;
+
+                return this.operation('selectByStorage', { geometryService: geometryService, res: this.map && this.map.resolution, services: services, mode: mode, operation: operation });
+            }
+        }, {
+            key: 'search',
+            value: function search(properties) {
+                var string = properties.string,
+                    services = properties.services;
+
+                return this.operation('search', { query: string, services: services });
+            }
+        }, {
+            key: 'clear',
+            value: function clear() {
+                return this.operation('clear', {});
+            }
+        }]);
+
+        return ObjectSelector;
+    }(ViewableController);
+
+    ControllerManager.registerController('objectSelector', ObjectSelector);
+
+    return ObjectSelector;
+});
+'use strict';
+
+sGis.module('sp.controller.Routing', ['sp.Controller', 'sp.ControllerManager'], function (Controller, ControllerManager) {
+    'use strict';
+
+    var Routing = function Routing(connector, options) {
+        this._map = options.map;
+        this.__initialize(connector, { sync: true }, function () {
+            this.initialized = true;
+            this.fire('initialize');
+        });
+    };
+
+    Routing.prototype = new sGis.sp.Controller({
+        _type: 'route',
+
+        buildRoute: function buildRoute(properties) {
+            this.__operation(function () {
+                var startPoint = 'startPoint=' + encodeURIComponent(JSON.stringify({ x: properties.startPoint.x, y: properties.startPoint.y, spatialReference: this._map.crs.getWkidString() }));
+                var endPoint = 'endPoint=' + encodeURIComponent(JSON.stringify({ x: properties.endPoint.x, y: properties.endPoint.y, spatialReference: this._map.crs.getWkidString() }));
+                var sr = 'spatialReference=' + encodeURIComponent(JSON.stringify(this._map.crs.getWkidString()));
+                var solver = 'solver=' + properties.solver;
+                var param = [startPoint, endPoint, sr, solver].join('&');
+                var self = this;
+                return {
+                    operation: 'buildRoute',
+                    dataParameters: param,
+                    success: !properties.success ? undefined : function (response) {
+                        properties.success(self._createFeatures(response, properties.crs || properties.startPoint && properties.startPoint.crs || self._map && self._map.crs));
+                    },
+                    error: properties.error,
+                    requested: properties.requested
+                };
+            });
+        }
+
+    });
+
+    ControllerManager.registerController('routing', Routing);
+
+    return Routing;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('sp.controllers.TempView', ['sp.controllers.ViewableController', 'sp.ControllerManager', 'sp.services.ServiceContainer'], function (ViewableController, ControllerManager, ServiceContainer) {
+    'use strict';
+
+    var TempView = function (_ViewableController) {
+        _inherits(TempView, _ViewableController);
+
+        function TempView(connector, localName) {
+            _classCallCheck(this, TempView);
+
+            var _this = _possibleConstructorReturn(this, (TempView.__proto__ || Object.getPrototypeOf(TempView)).call(this, 'tempView', connector));
+
+            _this._localName = localName;
+            return _this;
+        }
+
+        _createClass(TempView, [{
+            key: 'resetView',
+            value: function resetView(properties) {
+                var sourceServiceName = properties.sourceServiceName;
+
+                return this.operation('resetView', { sourceServiceName: sourceServiceName }).then(this.updateView.bind(this));
+            }
+        }]);
+
+        return TempView;
+    }(ViewableController);
+
+    ControllerManager.registerController('tempView', TempView);
+
+    return TempView;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('sp.controllers.ViewableController', ['sp.controllers.Controller', 'sp.services.ServiceContainer'], function (Controller, ServiceContainer) {
+    'use strict';
+
+    var ViewableController = function (_Controller) {
+        _inherits(ViewableController, _Controller);
+
+        function ViewableController(type, connector, properties) {
+            _classCallCheck(this, ViewableController);
+
+            var _this = _possibleConstructorReturn(this, (ViewableController.__proto__ || Object.getPrototypeOf(ViewableController)).call(this, type, connector, properties));
+
+            _this.initializationPromise.then(_this._checkInitialization.bind(_this));
+            return _this;
+        }
+
+        _createClass(ViewableController, [{
+            key: '_checkInitialization',
+            value: function _checkInitialization() {
+                if (!this.initData.DataViewServiceName) throw new Error('Controller ' + this.type + ' initialization failed: server did not return view name.');
+            }
+        }, {
+            key: 'updateView',
+            value: function updateView() {
+                var _this2 = this;
+
+                return new Promise(function (resolve, reject) {
+                    _this2.initializationPromise.then(function () {
+                        var viewName = _this2.initData.DataViewServiceName;
+                        var container = new ServiceContainer(_this2.connector, viewName);
+
+                        container.once('stateUpdate', function () {
+                            if (container.service && container.service.layer) {
+                                _this2._service = container.service;
+                                resolve();
+                            } else {
+                                reject('Controller ' + _this2.type + ' update failed: failed to update view.');
+                            }
+                        });
+                    });
+                });
+            }
+        }, {
+            key: 'service',
+            get: function get() {
+                return this._service;
+            }
+        }]);
+
+        return ViewableController;
+    }(Controller);
+
+    return ViewableController;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('sp.layers.DataViewLayer', ['Layer', 'sp.ClusterLayer', 'DynamicLayer', 'sp.ClusterSymbol'], function (Layer, ClusterLayer, DynamicLayer, ClusterSymbol) {
+
+    'use strict';
+
+    var DataViewLayer = function (_Layer) {
+        _inherits(DataViewLayer, _Layer);
+
+        function DataViewLayer(service) {
+            _classCallCheck(this, DataViewLayer);
+
+            var _this = _possibleConstructorReturn(this, (DataViewLayer.__proto__ || Object.getPrototypeOf(DataViewLayer)).call(this));
+
+            _this._service = service;
+
+            _this._dynamicLayer = new DynamicLayer(_this.getImageUrl.bind(_this), { crs: service.crs });
+
+            service.on('dataFilterChange', _this._updateDataFilter.bind(_this));
+            _this._updateDataFilter();
+
+            _this.redraw = _this.redraw.bind(_this);
+            return _this;
+        }
+
+        _createClass(DataViewLayer, [{
+            key: '_updateDataFilter',
+            value: function _updateDataFilter() {
+                this._resolutionGroups = [];
+                var filter = this._service.dataFilter;
+
+                if (filter) this._fillResolutionGroups(filter);
+            }
+        }, {
+            key: '_fillResolutionGroups',
+            value: function _fillResolutionGroups(filter) {
+                var _this2 = this;
+
+                if (filter.childFilters && filter.childFilters.length > 0) {
+                    filter.childFilters.forEach(function (x) {
+                        return _this2._fillResolutionGroups(x);
+                    });
+                    return;
+                }
+
+                if (filter.symbol && filter.symbol instanceof ClusterSymbol) {
+                    var layer = new ClusterLayer(this._service.url, this._service.connector.sessionId, filter.symbol);
+                    layer.aggregationParameters = [{ filters: filter.condition, aggregations: filter.aggregations && filter.aggregations.join(',') }];
+                    layer.algorithm = 'adjustedGrid';
+                    layer.on('propertyChange', function () {
+                        _this2.redraw();
+                    });
+                    this._resolutionGroups.push({ minResolution: filter.minResolution, maxResolution: filter.maxResolution, layer: layer });
+                } else {
+                    this._resolutionGroups.push({ minResolution: filter.minResolution, maxResolution: filter.maxResolution, layer: this._dynamicLayer });
+                }
+            }
+        }, {
+            key: 'getFeatures',
+            value: function getFeatures(bbox, resolution) {
+                if (!this.checkVisibility(resolution)) return [];
+
+                if (this._resolutionGroups.length === 0) return this._dynamicLayer.getFeatures(bbox, resolution);
+
+                var dynamicLayerUsed = false;
+                var features = [];
+                this._resolutionGroups.forEach(function (group) {
+                    if (group.minResolution > 0 && group.minResolution > resolution || group.maxResolution > 0 && group.maxResolution < resolution) return;
+
+                    features = features.concat(group.layer.getFeatures(bbox, resolution));
+                });
+
+                return features;
+            }
+        }, {
+            key: 'getImageUrl',
+            value: function getImageUrl(bbox, resolution) {
+                var imgWidth = Math.round((bbox.xMax - bbox.xMin) / resolution);
+                var imgHeight = Math.round((bbox.yMax - bbox.yMin) / resolution);
+                var sr = encodeURIComponent(bbox.crs.wkid || JSON.stringify(bbox.crs.description));
+
+                return this._service.url + 'export?' + 'dpi=96&' + 'transparent=true&' + 'bbox=' + bbox.xMin + '%2C' + bbox.yMin + '%2C' + bbox.xMax + '%2C' + bbox.yMax + '&' + 'bboxSR=' + sr + '&' + 'imageSR=' + sr + '&' + 'size=' + imgWidth + '%2C' + imgHeight + '&' + 'f=image' + this._service.connector.sessionSuffix;
+            }
+        }, {
+            key: 'forceUpdate',
+            value: function forceUpdate() {
+                this._dynamicLayer.forceUpdate();
+            }
+        }, {
+            key: 'opacity',
+            get: function get() {
+                return this._dynamicLayer.opacity;
+            },
+            set: function set(opacity) {
+                this._dynamicLayer.opacity = opacity;
+                this.fire('propertyChange', { property: 'opacity' });
+            }
+        }]);
+
+        return DataViewLayer;
+    }(Layer);
+
+    DataViewLayer.prototype.delayedUpdate = true;
+
+    return DataViewLayer;
+});
+'use strict';
+
+sGis.module('sp.serializers.JsonSerializer', ['utils', 'feature.Point', 'feature.Polyline', 'feature.Polygon', 'symbol.point.Point', 'symbol.polyline.Simple', 'symbol.polygon.Simple'], function (utils, Point, Polyline, Polygon, PointSymbol, PolylineSymbol, PolygonSymbol) {
+
+    var geometryTypeMap = { 'point': Point, 'polyline': Polyline, 'polygon': Polygon };
+
+    var defaultSymbols = {
+        'point': new PointSymbol({ fillColor: 'transparent' }),
+        'polyline': new PolylineSymbol({ strokeColor: 'transparent' }),
+        'polygon': new PolygonSymbol({ strokeColor: 'transparent' })
+    };
+
+    return {
+        serializeGeometry: function serializeGeometry(geometry) {
+            var crs = geometry.crs;
+            if (geometry instanceof sGis.feature.Polygon) {
+                return { rings: geometry.coordinates, spatialReference: crs && crs.getWkidString() };
+            } else if (geometry instanceof sGis.feature.Point || geometry instanceof sGis.Point) {
+                return { x: geometry.x, y: geometry.y, spatialReference: crs && crs.getWkidString() };
+            } else if (geometry instanceof sGis.feature.Polyline) {
+                return { paths: geometry.coordinates, spatialReference: crs && crs.getWkidString() };
+            } else if (geometry instanceof sGis.Bbox) {
+                return { xmin: geometry.xMin, xmax: geometry.xMax, ymin: geometry.yMin, ymax: geometry.yMax, spatialReference: crs && crs.getWkidString() };
+            } else {
+                utils.error('Unknown geometry type');
+            }
+        },
+        deserializeFeature: function deserializeFeature(obj, crs) {
+            var Constructor = geometryTypeMap[obj.geometryType];
+            if (!Constructor) utils.error('Unknown geometry type');
+
+            return new Constructor(obj.geometry, { crs: crs, attributes: obj.attributes, sourceName: obj.sourceName, id: obj.id, symbol: defaultSymbols[obj.geometryType] });
+        }
+    };
 });
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-sGis.module('spatialProcessor.parseXML', ['feature.Point', 'feature.Polyline', 'feature.Polygon'], function () {
+sGis.module('sp.serializers.xmlSerializer', ['feature.Point', 'feature.Polyline', 'feature.Polygon', 'utils.Color'], function (Point, Polyline, Polygon, Color) {
     'use strict';
 
-    var parseXML = function parseXML(xml) {
+    var xmlSerializer = {};
+
+    xmlSerializer.deserializeFeatures = function (response) {
+        return createFeatures(response);
+    };
+
+    var DEFAULT_VD = {
+        point: {
+            shape: 'Circle',
+            size: 10,
+            fill: '#00000000',
+            color: '#00000000',
+            strokeThickness: 1
+        },
+        polyline: {
+            color: '#00000000',
+            strokeThickness: 1
+        },
+        polygon: {
+            fill: '#00000000',
+            color: '#00000000',
+            strokeThickness: 1
+        }
+    };
+
+    function createFeatures(response) {
+        var features = [];
+        if (response.objects) {
+            for (var i in response.objects) {
+                var object = response.objects[i];
+                var visualDefinition = object.visualDefinition || object.geometry && DEFAULT_VD[object.geometry.data.type];
+                if (object.geometry && visualDefinition) {
+                    var geometry = object.geometry.data,
+                        points = geometry.coordinates,
+                        attributes = object.attributes,
+                        color = visualDefinition.stroke ? parseColor(visualDefinition.stroke) : undefined,
+                        fillColor = visualDefinition.fill ? visualDefinition.fill : undefined;
+
+                    var serverCrs = object.geometry.data.crs;
+                    var crs;
+
+                    if (serverCrs.wkid === 102100 || serverCrs.wkid === 102113) {
+                        crs = sGis.CRS.webMercator;
+                    } else if (serverCrs.wkid === 77) {
+                        crs = new sGis.Crs({ wkid: 77 });
+                    } else {
+                        crs = new sGis.Crs(serverCrs);
+                    }
+
+                    var idAttribute = response.attributesDefinitions[object.attributesDefinition]._identity;
+                    var id = parseInt(object.attributes[idAttribute].value);
+
+                    if (geometry.type === 'polygon') {
+                        var feature = new sGis.feature.Polygon(points, { id: id, attributes: attributes, crs: crs, color: color, width: visualDefinition.strokeThickness });
+                        if (fillColor && fillColor.brush) {
+                            feature.symbol = new sGis.symbol.polygon.BrushFill({
+                                strokeWidth: parseFloat(visualDefinition.strokeThickness),
+                                strokeColor: color,
+                                fillBrush: fillColor.brush,
+                                fillForeground: parseColor(fillColor.foreground),
+                                fillBackground: parseColor(fillColor.background)
+                            });
+                        } else {
+                            feature.symbol = new sGis.symbol.polygon.Simple({
+                                strokeWidth: parseFloat(visualDefinition.strokeThickness),
+                                strokeColor: color,
+                                fillColor: fillColor ? parseColor(fillColor) : 'transparent'
+                            });
+                        }
+                    } else if (geometry.type === 'polyline') {
+                        var _symbol = new sGis.symbol.polyline.Simple({ strokeColor: color, strokeWidth: parseFloat(visualDefinition.strokeThickness) });
+                        feature = new sGis.feature.Polyline(points, { id: id, attributes: attributes, crs: crs, symbol: _symbol });
+                    } else if (geometry.type === 'point' || geometry.type === 'multipoint') {
+                        var symbol;
+
+                        if (visualDefinition.imageSrc) {
+                            symbol = new sGis.symbol.point.Image({
+                                source: visualDefinition.imageSrc,
+                                width: parseFloat(visualDefinition.size),
+                                height: null,
+                                anchorPoint: visualDefinition.anchorPoint
+                            });
+                        } else if (visualDefinition.shape === 'Circle') {
+                            symbol = new sGis.symbol.point.Point({
+                                size: parseFloat(visualDefinition.size),
+                                fillColor: fillColor ? parseColor(fillColor) : 'transparent',
+                                strokeColor: color,
+                                strokeWidth: parseFloat(visualDefinition.strokeThickness)
+                            });
+                        } else {
+                            symbol = new sGis.symbol.point.Square({
+                                size: parseFloat(visualDefinition.size),
+                                strokeWidth: parseFloat(visualDefinition.strokeThickness),
+                                strokeColor: color,
+                                fillColor: fillColor ? parseColor(fillColor) : 'transparent'
+                            });
+                        }
+
+                        var featureClass = geometry.type === 'point' ? sGis.feature.Point : sGis.feature.MultiPoint;
+                        if (geometry.type === 'multipoint') points = points[0];
+                        feature = new featureClass(points, { id: id, attributes: attributes, crs: crs, symbol: symbol });
+                    }
+                }
+
+                if (feature && response.attributesDefinitions && object.attributesDefinition) {
+                    feature.displayField = response.attributesDefinitions[object.attributesDefinition]._display;
+                    feature.visualDefinitionId = object.visualDefinitionId;
+                    feature.generatorId = object.generatorId;
+                    features.push(feature);
+                }
+            }
+        }
+
+        return features;
+    }
+
+    function parseColor(color) {
+        var c = new sGis.utils.Color(color);
+        return c.toString();
+    }
+
+    xmlSerializer.deserialize = function (xml) {
         var parser = new DOMParser(),
             nodes = parser.parseFromString(xml, 'text/xml'),
             parsed = {};
@@ -18104,7 +19607,8 @@ sGis.module('spatialProcessor.parseXML', ['feature.Point', 'feature.Polyline', '
         Content: function Content(node, parsed) {
             var attributes = getNodeAttributes(node);
             if (attributes.ContentType === 'Visuals') {
-                serialize(node, parsed);
+                parsed.content = {};
+                serialize(node, parsed.content);
             } else if (attributes.ContentType === 'JSON') {
                 parsed.content = sGis.utils.parseXmlJsonNode(node);
             } else if (attributes.ContentType === 'Text') {
@@ -18365,15 +19869,15 @@ sGis.module('spatialProcessor.parseXML', ['feature.Point', 'feature.Polyline', '
         return desc;
     }
 
-    if (!sGis.spatialProcessor) sGis.spatialProcessor = {};
+    if (!sGis.sp) sGis.sp = {};
     var tempId = -1;
 
-    sGis.spatialProcessor.serializeGeometry = function (features) {
+    sGis.sp.serializeGeometry = function (features) {
         var formatedData = getFormatedData(features);
         return getXML(formatedData);
     };
 
-    sGis.spatialProcessor.serializeGeometryEdit = function (editDescription, attributesOnly, ignoreSymbol) {
+    xmlSerializer.serializeGeometryEdit = function (editDescription, attributesOnly, ignoreSymbol) {
         tempId = -1;
         var featureList = [];
         for (var i in editDescription) {
@@ -18381,10 +19885,14 @@ sGis.module('spatialProcessor.parseXML', ['feature.Point', 'feature.Polyline', '
         }
 
         var formatedData = getFormatedData(featureList, attributesOnly);
-        return getXML(formatedData, editDescription, attributesOnly, ignoreSymbol);
+        return addTitle(getXML(formatedData, editDescription, attributesOnly, ignoreSymbol));
     };
 
-    sGis.spatialProcessor.serializeSymbols = function (symbols) {
+    function addTitle(xml) {
+        return '<?xml version="1.0" encoding="utf-8"?>' + xml;
+    }
+
+    sGis.sp.serializeSymbols = function (symbols) {
         var features = [];
         for (var i = 0, len = symbols.length; i < len; i++) {
             features.push(new featureClasses[symbols[i].type]([], { symbol: symbols[i] }));
@@ -18402,7 +19910,7 @@ sGis.module('spatialProcessor.parseXML', ['feature.Point', 'feature.Polyline', '
         return text;
     };
 
-    sGis.spatialProcessor.serializeAttributes = function (attributes) {
+    sGis.sp.serializeAttributes = function (attributes) {
         var data = {
             resources: {
                 attributesDefinitions: {},
@@ -18484,10 +19992,10 @@ sGis.module('spatialProcessor.parseXML', ['feature.Point', 'feature.Polyline', '
         return node;
     }
 
-    function getDeleteObjectNode(feature, xml) {
+    function getDeleteObjectNode(id, xml) {
         var node = xml.createElement('DeleteObject');
         setNodeAttributes(node, {
-            Id: feature.id
+            Id: id
         });
         return node;
     }
@@ -18988,942 +20496,7 @@ sGis.module('spatialProcessor.parseXML', ['feature.Point', 'feature.Polyline', '
         return c.toString('hex');
     }
 
-    return parseXML;
-});
-'use strict';
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-sGis.module('spatialProcessor.Controller', ['utils', 'spatialProcessor.utils', 'feature.Point', 'feature.Polyline', 'feature.Polygon', 'spatialProcessor.parseXML', 'EventHandler', 'symbol.point.Point', 'symbol.polyline.Simple', 'symbol.polygon.Simple', 'spatialProcessor.services.ServiceContainer'], function (utils, spUtils, Point, Polyline, Polygon, parseXML, EventHandler, pointSymbols, polylineSymbols, polygonSymbols, ServiceContainer) {
-    'use strict';
-
-    var Controller = function (_EventHandler) {
-        _inherits(Controller, _EventHandler);
-
-        function Controller(extension) {
-            _classCallCheck(this, Controller);
-
-            var _this = _possibleConstructorReturn(this, (Controller.__proto__ || Object.getPrototypeOf(Controller)).call(this));
-
-            for (var key in extension) {
-                _this[key] = extension[key];
-            }
-            return _this;
-        }
-
-        return Controller;
-    }(EventHandler);
-
-    var ext = {
-        _display: true,
-        createDataViewOnInit: true,
-        show: function show() {
-            if (this._layer) {
-                this._layer.display = true;
-            }
-            this._display = true;
-        },
-
-        hide: function hide() {
-            if (this._layer) {
-                this._layer.display = false;
-            }
-            this._display = false;
-        },
-
-        __initialize: function __initialize(spatialProcessor, properties, callback) {
-            if (!this._operationQueue) this._operationQueue = [];
-
-            var sessionId = spatialProcessor.sessionId;
-            if (sessionId) {
-                this._spatialProcessor = spatialProcessor;
-                this._spatialProcessorUrl = spatialProcessor.url;
-                this._url = this._spatialProcessorUrl + 'ControllerService/';
-                this._sessionId = sessionId;
-
-                this.__connect(properties, callback);
-            } else {
-                var self = this;
-                spatialProcessor.addListener('sessionInitialized', function () {
-                    self.__initialize(spatialProcessor, properties, callback);
-                });
-            }
-        },
-
-        __connect: function __connect(properties, callback) {
-            var request = '';
-            if (properties) {
-                for (var param in properties) {
-                    request += '&' + param + '=' + properties[param];
-                }
-            }
-            request = 'create=' + this._type + request;
-
-            var self = this;
-
-            sGis.utils.ajax({
-                url: this._url + '?_sb=' + this._spatialProcessor._sessionId + '&ts=' + new Date().getTime(),
-                type: 'POST',
-                data: request,
-                success: function success(data, textStatus) {
-                    try {
-                        var response = JSON.parse(data);
-
-                        if (!response.ServiceId) return self._failInitialization();
-
-                        self._id = response.ServiceId;
-                        if (response.DataViewServiceName) {
-                            self._layerName = response.DataViewServiceName;
-                            self.createDataViewOnInit && self._createContainer();
-                        }
-
-                        if (callback) callback.call(self);
-                        for (var i in self._operationQueue) {
-                            self.__operation(self._operationQueue[i]);
-                        }
-                    } catch (e) {
-                        self._failInitialization();
-                    }
-                },
-                error: function error() {
-                    self._failInitialization();
-                }
-            });
-        },
-
-        _createContainer: function _createContainer() {
-            var _this2 = this;
-
-            this._serviceContainer = new ServiceContainer(this._spatialProcessor, this._layerName);
-            this._serviceContainer.once('stateUpdate', function () {
-                if (_this2._serviceContainer.service) {
-                    _this2._service = _this2._serviceContainer.service;
-                    if (_this2._map) _this2._map.addLayer(_this2._service.layer);
-                }
-            });
-        },
-        _failInitialization: function _failInitialization() {
-            var _this3 = this;
-
-            sGis.utils.message('Could not create controller ' + this._type);
-            this.fire('initError');
-            this._failed = true;
-            this._operationQueue.forEach(function (operation) {
-                _this3.__operation(operation);
-            });
-        },
-
-
-        remove: function remove() {
-            sGis.utils.ajax({
-                url: this._url + '?_sb=' + this._sessionId + '&delete=' + this._id
-            });
-        },
-
-        __operation: function __operation(f) {
-            if (this._failed) {
-                var params = f.call(this);
-                if (params.error) params.error("Controller failed to initialize");
-                return;
-            }
-
-            var self = this;
-            var dataParameters = void 0;
-            if (this._id) {
-                var parameters = f.call(this);
-
-                dataParameters = parameters.dataParameters;
-                if (dataParameters && !utils.isString(dataParameters)) {
-                    dataParameters = Object.keys(dataParameters).filter(function (key) {
-                        return dataParameters[key] !== undefined;
-                    }).map(function (key) {
-                        return key + '=' + dataParameters[key];
-                    }).join('&');
-                }
-                if (this._spatialProcessor.synchronized) {
-                    requestOperation();
-                } else {
-                    this._spatialProcessor.once('synchronize', requestOperation);
-                }
-            } else {
-                this._operationQueue.push(f);
-            }
-
-            function requestOperation() {
-                self._spatialProcessor.removeListener('.' + self.id);
-                sGis.utils.ajax({
-                    url: self._url + self._id + '/' + parameters.operation + '?' + (parameters.uriParameters || '') + '_sb=' + self._spatialProcessor.sessionId + '&timeout=20000&ts=' + new Date().getTime(),
-                    type: dataParameters ? 'POST' : 'GET',
-                    data: dataParameters,
-                    success: function success(data) {
-                        var response = parseOperationResponse(data);
-
-                        if (response.status === 'success') {
-                            if (parameters.requested) {
-                                parameters.requested(response);
-                            }
-                            if (parameters.success || parameters.error) {
-                                self._spatialProcessor.registerOperation(response.operationId, function (result) {
-                                    if (result.operation && result.operation.status === 'Success') {
-                                        if (parameters.success) parameters.success(result);
-                                    } else {
-                                        if (parameters.error) parameters.error(result);
-                                    }
-                                }, parameters.onProgress);
-                            }
-                        } else if (response.status === 'error' && parameters.error) {
-                            parameters.error(data);
-                        }
-
-                        if (parameters.callback) parameters.callback(data);
-                    },
-
-                    error: function error(data) {
-                        if (parameters.error) parameters.error(data);
-                    }
-                });
-            }
-        },
-
-        query: function query(properties) {
-            this.__operation(function () {
-                var data;
-                var self = this;
-                if (properties.geometry) {
-                    data = JSON.stringify({ rings: properties.geometry.coordinates, spatialReference: properties.geometry.crs.getWkidString() });
-                } else if (properties.objectIds) {
-                    data = JSON.stringify(properties.objectIds);
-                } else {
-                    sGis.utils.error('Lacking the query data');
-                }
-                data = encodeURIComponent(data);
-
-                if (properties.serviceName) data += '&serviceName=' + encodeURIComponent(properties.serviceName);
-
-                return {
-                    operation: 'queryById',
-                    dataParameters: 'serviceName=' + properties.serviceName + '&objectIds=' + JSON.stringify(properties.objectIds),
-                    requested: properties.requested,
-                    error: properties.error,
-                    success: !properties.success ? undefined : function (response) {
-                        properties.success(createFeatures(response));
-                    }
-                };
-            });
-        },
-
-        queryByGeometry: function queryByGeometry(properties) {
-            this.__operation(function () {
-                var data = JSON.stringify({ rings: properties.geometry.coordinates, spatialReference: properties.geometry.crs.getWkidString() });
-
-                return {
-                    operation: 'queryByGeometry',
-                    dataParameters: 'serviceName=' + properties.serviceName + '&geometry=' + data,
-                    requested: properties.requested,
-                    error: properties.error,
-                    success: !properties.success ? undefined : function (response) {
-                        properties.success(createFeatures(response));
-                    }
-                };
-            });
-        },
-
-        clear: function clear(properties) {
-            properties = properties || {};
-            this.__operation(function () {
-                return {
-                    operation: 'clear',
-                    requested: properties.requested,
-                    error: properties.error,
-                    success: properties.success
-                };
-            });
-        },
-
-        save: function save(properties) {
-            if (!properties.added && !properties.updated && !properties.deleted) sGis.utils.error('Edit description must contain at least one feature');
-
-            var edit = { added: properties.added, updated: properties.updated, deleted: properties.deleted },
-                xmlString = encodeURIComponent('<?xml version="1.0" encoding="utf-8"?>' + sGis.spatialProcessor.serializeGeometryEdit(edit, false, properties.ignoreSymbol));
-
-            xmlString += '&serviceName=' + encodeURIComponent(properties.serviceName);
-            this.__operation(function () {
-                return {
-                    operation: 'edit',
-                    dataParameters: 'action=edit&edit=' + xmlString,
-                    requested: properties.requested,
-                    error: properties.error,
-                    success: properties.success
-                };
-            });
-        },
-
-        createObject: function createObject(properties) {
-            var geomDescription = { spatialReference: properties.object.crs.getWkidString() };
-            if (properties.object instanceof sGis.feature.Point) {
-                geomDescription.x = properties.object.x;
-                geomDescription.y = properties.object.y;
-            } else if (properties.object instanceof sGis.feature.Polygon) {
-                geomDescription.rings = properties.object.coordinates;
-            } else {
-                geomDescription.paths = properties.object.coordinates;
-            }
-
-            var attributes = properties.attributes ? '&attributes=' + JSON.stringify(properties.attributes) : '';
-
-            var geometryString = encodeURIComponent(JSON.stringify(geomDescription)),
-                self = this;
-
-            self.__operation(function () {
-                return {
-                    operation: 'createVisualObject',
-                    dataParameters: 'geometry=' + geometryString + '&serviceName=' + properties.serviceName + attributes,
-                    requested: properties.requested,
-                    error: properties.error,
-                    success: function success(response) {
-                        if (response.content && response.content.Result === 'success') {
-                            if (properties.success) properties.success(parseInt(response.content.Id));
-                        } else {
-                            if (properties.error) properties.error(response);
-                        }
-                    }
-                };
-            });
-        },
-
-        autoComplete: function autoComplete(_ref) {
-            var serviceName = _ref.serviceName,
-                line = _ref.line,
-                ids = _ref.ids,
-                success = _ref.success,
-                error = _ref.error,
-                requested = _ref.requested;
-
-            var coordinates = line.rings;
-            var crs = line.crs;
-
-            var params = {
-                serviceName: serviceName,
-                line: JSON.stringify([{ paths: coordinates, spatialReference: crs.getWkidString() }]),
-                ids: JSON.stringify(ids)
-            };
-
-            var paramString = Object.keys(params).map(function (key) {
-                return key + '=' + params[key];
-            }).join('&');
-
-            this.__operation(function () {
-                return {
-                    operation: 'autoComplete',
-                    dataParameters: paramString,
-                    requested: requested,
-                    error: error,
-                    success: success
-                };
-            });
-        },
-
-        reshape: function reshape(_ref2) {
-            var serviceName = _ref2.serviceName,
-                line = _ref2.line,
-                ids = _ref2.ids,
-                success = _ref2.success,
-                error = _ref2.error,
-                requested = _ref2.requested;
-
-            var coordinates = line.rings;
-            var crs = line.crs;
-
-            var params = {
-                serviceName: serviceName,
-                line: JSON.stringify([{ paths: coordinates, spatialReference: crs.getWkidString() }]),
-                ids: JSON.stringify(ids)
-            };
-
-            var paramString = Object.keys(params).map(function (key) {
-                return key + '=' + params[key];
-            }).join('&');
-
-            this.__operation(function () {
-                return {
-                    operation: 'reshape',
-                    dataParameters: paramString,
-                    requested: requested,
-                    error: error,
-                    success: success
-                };
-            });
-        },
-
-        cut: function cut(_ref3) {
-            var serviceName = _ref3.serviceName,
-                line = _ref3.line,
-                ids = _ref3.ids,
-                success = _ref3.success,
-                error = _ref3.error,
-                requested = _ref3.requested;
-
-            var coordinates = line.rings;
-            var crs = line.crs;
-
-            var params = {
-                serviceName: serviceName,
-                line: JSON.stringify([{ paths: coordinates, spatialReference: crs.getWkidString() }]),
-                ids: JSON.stringify(ids)
-            };
-
-            var paramString = Object.keys(params).map(function (key) {
-                return key + '=' + params[key];
-            }).join('&');
-
-            this.__operation(function () {
-                return {
-                    operation: 'cut',
-                    dataParameters: paramString,
-                    requested: requested,
-                    error: error,
-                    success: success
-                };
-            });
-        },
-
-        extent: function extent(properties) {
-            var dataParameters = '';
-            if (properties.layerStorageId) dataParameters += '&id=' + encodeURIComponent(properties.layerStorageId.replace(/-/g, ''));
-            this.__operation(function () {
-                return {
-                    operation: 'extent',
-                    dataParameters: dataParameters,
-                    requested: properties.requested,
-                    error: properties.error,
-                    success: function success(response) {
-                        if (properties.success) properties.success(response.content);
-                    }
-                };
-            });
-        },
-
-        projectGeometry: function projectGeometry(properties) {
-            var features = properties.features;
-            var geometry = [];
-            for (var i = 0; i < features.length; i++) {
-                geometry.push({ rings: features[i].coordinates });
-            }
-            var geometryString = JSON.stringify(geometry);
-            this.__operation(function () {
-                return {
-                    operation: 'gcProject',
-                    dataParameters: 'sourceGeom=' + geometryString + '&sourceSr=' + properties.sourceSr + '&destSr=' + properties.destinationSr,
-                    requested: properties.requested,
-                    error: properties.error,
-                    success: function success(response) {
-                        if (properties.success) properties.success(response.content);
-                    }
-                };
-            });
-        },
-
-        _createFeatures: function _createFeatures(response, crs) {
-            return createFeatures(response, crs);
-        },
-
-        _serializeGeometry: function _serializeGeometry(geometry) {
-            var obj;
-            var crs = geometry.crs || this._map && this._map.crs;
-            if (geometry instanceof sGis.feature.Polygon) {
-                obj = { rings: geometry.coordinates, spatialReference: crs && crs.getWkidString() };
-            } else if (geometry instanceof sGis.feature.Point || geometry instanceof sGis.Point) {
-                obj = { x: geometry.x, y: geometry.y, spatialReference: crs && crs.getWkidString() };
-            } else if (geometry instanceof sGis.feature.Polyline) {
-                obj = { paths: geometry.coordinates, spatialReference: crs && crs.getWkidString() };
-            } else if (geometry instanceof sGis.Bbox) {
-                obj = { xmin: geometry.xMin, xmax: geometry.xMax, ymin: geometry.yMin, ymax: geometry.yMax, spatialReference: crs && crs.getWkidString() };
-            } else {
-                sGis.utils.error('Unknown geometry type');
-            }
-
-            return encodeURIComponent(JSON.stringify(obj));
-        }
-    };
-
-    utils.extend(Controller.prototype, ext);
-
-    function createFeatures(response) {
-        var features = [];
-        if (response.objects) {
-            for (var i in response.objects) {
-                var object = response.objects[i];
-
-                if (object.geometry && object.visualDefinition) {
-                    var geometry = object.geometry.data,
-                        points = geometry.coordinates,
-                        attributes = object.attributes,
-                        color = object.visualDefinition.stroke ? parseColor(object.visualDefinition.stroke) : undefined,
-                        fillColor = object.visualDefinition.fill ? object.visualDefinition.fill : undefined;
-
-                    var serverCrs = object.geometry.data.crs;
-                    var crs;
-
-                    if (serverCrs.wkid === 102100 || serverCrs.wkid === 102113) {
-                        crs = sGis.CRS.webMercator;
-                    } else if (serverCrs.wkid === 77) {
-                        crs = new sGis.Crs({ wkid: 77 });
-                    } else {
-                        crs = new sGis.Crs(serverCrs);
-                    }
-
-                    var idAttribute = response.attributesDefinitions[object.attributesDefinition]._identity;
-                    var id = parseInt(object.attributes[idAttribute].value);
-
-                    if (geometry.type === 'polygon') {
-                        var feature = new sGis.feature.Polygon(points, { id: id, attributes: attributes, crs: crs, color: color, width: object.visualDefinition.strokeThickness });
-                        if (fillColor && fillColor.brush) {
-                            feature.symbol = new sGis.symbol.polygon.BrushFill({
-                                strokeWidth: parseFloat(object.visualDefinition.strokeThickness),
-                                strokeColor: color,
-                                fillBrush: fillColor.brush,
-                                fillForeground: parseColor(fillColor.foreground),
-                                fillBackground: parseColor(fillColor.background)
-                            });
-                        } else {
-                            feature.symbol = new sGis.symbol.polygon.Simple({
-                                strokeWidth: parseFloat(object.visualDefinition.strokeThickness),
-                                strokeColor: color,
-                                fillColor: fillColor ? parseColor(fillColor) : 'transparent'
-                            });
-                        }
-                    } else if (geometry.type === 'polyline') {
-                        var _symbol = new sGis.symbol.polyline.Simple({ strokeColor: color, strokeWidth: parseFloat(object.visualDefinition.strokeThickness) });
-                        feature = new sGis.feature.Polyline(points, { id: id, attributes: attributes, crs: crs, symbol: _symbol });
-                    } else if (geometry.type === 'point' || geometry.type === 'multipoint') {
-                        var symbol;
-
-                        if (object.visualDefinition.imageSrc) {
-                            symbol = new sGis.symbol.point.Image({
-                                source: object.visualDefinition.imageSrc,
-                                width: parseFloat(object.visualDefinition.size),
-                                height: null,
-                                anchorPoint: object.visualDefinition.anchorPoint
-                            });
-                        } else if (object.visualDefinition.shape === 'Circle') {
-                            symbol = new sGis.symbol.point.Point({
-                                size: parseFloat(object.visualDefinition.size),
-                                fillColor: fillColor ? parseColor(fillColor) : 'transparent',
-                                strokeColor: color,
-                                strokeWidth: parseFloat(object.visualDefinition.strokeThickness)
-                            });
-                        } else {
-                            symbol = new sGis.symbol.point.Square({
-                                size: parseFloat(object.visualDefinition.size),
-                                strokeWidth: parseFloat(object.visualDefinition.strokeThickness),
-                                strokeColor: color,
-                                fillColor: fillColor ? parseColor(fillColor) : 'transparent'
-                            });
-                        }
-
-                        var featureClass = geometry.type === 'point' ? sGis.feature.Point : sGis.feature.MultiPoint;
-                        if (geometry.type === 'multipoint') points = points[0];
-                        feature = new featureClass(points, { id: id, attributes: attributes, crs: crs, symbol: symbol });
-                    }
-                }
-
-                if (feature && response.attributesDefinitions && object.attributesDefinition) {
-                    feature.displayField = response.attributesDefinitions[object.attributesDefinition]._display;
-                    feature.visualDefinitionId = object.visualDefinitionId;
-                    feature.generatorId = object.generatorId;
-                    features.push(feature);
-                }
-            }
-        }
-
-        return features;
-    }
-
-    function parseOperationResponse(data) {
-        if (data.charAt(0) === '{') {
-            return parseOperationError(data);
-        } else {
-            return parseOperationSuccess(data);
-        }
-    }
-
-    function parseOperationError(data) {
-        try {
-            var response = JSON.parse(data);
-        } catch (e) {
-            response = data;
-        } finally {
-            response.status = 'error';
-            return response;
-        }
-    }
-
-    function parseOperationSuccess(data) {
-        var parser = new DOMParser(),
-            xml = parser.parseFromString(data, 'text/xml'),
-            attributes = xml.getElementsByTagName('Defered')[0].attributes,
-            initDataNode = xml.getElementsByTagName('InitializationData')[0],
-            response = {
-            status: 'success'
-        };
-
-        for (var i in attributes) {
-            if (attributes[i].nodeName === 'Id') {
-                response.operationId = attributes[i].nodeValue;
-            } else if (attributes[i].nodeName === 'Name') {
-                response.operationName = attributes[i].nodeValue;
-            }
-        }
-
-        if (initDataNode) {
-            response.initializationData = JSON.parse(initDataNode.childNodes[0].nodeValue);
-        }
-
-        return response;
-    }
-
-    function parseColor(color) {
-        var c = new sGis.utils.Color(color);
-        return c.toString();
-    }
-
-    return Controller;
-});
-'use strict';
-
-sGis.module('spatialProcessor.controller.DitIntegration', ['spatialProcessor.Controller'], function (Controller) {
-    'use strict';
-
-    var DitIntegration = function DitIntegration(spatialProcessor, options) {
-        this._map = options.map;
-
-        var self = this;
-        this.__initialize(spatialProcessor, {}, function () {
-            self._mapServer = options.sp.addService('VisualObjectsRendering/' + this._mapServiceId);
-            self._layer = self._mapServer;
-
-            self.initialized = true;
-            self.fire('initialize');
-        });
-    };
-
-    DitIntegration.prototype = new sGis.spatialProcessor.Controller({
-        _type: 'integrationLayer',
-
-        loadLayerData: function loadLayerData(properties) {
-            this.__operation(function () {
-                return {
-                    operation: 'loadLayerData',
-                    dataParameters: 'layerId=' + encodeURIComponent(properties.layerId),
-                    success: properties.success,
-                    error: properties.error,
-                    requested: properties.requested
-                };
-            });
-        },
-
-        disintegrate: function disintegrate(properties) {
-            var self = this;
-            this.__operation(function () {
-                var param = 'layerId=' + encodeURIComponent(properties.layerId) + '&moduleId=' + encodeURIComponent(properties.moduleId) + '&shitId=' + encodeURIComponent(properties.queryId);
-                return { operation: 'disintegrate',
-                    dataParameters: param,
-                    requested: properties.requested,
-
-                    success: function success() {
-                        if (properties.success) {
-                            properties.success();
-                        }
-                    },
-                    error: properties.error
-                };
-            });
-        },
-
-        fullyDisintegrate: function fullyDisintegrate(properties) {
-            var self = this;
-            this.__operation(function () {
-                var param = 'layerId=' + encodeURIComponent(properties.layerId) + '&moduleId=' + encodeURIComponent(properties.moduleId) + '&shitId=' + encodeURIComponent(properties.queryId);
-                return { operation: 'fullyDisintegrate',
-                    dataParameters: param,
-                    requested: properties.requested,
-
-                    success: function success() {
-                        if (properties.success) {
-                            properties.success();
-                        }
-                    },
-                    error: properties.error
-                };
-            });
-        }
-    });
-
-    Object.defineProperties(DitIntegration.prototype, {
-        tree: {
-            get: function get() {
-                return this._tree;
-            }
-        },
-
-        isActive: {
-            get: function get() {
-                return this._layer.map === null;
-            }
-        },
-
-        mapServer: {
-            get: function get() {
-                return this._mapServer;
-            }
-        }
-    });
-
-    return DitIntegration;
-});
-'use strict';
-
-sGis.module('spatialProcessor.controller.ImportData', ['spatialProcessor.Controller', 'spatialProcessor.ControllerManager'], function (Controller, ControllerMangager) {
-    'use strict';
-
-    var ImportData = function ImportData(connector, options) {
-        this.__initialize(connector, {}, function () {});
-    };
-
-    ImportData.prototype = new sGis.spatialProcessor.Controller({
-        _type: 'importData',
-
-        load: function load(properties) {
-            this.__operation(function () {
-                var param = 'uploadSlot=' + properties.fileId + '&type="Всё что угодно"';
-                if (properties.configuration) {
-                    param += '&configuration=' + encodeURIComponent(JSON.stringify(properties.configuration));
-                }
-
-                return {
-                    operation: 'load',
-                    dataParameters: param,
-                    success: properties.success,
-                    error: properties.error,
-                    requested: properties.requested
-                };
-            });
-        },
-
-        import: function _import(properties) {
-            this.__operation(function () {
-                var param = 'serviceName=' + properties.serviceName + '&attributeMapping=' + encodeURIComponent(JSON.stringify(properties.attributeMapping));
-                if (properties.configuration) {
-                    param += '&configuration=' + encodeURIComponent(JSON.stringify(properties.configuration));
-                }
-                return {
-                    operation: 'import',
-                    dataParameters: param,
-                    success: properties.success,
-                    error: properties.error,
-                    requested: properties.requested,
-                    onProgress: properties.onProgress
-                };
-            });
-        }
-    });
-
-    ControllerMangager.registerController('importData', ImportData);
-
-    return ImportData;
-});
-'use strict';
-
-sGis.module('spatialProcessor.controller.ObjectSelector', ['spatialProcessor.Controller', 'spatialProcessor.ControllerManager'], function (Controller, ControllerManager) {
-    'use strict';
-
-    var ObjectSelector = function ObjectSelector(spatialProcessor, options) {
-        this._map = options.map;
-        this.__initialize(spatialProcessor, { sync: true }, function () {
-            this._setNotificationListener();
-            this.initialized = true;
-            this.fire('initialize');
-        });
-    };
-
-    ObjectSelector.prototype = new sGis.spatialProcessor.Controller({
-        _type: 'objectSelector',
-
-        _setNotificationListener: function _setNotificationListener() {
-            var self = this;
-            this._spatialProcessor.addObjectSelectorListener(function (data) {
-                self.fire('update', { data: data });
-            });
-        },
-
-        identify: function identify(properties) {
-            this.__operation(function () {
-                var param = 'geom=' + encodeURIComponent(JSON.stringify({ rings: properties.geometry.coordinates, spatialReference: this._map.crs.getWkidString() })) + '&res=' + encodeURIComponent(this._map.resolution) + '&mode=' + (properties.mode ? properties.mode : 0) + '&services=' + encodeURIComponent(JSON.stringify(properties.services)) + '&sr=' + encodeURIComponent(JSON.stringify(this._map.crs.getWkidString())),
-                    self = this;
-
-                return {
-                    operation: 'select',
-                    dataParameters: param,
-                    success: properties.success,
-                    error: properties.error,
-                    requested: properties.requested
-                };
-            });
-        },
-
-        selectByStorage: function selectByStorage(properties) {
-            this.__operation(function () {
-                var param = 'geometryService=' + properties.geometryService + '&res=' + encodeURIComponent(this._map.resolution) + '&services=' + encodeURIComponent(JSON.stringify(properties.services)) + '&mode=' + (properties.mode ? properties.mode : 0);
-                if (properties.operation) param += '&operation=' + properties.operation;
-
-                return {
-                    operation: 'selectByStorage',
-                    dataParameters: param,
-                    success: properties.success,
-                    error: properties.error,
-                    requested: properties.requested
-                };
-            });
-        },
-
-        search: function search(properties) {
-            this.__operation(function () {
-                var param = 'query=' + encodeURIComponent(properties.string) + '&services=' + encodeURIComponent(JSON.stringify(properties.services));
-
-                return {
-                    operation: 'search',
-                    dataParameters: param,
-                    success: properties.success,
-                    error: properties.error,
-                    requested: properties.requested
-                };
-            });
-        },
-
-        pick: function pick(properties) {
-            this.__operation(function () {
-                var param = 'geom=' + this._serializeGeometry(properties.geometry) + '&res=' + encodeURIComponent(this._map.resolution) + '&services=' + encodeURIComponent(JSON.stringify(properties.services)) + '&sr=' + encodeURIComponent(JSON.stringify(this._map.crs.getWkidString())),
-                    self = this;
-
-                return {
-                    operation: 'pick',
-                    dataParameters: param,
-                    success: !properties.success ? undefined : function (response) {
-                        properties.success(self._createFeatures(response, properties.crs || properties.geometry && properties.geometry.crs || self._map && self._map.crs));
-                    },
-                    error: properties.error,
-                    requested: properties.requested
-                };
-            });
-        },
-
-        pickById: function pickById(_ref) {
-            var ids = _ref.ids,
-                serviceName = _ref.serviceName,
-                _ref$mode = _ref.mode,
-                mode = _ref$mode === undefined ? undefined : _ref$mode,
-                success = _ref.success,
-                error = _ref.error,
-                requested = _ref.requested;
-
-            this.__operation(function () {
-                var _this = this;
-
-                var params = {
-                    ids: JSON.stringify([{ ServiceName: serviceName, ObjectIds: ids }]),
-                    mode: mode
-                };
-
-                var param = Object.keys(params).filter(function (key) {
-                    return params[key] !== undefined;
-                }).map(function (key) {
-                    return key + '=' + params[key];
-                }).join('&');
-
-                return {
-                    operation: 'pickById',
-                    dataParameters: param,
-                    success: !success ? undefined : function (response) {
-                        success(_this._createFeatures(response, _this._map && _this._map.crs));
-                    },
-                    error: error,
-                    requested: requested
-                };
-            });
-        },
-
-        activate: function activate() {
-            if (this._layer && !this._layer.map) this._layer.map = this._map;
-        },
-
-        deactivate: function deactivate() {
-            if (this._layer) this._layer.map = null;
-        }
-    });
-
-    Object.defineProperties(ObjectSelector.prototype, {
-        isActive: {
-            get: function get() {
-                return this._layer.map === null;
-            }
-        },
-
-        mapServer: {
-            get: function get() {
-                return this._layer;
-            }
-        }
-    });
-
-    ControllerManager.registerController('objectSelector', ObjectSelector);
-
-    return ObjectSelector;
-});
-'use strict';
-
-sGis.module('spatialProcessor.controller.Routing', ['spatialProcessor.Controller', 'spatialProcessor.ControllerManager'], function (Controller, ControllerManager) {
-    'use strict';
-
-    var Routing = function Routing(connector, options) {
-        this._map = options.map;
-        this.__initialize(connector, { sync: true }, function () {
-            this.initialized = true;
-            this.fire('initialize');
-        });
-    };
-
-    Routing.prototype = new sGis.spatialProcessor.Controller({
-        _type: 'route',
-
-        buildRoute: function buildRoute(properties) {
-            this.__operation(function () {
-                var startPoint = 'startPoint=' + encodeURIComponent(JSON.stringify({ x: properties.startPoint.x, y: properties.startPoint.y, spatialReference: this._map.crs.getWkidString() }));
-                var endPoint = 'endPoint=' + encodeURIComponent(JSON.stringify({ x: properties.endPoint.x, y: properties.endPoint.y, spatialReference: this._map.crs.getWkidString() }));
-                var sr = 'spatialReference=' + encodeURIComponent(JSON.stringify(this._map.crs.getWkidString()));
-                var solver = 'solver=' + properties.solver;
-                var param = [startPoint, endPoint, sr, solver].join('&');
-                var self = this;
-                return {
-                    operation: 'buildRoute',
-                    dataParameters: param,
-                    success: !properties.success ? undefined : function (response) {
-                        properties.success(self._createFeatures(response, properties.crs || properties.startPoint && properties.startPoint.crs || self._map && self._map.crs));
-                    },
-                    error: properties.error,
-                    requested: properties.requested
-                };
-            });
-        }
-
-    });
-
-    ControllerManager.registerController('routing', Routing);
-
-    return Routing;
+    return xmlSerializer;
 });
 'use strict';
 
@@ -19935,287 +20508,185 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-sGis.module('spatialProcessor.controller.TempView', ['spatialProcessor.Controller', 'spatialProcessor.ControllerManager', 'spatialProcessor.services.ServiceContainer'], function (Controller, ControllerManager, ServiceContainer) {
-    'use strict';
+sGis.module('sp.services.DataSourceService', ['EventHandler', 'sp.controllers.TempView', 'sp.services.ServiceContainer'], function (EventHandler, TempView, ServiceContainer) {
 
-    var TempView = function (_Controller) {
-        _inherits(TempView, _Controller);
+        'use strict';
 
-        function TempView(connector) {
-            _classCallCheck(this, TempView);
+        var DataSourceService = function (_EventHandler) {
+                _inherits(DataSourceService, _EventHandler);
 
-            var _this = _possibleConstructorReturn(this, (TempView.__proto__ || Object.getPrototypeOf(TempView)).call(this, { _type: 'tempView' }));
+                function DataSourceService(name, connector, serviceInfo) {
+                        _classCallCheck(this, DataSourceService);
 
-            _this.createDataViewOnInit = false;
-            _this.__initialize(connector, { sync: true }, function () {
-                this.initialized = true;
-                this.fire('initialize');
-            });
-            return _this;
-        }
+                        var _this = _possibleConstructorReturn(this, (DataSourceService.__proto__ || Object.getPrototypeOf(DataSourceService)).call(this));
 
-        _createClass(TempView, [{
-            key: 'resetView',
-            value: function resetView(_ref) {
-                var sourceServiceName = _ref.sourceServiceName,
-                    requested = _ref.requested,
-                    _success = _ref.success,
-                    error = _ref.error;
+                        _this._name = name;
+                        _this._connector = connector;
+                        _this._serviceInfo = serviceInfo;
 
-                this.__operation(function () {
-                    var _this2 = this;
+                        _this._initialize();
+                        return _this;
+                }
 
-                    var params = { sourceServiceName: sourceServiceName };
-                    var paramsString = Object.keys(params).map(function (key) {
-                        return key + '=' + params[key];
-                    }).join('&');
+                _createClass(DataSourceService, [{
+                        key: '_initialize',
+                        value: function _initialize() {
+                                var _this2 = this;
 
-                    return {
-                        operation: 'resetView',
-                        dataParameters: paramsString,
-                        success: function success() {
-                            _this2._updateView().then(_success);
-                        },
-                        error: error,
-                        requested: requested
-                    };
-                });
-            }
-        }, {
-            key: '_updateView',
-            value: function _updateView() {
-                var _this3 = this;
-
-                return new Promise(function (resolve, reject) {
-                    !_this3._layerName && reject(new Error('Temp view layer name error'));
-
-                    _this3._serviceContainer = new ServiceContainer(_this3._spatialProcessor, _this3._layerName);
-                    _this3._serviceContainer.once('stateUpdate', function () {
-                        _this3._service = _this3._serviceContainer.service;
-                        _this3.fire('viewUpdate');
-
-                        !_this3._service && reject(new Error('State update error'));
-                        resolve(_this3._service);
-                    });
-                });
-            }
-        }, {
-            key: 'mapService',
-            get: function get() {
-                return this._service;
-            }
-        }, {
-            key: 'container',
-            get: function get() {
-                return this._serviceContainer;
-            }
-        }]);
-
-        return TempView;
-    }(Controller);
-
-    ControllerManager.registerController('tempView', TempView);
-
-    return TempView;
-});
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-sGis.module('spatialProcessor.services.DataSourceService', ['EventHandler', 'spatialProcessor.controller.TempView', 'spatialProcessor.services.ServiceContainer'], function (EventHandler, TempView, ServiceContainer) {
-
-    'use strict';
-
-    var DataSourceService = function (_EventHandler) {
-        _inherits(DataSourceService, _EventHandler);
-
-        function DataSourceService(name, connector, serviceInfo) {
-            _classCallCheck(this, DataSourceService);
-
-            var _this = _possibleConstructorReturn(this, (DataSourceService.__proto__ || Object.getPrototypeOf(DataSourceService)).call(this));
-
-            _this._name = name;
-            _this._connector = connector;
-            _this._serviceInfo = serviceInfo;
-
-            _this._initialize();
-            return _this;
-        }
-
-        _createClass(DataSourceService, [{
-            key: '_initialize',
-            value: function _initialize() {
-                var _this2 = this;
-
-                this._initializationPromise = new Promise(function (resolve, reject) {
-                    _this2._tempViewController = new TempView(_this2._connector);
-                    _this2._tempViewController.resetView({
-                        sourceServiceName: _this2._name,
-                        success: function success() {
-                            _this2._setForwardListeners();
-                            resolve();
-                        },
-                        error: function error(_error) {
-                            reject(_error);
+                                this._tempViewController = new TempView(this._connector, this.name);
+                                this._initializationPromise = this._tempViewController.resetView({ sourceServiceName: this._name }).then(function () {
+                                        _this2._setForwardListeners();
+                                        _this2.view.isDisplayed = _this2._isDisplayed;
+                                        _this2.fire('stateUpdate');
+                                });
                         }
-                    });
+                }, {
+                        key: '_setForwardListeners',
+                        value: function _setForwardListeners() {
+                                this._tempViewController.service.on('visibilityChange legendUpdate layerChange', this.forwardEvent.bind(this));
+                        }
+                }, {
+                        key: 'updateLegend',
+                        value: function updateLegend() {
+                                this.view && this.view.updateLegend();
+                        }
+                }, {
+                        key: 'setMeta',
+                        value: function setMeta() {
+                                return this.view && this.view.setMeta.apply(this.view, arguments);
+                        }
+                }, {
+                        key: 'getMeta',
+                        value: function getMeta() {
+                                return this.view && this.view.getMeta.apply(this.view, arguments);
+                        }
+                }, {
+                        key: 'setCustomFilter',
+                        value: function setCustomFilter() {
+                                return this.view.setCustomFilter.apply(this.view, arguments);
+                        }
+                }, {
+                        key: 'updateExtent',
+                        value: function updateExtent() {
+                                return this.view && this.view.updateExtent();
+                        }
+                }, {
+                        key: 'initializationPromise',
+                        get: function get() {
+                                return this._initializationPromise;
+                        }
+                }, {
+                        key: 'name',
+                        get: function get() {
+                                return this._name;
+                        }
+                }, {
+                        key: 'alias',
+                        get: function get() {
+                                return this.serviceInfo && this.serviceInfo.alias;
+                        }
+                }, {
+                        key: 'description',
+                        get: function get() {
+                                return this.serviceInfo && this.serviceInfo.description;
+                        }
+                }, {
+                        key: 'view',
+                        get: function get() {
+                                return this._tempViewController.service;
+                        }
+                }, {
+                        key: 'isDisplayed',
+                        get: function get() {
+                                return this.view && this.view.isDisplayed || this._isDisplayed;
+                        },
+                        set: function set(bool) {
+                                if (this.view) {
+                                        this.view.isDisplayed = bool;
+                                } else {
+                                        this._isDisplayed = bool;
+                                }
+                        }
+                }, {
+                        key: 'crs',
+                        get: function get() {
+                                return this.view && this.view.crs;
+                        }
+                }, {
+                        key: 'layer',
+                        get: function get() {
+                                return this.view && this.view.layer;
+                        }
+                }, {
+                        key: 'hasLegend',
+                        get: function get() {
+                                return this.view && this.view.hasLegend;
+                        }
+                }, {
+                        key: 'attributesDefinition',
+                        get: function get() {
+                                return this.view && this.view.attributesDefinition;
+                        }
+                }, {
+                        key: 'geometryType',
+                        get: function get() {
+                                return this.view && this.view.geometryType;
+                        }
+                }, {
+                        key: 'fullExtent',
+                        get: function get() {
+                                return this.view && this.view.fullExtent;
+                        }
+                }, {
+                        key: 'initialExtent',
+                        get: function get() {
+                                return this.view && this.view.initialExtent;
+                        }
+                }, {
+                        key: 'serviceInfo',
+                        get: function get() {
+                                return this._serviceInfo;
+                        }
+                }, {
+                        key: 'isEditable',
+                        get: function get() {
+                                return this.view.isEditable;
+                        }
+                }, {
+                        key: 'isFilterable',
+                        get: function get() {
+                                return this.view && this.view.isFilterable;
+                        }
+                }, {
+                        key: 'filter',
+                        get: function get() {
+                                return this.view && this.view.filter;
+                        },
+                        set: function set(filter) {
+                                this.view.filter = filter;
+                        }
+                }, {
+                        key: 'localName',
+                        get: function get() {
+                                return this.view && this.view.name;
+                        }
+                }, {
+                        key: 'permissions',
+                        get: function get() {
+                                return this.serviceInfo.permissions;
+                        }
+                }]);
 
-                    _this2._tempViewController.on('viewUpdate', function () {
-                        resolve();
-                    });
+                return DataSourceService;
+        }(EventHandler);
 
-                    _this2._tempViewController.on('initError', function () {
-                        reject('TempView controller initialization failed.');
-                    });
-                });
-            }
-        }, {
-            key: '_setForwardListeners',
-            value: function _setForwardListeners() {
-                this._tempViewController.mapService.on('visibilityChange legendUpdate', this.forwardEvent.bind(this));
-            }
-        }, {
-            key: 'updateLegend',
-            value: function updateLegend() {
-                this.view && this.view.updateLegend();
-            }
-        }, {
-            key: 'setMeta',
-            value: function setMeta() {
-                return this.view && this.view.setMeta.apply(this.view, arguments);
-            }
-        }, {
-            key: 'getMeta',
-            value: function getMeta() {
-                return this.view && this.view.getMeta.apply(this.view, arguments);
-            }
-        }, {
-            key: 'setCustomFilter',
-            value: function setCustomFilter() {
-                return this.view.setCustomFilter.apply(this.view, arguments);
-            }
-        }, {
-            key: 'updateExtent',
-            value: function updateExtent() {
-                return this.view && this.view.updateExtent();
-            }
-        }, {
-            key: 'initializationPromise',
-            get: function get() {
-                return this._initializationPromise;
-            }
-        }, {
-            key: 'name',
-            get: function get() {
-                return this._name;
-            }
-        }, {
-            key: 'alias',
-            get: function get() {
-                return this.serviceInfo && this.serviceInfo.alias;
-            }
-        }, {
-            key: 'description',
-            get: function get() {
-                return this.serviceInfo && this.serviceInfo.description;
-            }
-        }, {
-            key: 'view',
-            get: function get() {
-                return this._tempViewController.mapService;
-            }
-        }, {
-            key: 'viewContainer',
-            get: function get() {
-                return this._tempViewController.container;
-            }
-        }, {
-            key: 'isDisplayed',
-            get: function get() {
-                return this.view && this.view.isDisplayed;
-            },
-            set: function set(bool) {
-                if (this.view) this.view.isDisplayed = bool;
-            }
-        }, {
-            key: 'crs',
-            get: function get() {
-                return this.view && this.view.crs;
-            }
-        }, {
-            key: 'layer',
-            get: function get() {
-                return this.view && this.view.layer;
-            }
-        }, {
-            key: 'hasLegend',
-            get: function get() {
-                return this.view && this.view.hasLegend;
-            }
-        }, {
-            key: 'attributesDefinition',
-            get: function get() {
-                return this.view && this.view.attributesDefinition;
-            }
-        }, {
-            key: 'geometryType',
-            get: function get() {
-                return this.view && this.view.geometryType;
-            }
-        }, {
-            key: 'permissions',
-            get: function get() {
-                return this.view && this.view.permissions;
-            }
-        }, {
-            key: 'fullExtent',
-            get: function get() {
-                return this.view && this.view.fullExtent;
-            }
-        }, {
-            key: 'initialExtent',
-            get: function get() {
-                return this.view && this.view.initialExtent;
-            }
-        }, {
-            key: 'serviceInfo',
-            get: function get() {
-                return this._serviceInfo;
-            }
-        }, {
-            key: 'isEditable',
-            get: function get() {
-                return this.view.isEditable;
-            }
-        }, {
-            key: 'isFilterable',
-            get: function get() {
-                return this.view && this.view.isFilterable;
-            }
-        }, {
-            key: 'filter',
-            get: function get() {
-                return this.view && this.view.filter;
-            },
-            set: function set(filter) {
-                this.view.filter = filter;
-            }
-        }]);
+        DataSourceService.prototype._isDisplayed = true;
+
+        ServiceContainer.register(function (serviceInfo) {
+                return serviceInfo.serviceType === 'DataSourceService';
+        }, DataSourceService);
 
         return DataSourceService;
-    }(EventHandler);
-
-    ServiceContainer.register(function (serviceInfo) {
-        return serviceInfo.serviceType === 'DataSourceService';
-    }, DataSourceService);
-
-    return DataSourceService;
 });
 'use strict';
 
@@ -20227,7 +20698,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-sGis.module('spatialProcessor.services.DataViewService', ['DynamicLayer', 'spatialProcessor.services.MapService', 'spatialProcessor.ClusterLayer', 'spatialProcessor.services.ServiceContainer'], function (DynamicLayer, MapService, ClusterLayer, ServiceContainer) {
+sGis.module('sp.services.DataViewService', ['sp.services.MapService', 'sp.ClusterLayer', 'sp.services.ServiceContainer', 'sp.DataFilter', 'sp.layers.DataViewLayer'], function (MapService, ClusterLayer, ServiceContainer, DataFilter, DataViewLayer) {
 
     'use strict';
 
@@ -20239,6 +20710,7 @@ sGis.module('spatialProcessor.services.DataViewService', ['DynamicLayer', 'spati
 
             var _this = _possibleConstructorReturn(this, (DataViewService.__proto__ || Object.getPrototypeOf(DataViewService)).call(this, name, connector, serviceInfo));
 
+            if (serviceInfo.dataFilter) _this._dataFilter = _this._originalFilter = DataFilter.deserialize(serviceInfo.dataFilter);
             _this._setLayer();
             if (connector.sessionId) _this._subscribeForNotifications();
             return _this;
@@ -20247,16 +20719,19 @@ sGis.module('spatialProcessor.services.DataViewService', ['DynamicLayer', 'spati
         _createClass(DataViewService, [{
             key: '_setLayer',
             value: function _setLayer() {
-                this._layer = new DynamicLayer(this.getImageUrl.bind(this), { crs: this.crs, isDisplayed: this.isDisplayed });
+                this._layer = new DataViewLayer(this);
             }
         }, {
-            key: 'getImageUrl',
-            value: function getImageUrl(bbox, resolution) {
-                var imgWidth = Math.round((bbox.xMax - bbox.xMin) / resolution);
-                var imgHeight = Math.round((bbox.yMax - bbox.yMin) / resolution);
-                var sr = encodeURIComponent(bbox.crs.wkid || JSON.stringify(bbox.crs.description));
+            key: 'setDataFilter',
+            value: function setDataFilter(filter) {
+                this._dataFilter = filter;
 
-                return this.url + 'export?' + 'dpi=96&' + 'transparent=true&' + 'bbox=' + bbox.xMin + '%2C' + bbox.yMin + '%2C' + bbox.xMax + '%2C' + bbox.yMax + '&' + 'bboxSR=' + sr + '&' + 'imageSR=' + sr + '&' + 'size=' + imgWidth + '%2C' + imgHeight + '&' + 'f=image' + this.connector.sessionSuffix;
+                var serialized = filter.serialize();
+                var promise = this.connector.api.setDataFilter(this.name, JSON.stringify(serialized));
+
+                this.fire('dataFilterChange');
+
+                return promise;
             }
         }, {
             key: 'setCustomFilter',
@@ -20283,6 +20758,16 @@ sGis.module('spatialProcessor.services.DataViewService', ['DynamicLayer', 'spati
             key: 'isFilterable',
             get: function get() {
                 return !!this.dataSource;
+            }
+        }, {
+            key: 'dataFilter',
+            get: function get() {
+                return this._dataFilter;
+            }
+        }, {
+            key: 'tempFilterApplied',
+            get: function get() {
+                return this._dataFilter !== this._originalFilter;
             }
         }, {
             key: 'customFilter',
@@ -20354,7 +20839,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-sGis.module('spatialProcessor.services.MapService', ['utils', 'CRS', 'EventHandler', 'Bbox'], function (utils, CRS, EventHandler, Bbox) {
+sGis.module('sp.services.MapService', ['utils', 'CRS', 'EventHandler', 'Bbox'], function (utils, CRS, EventHandler, Bbox) {
 
     'use strict';
 
@@ -20596,7 +21081,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-sGis.module('spatialProcessor.services.ServiceContainer', ['FeatureLayer', 'EventHandler', 'utils', 'spatialProcessor.utils'], function (FeatureLayer, EventHandler, utils) {
+sGis.module('sp.services.ServiceContainer', ['FeatureLayer', 'EventHandler', 'utils', 'sp.utils'], function (FeatureLayer, EventHandler, utils) {
 
     'use strict';
 
@@ -20605,7 +21090,13 @@ sGis.module('spatialProcessor.services.ServiceContainer', ['FeatureLayer', 'Even
     var ServiceContainer = function (_EventHandler) {
         _inherits(ServiceContainer, _EventHandler);
 
-        function ServiceContainer(connector, serviceName, serviceInfo) {
+        function ServiceContainer(connector, serviceName) {
+            var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+                serviceInfo = _ref.serviceInfo,
+                service = _ref.service,
+                _ref$isDisplayed = _ref.isDisplayed,
+                isDisplayed = _ref$isDisplayed === undefined ? true : _ref$isDisplayed;
+
             _classCallCheck(this, ServiceContainer);
 
             var _this = _possibleConstructorReturn(this, (ServiceContainer.__proto__ || Object.getPrototypeOf(ServiceContainer)).call(this));
@@ -20613,12 +21104,29 @@ sGis.module('spatialProcessor.services.ServiceContainer', ['FeatureLayer', 'Even
             _this._connector = connector;
             _this._name = serviceName;
             _this._emptyLayer = new FeatureLayer();
+            _this._emptyLayer.isDisplayed = isDisplayed;
 
-            _this._init(serviceInfo);
+            if (service) {
+                _this._initWithService(service);
+            } else {
+                _this._init(serviceInfo);
+            }
             return _this;
         }
 
         _createClass(ServiceContainer, [{
+            key: '_initWithService',
+            value: function _initWithService(service) {
+                this._service = service;
+                this._setListeners(service);
+            }
+        }, {
+            key: '_setListeners',
+            value: function _setListeners(service) {
+                service.on('visibilityChange childUpdate layerChange', this._fireUpdate.bind(this));
+                service.on('stateUpdate', this.forwardEvent.bind(this));
+            }
+        }, {
             key: '_init',
             value: function _init(serviceInfo) {
                 var _this2 = this;
@@ -20640,9 +21148,10 @@ sGis.module('spatialProcessor.services.ServiceContainer', ['FeatureLayer', 'Even
             key: '_loadServiceInfo',
             value: function _loadServiceInfo() {
                 var url = this.url + '/' + (this._connector.sessionId ? '?_sb=' + this._connector.sessionId : '');
-                return utils.ajaxp({ url: url }).then(function (_ref) {
-                    var _ref2 = _slicedToArray(_ref, 1),
-                        response = _ref2[0];
+
+                return this._connector.initializationPromise.then(utils.ajaxp.bind(utils, { url: url })).then(function (_ref2) {
+                    var _ref3 = _slicedToArray(_ref2, 1),
+                        response = _ref3[0];
 
                     return utils.parseJSON(response);
                 });
@@ -20660,7 +21169,7 @@ sGis.module('spatialProcessor.services.ServiceContainer', ['FeatureLayer', 'Even
                 for (var i = 0; i < serviceTypeRegistry.length; i++) {
                     if (serviceTypeRegistry[i].condition(serviceInfo)) {
                         this._service = new serviceTypeRegistry[i].constructor(this._name, this._connector, serviceInfo);
-                        this._service.on('visibilityChange childUpdate layerChange', this._fireUpdate.bind(this));
+                        this._setListeners(this._service);
                         if (this._service.layer) {
                             this._service.layer.opacity = this._emptyLayer.opacity;
                             this._service.layer.resolutionLimits = this._emptyLayer.resolutionLimits;
@@ -20686,6 +21195,11 @@ sGis.module('spatialProcessor.services.ServiceContainer', ['FeatureLayer', 'Even
             key: 'name',
             get: function get() {
                 return this._name;
+            }
+        }, {
+            key: 'localName',
+            get: function get() {
+                return this._service && this._service.localName;
             }
         }, {
             key: 'error',
@@ -20724,30 +21238,31 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-sGis.module('spatialProcessor.services.ServiceGroup', ['LayerGroup', 'EventHandler', 'spatialProcessor.services.ServiceContainer'], function (LayerGroup, EventHandler, ServiceContainer) {
+sGis.module('sp.services.ServiceGroup', ['sp.ServiceGroup', 'sp.services.ServiceContainer'], function (ServiceGroup, ServiceContainer) {
     'use strict';
 
-    var ServiceGroup = function (_EventHandler) {
-        _inherits(ServiceGroup, _EventHandler);
+    var ServiceGroupService = function (_ServiceGroup) {
+        _inherits(ServiceGroupService, _ServiceGroup);
 
-        function ServiceGroup(name, connector, serviceInfo) {
-            _classCallCheck(this, ServiceGroup);
+        function ServiceGroupService(name, connector, serviceInfo) {
+            _classCallCheck(this, ServiceGroupService);
 
-            var _this = _possibleConstructorReturn(this, (ServiceGroup.__proto__ || Object.getPrototypeOf(ServiceGroup)).call(this));
-
-            _this._name = name;
-            _this._connector = connector;
-            _this._children = serviceInfo.childrenInfo.map(function (info) {
-                return new ServiceContainer(connector, info.name, info);
+            var children = serviceInfo.childrenInfo.map(function (info) {
+                return new ServiceContainer(connector, info.name, {
+                    serviceInfo: info,
+                    isDisplayed: serviceInfo.contents.find(function (_ref) {
+                        var name = _ref.name;
+                        return name === info.name;
+                    }).isVisible
+                });
             });
 
+            var _this = _possibleConstructorReturn(this, (ServiceGroupService.__proto__ || Object.getPrototypeOf(ServiceGroupService)).call(this, name, { children: children, alias: serviceInfo.alias }));
+
             _this._serviceInfo = serviceInfo;
-            _this._isDisplayed = true;
-            _this._layer = new LayerGroup();
 
             _this._initializationPromise = new Promise(function (resolve, reject) {
                 setTimeout(function () {
-                    _this._setForwardListeners();
                     _this._updateChildLayers();
                     resolve();
                 }, 0);
@@ -20755,135 +21270,31 @@ sGis.module('spatialProcessor.services.ServiceGroup', ['LayerGroup', 'EventHandl
             return _this;
         }
 
-        _createClass(ServiceGroup, [{
-            key: '_setForwardListeners',
-            value: function _setForwardListeners() {
-                var _this2 = this;
-
-                this._children.forEach(function (container) {
-                    if (container.service) {
-                        container.service.on('visibilityChange', _this2.forwardEvent.bind(_this2));
-                    }
-                });
-            }
-        }, {
-            key: '_updateChildLayers',
-            value: function _updateChildLayers() {
-                this._layer.layers = this._children.filter(function (container) {
-                    return container.service && container.service.layer;
-                }).map(function (container) {
-                    return container.service.layer;
-                });
-            }
-        }, {
-            key: 'getService',
-            value: function getService(serviceName) {
-                var tempService = this._children.filter(function (_ref) {
-                    var name = _ref.name;
-                    return name === serviceName;
-                })[0];
-                if (tempService) {
-                    return tempService;
-                } else {
-                    this._children.forEach(function (container) {
-                        if (!container.service || !container.service.children) return;
-
-                        var s = container.service.getService(serviceName);
-                        if (s) {
-                            tempService = s;
-                        }
-                    });
-
-                    return tempService;
-                }
-            }
-        }, {
-            key: 'getServices',
-            value: function getServices(recurse) {
-                var children = [];
-                this._children.forEach(function (c) {
-                    if (!c.service) return;
-                    children.push(c.service);
-                    if (recurse && c.service.getServices) children = children.concat(c.service.getServices(true));
-                });
-
-                return children;
-            }
-        }, {
-            key: 'removeService',
-            value: function removeService(serviceName) {
-                var _getService = this.getService(serviceName),
-                    layer = _getService.layer;
-
-                this._layer.removeLayer(layer);
-                this._children = this._children.filter(function (_ref2) {
-                    var name = _ref2.name;
-                    return name !== serviceName;
-                });
-            }
-        }, {
-            key: 'name',
-            get: function get() {
-                return this._name;
-            }
-        }, {
-            key: 'layer',
-            get: function get() {
-                return this._layer;
-            }
-        }, {
-            key: 'children',
-            get: function get() {
-                return this._children;
-            }
-        }, {
+        _createClass(ServiceGroupService, [{
             key: 'serviceInfo',
             get: function get() {
                 return this._serviceInfo;
-            }
-        }, {
-            key: 'alias',
-            get: function get() {
-                return this.serviceInfo && this.serviceInfo.alias;
-            }
-        }, {
-            key: 'isDisplayed',
-            get: function get() {
-                return this._isDisplayed;
-            },
-            set: function set(bool) {
-                if (this._isDisplayed !== bool) {
-                    this._isDisplayed = bool;
-                    if (this.layer) this.layer.isDisplayed = bool;
-                    this.fire('visibilityChange');
-                }
             }
         }, {
             key: 'initializationPromise',
             get: function get() {
                 return this._initializationPromise;
             }
-        }], [{
-            key: 'createLayers',
-            value: function createLayers(service) {
-                if (Array.isArray(service)) {
-                    return new LayerGroup(service.map(function (s) {
-                        return ServiceGroup.createLayers(s);
-                    }));
-                } else if (service.layer) {
-                    return service.layer;
-                }
+        }, {
+            key: 'permissions',
+            get: function get() {
+                return this.serviceInfo.permissions;
             }
         }]);
 
-        return ServiceGroup;
-    }(EventHandler);
+        return ServiceGroupService;
+    }(ServiceGroup);
 
     ServiceContainer.register(function (serviceInfo) {
         return serviceInfo.serviceType === 'LayerGroup';
-    }, ServiceGroup);
+    }, ServiceGroupService);
 
-    return ServiceGroup;
+    return ServiceGroupService;
 });
 'use strict';
 
@@ -20895,7 +21306,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-sGis.module('spatialProcessor.services.TileService', ['spatialProcessor.services.MapService', 'TileLayer', 'TileScheme', 'spatialProcessor.services.ServiceContainer'], function (MapService, TileLayer, TileScheme, ServiceContainer) {
+sGis.module('sp.services.TileService', ['sp.services.MapService', 'TileLayer', 'TileScheme', 'sp.services.ServiceContainer'], function (MapService, TileLayer, TileScheme, ServiceContainer) {
 
     'use strict';
 

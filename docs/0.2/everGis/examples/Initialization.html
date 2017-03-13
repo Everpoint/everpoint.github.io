@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>sGis - Setting map position and resolution</title>
+    <title>EverGis - Map Initialization with sGis.SpatialProcessor initializer</title>
 
-    <script src="https://everpoint.github.io/everGis-bundle.js"></script>
+    <script src="../../everGis-bundle.js"></script>
 
     <style>
         html, body { margin: 0; overflow: hidden; height: 100%; }
@@ -16,15 +16,12 @@
 
 <script>
     window.onload = function() {
-        sGis.spatialProcessor.Connector.prototype.apiLoginUrl = 'http://evg-inst.everpoint.ru/EverCloud/Strategis.Server.Authorization/Authorize.svc/Login';
-
         var sp = new sGis.SpatialProcessor({
             url: 'http://evg-inst.everpoint.ru/EverCloud/SpatialProcessor/IIS/',
             mapWrapper: 'map',
-            services: ['osm']
+            baseService: 'osm',
+            centerPoint: new sGis.Point([59.94, 30.43])
         });
-
-        sp.map.centerPoint = new sGis.Point([59.94, 30.43]);
     }
 </script>
 </body>
