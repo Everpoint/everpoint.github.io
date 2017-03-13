@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: LayerGroup.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: LayerGroup.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>sGis.module('LayerGroup', [
+    'utils',
+    'EventHandler'
+], function(utils, EventHandler) {
+
+    'use strict';
+
+    /**
+     * Ordered list of layers and nested layer groups.
+     * @alias sGis.LayerGroup
+     * @extends sGis.EventHandler
+     */
+    class LayerGroup extends EventHandler {
+        /**
+         * @param {sGis.Layer[]} [layers=[]] - initial list of layers in the group
+         */
+        constructor (layers = []) {
+            super();
+            this._layers = [];
+            this._forwardEvent = (sGisEvent) => { this.fire(sGisEvent.eventType, sGisEvent); };
+            this._fireContentChange = () => { this.fire('contentsChange'); };
+
+            this.layers = layers || [];
+        }
+
+        /**
+         * Adds a layer to the end of the list
+         * @param {sGis.Layer|sGis.LayerGroup} layer - layer to add
+         * @fires sGis.LayerGroup#layerAdd
+         * @fires sGis.LayerGroup#contentsChange
+         * @throws if the layer is already in the group, or in any of the child groups
+         */
+        addLayer (layer) {
+            if (layer === this) utils.error('Cannot add self to the group');
+            if (this.getLayers(true).indexOf(layer) !== -1) {
+                utils.error('Cannot add layer to the group: the layer is already in the group');
+            }
+
+            this._layers.push(layer);
+            this._setChildListeners(layer);
+
+            if (layer instanceof LayerGroup) {
+                this._setForwardListeners(layer);
+            }
+
+            this.fire('layerAdd', {layer: layer});
+            this.fire('contentsChange');
+        }
+
+        /**
+         * Removes the layer from the group
+         * @param {sGis.Layer|sGis.LayerGroup} layer - layer to remove
+         * @param {Boolean} [recurse=false] - remove the layer from the child groups
+         * @fires sGis.LayerGroup#layerRemove
+         * @fires sGis.LayerGroup#contentsChange
+         * @throws if the layer not in the group
+         */
+        removeLayer (layer, recurse) {
+            var index = this._layers.indexOf(layer);
+            if (index !== -1) {
+                this._layers.splice(index, 1);
+                this._removeChildListeners(layer);
+                if (layer instanceof LayerGroup) {
+                    this._removeForwardListeners(layer);
+                }
+                this.fire('layerRemove', {layer: layer});
+                this.fire('contentsChange');
+                return;
+            } else if (recurse) {
+                for (var i = 0, l = this._layers.length; i &lt; l; i++) {
+                    if (this._layers[i] instanceof LayerGroup &amp;&amp; this._layers[i].contains(layer)) {
+                        this._layers[i].removeLayer(layer, true);
+                        return;
+                    }
+                }
+            }
+    
+            utils.error('The layer is not in the group');
+        }
+
+        _setChildListeners(layer) {
+            layer.on('visibilityChange', this._fireContentChange);
+        }
+
+        _removeChildListeners(layer) {
+            layer.off('visibilityChange', this._fireContentChange);
+        }
+
+        _setForwardListeners (layerGroup) {
+            layerGroup.on('layerAdd layerRemove layerOrderChange contentsChange', this._forwardEvent);
+        }
+
+        _removeForwardListeners (layerGroup) {
+            layerGroup.off('layerAdd layerRemove layerOrderChange contentsChange', this._forwardEvent);
+        }
+
+        /**
+         * Returns true if the group or any of the child groups (recursively) contains the given layer
+         * @param {sGis.Layer|sGis.LayerGroup} layer
+         * @returns {boolean}
+         */
+        contains (layer) {
+            for (var i = 0, l = this._layers.length; i &lt; l; i++) {
+                if (this._layers[i] instanceof LayerGroup &amp;&amp; this._layers[i].contains(layer) || this._layers[i] === layer) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /**
+         * Returns index of a layer in the group
+         * @param {sGis.Layer|sGis.LayerGroup} layer
+         * @returns {number}
+         */
+        indexOf (layer) {
+            return this._layers.indexOf(layer);
+        }
+
+        /**
+         * Inserts the layer to the given position. If the layer is already in the group, moves the layer so that new index of the layer equals the specified index.
+         * If the index is negative, layer is added to the beginning of the list. If the index is larger than number of the layers in the group, layer will be added to the end of the list.
+         * @param {sGis.Layer|sGis.LayerGroup} layer - layer to insert
+         * @param {Number} index - integer position of the layer after insertion
+         * @fires sGis.LayerGroup#layerAdd
+         * @fires sGis.LayerGroup#layerOrderChange
+         * @fires sGis.LayerGroup#contentsChange
+         * @throws if the given layer cannot be added to the group
+         */
+        insertLayer (layer, index) {
+            var currIndex = this._layers.indexOf(layer);
+    
+            if (currIndex === -1) {
+                this.prohibitEvent('layerAdd');
+                this.addLayer(layer);
+                this.allowEvent('layerAdd');
+                currIndex = this._layers.length - 1;
+                var added = true;
+            }
+    
+            var length = this._layers.length;
+            index = index > length ? length : index &lt; 0 &amp;&amp; index &lt; -length ? -length : index;
+            if (index &lt; 0) index = length + index;
+    
+            this._layers.splice(currIndex, 1);
+            this._layers.splice(index, 0, layer);
+            var event = added ? 'layerAdd' : 'layerOrderChange';
+            this.fire(event, {layer: layer});
+            this.fire('contentsChange');
+
+        }
+        
+        moveLayerToTop(layer) {
+            this.insertLayer(layer, -1);
+        }
+
+        /**
+         * Returns the list of the layers in the group without child LayerGroup's
+         * @param {Boolean} [recurse=false] - weather to include layers from the child groups
+         * @param {Boolean} [excludeInactive=false] - if set to true, layers with isDisplayed=false and all their children will not be included
+         * @returns {sGis.Layer[]} - ordered list of the layers
+         */
+        getLayers(recurse, excludeInactive) {
+            let layers = [];
+            this._layers.forEach(layer => {
+                if (excludeInactive &amp;&amp; !layer.isDisplayed) return;
+
+                if (recurse &amp;&amp; layer instanceof LayerGroup) {
+                    layers = layers.concat(layer.getLayers(recurse, excludeInactive));
+                } else {
+                    layers.push(layer);
+                }
+            });
+            return layers;
+        }
+
+        /**
+         * The list of the layers and child groups in the group. If assigned, all the layers will be removed from the group, and then new layers will be added (firing all the events).
+         * @type Array&lt;sGis.Layer|sGis.LayerGroup>
+         * @default []
+         */
+        get layers() { return [].concat(this._layers); }
+        set layers(/** Array&lt;sGis.Layer|sGis.LayerGroup> */ layers) {
+            var list = this.layers;
+            for (var i = 0; i &lt; list.length; i++) {
+                this.removeLayer(list[i]);
+            }
+
+            for (i = 0; i &lt; layers.length; i++) {
+                this.addLayer(layers[i]);
+            }
+        }
+
+        get isDisplayed() { return this._isDisplayed; }
+        set isDisplayed(bool) {
+            if (this._isDisplayed !== bool) {
+                this._isDisplayed = bool;
+                this.fire('visibilityChange');
+            }
+        }
+
+        show() { this.isDisplayed = true; }
+        hide() { this.isDisplayed = false; }
+    }
+
+    LayerGroup.prototype.isDisplayed = true;
+
+    return LayerGroup;
+
+    /**
+     * A layer is added to the group, or to any of the child groups (recursive)
+     * @event sGis.LayerGroup#layerAdd
+     * @mixes sGisEvent
+     * @type {Object}
+     * @property {sGis.Layer} layer - added layer
+     */
+
+    /**
+     * A layer is removed from the group, or from any of the child groups (recursive)
+     * @event sGis.LayerGroup#layerRemove
+     * @mixes sGisEvent
+     * @type {Object}
+     * @property {sGis.Layer} layer - removed layer
+     */
+
+    /**
+     * Position of one of the layers in the group is changed
+     * @event sGis.LayerGroup#layerOrderChange
+     * @mixes sGisEvent
+     * @type {Object}
+     * @property {sGis.Layer} layer - the layer that was moved
+     */
+
+    /**
+     * One of the child layers (recursive) is added, removed, moved to other index or changed isDisplayed property
+     * @event sGis.LayerGroup#contentsChange
+     * @mixes sGisEvent
+     * @type {Object}
+     */
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="sGis.Bbox.html">sGis.Bbox</a></li><li><a href="sGis.Control.html">sGis.Control</a></li><li><a href="sGis.control.Polyline.html">sGis.control.Polyline</a></li><li><a href="sGis.controls.Circle.html">sGis.controls.Circle</a></li><li><a href="sGis.controls.Editor.html">sGis.controls.Editor</a></li><li><a href="sGis.controls.MultiPoint.html">sGis.controls.MultiPoint</a></li><li><a href="sGis.controls.Point.html">sGis.controls.Point</a></li><li><a href="sGis.controls.PointEditor.html">sGis.controls.PointEditor</a></li><li><a href="sGis.controls.Poly.html">sGis.controls.Poly</a></li><li><a href="sGis.controls.PolyDrag.html">sGis.controls.PolyDrag</a></li><li><a href="sGis.controls.PolyEditor.html">sGis.controls.PolyEditor</a></li><li><a href="sGis.controls.Polyline.html">sGis.controls.Polyline</a></li><li><a href="sGis.controls.PolyTransform.html">sGis.controls.PolyTransform</a></li><li><a href="sGis.controls.Rectangle.html">sGis.controls.Rectangle</a></li><li><a href="sGis.controls.Snapping.html">sGis.controls.Snapping</a></li><li><a href="sGis.Crs_.html">sGis.Crs</a></li><li><a href="sGis.CRS.AlbersEqualArea.html">sGis.CRS.AlbersEqualArea</a></li><li><a href="sGis.DynamicLayer.html">sGis.DynamicLayer</a></li><li><a href="sGis.EventHandler.html">sGis.EventHandler</a></li><li><a href="sGis.Feature.html">sGis.Feature</a></li><li><a href="sGis.feature.Image.html">sGis.feature.Image</a></li><li><a href="sGis.feature.Label.html">sGis.feature.Label</a></li><li><a href="sGis.feature.Maptip.html">sGis.feature.Maptip</a></li><li><a href="sGis.feature.MultiPoint.html">sGis.feature.MultiPoint</a></li><li><a href="sGis.feature.Point.html">sGis.feature.Point</a></li><li><a href="sGis.feature.Poly.html">sGis.feature.Poly</a></li><li><a href="sGis.feature.Polygon.html">sGis.feature.Polygon</a></li><li><a href="sGis.feature.Polyline.html">sGis.feature.Polyline</a></li><li><a href="sGis.FeatureLayer.html">sGis.FeatureLayer</a></li><li><a href="sGis.Layer.html">sGis.Layer</a></li><li><a href="sGis.LayerGroup.html">sGis.LayerGroup</a></li><li><a href="sGis.Map.html">sGis.Map</a></li><li><a href="sGis.painter.DomPainter_.html">sGis.painter.DomPainter</a></li><li><a href="sGis.painter.domPainter.Container.html">sGis.painter.domPainter.Container</a></li><li><a href="sGis.painter.domPainter.EventDispatcher.html">sGis.painter.domPainter.EventDispatcher</a></li><li><a href="sGis.painter.domPainter.SvgRender.html">sGis.painter.domPainter.SvgRender</a></li><li><a href="sGis.Point.html">sGis.Point</a></li><li><a href="sGis.render.Arc.html">sGis.render.Arc</a></li><li><a href="sGis.render.HtmlElement.html">sGis.render.HtmlElement</a></li><li><a href="sGis.render.ImageRender.html">sGis.render.ImageRender</a></li><li><a href="sGis.render.Point.html">sGis.render.Point</a></li><li><a href="sGis.render.Polygon.html">sGis.render.Polygon</a></li><li><a href="sGis.render.Polyline.html">sGis.render.Polyline</a></li><li><a href="sGis.Symbol.html">sGis.Symbol</a></li><li><a href="sGis.symbol.Editor.html">sGis.symbol.Editor</a></li><li><a href="sGis.symbol.image.Image.html">sGis.symbol.image.Image</a></li><li><a href="sGis.symbol.label.Label.html">sGis.symbol.label.Label</a></li><li><a href="sGis.symbol.maptip.Simple.html">sGis.symbol.maptip.Simple</a></li><li><a href="sGis.symbol.point.Image.html">sGis.symbol.point.Image</a></li><li><a href="sGis.symbol.point.MaskedImage.html">sGis.symbol.point.MaskedImage</a></li><li><a href="sGis.symbol.point.Point.html">sGis.symbol.point.Point</a></li><li><a href="sGis.symbol.point.Square.html">sGis.symbol.point.Square</a></li><li><a href="sGis.symbol.polygon.BrushFill.html">sGis.symbol.polygon.BrushFill</a></li><li><a href="sGis.symbol.polygon.ImageFill.html">sGis.symbol.polygon.ImageFill</a></li><li><a href="sGis.symbol.polygon.Simple.html">sGis.symbol.polygon.Simple</a></li><li><a href="sGis.symbol.polyline.Simple.html">sGis.symbol.polyline.Simple</a></li><li><a href="sGis.TileLayer.html">sGis.TileLayer</a></li><li><a href="sGis.TileScheme.html">sGis.TileScheme</a></li><li><a href="sGis.utils.Color.html">sGis.utils.Color</a></li><li><a href="StateManager.html">StateManager</a></li></ul><h3>Events</h3><ul><li><a href="sGis.control.Polyline.html#event:drawingBegin">sGis.control.Polyline#drawingBegin</a></li><li><a href="sGis.control.Polyline.html#event:drawingFinish">sGis.control.Polyline#drawingFinish</a></li><li><a href="sGis.control.Polyline.html#event:pointAdd">sGis.control.Polyline#pointAdd</a></li><li><a href="sGis.controls.Circle.html#event:drawingBegin">sGis.controls.Circle#drawingBegin</a></li><li><a href="sGis.controls.Circle.html#event:drawingFinish">sGis.controls.Circle#drawingFinish</a></li><li><a href="sGis.controls.Editor.html#event:featureDeselect">sGis.controls.Editor#featureDeselect</a></li><li><a href="sGis.controls.Editor.html#event:featureRemove">sGis.controls.Editor#featureRemove</a></li><li><a href="sGis.controls.Editor.html#event:featureSelect">sGis.controls.Editor#featureSelect</a></li><li><a href="sGis.controls.MultiPoint.html#event:drawingBegin">sGis.controls.MultiPoint#drawingBegin</a></li><li><a href="sGis.controls.MultiPoint.html#event:drawingFinish">sGis.controls.MultiPoint#drawingFinish</a></li><li><a href="sGis.controls.MultiPoint.html#event:pointAdd">sGis.controls.MultiPoint#pointAdd</a></li><li><a href="sGis.controls.Point.html#event:drawingFinish">sGis.controls.Point#drawingFinish</a></li><li><a href="sGis.controls.PointEditor.html#event:edit">sGis.controls.PointEditor#edit</a></li><li><a href="sGis.controls.Poly.html#event:drawingBegin">sGis.controls.Poly#drawingBegin</a></li><li><a href="sGis.controls.Poly.html#event:drawingFinish">sGis.controls.Poly#drawingFinish</a></li><li><a href="sGis.controls.Poly.html#event:pointAdd">sGis.controls.Poly#pointAdd</a></li><li><a href="sGis.controls.PolyDrag.html#event:drawingBegin">sGis.controls.PolyDrag#drawingBegin</a></li><li><a href="sGis.controls.PolyDrag.html#event:drawingFinish">sGis.controls.PolyDrag#drawingFinish</a></li><li><a href="sGis.controls.PolyEditor.html#event:change">sGis.controls.PolyEditor#change</a></li><li><a href="sGis.controls.PolyEditor.html#event:edit">sGis.controls.PolyEditor#edit</a></li><li><a href="sGis.controls.Polyline.html#event:drawingBegin">sGis.controls.Polyline#drawingBegin</a></li><li><a href="sGis.controls.Polyline.html#event:drawingFinish">sGis.controls.Polyline#drawingFinish</a></li><li><a href="sGis.controls.Polyline.html#event:pointAdd">sGis.controls.Polyline#pointAdd</a></li><li><a href="sGis.controls.PolyTransform.html#event:rotationEnd">sGis.controls.PolyTransform#rotationEnd</a></li><li><a href="sGis.controls.PolyTransform.html#event:rotationStart">sGis.controls.PolyTransform#rotationStart</a></li><li><a href="sGis.controls.PolyTransform.html#event:scalingEnd">sGis.controls.PolyTransform#scalingEnd</a></li><li><a href="sGis.controls.PolyTransform.html#event:scalingStart">sGis.controls.PolyTransform#scalingStart</a></li><li><a href="sGis.controls.Rectangle.html#event:drawingBegin">sGis.controls.Rectangle#drawingBegin</a></li><li><a href="sGis.controls.Rectangle.html#event:drawingFinish">sGis.controls.Rectangle#drawingFinish</a></li><li><a href="sGis.DynamicLayer.html#event:propertyChange">sGis.DynamicLayer#propertyChange</a></li><li><a href="sGis.FeatureLayer.html#event:featureAdd">sGis.FeatureLayer#featureAdd</a></li><li><a href="sGis.FeatureLayer.html#event:featureRemove">sGis.FeatureLayer#featureRemove</a></li><li><a href="sGis.Layer.html#event:propertyChange">sGis.Layer#propertyChange</a></li><li><a href="sGis.LayerGroup.html#event:contentsChange">sGis.LayerGroup#contentsChange</a></li><li><a href="sGis.LayerGroup.html#event:layerAdd">sGis.LayerGroup#layerAdd</a></li><li><a href="sGis.LayerGroup.html#event:layerOrderChange">sGis.LayerGroup#layerOrderChange</a></li><li><a href="sGis.LayerGroup.html#event:layerRemove">sGis.LayerGroup#layerRemove</a></li><li><a href="sGis.Map.html#event:contentsChange">sGis.Map#contentsChange</a></li><li><a href="sGis.Map.html#event:layerAdd">sGis.Map#layerAdd</a></li><li><a href="sGis.Map.html#event:layerOrderChange">sGis.Map#layerOrderChange</a></li><li><a href="sGis.Map.html#event:layerRemove">sGis.Map#layerRemove</a></li><li><a href="sGis.TileLayer.html#event:propertyChange">sGis.TileLayer#propertyChange</a></li></ul><h3>Namespaces</h3><ul><li><a href="sGis.html">sGis</a></li><li><a href="sGis.CRS.html">sGis.CRS</a></li><li><a href="sGis.event.html">sGis.event</a></li><li><a href="sGis.feature_.html">sGis.feature</a></li><li><a href="sGis.geotools.html">sGis.geotools</a></li><li><a href="sGis.math.html">sGis.math</a></li><li><a href="sGis.painter.domPainter.html">sGis.painter.domPainter</a></li><li><a href="sGis.render.html">sGis.render</a></li><li><a href="sGis.serializer.html">sGis.serializer</a></li><li><a href="sGis.symbol_.html">sGis.symbol</a></li><li><a href="sGis.symbol.label.html">sGis.symbol.label</a></li><li><a href="sGis.symbol.maptip.html">sGis.symbol.maptip</a></li><li><a href="sGis.symbol.point.html">sGis.symbol.point</a></li><li><a href="sGis.symbol.polygon.html">sGis.symbol.polygon</a></li><li><a href="sGis.symbol.polyline.html">sGis.symbol.polyline</a></li><li><a href="sGis.utils.html">sGis.utils</a></li></ul><h3>Mixins</h3><ul><li><a href="sGisEvent.html">sGisEvent</a></li></ul><h3>Interfaces</h3><ul><li><a href="sGis.IPoint.html">sGis.IPoint</a></li><li><a href="sGis.IRender.html">sGis.IRender</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Tue Jan 10 2017 17:46:28 GMT+0300 (Russia TZ 2 Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

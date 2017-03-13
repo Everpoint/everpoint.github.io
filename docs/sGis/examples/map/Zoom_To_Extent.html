@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sGis - Zooming Map to a Given Extent</title>
+
+    <script src="../../../sGis-bundle.js"></script>
+
+    <style>
+        html, body { margin: 0; overflow: hidden; height: 100%; }
+        #map { height: 100%; }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+
+<script>
+    window.onload = function() {
+        var gis = sGis.init({
+            wrapper: 'map',
+            layers: [ new sGis.TileLayer('http://c.tile.openstreetmap.org/{z}/{x}/{y}.png') ]
+        });
+
+        var originalBbox = gis.painter.bbox;
+
+        gis.map.on('click', function(ev) {
+            gis.painter.show(originalBbox);
+        });
+
+        var p = gis.map.position;
+        var coords = [p, [p[0] + 10000, p[1]], [p[0] + 15000, p[1] + 10000]];
+        var polygon = new sGis.feature.Polygon(coords, {crs: gis.map.crs, symbol: new sGis.symbol.polygon.Simple({ fillColor: 'blue' })});
+        gis.map.addLayer(new sGis.FeatureLayer({features: [polygon]}));
+
+        polygon.on('click', function(ev) {
+            ev.stopPropagation();
+            gis.painter.show(polygon.bbox);
+        });
+    }
+</script>
+</body>
+</html>

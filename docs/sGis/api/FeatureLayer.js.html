@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: FeatureLayer.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: FeatureLayer.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>sGis.module('FeatureLayer', [
+    'utils',
+    'Layer'
+], function(utils, Layer) {
+    'use strict';
+
+    /**
+     * A layer that contains arbitrary set of vector objects 
+     * @alias sGis.FeatureLayer
+     */
+    class FeatureLayer extends Layer {
+        /**
+         * @param {Object} [properties] - key-value set of properties to be assigned to the instance
+         */
+        constructor(properties = {}) {
+            if (properties.features) {
+                var features = properties.features;
+                delete properties.features;
+            }
+            super(properties);
+
+            /**
+             * @type {sGis.Feature[]}
+             * @private
+             */
+            this._features = features || [];
+        }
+
+        getFeatures(bbox, resolution) {
+            if (!this.checkVisibility(resolution)) return [];
+
+            var obj = [];
+            this._features.forEach(feature => {
+                if (feature.crs.canProjectTo(bbox.crs) &amp;&amp; feature.bbox.intersects(bbox)) obj.push(feature);
+            });
+
+            return obj;
+        }
+
+        /**
+         * Adds a feature or an array of features to the layer
+         * @param {sGis.Feature|sGis.Feature[]} features - features to add
+         * @fires sGis.FeatureLayer#featureAdd - for each feature to be added
+         */
+        add(features) {
+            if (Array.isArray(features)) {
+                features.forEach(feature => {
+                    this.add(feature);
+                });
+            } else {
+                this._features.push(features);
+                this.fire('featureAdd', {feature: features});
+                this.redraw();
+            }
+        }
+
+        /**
+         * Removes a feature from the layer
+         * @param {sGis.Feature} feature - feature to be removed
+         * @throws if the feature is not in the layer
+         * @fires sGis.FeatureLayer#featureRemove
+         */
+        remove(feature) {
+            var index = this._features.indexOf(feature);
+            if (index === -1) utils.error('The feature does not belong to the layer');
+            this._features.splice(index, 1);
+            this.fire('featureRemove', {feature: feature});
+            this.redraw();
+        }
+
+        /**
+         * Returns true if the given feature is in the layer
+         * @param {sGis.Feature} feature
+         * @returns {boolean}
+         */
+        has(feature) {
+            return this._features.indexOf(feature) !== -1;
+        }
+
+        /**
+         * Moves the given feature to the top of the layer (end of the list). If the feature is not in the layer, the command is ignored
+         * @param {sGis.Feature} feature
+         */
+        moveToTop(feature) {
+            var index = this._features.indexOf(feature);
+            if (index !== -1) {
+                this._features.splice(index, 1);
+                this._features.push(feature);
+                this.redraw();
+            }
+        }
+
+        /**
+         * List of features in the layer. If assigned, it removes all features and add new ones, firing all the respective events.
+         * @type {sGis.Feature[]}
+         * @default []
+         * @fires sGis.FeatureLayer#featureAdd
+         * @fires sGis.FeatureLayer#featureRemove
+         */
+        get features() { return this._features.slice(); }
+        set features(/** sGis.Feature[] */ features) {
+            this.prohibitEvent('propertyChange');
+            var currFeatures = this.features;
+            for (var i = 0; i &lt; currFeatures.length; i++) {
+                this.remove(currFeatures[i]);
+            }
+
+            this.add(features);
+            this.allowEvent('propertyChange');
+            
+            this.redraw();
+        }
+    }
+
+    /**
+     * @default true
+     */
+    FeatureLayer.prototype.delayedUpdate = true;
+
+    return FeatureLayer;
+
+    /**
+     * A feature has been added to the layer
+     * @event sGis.FeatureLayer#featureAdd
+     * @type {Object}
+     * @mixes sGisEvent
+     * @prop {sGis.Feature} feature - feature that is added to the layer
+     */
+
+    /**
+     * A feature has been removed from the layer
+     * @event sGis.FeatureLayer#featureRemove
+     * @type {Object}
+     * @mixes sGisEvent
+     * @prop {sGis.Feature} feature - feature that is removed from the layer
+     */
+
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="sGis.Bbox.html">sGis.Bbox</a></li><li><a href="sGis.Control.html">sGis.Control</a></li><li><a href="sGis.control.Polyline.html">sGis.control.Polyline</a></li><li><a href="sGis.controls.Circle.html">sGis.controls.Circle</a></li><li><a href="sGis.controls.Editor.html">sGis.controls.Editor</a></li><li><a href="sGis.controls.MultiPoint.html">sGis.controls.MultiPoint</a></li><li><a href="sGis.controls.Point.html">sGis.controls.Point</a></li><li><a href="sGis.controls.PointEditor.html">sGis.controls.PointEditor</a></li><li><a href="sGis.controls.Poly.html">sGis.controls.Poly</a></li><li><a href="sGis.controls.PolyDrag.html">sGis.controls.PolyDrag</a></li><li><a href="sGis.controls.PolyEditor.html">sGis.controls.PolyEditor</a></li><li><a href="sGis.controls.Polyline.html">sGis.controls.Polyline</a></li><li><a href="sGis.controls.PolyTransform.html">sGis.controls.PolyTransform</a></li><li><a href="sGis.controls.Rectangle.html">sGis.controls.Rectangle</a></li><li><a href="sGis.controls.Snapping.html">sGis.controls.Snapping</a></li><li><a href="sGis.Crs_.html">sGis.Crs</a></li><li><a href="sGis.CRS.AlbersEqualArea.html">sGis.CRS.AlbersEqualArea</a></li><li><a href="sGis.DynamicLayer.html">sGis.DynamicLayer</a></li><li><a href="sGis.EventHandler.html">sGis.EventHandler</a></li><li><a href="sGis.Feature.html">sGis.Feature</a></li><li><a href="sGis.feature.Image.html">sGis.feature.Image</a></li><li><a href="sGis.feature.Label.html">sGis.feature.Label</a></li><li><a href="sGis.feature.Maptip.html">sGis.feature.Maptip</a></li><li><a href="sGis.feature.MultiPoint.html">sGis.feature.MultiPoint</a></li><li><a href="sGis.feature.Point.html">sGis.feature.Point</a></li><li><a href="sGis.feature.Poly.html">sGis.feature.Poly</a></li><li><a href="sGis.feature.Polygon.html">sGis.feature.Polygon</a></li><li><a href="sGis.feature.Polyline.html">sGis.feature.Polyline</a></li><li><a href="sGis.FeatureLayer.html">sGis.FeatureLayer</a></li><li><a href="sGis.Layer.html">sGis.Layer</a></li><li><a href="sGis.LayerGroup.html">sGis.LayerGroup</a></li><li><a href="sGis.Map.html">sGis.Map</a></li><li><a href="sGis.painter.DomPainter_.html">sGis.painter.DomPainter</a></li><li><a href="sGis.painter.domPainter.Container.html">sGis.painter.domPainter.Container</a></li><li><a href="sGis.painter.domPainter.EventDispatcher.html">sGis.painter.domPainter.EventDispatcher</a></li><li><a href="sGis.painter.domPainter.SvgRender.html">sGis.painter.domPainter.SvgRender</a></li><li><a href="sGis.Point.html">sGis.Point</a></li><li><a href="sGis.render.Arc.html">sGis.render.Arc</a></li><li><a href="sGis.render.HtmlElement.html">sGis.render.HtmlElement</a></li><li><a href="sGis.render.ImageRender.html">sGis.render.ImageRender</a></li><li><a href="sGis.render.Point.html">sGis.render.Point</a></li><li><a href="sGis.render.Polygon.html">sGis.render.Polygon</a></li><li><a href="sGis.render.Polyline.html">sGis.render.Polyline</a></li><li><a href="sGis.Symbol.html">sGis.Symbol</a></li><li><a href="sGis.symbol.Editor.html">sGis.symbol.Editor</a></li><li><a href="sGis.symbol.image.Image.html">sGis.symbol.image.Image</a></li><li><a href="sGis.symbol.label.Label.html">sGis.symbol.label.Label</a></li><li><a href="sGis.symbol.maptip.Simple.html">sGis.symbol.maptip.Simple</a></li><li><a href="sGis.symbol.point.Image.html">sGis.symbol.point.Image</a></li><li><a href="sGis.symbol.point.MaskedImage.html">sGis.symbol.point.MaskedImage</a></li><li><a href="sGis.symbol.point.Point.html">sGis.symbol.point.Point</a></li><li><a href="sGis.symbol.point.Square.html">sGis.symbol.point.Square</a></li><li><a href="sGis.symbol.polygon.BrushFill.html">sGis.symbol.polygon.BrushFill</a></li><li><a href="sGis.symbol.polygon.ImageFill.html">sGis.symbol.polygon.ImageFill</a></li><li><a href="sGis.symbol.polygon.Simple.html">sGis.symbol.polygon.Simple</a></li><li><a href="sGis.symbol.polyline.Simple.html">sGis.symbol.polyline.Simple</a></li><li><a href="sGis.TileLayer.html">sGis.TileLayer</a></li><li><a href="sGis.TileScheme.html">sGis.TileScheme</a></li><li><a href="sGis.utils.Color.html">sGis.utils.Color</a></li><li><a href="StateManager.html">StateManager</a></li></ul><h3>Events</h3><ul><li><a href="sGis.control.Polyline.html#event:drawingBegin">sGis.control.Polyline#drawingBegin</a></li><li><a href="sGis.control.Polyline.html#event:drawingFinish">sGis.control.Polyline#drawingFinish</a></li><li><a href="sGis.control.Polyline.html#event:pointAdd">sGis.control.Polyline#pointAdd</a></li><li><a href="sGis.controls.Circle.html#event:drawingBegin">sGis.controls.Circle#drawingBegin</a></li><li><a href="sGis.controls.Circle.html#event:drawingFinish">sGis.controls.Circle#drawingFinish</a></li><li><a href="sGis.controls.Editor.html#event:featureDeselect">sGis.controls.Editor#featureDeselect</a></li><li><a href="sGis.controls.Editor.html#event:featureRemove">sGis.controls.Editor#featureRemove</a></li><li><a href="sGis.controls.Editor.html#event:featureSelect">sGis.controls.Editor#featureSelect</a></li><li><a href="sGis.controls.MultiPoint.html#event:drawingBegin">sGis.controls.MultiPoint#drawingBegin</a></li><li><a href="sGis.controls.MultiPoint.html#event:drawingFinish">sGis.controls.MultiPoint#drawingFinish</a></li><li><a href="sGis.controls.MultiPoint.html#event:pointAdd">sGis.controls.MultiPoint#pointAdd</a></li><li><a href="sGis.controls.Point.html#event:drawingFinish">sGis.controls.Point#drawingFinish</a></li><li><a href="sGis.controls.PointEditor.html#event:edit">sGis.controls.PointEditor#edit</a></li><li><a href="sGis.controls.Poly.html#event:drawingBegin">sGis.controls.Poly#drawingBegin</a></li><li><a href="sGis.controls.Poly.html#event:drawingFinish">sGis.controls.Poly#drawingFinish</a></li><li><a href="sGis.controls.Poly.html#event:pointAdd">sGis.controls.Poly#pointAdd</a></li><li><a href="sGis.controls.PolyDrag.html#event:drawingBegin">sGis.controls.PolyDrag#drawingBegin</a></li><li><a href="sGis.controls.PolyDrag.html#event:drawingFinish">sGis.controls.PolyDrag#drawingFinish</a></li><li><a href="sGis.controls.PolyEditor.html#event:change">sGis.controls.PolyEditor#change</a></li><li><a href="sGis.controls.PolyEditor.html#event:edit">sGis.controls.PolyEditor#edit</a></li><li><a href="sGis.controls.Polyline.html#event:drawingBegin">sGis.controls.Polyline#drawingBegin</a></li><li><a href="sGis.controls.Polyline.html#event:drawingFinish">sGis.controls.Polyline#drawingFinish</a></li><li><a href="sGis.controls.Polyline.html#event:pointAdd">sGis.controls.Polyline#pointAdd</a></li><li><a href="sGis.controls.PolyTransform.html#event:rotationEnd">sGis.controls.PolyTransform#rotationEnd</a></li><li><a href="sGis.controls.PolyTransform.html#event:rotationStart">sGis.controls.PolyTransform#rotationStart</a></li><li><a href="sGis.controls.PolyTransform.html#event:scalingEnd">sGis.controls.PolyTransform#scalingEnd</a></li><li><a href="sGis.controls.PolyTransform.html#event:scalingStart">sGis.controls.PolyTransform#scalingStart</a></li><li><a href="sGis.controls.Rectangle.html#event:drawingBegin">sGis.controls.Rectangle#drawingBegin</a></li><li><a href="sGis.controls.Rectangle.html#event:drawingFinish">sGis.controls.Rectangle#drawingFinish</a></li><li><a href="sGis.DynamicLayer.html#event:propertyChange">sGis.DynamicLayer#propertyChange</a></li><li><a href="sGis.FeatureLayer.html#event:featureAdd">sGis.FeatureLayer#featureAdd</a></li><li><a href="sGis.FeatureLayer.html#event:featureRemove">sGis.FeatureLayer#featureRemove</a></li><li><a href="sGis.Layer.html#event:propertyChange">sGis.Layer#propertyChange</a></li><li><a href="sGis.LayerGroup.html#event:contentsChange">sGis.LayerGroup#contentsChange</a></li><li><a href="sGis.LayerGroup.html#event:layerAdd">sGis.LayerGroup#layerAdd</a></li><li><a href="sGis.LayerGroup.html#event:layerOrderChange">sGis.LayerGroup#layerOrderChange</a></li><li><a href="sGis.LayerGroup.html#event:layerRemove">sGis.LayerGroup#layerRemove</a></li><li><a href="sGis.Map.html#event:contentsChange">sGis.Map#contentsChange</a></li><li><a href="sGis.Map.html#event:layerAdd">sGis.Map#layerAdd</a></li><li><a href="sGis.Map.html#event:layerOrderChange">sGis.Map#layerOrderChange</a></li><li><a href="sGis.Map.html#event:layerRemove">sGis.Map#layerRemove</a></li><li><a href="sGis.TileLayer.html#event:propertyChange">sGis.TileLayer#propertyChange</a></li></ul><h3>Namespaces</h3><ul><li><a href="sGis.html">sGis</a></li><li><a href="sGis.CRS.html">sGis.CRS</a></li><li><a href="sGis.event.html">sGis.event</a></li><li><a href="sGis.feature_.html">sGis.feature</a></li><li><a href="sGis.geotools.html">sGis.geotools</a></li><li><a href="sGis.math.html">sGis.math</a></li><li><a href="sGis.painter.domPainter.html">sGis.painter.domPainter</a></li><li><a href="sGis.render.html">sGis.render</a></li><li><a href="sGis.serializer.html">sGis.serializer</a></li><li><a href="sGis.symbol_.html">sGis.symbol</a></li><li><a href="sGis.symbol.label.html">sGis.symbol.label</a></li><li><a href="sGis.symbol.maptip.html">sGis.symbol.maptip</a></li><li><a href="sGis.symbol.point.html">sGis.symbol.point</a></li><li><a href="sGis.symbol.polygon.html">sGis.symbol.polygon</a></li><li><a href="sGis.symbol.polyline.html">sGis.symbol.polyline</a></li><li><a href="sGis.utils.html">sGis.utils</a></li></ul><h3>Mixins</h3><ul><li><a href="sGisEvent.html">sGisEvent</a></li></ul><h3>Interfaces</h3><ul><li><a href="sGis.IPoint.html">sGis.IPoint</a></li><li><a href="sGis.IRender.html">sGis.IRender</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Tue Jan 10 2017 17:46:28 GMT+0300 (Russia TZ 2 Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
