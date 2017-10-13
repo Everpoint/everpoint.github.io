@@ -6760,15 +6760,13 @@ module.exports = _dereq_(23);
 
 "use strict";
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 (function () {
     'use strict';
 
     var sGis = {};
 
-    sGis.version = "0.3.0";
-    sGis.releaseDate = "02.10.2017";
+    sGis.version = "0.2.4";
+    sGis.releaseDate = "06.03.2017";
 
     var loadedModules = { 'sGis': sGis };
     var loadingDefs = [];
@@ -6786,7 +6784,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         var loaded = 0;
         var list = loadingDefs.slice();
         var remains = [];
-        list.forEach(function (def) {
+        list.forEach(function (def, index) {
             var deps = [];
             for (var i = 0; i < def[1].length; i++) {
                 if (!loadedModules[def[1][i]]) {
@@ -6797,6 +6795,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 deps.push(loadedModules[def[1][i]]);
             }
 
+            if (loadedModules[def[0]]) debugger;
             var module = def[2].apply(this, deps);
             loadedModules[def[0]] = module;
             setModuleReference(module, def[0]);
@@ -6813,15 +6812,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     sGis.loadedModules = loadedModules;
 
-    if (window.define && window.define.amd) {
-        window.define([], function () {
-            return sGis;
-        });
-    } else if ((typeof module === "undefined" ? "undefined" : _typeof(module)) === 'object' && module.exports) {
-        module.exports = sGis;
-    } else {
-        window.sGis = sGis;
-    }
+    window.sGis = sGis;
 
     function setModuleReference(module, name) {
         var ns = name.split('.');
@@ -6986,41 +6977,23 @@ sGis.module('Crs', [], function () {
     };
 
     var Crs = function () {
-        function Crs() {
-            var description = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-            var projectionsMap = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Map();
-
+        function Crs(description, projectionsMap) {
             _classCallCheck(this, Crs);
 
-            var wkid = description.wkid,
-                authority = description.authority,
-                wkt = description.wkt,
-                details = description.details;
-
-
-            this.wkid = wkid;
-            this.authority = authority;
-            this.wkt = wkt;
-            this.details = details;
-
-            this._projections = projectionsMap;
+            this.description = description;
+            this._projections = projectionsMap || new Map();
         }
 
         _createClass(Crs, [{
-            key: 'toString',
-            value: function toString() {
-                if (this.wkid) return this.wkid.toString();
-                if (this.wkt) return this.wkt;
-
-                return this.details;
-            }
-        }, {
             key: 'equals',
             value: function equals(crs) {
-                if (this === crs) return true;
-                if (this.wkid && this.wkid === crs.wkid) return true;
+                if (this === crs || this.description === crs.description) return true;
 
-                return this.wkt && this.wkt === crs.wkt;
+                if (this.description instanceof Object && crs.description instanceof Object) {
+                    return JSON.stringify(this.description) === JSON.stringify(crs.description);
+                }
+
+                return false;
             }
         }, {
             key: 'projectionTo',
@@ -7123,17 +7096,9 @@ sGis.module('CRS', ['Crs', 'math'], function (Crs, math) {
 
     CRS.plain = new Crs('Plain crs without any projection functions');
 
-    CRS.wgs84 = new Crs({
-        wkid: 84,
-        authority: 'OCG',
-        wkt: 'GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]]'
-    });
+    CRS.wgs84 = new Crs({ wkid: 4326 });
 
-    CRS.geo = new Crs({
-        wkid: 4326,
-        authority: 'EPSG'
-    });
-
+    CRS.geo = new Crs('Native geographical coordinate system. It is same as wgs84, but x is longitude, rather then latitude.');
     CRS.geo.setProjectionTo(CRS.wgs84, function (_ref5) {
         var _ref6 = _slicedToArray(_ref5, 2),
             x = _ref6[0],
@@ -7162,12 +7127,7 @@ sGis.module('CRS', ['Crs', 'math'], function (Crs, math) {
         (function () {
             var a = 6378137;
 
-            CRS.webMercator = new Crs({
-                wkid: 3857,
-                authority: 'EPSG',
-                wkt: 'PROJCS["WGS 84 / Pseudo-Mercator",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Mercator"],PARAMETER["central_meridian",0],PARAMETER["scale_factor",1],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["Meter",1]]'
-            });
-
+            CRS.webMercator = new Crs({ wkid: 102113 });
             CRS.webMercator.setProjectionTo(CRS.wgs84, function (_ref9) {
                 var _ref10 = _slicedToArray(_ref9, 2),
                     x = _ref10[0],
@@ -7216,17 +7176,12 @@ sGis.module('CRS', ['Crs', 'math'], function (Crs, math) {
     {
         (function () {
             var a = 6378137;
-            var b = 6356752.3142451793;
+            var b = 6356752.3142;
             var e = Math.sqrt(1 - b * b / a / a);
             var eh = e / 2;
             var pih = Math.PI / 2;
 
-            CRS.ellipticalMercator = new Crs({
-                wkid: 3395,
-                authority: 'EPSG',
-                wkt: 'PROJCS["WGS 84 / World Mercator",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Mercator"],PARAMETER["central_meridian",0],PARAMETER["scale_factor",1],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["Meter",1]]'
-            });
-
+            CRS.ellipticalMercator = new Crs({ wkid: 667 });
             CRS.ellipticalMercator.setProjectionTo(CRS.wgs84, function (_ref13) {
                 var _ref14 = _slicedToArray(_ref13, 2),
                     x = _ref14[0],
@@ -7283,9 +7238,7 @@ sGis.module('CRS', ['Crs', 'math'], function (Crs, math) {
         })();
     }
 
-    CRS.moscowBessel = new Crs({
-        wkt: "PROJCS[\"Moscow_bessel\",GEOGCS[\"GCS_Bessel_1841\",DATUM[\"D_Bessel_1841\",SPHEROID[\"Bessel_1841\",6377397.155,299.1528128]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",37.5],PARAMETER[\"Scale_Factor\",1.0],PARAMETER[\"Latitude_Of_Origin\",55.66666666666666],UNIT[\"Meter\",1.0]]"
-    });
+    CRS.moscowBessel = new Crs({ "wkt": "PROJCS[\"Moscow_bessel\",GEOGCS[\"GCS_Bessel_1841\",DATUM[\"D_Bessel_1841\",SPHEROID[\"Bessel_1841\",6377397.155,299.1528128]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"False_Easting\",0.0],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",37.5],PARAMETER[\"Scale_Factor\",1.0],PARAMETER[\"Latitude_Of_Origin\",55.66666666666666],UNIT[\"Meter\",1.0]]" });
 
     {
         (function () {
@@ -7298,9 +7251,7 @@ sGis.module('CRS', ['Crs', 'math'], function (Crs, math) {
                 function AlbersEqualArea(lat0, lon0, stLat1, stLat2) {
                     _classCallCheck(this, AlbersEqualArea);
 
-                    var _this2 = _possibleConstructorReturn(this, (AlbersEqualArea.__proto__ || Object.getPrototypeOf(AlbersEqualArea)).call(this, {
-                        details: 'Albers Equal-Area Conic Projection: ' + lat0 + ',' + lon0 + ',' + stLat1 + ',' + stLat2
-                    }));
+                    var _this2 = _possibleConstructorReturn(this, (AlbersEqualArea.__proto__ || Object.getPrototypeOf(AlbersEqualArea)).call(this, 'Albers Equal-Area Conic Projection: ' + lat0 + ',' + lon0 + ',' + stLat1 + ',' + stLat2));
 
                     var _lat0 = math.degToRad(lat0);
                     var _lon0 = math.degToRad(lon0);
@@ -8314,7 +8265,8 @@ sGis.module('init', ['sGis', 'Map', 'painter.DomPainter'], function (sGis, Map, 
         plugins = plugins.map(function (pluginDefinition) {
             var name = pluginDefinition.name;
             if (!sGis.plugins || !sGis.plugins[name]) {
-                throw new Error('Plugin ' + name + ' is not available.');
+                console.warn('Plugin ' + name + ' is not available. Skipping.');
+                return null;
             }
 
             return new sGis.plugins[name](map, painter.innerWrapper, pluginDefinition.properties);
@@ -8426,8 +8378,6 @@ sGis.module('Layer', ['utils', 'EventHandler'], function (utils, EventHandler) {
     }(EventHandler);
 
     Layer.prototype.delayedUpdate = false;
-
-    Layer.prototype.updateProhibited = false;
 
     utils.extend(Layer.prototype, defaults);
 
@@ -8716,10 +8666,8 @@ sGis.module('Map', ['utils', 'CRS', 'Point', 'Bbox', 'LayerGroup', 'TileScheme']
         }, {
             key: 'adjustResolution',
             value: function adjustResolution() {
-                var direction = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
                 var resolution = this.resolution;
-                var newResolution = this.getAdjustedResolution(resolution, direction);
+                var newResolution = this.getAdjustedResolution(resolution);
                 var ratio = newResolution / resolution;
                 if (ratio > 1.1 || ratio < 0.9) {
                     this.animateSetResolution(newResolution);
@@ -8730,10 +8678,8 @@ sGis.module('Map', ['utils', 'CRS', 'Point', 'Bbox', 'LayerGroup', 'TileScheme']
         }, {
             key: 'getAdjustedResolution',
             value: function getAdjustedResolution(resolution) {
-                var direction = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-
                 if (!this.tileScheme) return resolution;
-                return this.tileScheme.getAdjustedResolution(resolution, direction);
+                return this.tileScheme.getAdjustedResolution(resolution);
             }
         }, {
             key: 'animateSetResolution',
@@ -8805,7 +8751,7 @@ sGis.module('Map', ['utils', 'CRS', 'Point', 'Bbox', 'LayerGroup', 'TileScheme']
         }, {
             key: 'setResolution',
             value: function setResolution(resolution, basePoint, doNotAdjust) {
-                this.setPosition(this._getScaledPosition(resolution, basePoint), doNotAdjust ? resolution : this.getAdjustedResolution(resolution));
+                this.setPosition(this._getScaledPosition(this.resolution, basePoint), doNotAdjust ? resolution : this.getAdjustedResolution(resolution));
             }
         }, {
             key: 'position',
@@ -9045,24 +8991,14 @@ sGis.module('TileLayer', ['utils', 'TileScheme', 'Layer', 'Point', 'Bbox', 'feat
                 if (level < 0) return [];
 
                 bbox = bbox.projectTo(ownCrs);
-                var trimmedBbox = this._getTrimmedBbox(bbox);
-                if (trimmedBbox.width === 0 || trimmedBbox.height === 0) return [];
 
                 var layerResolution = this.tileScheme.levels[level].resolution;
                 if (layerResolution * 2 < resolution) return [];
 
-                var xStartIndex = Math.floor((trimmedBbox.xMin - this.tileScheme.origin[0]) / this.tileWidth / layerResolution);
-                var xEndIndex = Math.ceil((trimmedBbox.xMax - this.tileScheme.origin[0]) / this.tileWidth / layerResolution);
-
-                var yStartIndex = void 0,
-                    yEndIndex = void 0;
-                if (this.tileScheme.reversedY) {
-                    yStartIndex = Math.floor((trimmedBbox.yMin - this.tileScheme.origin[0]) / this.tileHeight / layerResolution);
-                    yEndIndex = Math.ceil((trimmedBbox.yMax - this.tileScheme.origin[0]) / this.tileHeight / layerResolution);
-                } else {
-                    yStartIndex = Math.floor((this.tileScheme.origin[1] - trimmedBbox.yMax) / this.tileHeight / layerResolution);
-                    yEndIndex = Math.ceil((this.tileScheme.origin[1] - trimmedBbox.yMin) / this.tileHeight / layerResolution);
-                }
+                var xStartIndex = Math.floor((bbox.xMin - this.tileScheme.origin[0]) / this.tileWidth / layerResolution);
+                var xEndIndex = Math.ceil((bbox.xMax - this.tileScheme.origin[0]) / this.tileWidth / layerResolution);
+                var yStartIndex = Math.floor((this.tileScheme.origin[1] - bbox.yMax) / this.tileHeight / layerResolution);
+                var yEndIndex = Math.ceil((this.tileScheme.origin[1] - bbox.yMin) / this.tileHeight / layerResolution);
 
                 var tiles = this._tiles;
                 var features = [];
@@ -9090,12 +9026,8 @@ sGis.module('TileLayer', ['utils', 'TileScheme', 'Layer', 'Point', 'Bbox', 'feat
             key: '_getTileBbox',
             value: function _getTileBbox(level, xIndex, yIndex) {
                 var resolution = this.tileScheme.levels[level].resolution;
-
-                var minY = this.tileScheme.reversedY ? yIndex * this.tileHeight * resolution + this.tileScheme.origin[1] : -(yIndex + 1) * this.tileHeight * resolution + this.tileScheme.origin[1];
-                var startPoint = new Point([xIndex * this.tileWidth * resolution + this.tileScheme.origin[0], minY], this.crs);
-
-                var maxY = this.tileScheme.reversedY ? (yIndex + 1) * this.tileHeight * resolution + this.tileScheme.origin[1] : -yIndex * this.tileHeight * resolution + this.tileScheme.origin[1];
-                var endPoint = new Point([(xIndex + 1) * this.tileWidth * resolution + this.tileScheme.origin[0], maxY], this.crs);
+                var startPoint = new Point([xIndex * this.tileWidth * resolution + this.tileScheme.origin[0], -(yIndex + 1) * this.tileHeight * resolution + this.tileScheme.origin[1]], this.crs);
+                var endPoint = new Point([(xIndex + 1) * this.tileWidth * resolution + this.tileScheme.origin[0], -yIndex * this.tileHeight * resolution + this.tileScheme.origin[1]], this.crs);
 
                 return new Bbox(startPoint.position, endPoint.position, this.crs);
             }
@@ -9146,22 +9078,6 @@ sGis.module('TileLayer', ['utils', 'TileScheme', 'Layer', 'Point', 'Bbox', 'feat
                     var image = cache.renders[0].getCache();
                     if (image) image.style.opacity = _this4._symbol.opacity;
                 });
-            }
-        }, {
-            key: '_getTrimmedBbox',
-            value: function _getTrimmedBbox(bbox) {
-                if (!this.tileScheme.limits) return bbox;
-
-                var limits = this.tileScheme.limits;
-                var xMin = Math.max(bbox.xMin, limits[0]);
-                var yMin = Math.max(bbox.yMin, limits[1]);
-                var xMax = Math.min(bbox.xMax, limits[2]);
-                var yMax = Math.min(bbox.yMax, limits[3]);
-
-                if (xMax < xMin) xMax = xMin;
-                if (yMax < yMin) yMax = yMin;
-
-                return new Bbox([xMin, yMin], [xMax, yMax], bbox.crs);
             }
         }, {
             key: 'tileWidth',
@@ -9218,10 +9134,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-sGis.module('TileScheme', ['utils'], function (utils) {
-
-    var TOLERANCE = 0.001;
-
+sGis.module('TileScheme', ['utils', 'math'], function (utils, math) {
     var TileScheme = function () {
         function TileScheme() {
             var parameters = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -9234,25 +9147,15 @@ sGis.module('TileScheme', ['utils'], function (utils) {
         _createClass(TileScheme, [{
             key: 'getAdjustedResolution',
             value: function getAdjustedResolution(resolution) {
-                var direction = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-
-                return this.levels[this.getLevel(resolution, direction)].resolution;
+                return this.levels[this.getLevel(resolution)].resolution;
             }
         }, {
             key: 'getLevel',
             value: function getLevel(resolution) {
-                var direction = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-
                 if (!this.levels || this.levels.length === 0) utils.error('Tile scheme levels are not set');
 
-                var i = void 0;
-                for (i = 0; i < this.levels.length; i++) {
-                    if (resolution <= this.levels[i].resolution + TOLERANCE) {
-                        if (direction) {
-                            return i === 0 ? i : i - 1;
-                        }
-                        return i;
-                    }
+                for (var i = 0; i < this.levels.length; i++) {
+                    if (resolution <= this.levels[i].resolution + math.tolerance) return i;
                 }
                 return i - 1;
             }
@@ -9309,9 +9212,7 @@ sGis.module('TileScheme', ['utils'], function (utils) {
         tileWidth: 256,
         tileHeight: 256,
         origin: [-20037508.342787, 20037508.342787],
-        levels: defaultLevels,
-        reversedY: false,
-        limits: [-Infinity, -20037508.342787, Infinity, 20037508.342787]
+        levels: defaultLevels
     });
 
     return TileScheme;
@@ -9479,7 +9380,7 @@ sGis.module('controls.Editor', ['utils', 'Control', 'symbol.Editor', 'controls.P
             _this._ns = '.' + utils.getGuid();
             _this._setListener = _this._setListener.bind(_this);
             _this._removeListener = _this._removeListener.bind(_this);
-            _this._onEdit = _this._onEdit.bind(_this);
+            _this._saveState = _this._saveState.bind(_this);
             _this._setEditors();
 
             _this._states = new StateManager();
@@ -9500,20 +9401,14 @@ sGis.module('controls.Editor', ['utils', 'Control', 'symbol.Editor', 'controls.P
             key: '_setEditors',
             value: function _setEditors() {
                 this._pointEditor = new PointEditor(this.map);
-                this._pointEditor.on('edit', this._onEdit);
+                this._pointEditor.on('edit', this._saveState);
 
                 this._polyEditor = new PolyEditor(this.map, { onFeatureRemove: this._delete.bind(this) });
-                this._polyEditor.on('edit', this._onEdit);
+                this._polyEditor.on('edit', this._saveState);
                 this._polyEditor.on('change', this._updateTransformControl.bind(this));
 
                 this._polyTransform = new PolyTransform(this.map);
-                this._polyTransform.on('rotationEnd scalingEnd', this._onEdit);
-            }
-        }, {
-            key: '_onEdit',
-            value: function _onEdit() {
-                this.fire('edit');
-                this._saveState();
+                this._polyTransform.on('rotationEnd scalingEnd', this._saveState);
             }
         }, {
             key: '_activate',
@@ -12184,8 +12079,9 @@ sGis.module('render.Image', ['Point'], function (Point) {
             }
         }, {
             key: 'contains',
-            value: function contains() {
-                return false;
+            value: function contains(position) {
+                var point = new Point([position.x * resolution, position.y * resolution], this._bbox.crs);
+                return this._bbox.contains(point);
             }
         }, {
             key: 'getCache',
@@ -12377,167 +12273,6 @@ sGis.module('render.Polyline', ['utils', 'geotools'], function (utils, geotools)
 });
 'use strict';
 
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-sGis.module('render.VectorImage', {}, function () {
-
-    'use strict';
-
-    var VectorImage = function () {
-        function VectorImage(imageNode, position, properties) {
-            _classCallCheck(this, VectorImage);
-
-            this._node = imageNode;
-            this._position = position;
-            Object.assign(this, properties);
-        }
-
-        _createClass(VectorImage, [{
-            key: 'contains',
-            value: function contains(position) {
-                var _origin = _slicedToArray(this.origin, 2),
-                    x = _origin[0],
-                    y = _origin[1];
-
-                return position[0] >= x && position[0] <= x + this._node.width && position[1] >= y && position[1] <= y + this._node.height;
-            }
-        }, {
-            key: 'node',
-            get: function get() {
-                return this._node;
-            }
-        }, {
-            key: 'isVector',
-            get: function get() {
-                return true;
-            }
-        }, {
-            key: 'origin',
-            get: function get() {
-                return [this._position[0] + this.offset[0], this._position[1] + this.offset[1]];
-            }
-        }]);
-
-        return VectorImage;
-    }();
-
-    Object.assign(VectorImage.prototype, {
-        offset: [0, 0]
-    });
-
-    return VectorImage;
-});
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-sGis.module('render.VectorLabel', ['render.VectorImage'], function (VectorImage) {
-
-    'use strict';
-
-    var VectorLabel = function (_VectorImage) {
-        _inherits(VectorLabel, _VectorImage);
-
-        function VectorLabel(position, text, properties) {
-            _classCallCheck(this, VectorLabel);
-
-            var canvas = document.createElement('canvas');
-            canvas.width = canvas.height = 0;
-
-            var _this = _possibleConstructorReturn(this, (VectorLabel.__proto__ || Object.getPrototypeOf(VectorLabel)).call(this, canvas, position, properties));
-
-            _this._text = text;
-            _this._render();
-            return _this;
-        }
-
-        _createClass(VectorLabel, [{
-            key: '_render',
-            value: function _render() {
-                var ctx = this.node.getContext('2d');
-                ctx.font = this.font;
-                var measure = ctx.measureText(this._text);
-
-                this.node.width = Math.ceil(measure.width);
-
-                var fontSize = parseInt(this.font) || 10;
-                this.node.height = Math.ceil(fontSize * 1.6);
-
-                var vAlign = this.vAlign;
-                var dy = 0;
-                if (vAlign === 1) {
-                    ctx.textBaseline = 'bottom';
-                    dy = this.node.height;
-                } else if (vAlign === 0) {
-                    ctx.textBaseline = 'middle';
-                    dy = this.node.height / 2;
-                } else {
-                    ctx.textBaseLine = 'top';
-                }
-
-                if (this.isFilled) {
-                    ctx.fillText(this._text, 0, dy);
-                } else {
-                    ctx.strokeText(this._text, 0, dy);
-                }
-
-                this._setOffset();
-            }
-        }, {
-            key: '_setOffset',
-            value: function _setOffset() {
-                var dx = 0;
-                var dy = 0;
-
-                if (this.hAlign === 1) {
-                    dx = -this.node.width;
-                } else if (this.hAlign === 0) {
-                    dx = -this.node.width / 2;
-                }
-
-                if (this.vAlign === 1) {
-                    dy = -this.node.height;
-                } else if (this.vAlign === 0) {
-                    dy = -this.node.height / 2;
-                }
-
-                this.offset = [dx, dy];
-            }
-        }, {
-            key: 'hAlign',
-            get: function get() {
-                return this.align.indexOf('right') >= 0 ? 1 : this.align.indexOf('center') >= 0 ? 0 : -1;
-            }
-        }, {
-            key: 'vAlign',
-            get: function get() {
-                return this.align.indexOf('bottom') >= 0 ? 1 : this.align.indexOf('middle') >= 0 ? 0 : -1;
-            }
-        }]);
-
-        return VectorLabel;
-    }(VectorImage);
-
-    Object.assign(VectorLabel.prototype, {
-        font: '10px arial',
-        align: 'center middle',
-        isFilled: true
-    });
-
-    return VectorLabel;
-});
-'use strict';
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 sGis.module('serializer.symbolSerializer', ['utils', 'utils.Color'], function (utils, Color) {
@@ -12610,7 +12345,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-sGis.module('symbol.Editor', ['Symbol', 'symbol.point.Point', 'symbol.point.Image', 'symbol.point.MaskedImage', 'render.Point', 'render.Polyline', 'render.Polygon', 'render.Arc'], function (_Symbol, PointSymbol, PointImageSymbol, PointMaskedImageSymbol, PointRender, PolylineRender, PolygonRender, ArcRender) {
+sGis.module('symbol.Editor', ['Symbol', 'symbol.point.Point', 'symbol.point.Image', 'render.Point', 'render.Polyline', 'render.Polygon', 'render.Arc'], function (_Symbol, PointSymbol, PointImageSymbol, PointRender, PolylineRender, PolygonRender, ArcRender) {
 
     'use strict';
 
@@ -12649,8 +12384,8 @@ sGis.module('symbol.Editor', ['Symbol', 'symbol.point.Point', 'symbol.point.Imag
                             strokeWidth: parseFloat(baseRender[i].strokeWidth) + 2 * this.haloSize
                         });
                         break;
-                    } else if (this.baseSymbol instanceof PointImageSymbol || this.baseSymbol instanceof PointMaskedImageSymbol) {
-                        halo = new ArcRender([baseRender[i].position[0] - +this.baseSymbol.anchorPoint.x + this.baseSymbol.width / 2, baseRender[i].position[1] - +this.baseSymbol.anchorPoint.x + this.baseSymbol.width / 2], {
+                    } else if (this.baseSymbol instanceof PointImageSymbol) {
+                        halo = new ArcRender([baseRender[i].position[0] + +this.baseSymbol.anchorPoint.x, baseRender[i].position[1] + +this.baseSymbol.anchorPoint.y], {
                             fillColor: this.color,
                             radius: this.baseSymbol.width / 2 + this.haloSize,
                             strokeColor: 'transparent' });
@@ -12702,8 +12437,7 @@ sGis.module('symbol.image.Image', ['Symbol', 'render.Image', 'serializer.symbolS
             value: function renderFunction(feature, resolution, crs) {
                 var _this2 = this;
 
-                var bbox = feature.bbox.projectTo(crs);
-                var render = new ImageRender(feature.src, bbox);
+                var render = new ImageRender(feature.src, feature.bbox);
 
                 if (this.transitionTime > 0) {
                     render.opacity = 0;
@@ -13432,18 +13166,12 @@ sGis.module('utils.StateManager', ['utils'], function (utils) {
 });
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 sGis.module('utils', ['event'], function (ev) {
     'use strict';
 
     var utils = {
         error: function error(message) {
             throw new Error(message);
-        },
-
-        warn: function warn(exeption) {
-            if ((typeof console === 'undefined' ? 'undefined' : _typeof(console)) === 'object') console.warn(exeption);
         },
 
         init: function init(object, options, setUndefined) {
@@ -13742,13 +13470,11 @@ sGis.module('utils', ['event'], function (ev) {
 });
 'use strict';
 
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-sGis.module('painter.domPainter.Canvas', ['render.Arc', 'render.Point', 'render.Polygon', 'render.Polyline', 'render.VectorImage', 'utils'], function (Arc, Point, Polygon, Polyline, VectorImage, utils) {
+sGis.module('painter.domPainter.Canvas', ['render.Arc', 'render.Point', 'render.Polygon', 'render.Polyline', 'utils'], function (Arc, Point, Polygon, Polyline, utils) {
 
     'use strict';
 
@@ -13775,7 +13501,7 @@ sGis.module('painter.domPainter.Canvas', ['render.Arc', 'render.Point', 'render.
                 this._canvasNode.height = height;
                 this._isEmpty = true;
 
-                this._ctx.translate(Math.round(-bbox.xMin / resolution), Math.round(bbox.yMax / resolution));
+                this._ctx.translate(-bbox.xMin / resolution, bbox.yMax / resolution);
             }
         }, {
             key: 'draw',
@@ -13786,8 +13512,6 @@ sGis.module('painter.domPainter.Canvas', ['render.Arc', 'render.Point', 'render.
                     this._drawPoint(render);
                 } else if (render instanceof Polyline || render instanceof Polygon) {
                     this._drawPoly(render);
-                } else if (render instanceof VectorImage) {
-                    this._drawImage(render);
                 } else {
                     utils.error('Unknown vector geometry type.');
                 }
@@ -13824,15 +13548,6 @@ sGis.module('painter.domPainter.Canvas', ['render.Arc', 'render.Point', 'render.
             value: function _drawPoint(render) {
                 this._ctx.strokeStyle = this._ctx.fillStyle = render.color;
                 this._ctx.fillRect(render.coordinates[0], render.coordinates[1], 1, 1);
-            }
-        }, {
-            key: '_drawImage',
-            value: function _drawImage(render) {
-                var _render$origin = _slicedToArray(render.origin, 2),
-                    x = _render$origin[0],
-                    y = _render$origin[1];
-
-                this._ctx.drawImage(render.node, Math.round(x), Math.round(y));
             }
         }, {
             key: '_drawPoly',
@@ -14071,10 +13786,7 @@ sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.
 
                 var method = animate ? 'animateTo' : 'setPosition';
 
-                var center = projected.center;
-                this.map[method](center, this.map.getAdjustedResolution(Math.max(xResolution, yResolution)));
-
-                return new Bbox([center.x - this.width * xResolution, center.y - this.height * yResolution], [center.x + this.width * xResolution, center.y + this.height * yResolution], this.map.crs);
+                this.map[method](projected.center, this.map.getAdjustedResolution(Math.max(xResolution, yResolution)));
             }
         }, {
             key: '_updateLayerList',
@@ -14165,12 +13877,7 @@ sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.
                         this._map.getLayers(true, true).reverse().forEach(function (layer) {
                             var renderer = _this2._layerRenderers.get(layer);
                             if (_this2._redrawNeeded || renderer.updateNeeded) {
-                                try {
-                                    renderer.update();
-                                } catch (e) {
-                                    utils.warn(e);
-                                    renderer.updateNeeded = false;
-                                }
+                                renderer.update();
                             }
                         });
 
@@ -14264,32 +13971,21 @@ sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.
 
                 this._eventDispatcher.remove();
                 this._eventDispatcher = null;
-
-                this._clearContainers();
-            }
-        }, {
-            key: '_clearContainers',
-            value: function _clearContainers() {
-                var _this4 = this;
-
-                this._containers.forEach(function (container, i) {
-                    _this4._removeContainer(i);
-                });
             }
         }, {
             key: 'resolveLayerOverlay',
             value: function resolveLayerOverlay() {
-                var _this5 = this;
+                var _this4 = this;
 
                 var prevContainerIndex = 0;
                 this._map.getLayers(true, true).forEach(function (layer) {
-                    var renderer = _this5._layerRenderers.get(layer);
+                    var renderer = _this4._layerRenderers.get(layer);
                     if (!renderer) return;
 
-                    var containerIndex = _this5._containers.indexOf(renderer.currentContainer);
+                    var containerIndex = _this4._containers.indexOf(renderer.currentContainer);
                     if (containerIndex < prevContainerIndex) {
                         renderer.moveToLastContainer();
-                        prevContainerIndex = _this5._containers.length - 1;
+                        prevContainerIndex = _this4._containers.length - 1;
                     } else {
                         prevContainerIndex = containerIndex;
                     }
@@ -14315,21 +14011,21 @@ sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.
         }, {
             key: '_onMapDrag',
             value: function _onMapDrag(sGisEvent) {
-                var _this6 = this;
+                var _this5 = this;
 
                 setTimeout(function () {
                     if (sGisEvent.isCanceled()) return;
-                    _this6._map.move(sGisEvent.offset.x, sGisEvent.offset.y);
+                    _this5._map.move(sGisEvent.offset.x, sGisEvent.offset.y);
                 }, 0);
             }
         }, {
             key: '_onMapDblClick',
             value: function _onMapDblClick(sGisEvent) {
-                var _this7 = this;
+                var _this6 = this;
 
                 setTimeout(function () {
                     if (sGisEvent.isCanceled()) return;
-                    _this7._map.animateSetResolution(_this7._map.resolution / 2, sGisEvent.point);
+                    _this6._map.animateSetResolution(_this6._map.resolution / 2, sGisEvent.point);
                 }, 0);
             }
         }, {
@@ -14342,8 +14038,6 @@ sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.
                 if (node) {
                     this._initDOM(node);
                     this._eventDispatcher = new EventDispatcher(this._layerWrapper, this);
-                    this._needUpdate = true;
-                    this._redrawNeeded = true;
                 }
             }
         }, {
@@ -14396,8 +14090,6 @@ sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.
 });
 'use strict';
 
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -14423,7 +14115,7 @@ sGis.module('painter.domPainter.EventDispatcher', ['event', 'utils'], function (
             this._onDocumentMouseup = this._onDocumentMouseup.bind(this);
 
             this._wheelTimer = 0;
-            this._touchHandler = { dragPrevPosition: [] };
+            this._touchHandler = { dragPrevPosition: {} };
         }
 
         _createClass(EventDispatcher, [{
@@ -14609,45 +14301,22 @@ sGis.module('painter.domPainter.EventDispatcher', ['event', 'utils'], function (
         }, {
             key: '_ontouchstart',
             value: function _ontouchstart(event) {
-                var _this = this;
-
-                if (!this._touches) this._touches = [];
-
-                var _loop = function _loop(i) {
-                    var touch = event.changedTouches[i];
-                    if (!_this._touches.some(function (t) {
-                        return t.id === touch.identifier;
-                    })) _this._touches.push({ id: touch.identifier, position: [touch.pageX, touch.pageY] });
-                };
-
                 for (var i = 0; i < event.changedTouches.length; i++) {
-                    _loop(i);
+                    var touch = event.changedTouches[i];
+                    this._touchHandler.dragPrevPosition[touch.identifier] = { x: touch.pageX, y: touch.pageY };
+                    this._touchHandler.lastDrag = { x: 0, y: 0 };
                 }
-
-                this._touchHandler.lastDrag = { x: 0, y: 0 };
-
-                if (event.touches.length > 1) event.preventDefault();
             }
         }, {
             key: '_ontouchmove',
             value: function _ontouchmove(event) {
-                var _this2 = this;
-
-                this._clearTouches(event);
-                var touches = Array.prototype.slice.apply(event.touches);
-
                 var map = this._master.map;
-                if (touches.length === 1 && this._touchHandler.lastDrag) {
-                    var _touch = event.targetTouches[0];
-
-                    var _touches$0$position = _slicedToArray(this._touches[0].position, 2),
-                        prevX = _touches$0$position[0],
-                        prevY = _touches$0$position[1];
-
-                    var dxPx = prevX - _touch.pageX;
-                    var dyPx = prevY - _touch.pageY;
+                if (event.touches.length === 1 && this._touchHandler.lastDrag) {
+                    var touch = event.targetTouches[0];
+                    var dxPx = this._touchHandler.dragPrevPosition[touch.identifier].x - touch.pageX;
+                    var dyPx = this._touchHandler.dragPrevPosition[touch.identifier].y - touch.pageY;
                     var resolution = map.resolution;
-                    var touchOffset = ev.getMouseOffset(event.currentTarget, _touch);
+                    var touchOffset = ev.getMouseOffset(event.currentTarget, touch);
                     var point = this._master.getPointFromPxPosition(touchOffset.x, touchOffset.y);
                     var position = { x: point.x / resolution, y: 0 - point.y / resolution };
 
@@ -14659,104 +14328,60 @@ sGis.module('painter.domPainter.EventDispatcher', ['event', 'utils'], function (
                     this._touchHandler.lastDrag = { x: dxPx * resolution, y: 0 - dyPx * resolution };
                     this._draggingObject.fire('drag', { point: point, position: position, offset: { xPx: dxPx, yPx: dyPx, x: this._touchHandler.lastDrag.x, y: this._touchHandler.lastDrag.y } });
 
-                    this._touches[0].position = [_touch.pageX, _touch.pageY];
-                } else if (touches.length > 1) {
+                    this._touchHandler.dragPrevPosition[touch.identifier].x = touch.pageX;
+                    this._touchHandler.dragPrevPosition[touch.identifier].y = touch.pageY;
+                } else if (event.touches.length > 1) {
                     this._master.forbidUpdate();
                     this._touchHandler.lastDrag = null;
                     this._touchHandler.scaleChanged = true;
 
-                    var t1 = touches.find(function (t) {
-                        return t.identifier === _this2._touches[0].id;
-                    });
-                    var t2 = touches.find(function (t) {
-                        return t.identifier === _this2._touches[1].id;
-                    });
+                    var touch1 = event.touches[0];
+                    var touch2 = event.touches[1];
 
-                    var _touches$0$position2 = _slicedToArray(this._touches[0].position, 2),
-                        x11 = _touches$0$position2[0],
-                        y11 = _touches$0$position2[1];
+                    touch1.prevPosition = this._touchHandler.dragPrevPosition[touch1.identifier];
+                    touch2.prevPosition = this._touchHandler.dragPrevPosition[touch2.identifier];
 
-                    var _ref = [t1.pageX, t1.pageY],
-                        x12 = _ref[0],
-                        y12 = _ref[1];
-
-                    var _touches$1$position = _slicedToArray(this._touches[1].position, 2),
-                        x21 = _touches$1$position[0],
-                        y21 = _touches$1$position[1];
-
-                    var _ref2 = [t2.pageX, t2.pageY],
-                        x22 = _ref2[0],
-                        y22 = _ref2[1];
-
-
-                    var c1 = [(x11 + x21) / 2, (y11 + y21) / 2];
-                    var c2 = [(x12 + x22) / 2, (y12 + y22) / 2];
-
-                    var base = [(c1[0] + c2[0]) / 2, (c1[1] + c2[1]) / 2];
-
+                    var x11 = touch1.prevPosition.x;
+                    var x12 = touch1.pageX;
+                    var x21 = touch2.prevPosition.x;
+                    var x22 = touch2.pageX;
+                    var baseX = x11 - x12 - x21 + x22 === 0 ? (x11 + x21) / 2 : (x11 * x22 - x12 * x21) / (x11 - x12 - x21 + x22);
+                    var y11 = touch1.prevPosition.y;
+                    var y12 = touch1.pageY;
+                    var y21 = touch2.prevPosition.y;
+                    var y22 = touch2.pageY;
+                    var baseY = y11 - y12 - y21 + y22 === 0 ? (y11 + y21) / 2 : (y11 * y22 - y12 * y21) / (y11 - y12 - y21 + y22);
                     var len1 = Math.sqrt(Math.pow(x11 - x21, 2) + Math.pow(y11 - y21, 2));
                     var len2 = Math.sqrt(Math.pow(x12 - x22, 2) + Math.pow(y12 - y22, 2));
 
-                    var basePoint = this._master.getPointFromPxPosition(base[0], base[1]);
-                    var dc = [c1[0] - c2[0], c2[1] - c1[1]];
+                    map.changeScale(len1 / len2, this._master.getPointFromPxPosition(baseX, baseY), true);
 
-                    var zoomK = len1 / len2;
-                    if (len1 !== len2 && len2 !== 0) map.changeScale(zoomK, basePoint, true);
-                    map.move(dc[0] * map.resolution, dc[1] * map.resolution);
-
-                    this._touches[0].position = [x12, y12];
-                    this._touches[1].position = [x22, y22];
-
-                    this._touchHandler.lastZoomDirection = zoomK < 1;
+                    this._touchHandler.dragPrevPosition[touch1.identifier].x = touch1.pageX;
+                    this._touchHandler.dragPrevPosition[touch1.identifier].y = touch1.pageY;
+                    this._touchHandler.dragPrevPosition[touch2.identifier].x = touch2.pageX;
+                    this._touchHandler.dragPrevPosition[touch2.identifier].y = touch2.pageY;
                 }
                 event.preventDefault();
             }
         }, {
             key: '_ontouchend',
             value: function _ontouchend(event) {
-                var _this3 = this;
-
-                this._clearTouches(event);
-
-                var _loop2 = function _loop2(i) {
-                    var index = _this3._touches.findIndex(function (touch) {
-                        return touch.id === event.changedTouches[i].identifier;
-                    });
-                    if (index >= 0) _this3._touches.splice(index, 1);
-                };
-
                 for (var i = 0; i < event.changedTouches.length; i++) {
-                    _loop2(i);
+                    delete this._touchHandler.dragPrevPosition[event.changedTouches[i].identifier];
                 }
 
                 this._touchHandler.lastDrag = null;
 
+                var map = this._master.map;
                 if (this._touchHandler.scaleChanged) {
-                    this._master.allowUpdate();
-                    this._master.map.adjustResolution(this._touchHandler.lastZoomDirection);
+                    map.adjustResolution();
                     this._touchHandler.scaleChanged = false;
+                    this._master.allowUpdate();
                 } else {
                     if (this._draggingObject) {
                         this._draggingObject.fire('dragEnd');
                         this._draggingObject = null;
                     }
-                }
-            }
-        }, {
-            key: '_clearTouches',
-            value: function _clearTouches(event) {
-                var _this4 = this;
-
-                var touches = Array.prototype.slice.apply(event.touches);
-
-                var _loop3 = function _loop3(i) {
-                    if (!touches.some(function (touch) {
-                        return touch.identifier === _this4._touches[i].id;
-                    })) _this4._touches.splice(i, 1);
-                };
-
-                for (var i = this._touches.length - 1; i >= 0; i--) {
-                    _loop3(i);
                 }
             }
         }]);
@@ -15017,7 +14642,6 @@ sGis.module('painter.domPainter.LayerRenderer', ['Bbox', 'painter.domPainter.Can
                 }
 
                 if (this._canvasContainer) this._canvasContainer.removeNode(this._canvas.node);
-                if (this._updateTimer) clearTimeout(this._updateTimer);
             }
         }, {
             key: 'update',
@@ -15046,9 +14670,7 @@ sGis.module('painter.domPainter.LayerRenderer', ['Bbox', 'painter.domPainter.Can
                 var _this5 = this;
 
                 var bbox = this._master.bbox;
-
                 var newFeatures = this._layer.getFeatures(bbox, this._master.map.resolution);
-                if (this._layer.updateProhibited) return;
 
                 var _iteratorNormalCompletion7 = true;
                 var _didIteratorError7 = false;
@@ -15175,12 +14797,7 @@ sGis.module('painter.domPainter.LayerRenderer', ['Bbox', 'painter.domPainter.Can
 
                 var callback = function callback(error, node) {
                     _this7._loadingRenders.delete(render);
-
-                    if (error) {
-                        return _this7._clean(feature);
-                    }
-
-                    if (!_this7._featureRenders.has(feature) || !render.baseRender && _this7._featureRenders.get(feature).indexOf(render) < 0 || render.baseRender && _this7._featureRenders.get(feature).indexOf(render.baseRender) < 0 || _this7._outdatedFeatureRenders.has(render) || _this7._rendersForRemoval.has(render)) return;
+                    if (error || !_this7._featureRenders.has(feature) || !render.baseRender && _this7._featureRenders.get(feature).indexOf(render) < 0 || render.baseRender && _this7._featureRenders.get(feature).indexOf(render.baseRender) < 0 || _this7._outdatedFeatureRenders.has(render) || _this7._rendersForRemoval.has(render)) return;
 
                     node.style.zIndex = _this7._zIndex;
 
@@ -15280,7 +14897,6 @@ sGis.module('painter.domPainter.LayerRenderer', ['Bbox', 'painter.domPainter.Can
                     renders.forEach(function (render) {
                         _this9._removeRender(render);
                     });
-                    this._rendersForRemoval.delete(feature);
                 }
             }
         }, {

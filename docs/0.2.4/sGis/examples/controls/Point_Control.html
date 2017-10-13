@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sGis - Point control usage example</title>
+
+    <script src="//everpoint.github.io/sGis-bundle.js"></script>
+
+    <style>
+        html, body { margin: 0; overflow: hidden; height: 100%; }
+        #map { height: 100%; }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+
+<script>
+    window.onload = function() {
+        var featureLayer = new sGis.FeatureLayer();
+
+        var gis = sGis.init({
+            wrapper: 'map',
+            layers: [ new sGis.TileLayer('http://b.tile.openstreetmap.org/{z}/{x}/{y}.png'), featureLayer ]
+        });
+
+        var symbol = new sGis.symbol.point.Point({ size: 25, fillColor: 'rgba(0, 255, 255, 0.5)', strokeColor: 'blue' });
+
+        var control = new sGis.controls.Point(gis.map, { activeLayer: featureLayer, symbol: symbol });
+        control.on('drawingFinish', function(ev) {
+            console.dir(ev.feature.point);
+        });
+
+        control.activate();
+
+    }
+</script>
+</body>
+</html>

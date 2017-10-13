@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EverGis - Using Data Filter to Symbolize Objects on Server</title>
+
+    <script src="//everpoint.github.io/everGis-bundle.js"></script>
+
+    <style>
+        html, body { margin: 0; overflow: hidden; height: 100%; }
+        #map { height: 100%; }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+
+<script>
+    window.onload = function() {
+        var serviceName = 'admindf0ad11fd6214fe0af90429e3b8ab4e4';
+        var sp = new sGis.SpatialProcessor({
+            url: 'http://evg-inst.everpoint.ru/EverCloud/SpatialProcessor/IIS/',
+            login: 'jspublic', password: 'jspublic',
+            mapWrapper: 'map',
+            baseService: 'osm',
+            services: [serviceName]
+        });
+
+        var defaultSymbol = new sGis.symbol.point.Point({ fillColor: 'rgba(0, 255, 255, 0.7)', strokeColor: 'blue', strokeWidth: 1, size: 10});
+        var middleSymbol = Object.assign(defaultSymbol.clone(), { size: 15 });
+        var largeSymbol = Object.assign(defaultSymbol.clone(), { size: 20 });
+        var highlightLargeSymbol = Object.assign(largeSymbol.clone(), { fillColor: 'rgba(255, 100, 100, 0.7)' });
+
+        sp.map.once('click', function() {
+            var service = sp.layerManager.getService(serviceName);
+            var filter = new sGis.sp.DataFilter({
+                symbol: defaultSymbol,
+                childFilters: [
+                    new sGis.sp.DataFilter({
+                        condition: 'UNOM >= 1000 && UNOM < 1000000',
+                        symbol: middleSymbol
+                    }),
+                    new sGis.sp.DataFilter({
+                        condition: 'UNOM >= 1000000',
+                        symbol: largeSymbol,
+                        childFilters: [
+                            new sGis.sp.DataFilter({
+                                condition: 'OKRUG=="ЦАО"',
+                                symbol: highlightLargeSymbol
+                            })
+                        ]
+                    })
+                ]
+            });
+            service.setDataFilter(filter);
+        });
+    }
+</script>
+</body>
+</html>

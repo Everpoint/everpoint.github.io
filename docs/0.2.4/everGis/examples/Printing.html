@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EverGis - Getting High-Resolution Map Image</title>
+
+    <script src="//everpoint.github.io/everGis-bundle.js"></script>
+
+    <style>
+        html, body { margin: 0; overflow: hidden; height: 100%; }
+        #map { height: 100%; }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+
+<script>
+    window.onload = function() {
+        var serviceName = 'admindf0ad11fd6214fe0af90429e3b8ab4e4';
+        var sp = new sGis.SpatialProcessor({
+            url: 'http://evg-inst.everpoint.ru/EverCloud/SpatialProcessor/IIS/',
+            login: 'jspublic', password: 'jspublic',
+            mapWrapper: 'map',
+            baseService: 'osm',
+            services: [serviceName]
+        });
+
+        var printer = new sGis.sp.Printer(sp.map, sp.connector);
+        var template;
+        Promise.all([
+            sp.layerManager.ready,
+            printer.getTemplates().then(function(templates) {
+                template = templates.Png[0];
+            })
+        ]).then(function() {
+            var services = [sp.baseService].concat(sp.layerManager.getServices(true));
+            printer.getImage({
+                template: template,
+                useApi: true,
+                services: services,
+                dpi: 150
+            }).then(function(id) {
+                sp.api.downloadBinary(id, 'MapPrint.png');
+            });
+        });
+
+    }
+</script>
+</body>
+</html>

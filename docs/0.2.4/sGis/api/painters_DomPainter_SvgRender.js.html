@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: painters/DomPainter/SvgRender.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: painters/DomPainter/SvgRender.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>sGis.module('painter.domPainter.SvgRender', [
+    'render.Arc',
+    'render.Point',
+    'render.Polyline',
+    'render.Polygon',
+    'utils.Color',
+    'utils'
+], (Arc, Point, Polyline, Polygon, Color, utils) => {
+    
+    'use strict';
+   
+    var NS = 'http://www.w3.org/2000/svg';
+
+    /**
+     * @alias sGis.painter.domPainter.SvgRender
+     */
+    class SvgRender{
+        constructor(render) {
+            this._baseRender = render;
+        }
+        
+        getNode(callback) {
+            if (!this._node) this._setNode();
+            callback(null, this._node);
+        }
+
+        get baseRender() { return this._baseRender; }
+        get position() { return this._position; }
+        
+        _setNode() {
+            if (this._baseRender instanceof Arc) {
+                if (this._baseRender.startAngle == 0 || this._baseRender.endAngle == 2*Math.PI) {
+                    this._setArcNode();
+                } else {
+                    this._setSegmentNode();
+                }
+            } else if (this._baseRender instanceof Polygon) {
+                this._setPolygonNode();
+            } else if (this._baseRender instanceof Polyline) {
+                this._setPolylineNode();
+            }
+        }
+        
+        _setPolygonNode() {
+            var path = this._getSvgPath();
+            path.d += ' Z';
+            path.d = path.d.replace(/ M/g, ' Z M');
+
+            this._node = this._getPathNode({
+                stroke: this._baseRender.strokeColor,
+                'stroke-dasharray': this._baseRender.lineDash &amp;&amp; this._baseRender.lineDash.length > 0 ? this._baseRender.lineDash.join(',') : undefined,
+                'stroke-width': this._baseRender.strokeWidth,
+                fill: this._baseRender.fillStyle === 'color' ? this._baseRender.fillColor : undefined,
+                fillImage: this._baseRender.fillStyle === 'image' ? this._baseRender.fillImage : undefined,
+                width: path.width,
+                height: path.height,
+                x: path.x,
+                y: path.y,
+                viewBox: [path.x, path.y, path.width, path.height].join(' '),
+                d: path.d
+            });
+
+            this._position = [path.x, path.y];
+        }
+        
+        _setPolylineNode() {
+            var path = this._getSvgPath();
+            this._node = this._getPathNode({
+                stroke: this._baseRender.strokeColor,
+                'stroke-dasharray': this._baseRender.lineDash &amp;&amp; this._baseRender.lineDash.length > 0 ? this._baseRender.lineDash.join(',') : undefined,
+                'stroke-width': this._baseRender.strokeWidth,
+                fill: 'transparent',
+                width: path.width,
+                height: path.height,
+                x: path.x,
+                y: path.y,
+                viewBox: [path.x, path.y, path.width, path.height].join(' '),
+                d: path.d
+            });
+
+            this._position = [path.x, path.y];
+        }
+        
+        _getPathNode(properties) {
+            if (properties.fillImage) {
+                var defs = document.createElementNS(NS, 'defs');
+                var pattern = document.createElementNS(NS, 'pattern');
+                var id = utils.getGuid();
+                pattern.setAttribute('id', id);
+                pattern.setAttribute('patternUnits', 'userSpaceOnUse');
+                pattern.setAttribute('x', properties.x);
+                pattern.setAttribute('y', properties.y);
+                pattern.setAttribute('width', properties.fillImage.width);
+                pattern.setAttribute('height', properties.fillImage.height);
+
+                var image = document.createElementNS(NS, 'image');
+                image.setAttributeNS("http://www.w3.org/1999/xlink", 'xlink:href', properties.fillImage.src);
+                image.setAttribute('width', properties.fillImage.width);
+                image.setAttribute('height', properties.fillImage.height);
+
+                pattern.appendChild(image);
+                defs.appendChild(pattern);
+            }
+
+            var path = document.createElementNS(NS, 'path');
+            var svgAttributes = setAttributes(path, properties);
+            var svg = this._getSvgBase(svgAttributes);
+
+            if (properties.fillImage) {
+                svg.setAttribute('xmlns', NS);
+                svg.setAttribute('xmlns:xlink', "http://www.w3.org/1999/xlink");
+
+                path.setAttribute('fill', 'url(#' + id + ')');
+                svg.appendChild(defs);
+            }
+
+            svg.appendChild(path);
+
+            return svg;
+        }
+
+        _setSegmentNode() {
+            var path = this._getSegment();
+            this._node = this._getPathNode({
+                stroke: this._baseRender.strokeColor,
+                'stroke-width': this._baseRender.strokeWidth,
+                fill: this._baseRender.fillColor,
+                width: path.width,
+                height: path.height,
+                x: path.x,
+                y: path.y,
+                viewBox: [path.x, path.y, path.width, path.height].join(' '),
+                d: path.d
+            });
+
+            this._position = [path.x, path.y];
+        }
+        
+        _getSegment() {
+            var r = this._baseRender.radius;
+            var r2 = r * 2 + this._baseRender.strokeWidth;
+            var x = this._baseRender.center[0];
+            var y = this._baseRender.center[1];
+
+            var x1 = x + r * Math.cos(this._baseRender.startAngle);
+            var y1 = y + r * Math.sin(this._baseRender.startAngle);
+
+            var x2 = x + r * Math.cos(this._baseRender.endAngle);
+            var y2 = y + r * Math.sin(this._baseRender.endAngle);
+
+            var largeFlag = Math.abs(this._baseRender.endAngle - this._baseRender.startAngle) % (Math.PI * 2) > Math.PI ? 1 : 0;
+
+            var path = `M ${x},${y} L ${x1},${y1} A ${r},${r} 0 ${largeFlag} 1 ${x2},${y2}`;
+            var x0 = x - r - this._baseRender.strokeWidth / 2;
+            var y0 = y - r - this._baseRender.strokeWidth / 2;
+
+            return {x: x0, y: y0, width: r2, height: r2, d: path};
+        }
+
+        _setArcNode() {
+            var r2 = this._baseRender.radius * 2 + this._baseRender.strokeWidth;
+            var x = this._baseRender.center[0] - this._baseRender.radius - this._baseRender.strokeWidth / 2;
+            var y = this._baseRender.center[1] - this._baseRender.radius - this._baseRender.strokeWidth / 2;
+
+            this._node = this._getCircle({
+                r: this._baseRender.radius,
+                cx: this._baseRender.center[0],
+                cy: this._baseRender.center[1],
+                stroke: this._baseRender.strokeColor,
+                'stroke-width': this._baseRender.strokeWidth,
+                fill: this._baseRender.fillColor,
+
+                width: r2,
+                height: r2,
+                viewBox: [x, y, r2, r2].join(' ')
+            });
+
+            this._position = [x, y];
+        }
+
+        _getCircle(properties) {
+            var circle = document.createElementNS(NS, 'circle');
+            var svgAttributes = setAttributes(circle, properties);
+            var svg = this._getSvgBase(svgAttributes);
+
+            svg.appendChild(circle);
+
+            return svg;
+        }
+
+        _getSvgBase(properties) {
+            var svg = document.createElementNS(NS, 'svg');
+            setAttributes(svg, properties);
+            svg.setAttribute('style', 'pointerEvents: none;');
+
+            return svg;
+        }
+        
+        _getSvgPath() {
+            var d = '';
+            var coordinates = this._baseRender.coordinates;
+            var x = coordinates[0][0][0];
+            var y = coordinates[0][0][1];
+            var xMax = x;
+            var yMax = y;
+
+            for (var ring = 0; ring &lt; coordinates.length; ring++) {
+                d += 'M' + coordinates[ring][0].join(' ') + ' ';
+                for (var i = 1; i &lt; coordinates[ring].length; i++) {
+                    d += 'L' + coordinates[ring][i].join(' ') + ' ';
+                    x = Math.min(x, coordinates[ring][i][0]);
+                    y = Math.min(y, coordinates[ring][i][1]);
+                    xMax = Math.max(xMax, coordinates[ring][i][0]);
+                    yMax = Math.max(yMax, coordinates[ring][i][1]);
+                }
+            }
+
+            var width = xMax - x + this._baseRender.strokeWidth;
+            var height = yMax - y + this._baseRender.strokeWidth;
+            x -= this._baseRender.strokeWidth / 2;
+            y -= this._baseRender.strokeWidth / 2;
+            d = d.trim();
+
+            return {width: width, height: height, x: x, y: y, d: d};
+        }
+    }
+
+    var svgAttributes = ['width', 'height', 'viewBox'];
+    function setAttributes(element, attributes) {
+        var isSvg = element instanceof SVGSVGElement;
+        var notSet = {};
+        for (var i in attributes) {
+            if (attributes.hasOwnProperty(i) &amp;&amp; i !== 'fillImage' &amp;&amp; attributes[i] !== undefined) {
+                if (!isSvg &amp;&amp; svgAttributes.indexOf(i) !== -1) {
+                    notSet[i] = attributes[i];
+                    continue;
+                }
+
+                if (i === 'stroke' || i === 'fill') {
+                    var color = new Color(attributes[i]);
+                    if (color.a &lt; 255 || color.format === 'rgba') {
+                        element.setAttribute(i, color.toString('rgb'));
+                        if (color.a &lt; 255) element.setAttribute(i + '-opacity', color.a / 255);
+                        continue;
+                    }
+                }
+                element.setAttribute(i, attributes[i]);
+            }
+        }
+
+        return notSet;
+    }
+
+    return SvgRender;
+    
+});</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="sGis.Bbox.html">sGis.Bbox</a></li><li><a href="sGis.Control.html">sGis.Control</a></li><li><a href="sGis.control.Polyline.html">sGis.control.Polyline</a></li><li><a href="sGis.controls.Circle.html">sGis.controls.Circle</a></li><li><a href="sGis.controls.Editor.html">sGis.controls.Editor</a></li><li><a href="sGis.controls.MultiPoint.html">sGis.controls.MultiPoint</a></li><li><a href="sGis.controls.Point.html">sGis.controls.Point</a></li><li><a href="sGis.controls.PointEditor.html">sGis.controls.PointEditor</a></li><li><a href="sGis.controls.Poly.html">sGis.controls.Poly</a></li><li><a href="sGis.controls.PolyDrag.html">sGis.controls.PolyDrag</a></li><li><a href="sGis.controls.PolyEditor.html">sGis.controls.PolyEditor</a></li><li><a href="sGis.controls.Polyline.html">sGis.controls.Polyline</a></li><li><a href="sGis.controls.PolyTransform.html">sGis.controls.PolyTransform</a></li><li><a href="sGis.controls.Rectangle.html">sGis.controls.Rectangle</a></li><li><a href="sGis.controls.Snapping.html">sGis.controls.Snapping</a></li><li><a href="sGis.Crs_.html">sGis.Crs</a></li><li><a href="sGis.CRS.AlbersEqualArea.html">sGis.CRS.AlbersEqualArea</a></li><li><a href="sGis.DynamicLayer.html">sGis.DynamicLayer</a></li><li><a href="sGis.EventHandler.html">sGis.EventHandler</a></li><li><a href="sGis.Feature.html">sGis.Feature</a></li><li><a href="sGis.feature.Image.html">sGis.feature.Image</a></li><li><a href="sGis.feature.Label.html">sGis.feature.Label</a></li><li><a href="sGis.feature.Maptip.html">sGis.feature.Maptip</a></li><li><a href="sGis.feature.MultiPoint.html">sGis.feature.MultiPoint</a></li><li><a href="sGis.feature.Point.html">sGis.feature.Point</a></li><li><a href="sGis.feature.Poly.html">sGis.feature.Poly</a></li><li><a href="sGis.feature.Polygon.html">sGis.feature.Polygon</a></li><li><a href="sGis.feature.Polyline.html">sGis.feature.Polyline</a></li><li><a href="sGis.FeatureLayer.html">sGis.FeatureLayer</a></li><li><a href="sGis.Layer.html">sGis.Layer</a></li><li><a href="sGis.LayerGroup.html">sGis.LayerGroup</a></li><li><a href="sGis.Map.html">sGis.Map</a></li><li><a href="sGis.painter.DomPainter_.html">sGis.painter.DomPainter</a></li><li><a href="sGis.painter.domPainter.Container.html">sGis.painter.domPainter.Container</a></li><li><a href="sGis.painter.domPainter.EventDispatcher.html">sGis.painter.domPainter.EventDispatcher</a></li><li><a href="sGis.painter.domPainter.SvgRender.html">sGis.painter.domPainter.SvgRender</a></li><li><a href="sGis.Point.html">sGis.Point</a></li><li><a href="sGis.render.Arc.html">sGis.render.Arc</a></li><li><a href="sGis.render.HtmlElement.html">sGis.render.HtmlElement</a></li><li><a href="sGis.render.ImageRender.html">sGis.render.ImageRender</a></li><li><a href="sGis.render.Point.html">sGis.render.Point</a></li><li><a href="sGis.render.Polygon.html">sGis.render.Polygon</a></li><li><a href="sGis.render.Polyline.html">sGis.render.Polyline</a></li><li><a href="sGis.Symbol.html">sGis.Symbol</a></li><li><a href="sGis.symbol.Editor.html">sGis.symbol.Editor</a></li><li><a href="sGis.symbol.image.Image.html">sGis.symbol.image.Image</a></li><li><a href="sGis.symbol.label.Label.html">sGis.symbol.label.Label</a></li><li><a href="sGis.symbol.maptip.Simple.html">sGis.symbol.maptip.Simple</a></li><li><a href="sGis.symbol.point.Image.html">sGis.symbol.point.Image</a></li><li><a href="sGis.symbol.point.MaskedImage.html">sGis.symbol.point.MaskedImage</a></li><li><a href="sGis.symbol.point.Point.html">sGis.symbol.point.Point</a></li><li><a href="sGis.symbol.point.Square.html">sGis.symbol.point.Square</a></li><li><a href="sGis.symbol.polygon.BrushFill.html">sGis.symbol.polygon.BrushFill</a></li><li><a href="sGis.symbol.polygon.ImageFill.html">sGis.symbol.polygon.ImageFill</a></li><li><a href="sGis.symbol.polygon.Simple.html">sGis.symbol.polygon.Simple</a></li><li><a href="sGis.symbol.polyline.Simple.html">sGis.symbol.polyline.Simple</a></li><li><a href="sGis.TileLayer.html">sGis.TileLayer</a></li><li><a href="sGis.TileScheme.html">sGis.TileScheme</a></li><li><a href="sGis.utils.Color.html">sGis.utils.Color</a></li><li><a href="StateManager.html">StateManager</a></li></ul><h3>Events</h3><ul><li><a href="sGis.control.Polyline.html#event:drawingBegin">sGis.control.Polyline#drawingBegin</a></li><li><a href="sGis.control.Polyline.html#event:drawingFinish">sGis.control.Polyline#drawingFinish</a></li><li><a href="sGis.control.Polyline.html#event:pointAdd">sGis.control.Polyline#pointAdd</a></li><li><a href="sGis.controls.Circle.html#event:drawingBegin">sGis.controls.Circle#drawingBegin</a></li><li><a href="sGis.controls.Circle.html#event:drawingFinish">sGis.controls.Circle#drawingFinish</a></li><li><a href="sGis.controls.Editor.html#event:featureDeselect">sGis.controls.Editor#featureDeselect</a></li><li><a href="sGis.controls.Editor.html#event:featureRemove">sGis.controls.Editor#featureRemove</a></li><li><a href="sGis.controls.Editor.html#event:featureSelect">sGis.controls.Editor#featureSelect</a></li><li><a href="sGis.controls.MultiPoint.html#event:drawingBegin">sGis.controls.MultiPoint#drawingBegin</a></li><li><a href="sGis.controls.MultiPoint.html#event:drawingFinish">sGis.controls.MultiPoint#drawingFinish</a></li><li><a href="sGis.controls.MultiPoint.html#event:pointAdd">sGis.controls.MultiPoint#pointAdd</a></li><li><a href="sGis.controls.Point.html#event:drawingFinish">sGis.controls.Point#drawingFinish</a></li><li><a href="sGis.controls.PointEditor.html#event:edit">sGis.controls.PointEditor#edit</a></li><li><a href="sGis.controls.Poly.html#event:drawingBegin">sGis.controls.Poly#drawingBegin</a></li><li><a href="sGis.controls.Poly.html#event:drawingFinish">sGis.controls.Poly#drawingFinish</a></li><li><a href="sGis.controls.Poly.html#event:pointAdd">sGis.controls.Poly#pointAdd</a></li><li><a href="sGis.controls.PolyDrag.html#event:drawingBegin">sGis.controls.PolyDrag#drawingBegin</a></li><li><a href="sGis.controls.PolyDrag.html#event:drawingFinish">sGis.controls.PolyDrag#drawingFinish</a></li><li><a href="sGis.controls.PolyEditor.html#event:change">sGis.controls.PolyEditor#change</a></li><li><a href="sGis.controls.PolyEditor.html#event:edit">sGis.controls.PolyEditor#edit</a></li><li><a href="sGis.controls.Polyline.html#event:drawingBegin">sGis.controls.Polyline#drawingBegin</a></li><li><a href="sGis.controls.Polyline.html#event:drawingFinish">sGis.controls.Polyline#drawingFinish</a></li><li><a href="sGis.controls.Polyline.html#event:pointAdd">sGis.controls.Polyline#pointAdd</a></li><li><a href="sGis.controls.PolyTransform.html#event:rotationEnd">sGis.controls.PolyTransform#rotationEnd</a></li><li><a href="sGis.controls.PolyTransform.html#event:rotationStart">sGis.controls.PolyTransform#rotationStart</a></li><li><a href="sGis.controls.PolyTransform.html#event:scalingEnd">sGis.controls.PolyTransform#scalingEnd</a></li><li><a href="sGis.controls.PolyTransform.html#event:scalingStart">sGis.controls.PolyTransform#scalingStart</a></li><li><a href="sGis.controls.Rectangle.html#event:drawingBegin">sGis.controls.Rectangle#drawingBegin</a></li><li><a href="sGis.controls.Rectangle.html#event:drawingFinish">sGis.controls.Rectangle#drawingFinish</a></li><li><a href="sGis.DynamicLayer.html#event:propertyChange">sGis.DynamicLayer#propertyChange</a></li><li><a href="sGis.FeatureLayer.html#event:featureAdd">sGis.FeatureLayer#featureAdd</a></li><li><a href="sGis.FeatureLayer.html#event:featureRemove">sGis.FeatureLayer#featureRemove</a></li><li><a href="sGis.Layer.html#event:propertyChange">sGis.Layer#propertyChange</a></li><li><a href="sGis.LayerGroup.html#event:contentsChange">sGis.LayerGroup#contentsChange</a></li><li><a href="sGis.LayerGroup.html#event:layerAdd">sGis.LayerGroup#layerAdd</a></li><li><a href="sGis.LayerGroup.html#event:layerOrderChange">sGis.LayerGroup#layerOrderChange</a></li><li><a href="sGis.LayerGroup.html#event:layerRemove">sGis.LayerGroup#layerRemove</a></li><li><a href="sGis.Map.html#event:contentsChange">sGis.Map#contentsChange</a></li><li><a href="sGis.Map.html#event:layerAdd">sGis.Map#layerAdd</a></li><li><a href="sGis.Map.html#event:layerOrderChange">sGis.Map#layerOrderChange</a></li><li><a href="sGis.Map.html#event:layerRemove">sGis.Map#layerRemove</a></li><li><a href="sGis.TileLayer.html#event:propertyChange">sGis.TileLayer#propertyChange</a></li></ul><h3>Namespaces</h3><ul><li><a href="sGis.html">sGis</a></li><li><a href="sGis.CRS.html">sGis.CRS</a></li><li><a href="sGis.event.html">sGis.event</a></li><li><a href="sGis.feature_.html">sGis.feature</a></li><li><a href="sGis.geotools.html">sGis.geotools</a></li><li><a href="sGis.math.html">sGis.math</a></li><li><a href="sGis.painter.domPainter.html">sGis.painter.domPainter</a></li><li><a href="sGis.render.html">sGis.render</a></li><li><a href="sGis.serializer.html">sGis.serializer</a></li><li><a href="sGis.symbol_.html">sGis.symbol</a></li><li><a href="sGis.symbol.label.html">sGis.symbol.label</a></li><li><a href="sGis.symbol.maptip.html">sGis.symbol.maptip</a></li><li><a href="sGis.symbol.point.html">sGis.symbol.point</a></li><li><a href="sGis.symbol.polygon.html">sGis.symbol.polygon</a></li><li><a href="sGis.symbol.polyline.html">sGis.symbol.polyline</a></li><li><a href="sGis.utils.html">sGis.utils</a></li></ul><h3>Mixins</h3><ul><li><a href="sGisEvent.html">sGisEvent</a></li></ul><h3>Interfaces</h3><ul><li><a href="sGis.IPoint.html">sGis.IPoint</a></li><li><a href="sGis.IRender.html">sGis.IRender</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Tue Jan 10 2017 17:46:28 GMT+0300 (Russia TZ 2 Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

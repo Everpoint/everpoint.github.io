@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sGis - Using Object Selector Controller to Find Objects by Their Geometry</title>
+
+    <script src="//everpoint.github.io/everGis-bundle.js"></script>
+
+    <style>
+        html, body { margin: 0; overflow: hidden; height: 100%; }
+        #map { height: 100%; }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+
+<script>
+    window.onload = function() {
+        var serviceName = 'admindf0ad11fd6214fe0af90429e3b8ab4e4';
+        var sp = new sGis.SpatialProcessor({
+            url: 'http://evg-inst.everpoint.ru/EverCloud/SpatialProcessor/IIS/',
+            login: 'jspublic', password: 'jspublic',
+            mapWrapper: 'map',
+            baseService: 'osm',
+            services: [serviceName]
+        });
+
+
+        var objectSelector = sp.controllerManager.getController('objectSelector');
+        objectSelector.on('update', function(ev) {
+            console.log(ev.data);
+        });
+
+        var rectangleControl = new sGis.controls.Rectangle(sp.map, { isActive: true });
+
+        rectangleControl.on('drawingFinish', function(ev) {
+            objectSelector.select({ geometry: ev.feature, services: [serviceName] });
+        });
+
+        sp.map.on('click', function(ev) {
+            objectSelector.pickByGeometry({ geometry: ev.point, services: [serviceName]}).then(function(features) {
+                console.dir(features);
+            });
+        });
+    }
+</script>
+</body>
+</html>

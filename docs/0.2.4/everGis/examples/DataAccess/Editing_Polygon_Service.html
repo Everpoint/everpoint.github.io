@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EverGis - Polygon Service Editing</title>
+
+    <script src="//everpoint.github.io/everGis-bundle.js"></script>
+
+    <style>
+        html, body { margin: 0; overflow: hidden; height: 100%; }
+        #map { height: 100%; }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+
+<script>
+    window.onload = function() {
+        var serviceName = 'admin987aef49bb0e4d01a2ad1b99b8fffef4';
+        var sp = new sGis.SpatialProcessor({
+            url: 'http://evg-inst.everpoint.ru/EverCloud/SpatialProcessor/IIS/',
+            login: 'jspublic', password: 'jspublic',
+            mapWrapper: 'map',
+            baseService: 'osm',
+            services: [serviceName]
+        });
+
+        var control = new sGis.controls.Polygon(sp.map);
+        control.activate();
+
+        control.on('drawingFinish', function (ev) {
+            sp.dataAccessService.queryByGeometry({
+                geometry: ev.feature,
+                serviceName: serviceName,
+                resolution: sp.map.resolution
+            })
+                .then(function (features) {
+                    if (features.length > 0) {
+                        var ids = features.map(function (f) {
+                            return f.id;
+                        });
+                        sp.dataAccessService.deleteFeatures({ids: ids, serviceName: serviceName});
+                    } else {
+                        sp.dataAccessService.createFeature({geometry: ev.feature, serviceName: serviceName});
+                    }
+                })
+                .catch(function(error) {
+                    console.error(error);
+                });
+        });
+    }
+</script>
+</body>
+</html>
