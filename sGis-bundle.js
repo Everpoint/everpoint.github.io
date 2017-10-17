@@ -6767,8 +6767,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     var sGis = {};
 
-    sGis.version = "0.3.0";
-    sGis.releaseDate = "02.10.2017";
+    sGis.version = "0.3.1";
+    sGis.releaseDate = "17.10.2017";
 
     var loadedModules = { 'sGis': sGis };
     var loadingDefs = [];
@@ -7159,128 +7159,124 @@ sGis.module('CRS', ['Crs', 'math'], function (Crs, math) {
     });
 
     {
-        (function () {
-            var a = 6378137;
+        var a = 6378137;
 
-            CRS.webMercator = new Crs({
-                wkid: 3857,
-                authority: 'EPSG',
-                wkt: 'PROJCS["WGS 84 / Pseudo-Mercator",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Mercator"],PARAMETER["central_meridian",0],PARAMETER["scale_factor",1],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["Meter",1]]'
-            });
+        CRS.webMercator = new Crs({
+            wkid: 3857,
+            authority: 'EPSG',
+            wkt: 'PROJCS["WGS 84 / Pseudo-Mercator",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Mercator"],PARAMETER["central_meridian",0],PARAMETER["scale_factor",1],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["Meter",1]]'
+        });
 
-            CRS.webMercator.setProjectionTo(CRS.wgs84, function (_ref9) {
-                var _ref10 = _slicedToArray(_ref9, 2),
-                    x = _ref10[0],
-                    y = _ref10[1];
+        CRS.webMercator.setProjectionTo(CRS.wgs84, function (_ref9) {
+            var _ref10 = _slicedToArray(_ref9, 2),
+                x = _ref10[0],
+                y = _ref10[1];
 
-                var rLat = Math.PI / 2 - 2 * Math.atan(Math.exp(-y / a));
-                var rLong = x / a;
-                var lon = math.radToDeg(rLong);
-                var lat = math.radToDeg(rLat);
+            var rLat = Math.PI / 2 - 2 * Math.atan(Math.exp(-y / a));
+            var rLong = x / a;
+            var lon = math.radToDeg(rLong);
+            var lat = math.radToDeg(rLat);
 
-                return [lon, lat];
-            });
-            CRS.wgs84.setProjectionTo(CRS.webMercator, function (_ref11) {
-                var _ref12 = _slicedToArray(_ref11, 2),
-                    x = _ref12[0],
-                    y = _ref12[1];
+            return [lon, lat];
+        });
+        CRS.wgs84.setProjectionTo(CRS.webMercator, function (_ref11) {
+            var _ref12 = _slicedToArray(_ref11, 2),
+                x = _ref12[0],
+                y = _ref12[1];
 
-                var rLon = math.degToRad(x);
-                var rLat = math.degToRad(y);
-                var X = a * rLon;
-                var Y = a * Math.log(Math.tan(Math.PI / 4 + rLat / 2));
+            var rLon = math.degToRad(x);
+            var rLat = math.degToRad(y);
+            var X = a * rLon;
+            var Y = a * Math.log(Math.tan(Math.PI / 4 + rLat / 2));
 
-                return [X, Y];
-            });
+            return [X, Y];
+        });
 
-            CRS.webMercator.from = function (x, y) {
-                var _CRS$webMercator$proj = CRS.webMercator.projectionTo(CRS.geo)([x, y]),
-                    _CRS$webMercator$proj2 = _slicedToArray(_CRS$webMercator$proj, 2),
-                    lat = _CRS$webMercator$proj2[0],
-                    lon = _CRS$webMercator$proj2[1];
+        CRS.webMercator.from = function (x, y) {
+            var _CRS$webMercator$proj = CRS.webMercator.projectionTo(CRS.geo)([x, y]),
+                _CRS$webMercator$proj2 = _slicedToArray(_CRS$webMercator$proj, 2),
+                lat = _CRS$webMercator$proj2[0],
+                lon = _CRS$webMercator$proj2[1];
 
-                return { x: lon, y: lat, lon: lon, lat: lat };
-            };
+            return { x: lon, y: lat, lon: lon, lat: lat };
+        };
 
-            CRS.webMercator.to = function (lon, lat) {
-                var _CRS$geo$projectionTo = CRS.geo.projectionTo(CRS.webMercator)([lat, lon]),
-                    _CRS$geo$projectionTo2 = _slicedToArray(_CRS$geo$projectionTo, 2),
-                    x = _CRS$geo$projectionTo2[0],
-                    y = _CRS$geo$projectionTo2[1];
+        CRS.webMercator.to = function (lon, lat) {
+            var _CRS$geo$projectionTo = CRS.geo.projectionTo(CRS.webMercator)([lat, lon]),
+                _CRS$geo$projectionTo2 = _slicedToArray(_CRS$geo$projectionTo, 2),
+                x = _CRS$geo$projectionTo2[0],
+                y = _CRS$geo$projectionTo2[1];
 
-                return { x: x, y: y };
-            };
-        })();
+            return { x: x, y: y };
+        };
     }
 
     {
-        (function () {
-            var a = 6378137;
-            var b = 6356752.3142451793;
-            var e = Math.sqrt(1 - b * b / a / a);
-            var eh = e / 2;
-            var pih = Math.PI / 2;
+        var _a = 6378137;
+        var b = 6356752.3142451793;
+        var e = Math.sqrt(1 - b * b / _a / _a);
+        var eh = e / 2;
+        var pih = Math.PI / 2;
 
-            CRS.ellipticalMercator = new Crs({
-                wkid: 3395,
-                authority: 'EPSG',
-                wkt: 'PROJCS["WGS 84 / World Mercator",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Mercator"],PARAMETER["central_meridian",0],PARAMETER["scale_factor",1],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["Meter",1]]'
-            });
+        CRS.ellipticalMercator = new Crs({
+            wkid: 3395,
+            authority: 'EPSG',
+            wkt: 'PROJCS["WGS 84 / World Mercator",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Mercator"],PARAMETER["central_meridian",0],PARAMETER["scale_factor",1],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["Meter",1]]'
+        });
 
-            CRS.ellipticalMercator.setProjectionTo(CRS.wgs84, function (_ref13) {
-                var _ref14 = _slicedToArray(_ref13, 2),
-                    x = _ref14[0],
-                    y = _ref14[1];
+        CRS.ellipticalMercator.setProjectionTo(CRS.wgs84, function (_ref13) {
+            var _ref14 = _slicedToArray(_ref13, 2),
+                x = _ref14[0],
+                y = _ref14[1];
 
-                var ts = Math.exp(-y / a);
-                var phi = pih - 2 * Math.atan(ts);
-                var i = 0;
-                var dphi = 1;
+            var ts = Math.exp(-y / _a);
+            var phi = pih - 2 * Math.atan(ts);
+            var i = 0;
+            var dphi = 1;
 
-                while (Math.abs(dphi) > 0.000000001 && i++ < 15) {
-                    var con = e * Math.sin(phi);
-                    dphi = pih - 2 * Math.atan(ts * Math.pow((1 - con) / (1 + con), eh)) - phi;
-                    phi += dphi;
-                }
+            while (Math.abs(dphi) > 0.000000001 && i++ < 15) {
+                var con = e * Math.sin(phi);
+                dphi = pih - 2 * Math.atan(ts * Math.pow((1 - con) / (1 + con), eh)) - phi;
+                phi += dphi;
+            }
 
-                var rLong = x / a,
-                    rLat = phi,
-                    lon = math.radToDeg(rLong),
-                    lat = math.radToDeg(rLat);
+            var rLong = x / _a,
+                rLat = phi,
+                lon = math.radToDeg(rLong),
+                lat = math.radToDeg(rLat);
 
-                return [lon, lat];
-            });
-            CRS.wgs84.setProjectionTo(CRS.ellipticalMercator, function (_ref15) {
-                var _ref16 = _slicedToArray(_ref15, 2),
-                    x = _ref16[0],
-                    y = _ref16[1];
+            return [lon, lat];
+        });
+        CRS.wgs84.setProjectionTo(CRS.ellipticalMercator, function (_ref15) {
+            var _ref16 = _slicedToArray(_ref15, 2),
+                x = _ref16[0],
+                y = _ref16[1];
 
-                var rLat = math.degToRad(y);
-                var rLon = math.degToRad(x);
-                var X = a * rLon;
-                var Y = a * Math.log(Math.tan(Math.PI / 4 + rLat / 2) * Math.pow((1 - e * Math.sin(rLat)) / (1 + e * Math.sin(rLat)), e / 2));
+            var rLat = math.degToRad(y);
+            var rLon = math.degToRad(x);
+            var X = _a * rLon;
+            var Y = _a * Math.log(Math.tan(Math.PI / 4 + rLat / 2) * Math.pow((1 - e * Math.sin(rLat)) / (1 + e * Math.sin(rLat)), e / 2));
 
-                return [X, Y];
-            });
+            return [X, Y];
+        });
 
-            CRS.ellipticalMercator.from = function (x, y) {
-                var _CRS$ellipticalMercat = CRS.ellipticalMercator.projectionTo(CRS.geo)([x, y]),
-                    _CRS$ellipticalMercat2 = _slicedToArray(_CRS$ellipticalMercat, 2),
-                    lat = _CRS$ellipticalMercat2[0],
-                    lon = _CRS$ellipticalMercat2[1];
+        CRS.ellipticalMercator.from = function (x, y) {
+            var _CRS$ellipticalMercat = CRS.ellipticalMercator.projectionTo(CRS.geo)([x, y]),
+                _CRS$ellipticalMercat2 = _slicedToArray(_CRS$ellipticalMercat, 2),
+                lat = _CRS$ellipticalMercat2[0],
+                lon = _CRS$ellipticalMercat2[1];
 
-                return { x: lon, y: lat, lon: lon, lat: lat };
-            };
+            return { x: lon, y: lat, lon: lon, lat: lat };
+        };
 
-            CRS.ellipticalMercator.to = function (lat, lon) {
-                var _CRS$geo$projectionTo3 = CRS.geo.projectionTo(CRS.ellipticalMercator)([lat, lon]),
-                    _CRS$geo$projectionTo4 = _slicedToArray(_CRS$geo$projectionTo3, 2),
-                    x = _CRS$geo$projectionTo4[0],
-                    y = _CRS$geo$projectionTo4[1];
+        CRS.ellipticalMercator.to = function (lat, lon) {
+            var _CRS$geo$projectionTo3 = CRS.geo.projectionTo(CRS.ellipticalMercator)([lat, lon]),
+                _CRS$geo$projectionTo4 = _slicedToArray(_CRS$geo$projectionTo3, 2),
+                x = _CRS$geo$projectionTo4[0],
+                y = _CRS$geo$projectionTo4[1];
 
-                return { x: x, y: y };
-            };
-        })();
+            return { x: x, y: y };
+        };
     }
 
     CRS.moscowBessel = new Crs({
@@ -7288,85 +7284,83 @@ sGis.module('CRS', ['Crs', 'math'], function (Crs, math) {
     });
 
     {
-        (function () {
 
-            var R = 6372795;
+        var R = 6372795;
 
-            var AlbersEqualArea = function (_Crs) {
-                _inherits(AlbersEqualArea, _Crs);
+        var AlbersEqualArea = function (_Crs) {
+            _inherits(AlbersEqualArea, _Crs);
 
-                function AlbersEqualArea(lat0, lon0, stLat1, stLat2) {
-                    _classCallCheck(this, AlbersEqualArea);
+            function AlbersEqualArea(lat0, lon0, stLat1, stLat2) {
+                _classCallCheck(this, AlbersEqualArea);
 
-                    var _this2 = _possibleConstructorReturn(this, (AlbersEqualArea.__proto__ || Object.getPrototypeOf(AlbersEqualArea)).call(this, {
-                        details: 'Albers Equal-Area Conic Projection: ' + lat0 + ',' + lon0 + ',' + stLat1 + ',' + stLat2
-                    }));
+                var _this2 = _possibleConstructorReturn(this, (AlbersEqualArea.__proto__ || Object.getPrototypeOf(AlbersEqualArea)).call(this, {
+                    details: 'Albers Equal-Area Conic Projection: ' + lat0 + ',' + lon0 + ',' + stLat1 + ',' + stLat2
+                }));
 
-                    var _lat0 = math.degToRad(lat0);
-                    var _lon0 = math.degToRad(lon0);
-                    var _stLat1 = math.degToRad(stLat1);
-                    var _stLat2 = math.degToRad(stLat2);
-                    var _n = (Math.sin(_stLat1) + Math.sin(_stLat2)) / 2;
-                    var _c = Math.pow(Math.cos(_stLat1), 2) + 2 * _n * Math.sin(_stLat1);
-                    var _ro0 = Math.sqrt(_c - 2 * _n * Math.sin(_lat0)) / _n;
+                var _lat0 = math.degToRad(lat0);
+                var _lon0 = math.degToRad(lon0);
+                var _stLat1 = math.degToRad(stLat1);
+                var _stLat2 = math.degToRad(stLat2);
+                var _n = (Math.sin(_stLat1) + Math.sin(_stLat2)) / 2;
+                var _c = Math.pow(Math.cos(_stLat1), 2) + 2 * _n * Math.sin(_stLat1);
+                var _ro0 = Math.sqrt(_c - 2 * _n * Math.sin(_lat0)) / _n;
 
-                    _this2.setProjectionTo(CRS.wgs84, function (_ref17) {
-                        var _ref18 = _slicedToArray(_ref17, 2),
-                            x = _ref18[0],
-                            y = _ref18[1];
+                _this2.setProjectionTo(CRS.wgs84, function (_ref17) {
+                    var _ref18 = _slicedToArray(_ref17, 2),
+                        x = _ref18[0],
+                        y = _ref18[1];
 
-                        var xRad = x / R;
-                        var yRad = y / R;
-                        var th = Math.atan(xRad / (_ro0 - yRad));
-                        var ro = xRad / Math.sin(th);
-                        var rLat = Math.asin((_c - ro * ro * _n * _n) / 2 / _n);
-                        var rLon = _lon0 + th / _n;
+                    var xRad = x / R;
+                    var yRad = y / R;
+                    var th = Math.atan(xRad / (_ro0 - yRad));
+                    var ro = xRad / Math.sin(th);
+                    var rLat = Math.asin((_c - ro * ro * _n * _n) / 2 / _n);
+                    var rLon = _lon0 + th / _n;
 
-                        var lat = math.radToDeg(rLat);
-                        var lon = math.radToDeg(rLon);
+                    var lat = math.radToDeg(rLat);
+                    var lon = math.radToDeg(rLon);
 
-                        return [lon, lat];
-                    });
+                    return [lon, lat];
+                });
 
-                    CRS.wgs84.setProjectionTo(_this2, function (_ref19) {
-                        var _ref20 = _slicedToArray(_ref19, 2),
-                            lon = _ref20[0],
-                            lat = _ref20[1];
+                CRS.wgs84.setProjectionTo(_this2, function (_ref19) {
+                    var _ref20 = _slicedToArray(_ref19, 2),
+                        lon = _ref20[0],
+                        lat = _ref20[1];
 
-                        var rLon = math.degToRad(lon),
-                            rLat = math.degToRad(lat),
-                            th = _n * (rLat - _lon0),
-                            ro = Math.sqrt(_c - 2 * _n * Math.sin(rLon)) / _n,
-                            x = ro * Math.sin(th) * R,
-                            y = _ro0 - ro * Math.cos(th) * R;
+                    var rLon = math.degToRad(lon),
+                        rLat = math.degToRad(lat),
+                        th = _n * (rLat - _lon0),
+                        ro = Math.sqrt(_c - 2 * _n * Math.sin(rLon)) / _n,
+                        x = ro * Math.sin(th) * R,
+                        y = _ro0 - ro * Math.cos(th) * R;
 
-                        return [x, y];
-                    });
-                    return _this2;
-                }
+                    return [x, y];
+                });
+                return _this2;
+            }
 
-                return AlbersEqualArea;
-            }(Crs);
+            return AlbersEqualArea;
+        }(Crs);
 
-            AlbersEqualArea.prototype.from = function (x, y) {
-                var _projectionTo = this.projectionTo(CRS.geo)([x, y]),
-                    _projectionTo2 = _slicedToArray(_projectionTo, 2),
-                    lat = _projectionTo2[0],
-                    lon = _projectionTo2[1];
+        AlbersEqualArea.prototype.from = function (x, y) {
+            var _projectionTo = this.projectionTo(CRS.geo)([x, y]),
+                _projectionTo2 = _slicedToArray(_projectionTo, 2),
+                lat = _projectionTo2[0],
+                lon = _projectionTo2[1];
 
-                return { x: lon, y: lat, lon: lon, lat: lat };
-            };
-            AlbersEqualArea.prototype.to = function (lat, lon) {
-                var _CRS$geo$projectionTo5 = CRS.geo.projectionTo(this)([lat, lon]),
-                    _CRS$geo$projectionTo6 = _slicedToArray(_CRS$geo$projectionTo5, 2),
-                    x = _CRS$geo$projectionTo6[0],
-                    y = _CRS$geo$projectionTo6[1];
+            return { x: lon, y: lat, lon: lon, lat: lat };
+        };
+        AlbersEqualArea.prototype.to = function (lat, lon) {
+            var _CRS$geo$projectionTo5 = CRS.geo.projectionTo(this)([lat, lon]),
+                _CRS$geo$projectionTo6 = _slicedToArray(_CRS$geo$projectionTo5, 2),
+                x = _CRS$geo$projectionTo6[0],
+                y = _CRS$geo$projectionTo6[1];
 
-                return { x: x, y: y };
-            };
+            return { x: x, y: y };
+        };
 
-            CRS.AlbersEqualArea = AlbersEqualArea;
-        })();
+        CRS.AlbersEqualArea = AlbersEqualArea;
     }
 
     CRS.cylindricalEqualArea = new CRS.AlbersEqualArea(0, 180, 60, 50);
@@ -8317,7 +8311,7 @@ sGis.module('init', ['sGis', 'Map', 'painter.DomPainter'], function (sGis, Map, 
                 throw new Error('Plugin ' + name + ' is not available.');
             }
 
-            return new sGis.plugins[name](map, painter.innerWrapper, pluginDefinition.properties);
+            return new sGis.plugins[name](map, painter, pluginDefinition.properties);
         });
 
         return { map: map, painter: painter, plugins: plugins };
@@ -14030,34 +14024,43 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.domPainter.Container', 'painter.domPainter.EventDispatcher', 'Point', 'Bbox', 'utils'], function (LayerRenderer, Container, EventDispatcher, Point, Bbox, utils) {
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.domPainter.Container', 'painter.domPainter.EventDispatcher', 'EventHandler', 'Point', 'Bbox', 'utils'], function (LayerRenderer, Container, EventDispatcher, EventHandler, Point, Bbox, utils) {
 
     'use strict';
 
     var innerWrapperStyle = 'position: relative; overflow: hidden; width: 100%; height: 100%;';
     var layerWrapperStyle = 'position: absolute; width: 100%; height: 100%; z-index: 0;';
 
-    var DomRenderer = function () {
+    var DomRenderer = function (_EventHandler) {
+        _inherits(DomRenderer, _EventHandler);
+
         function DomRenderer(map, options) {
             _classCallCheck(this, DomRenderer);
 
-            this._map = map;
-            utils.init(this, options, true);
+            var _this = _possibleConstructorReturn(this, (DomRenderer.__proto__ || Object.getPrototypeOf(DomRenderer)).call(this));
 
-            this._layerRenderers = new Map();
-            this._containers = [];
+            _this._map = map;
+            utils.init(_this, options, true);
 
-            this._position = new Point([Infinity, Infinity]);
-            this._resolution = Infinity;
+            _this._layerRenderers = new Map();
+            _this._containers = [];
 
-            this._needUpdate = true;
-            this._updateAllowed = true;
+            _this._position = new Point([Infinity, Infinity]);
+            _this._resolution = Infinity;
 
-            this._updateLayerList();
-            this._setEventListeners();
+            _this._needUpdate = true;
+            _this._updateAllowed = true;
 
-            this._repaintBound = this._repaint.bind(this);
-            this._repaint();
+            _this._updateLayerList();
+            _this._setEventListeners();
+
+            _this._repaintBound = _this._repaint.bind(_this);
+            _this._repaint();
+            return _this;
         }
 
         _createClass(DomRenderer, [{
@@ -14079,7 +14082,7 @@ sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.
         }, {
             key: '_updateLayerList',
             value: function _updateLayerList() {
-                var _this = this;
+                var _this2 = this;
 
                 var mapLayers = this._map.getLayers(true, true);
                 var _iteratorNormalCompletion = true;
@@ -14108,11 +14111,11 @@ sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.
                 }
 
                 mapLayers.forEach(function (layer, index) {
-                    var renderer = _this._layerRenderers.get(layer);
+                    var renderer = _this2._layerRenderers.get(layer);
                     if (renderer) {
                         renderer.setIndex(index);
                     } else {
-                        _this._addLayer(layer, index);
+                        _this2._addLayer(layer, index);
                     }
                 });
             }
@@ -14149,7 +14152,7 @@ sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.
         }, {
             key: '_repaint',
             value: function _repaint() {
-                var _this2 = this;
+                var _this3 = this;
 
                 this._updateSize();
 
@@ -14163,8 +14166,8 @@ sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.
 
                     if (this._updateAllowed) {
                         this._map.getLayers(true, true).reverse().forEach(function (layer) {
-                            var renderer = _this2._layerRenderers.get(layer);
-                            if (_this2._redrawNeeded || renderer.updateNeeded) {
+                            var renderer = _this3._layerRenderers.get(layer);
+                            if (_this3._redrawNeeded || renderer.updateNeeded) {
                                 try {
                                     renderer.update();
                                 } catch (e) {
@@ -14209,7 +14212,7 @@ sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.
         }, {
             key: '_updateBbox',
             value: function _updateBbox() {
-                var _this3 = this;
+                var _this4 = this;
 
                 var mapPosition = this._map.position;
                 if (this._position[0] !== mapPosition[0] || this._position[1] !== mapPosition[1] || !utils.softEquals(this._map.resolution, this._resolution) || this._bboxWidth !== this._width || this._bboxHeight !== this._height) {
@@ -14222,11 +14225,11 @@ sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.
                     this._bbox = new Bbox([mapPosition[0] - dx, mapPosition[1] - dy], [mapPosition[0] + dx, mapPosition[1] + dy], this._map.crs);
 
                     this._containers.forEach(function (container) {
-                        if (container.crs.canProjectTo(_this3._map.crs)) {
-                            container.updateTransform(_this3._bbox, _this3._resolution);
+                        if (container.crs.canProjectTo(_this4._map.crs)) {
+                            container.updateTransform(_this4._bbox, _this4._resolution);
                         } else {
-                            _this3._removeContainer(_this3._containers.indexOf(container));
-                            if (_this3._containers.length === 0) _this3._setNewContainer();
+                            _this4._removeContainer(_this4._containers.indexOf(container));
+                            if (_this4._containers.length === 0) _this4._setNewContainer();
                         }
                     });
 
@@ -14270,26 +14273,30 @@ sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.
         }, {
             key: '_clearContainers',
             value: function _clearContainers() {
-                var _this4 = this;
+                var _this5 = this;
 
                 this._containers.forEach(function (container, i) {
-                    _this4._removeContainer(i);
+                    _this5._removeContainer(i);
+                });
+                this._map.getLayers(true, true).reverse().forEach(function (layer) {
+                    var renderer = _this5._layerRenderers.get(layer);
+                    renderer.clear();
                 });
             }
         }, {
             key: 'resolveLayerOverlay',
             value: function resolveLayerOverlay() {
-                var _this5 = this;
+                var _this6 = this;
 
                 var prevContainerIndex = 0;
                 this._map.getLayers(true, true).forEach(function (layer) {
-                    var renderer = _this5._layerRenderers.get(layer);
+                    var renderer = _this6._layerRenderers.get(layer);
                     if (!renderer) return;
 
-                    var containerIndex = _this5._containers.indexOf(renderer.currentContainer);
+                    var containerIndex = _this6._containers.indexOf(renderer.currentContainer);
                     if (containerIndex < prevContainerIndex) {
                         renderer.moveToLastContainer();
-                        prevContainerIndex = _this5._containers.length - 1;
+                        prevContainerIndex = _this6._containers.length - 1;
                     } else {
                         prevContainerIndex = containerIndex;
                     }
@@ -14315,21 +14322,21 @@ sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.
         }, {
             key: '_onMapDrag',
             value: function _onMapDrag(sGisEvent) {
-                var _this6 = this;
+                var _this7 = this;
 
                 setTimeout(function () {
                     if (sGisEvent.isCanceled()) return;
-                    _this6._map.move(sGisEvent.offset.x, sGisEvent.offset.y);
+                    _this7._map.move(sGisEvent.offset.x, sGisEvent.offset.y);
                 }, 0);
             }
         }, {
             key: '_onMapDblClick',
             value: function _onMapDblClick(sGisEvent) {
-                var _this7 = this;
+                var _this8 = this;
 
                 setTimeout(function () {
                     if (sGisEvent.isCanceled()) return;
-                    _this7._map.animateSetResolution(_this7._map.resolution / 2, sGisEvent.point);
+                    _this8._map.animateSetResolution(_this8._map.resolution / 2, sGisEvent.point);
                 }, 0);
             }
         }, {
@@ -14345,6 +14352,8 @@ sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.
                     this._needUpdate = true;
                     this._redrawNeeded = true;
                 }
+
+                this.fire('wrapperChange');
             }
         }, {
             key: 'layerRenderers',
@@ -14390,7 +14399,7 @@ sGis.module('painter.DomPainter', ['painter.domPainter.LayerRenderer', 'painter.
         }]);
 
         return DomRenderer;
-    }();
+    }(EventHandler);
 
     return DomRenderer;
 });
@@ -15414,15 +15423,13 @@ sGis.module('painter.domPainter.LayerRenderer', ['Bbox', 'painter.domPainter.Can
                                 var k = _this12._currentResolution / lastContainer.resolution;
                                 lastContainer.addFixedSizeNode(node, [render.position[0] * k, render.position[1] * k], render.offset);
                             } else {
-                                (function () {
-                                    var svgRender = new SvgRender(render, container.resolution / lastContainer.resolution);
-                                    svgRender.getNode(function (err, newNode) {
-                                        if (!svgRender.position || !_this12._renderNodeMap.has(render)) return;
-                                        container.removeNode(node);
-                                        _this12._renderNodeMap.set(render, newNode);
-                                        lastContainer.addFixedSizeNode(newNode, svgRender.position);
-                                    });
-                                })();
+                                var _svgRender = new SvgRender(render, container.resolution / lastContainer.resolution);
+                                _svgRender.getNode(function (err, newNode) {
+                                    if (!_svgRender.position || !_this12._renderNodeMap.has(render)) return;
+                                    container.removeNode(node);
+                                    _this12._renderNodeMap.set(render, newNode);
+                                    lastContainer.addFixedSizeNode(newNode, _svgRender.position);
+                                });
                             }
                             _this12._renderContainerMap.set(render, lastContainer);
                         }
@@ -16297,6 +16304,946 @@ sGis.module('symbol.polygon.Simple', ['Symbol', 'symbol.polyline.Simple', 'rende
 });
 'use strict';
 
+sGis.module('controls.BaseLayerSwitch', ['utils', 'Control', 'Map', 'Layer', 'event', 'utils.proto'], function (utils, Control, Map, Layer, ev, proto) {
+    'use strict';
+
+    var BaseLayerSwitch = function BaseLayerSwitch(painter, options) {
+        var map = painter.map;
+
+        if (!(map instanceof sGis.Map)) sGis.utils.error('sGis.Map instance is expected but got ' + map + ' instead');
+        this._map = map;
+        this._painter = painter;
+
+        sGis.utils.init(this, options);
+        this._container = this._getNewControlContainer();
+
+        this._layerDescriptions = [];
+        if (options && options.layerDescriptions) this.layerDescriptions = options.layerDescriptions;
+    };
+
+    BaseLayerSwitch.prototype = {
+        _xAlign: 'right',
+        _yAlign: 'bottom',
+        _xOffset: 32,
+        _yOffset: 32,
+        _width: 64,
+        _height: 64,
+        _inactiveWidth: 56,
+        _inactiveHeight: 56,
+        _margin: 8,
+        _imageWidth: 75,
+
+        activate: function activate() {
+            this.isActive = true;
+        },
+
+        deactivate: function deactivate() {
+            this.isActive = false;
+        },
+
+        addLayer: function addLayer(layer, imageSrc) {
+            if (!(layer instanceof sGis.Layer)) sGis.utils.error('sGis.Layer instance is expected but got ' + layer + ' instead');
+            if (!layer.tileScheme) sGis.utils.error('A layer without tile scheme cannot be interpreted as base layer');
+            if (this.getLayerIndex(layer) !== -1) sGis.utils.error('The layer is already in the list');
+
+            this._layerDescriptions.push({ layer: layer, imageSrc: imageSrc });
+            this._addLayerToImageBox(layer);
+
+            if (this._map.indexOf(layer) !== -1) {
+                this.activeLayer = layer;
+            }
+
+            this.isActive = this._isActive;
+
+            this.fire('layerAdd', { layer: layer });
+        },
+
+        removeLayer: function removeLayer(layer) {
+            if (this._activeLayer === layer) {
+                if (this._layerDescriptions.length === 1) {
+                    this.deactivate();
+                } else {
+                    var layerIndex = this.getLayerIndex(layer);
+                    this.activeLayer = this._layerDescriptions[layerIndex === 0 ? 1 : layerIndex - 1];
+                }
+            }
+
+            this._removeLayerFromImageBox(layer);
+            this._layerDescriptions.splice(this.getLayerIndex(layer), 1);
+        },
+
+        _addLayerToImageBox: function _addLayerToImageBox(layer) {
+            if (!this._inactiveLayerBox) {
+                this._inactiveLayerBox = this._getNewInactiveLayerBox();
+                this._scrollContainer = document.createElement("div");
+                this._scrollContainer.className = this.pickerContainerCss + "-scroll";
+                this._scrollContainer.appendChild(this._inactiveLayerBox);
+                this._container.appendChild(this._scrollContainer);
+                this._createScroll();
+            }
+
+            var index = this.getLayerIndex(layer);
+            if (!this._layerDescriptions[index].image) {
+                this._layerDescriptions[index].image = this._getLayerImageObject(layer);
+            }
+
+            if (index < this._inactiveLayerBox.children.length) {
+                this._inactiveLayerBox.insertBefore(this._layerDescriptions[index].image, this._inactiveLayerBox.children[index]);
+            } else {
+                this._inactiveLayerBox.appendChild(this._layerDescriptions[index].image);
+            }
+
+            //this._updateImagePositions();
+        },
+
+        _createScroll: function _createScroll() {
+            this._next = document.createElement("div");
+            this._prev = document.createElement("div");
+
+            this._next.className = "button everGis-navigation-button everGis-navigation-forward scrollButton";
+            this._prev.className = "button everGis-navigation-button everGis-navigation-back scrollButton";
+            this._next.onclick = this._scrollNext.bind(this);
+            this._prev.onclick = this._scrollPrev.bind(this);
+            this._scrollContainer.onwheel = this._scrollWheel.bind(this);
+            this._container.appendChild(this._next);
+            this._container.appendChild(this._prev);
+        },
+
+        _updateScroll: function _updateScroll() {
+            if (!this._scrollContainer) return;
+            var maxSize = +getComputedStyle(this._scrollContainer).width.replace("px", ""),
+                listSize = this._layerDescriptions.length * 75;
+            if (maxSize < listSize) {
+                this._showScroll();
+            } else {
+                this._hideScroll();
+            }
+
+            this._scrollNextLimit = Math.round(maxSize / this._imageWidth);
+        },
+
+        _showScroll: function _showScroll() {
+            this._next.style.display = "block";
+            this._prev.style.display = "block";
+        },
+
+        _hideScroll: function _hideScroll() {
+            this._next.style.display = "none";
+            this._prev.style.display = "none";
+        },
+
+        _scrollWheel: function _scrollWheel(e) {
+            var delta = e.deltaY || e.detail || e.wheelDelta;
+            if (delta > 0) {
+                this._scrollNext();
+            } else if (delta < 0) {
+                this._scrollPrev();
+            }
+            e.stopPropagation();
+        },
+
+        _scrollNext: function _scrollNext(e) {
+            var count = this._layerDescriptions.length,
+                width = this._imageWidth,
+                scrollLimit = this._scrollNextLimit,
+                currentPosition = this._currentPosition | 0,
+                position = Math.max(currentPosition - width, -width * (count - scrollLimit));
+            this._inactiveLayerBox.style.marginLeft = position + 'px';
+            this._currentPosition = position;
+            e && e.stopPropagation();
+        },
+        _scrollPrev: function _scrollPrev(e) {
+            var width = this._imageWidth,
+                currentPosition = this._currentPosition | 0,
+                position = Math.min(currentPosition + width, 0);
+            this._inactiveLayerBox.style.marginLeft = position + 'px';
+            this._currentPosition = position;
+            e && e.stopPropagation();
+        },
+
+        _updateImagePositions: function _updateImagePositions() {
+            var top = this._height - this._inactiveHeight;
+            for (var i = 0, len = this._layerDescriptions.length; i < len; i++) {
+                this._layerDescriptions[i].image.style.top = top + 'px';
+                this._layerDescriptions[i].image.style.left = i * (this._inactiveWidth + this._margin) + 'px';
+            }
+        },
+
+        _getLayerImageObject: function _getLayerImageObject(layer) {
+            var image = new Image();
+            image.src = this._layerDescriptions[this.getLayerIndex(layer)].imageSrc;
+            image.className = this.pickerCss;
+
+            var self = this;
+            image.onclick = function (event) {
+                if (self.activeLayer !== layer) {
+                    self.activeLayer = layer;
+                    event.stopPropagation();
+                }
+            };
+
+            var label = document.createElement('span');
+            label.innerHTML = layer.name;
+
+            var container = document.createElement('div');
+            container.className = 'sGis-control-baseLayerSwitch-imageContainer';
+            container.appendChild(image);
+            container.appendChild(label);
+
+            return container;
+        },
+
+        _getNewInactiveLayerBox: function _getNewInactiveLayerBox() {
+            var box = document.createElement('div');
+            box.className = this.pickerContainerCss;
+
+            if (this.useToggle) box.style.maxWidth = '0px';
+
+            return box;
+        },
+
+        _removeLayerFromImageBox: function _removeLayerFromImageBox(layer) {
+            this._inactiveLayerBox.removeChild(this._layerDescriptions[this.getLayerIndex(layer)].image);
+        },
+
+        getLayerIndex: function getLayerIndex(layer) {
+            for (var i = 0, len = this._layerDescriptions.length; i < len; i++) {
+                if (this._layerDescriptions[i].layer === layer) return i;
+            }
+            return -1;
+        },
+
+        _setActiveLayerImage: function _setActiveLayerImage() {
+            if (!this._activeLayerImageContainer) {
+                this._activeLayerImageContainer = this._getNewActiveLayerImageContainer();
+                this._container.appendChild(this._activeLayerImageContainer);
+            }
+
+            if (this._activeLayerImageContainer.children.length > 0) {
+                this._activeLayerImageContainer.removeChild(this._activeLayerImageContainer.children[0]);
+            }
+
+            var index = this.getLayerIndex(this._activeLayer);
+            if (!this._layerDescriptions[index].image) {
+                this._layerDescriptions[index].image = this._getLayerImageObject(this._activeLayer);
+            }
+
+            var images = this._layerDescriptions[index].image.getElementsByTagName('img');
+
+            if (images && images[0]) {
+                this._activeLayerImageContainer.style.backgroundImage = 'url(' + images[0].src + ')';
+            }
+        },
+
+        _getNewActiveLayerImageContainer: function _getNewActiveLayerImageContainer() {
+            var container = document.createElement('div');
+            container.className = this.activeCss;
+
+            var self = this;
+            ev.add(container, 'click', function (event) {
+                if (self.useToggle) {
+                    if (self._inactiveLayerBox.style.maxWidth === '0px') {
+                        self._showInactiveLayerBox();
+                    } else {
+                        self._hideInactiveLayerBox();
+                    }
+                    event.stopPropagation();
+                }
+            });
+
+            return container;
+        },
+
+        _getNewControlContainer: function _getNewControlContainer() {
+            var container = document.createElement('div');
+            container.className = this.containerCss;
+
+            ev.add(container, 'dblclick', function (event) {
+                event.stopPropagation();
+            });
+
+            return container;
+        },
+
+        _showInactiveLayerBox: function _showInactiveLayerBox() {
+            var layerCount = this._layerDescriptions.length;
+            this._inactiveLayerBox.style.maxWidth = '1024px';
+        },
+
+        _hideInactiveLayerBox: function _hideInactiveLayerBox() {
+            this._inactiveLayerBox.style.maxWidth = '0px';
+        },
+
+        _updateInactiveLayersDecoration: function _updateInactiveLayersDecoration() {
+            var activeLayer = this.activeLayer;
+            for (var i = 0, len = this._layerDescriptions.length; i < len; i++) {
+                var image = this._layerDescriptions[i].image;
+                var index = image.className.indexOf(this.pickerActiveCss);
+                var isActive = this.activeLayer === this._layerDescriptions[i].layer;
+
+                if (index === -1 && isActive) {
+                    image.className += ' ' + this.pickerActiveCss;
+                } else if (index !== -1 && !isActive) {
+                    image.className = image.className.substr(0, index - 1) + image.className.substr(index + this.pickerActiveCss.length);
+                }
+            }
+        }
+    };
+
+    Object.defineProperties(BaseLayerSwitch.prototype, {
+        xAlign: {
+            get: function get() {
+                return this._xAlign;
+            },
+            set: function set(align) {
+                sGis.utils.validateValue(align, ['left', 'right']);
+                this._xAlign = align;
+            }
+        },
+
+        yAlign: {
+            get: function get() {
+                return this._yAlign;
+            },
+            set: function set(align) {
+                sGis.utils.validateValue(align, ['top', 'bottom']);
+                this._yAlign = align;
+            }
+        },
+
+        xOffset: {
+            get: function get() {
+                return this._xOffset;
+            },
+            set: function set(offset) {
+                sGis.utils.validateNumber(offset);
+                this._xOffset = offset;
+            }
+        },
+
+        yOffset: {
+            get: function get() {
+                return this._yOffset;
+            },
+            set: function set(offset) {
+                sGis.utils.validateNumber(offset);
+                this._yOffset = offset;
+            }
+        },
+
+        width: {
+            get: function get() {
+                return this._width;
+            },
+            set: function set(width) {
+                sGis.utils.validatePositiveNumber(width);
+                this._width = width;
+            }
+        },
+
+        height: {
+            get: function get() {
+                return this._height;
+            },
+            set: function set(height) {
+                sGis.utils.validatePositiveNumber(height);
+                this._height = height;
+            }
+        },
+
+        inactiveWidth: {
+            get: function get() {
+                return this._inactiveWidth;
+            },
+            set: function set(width) {
+                sGis.utils.validatePositiveNumber(width);
+                this._inactiveWidth = width;
+            }
+        },
+
+        inactiveHeight: {
+            get: function get() {
+                return this._inactiveHeight;
+            },
+            set: function set(height) {
+                sGis.utils.validatePositiveNumber(height);
+                this._inactiveHeight = height;
+            }
+        }
+    });
+
+    sGis.utils.proto.setProperties(BaseLayerSwitch.prototype, {
+        layerDescriptions: {
+            get: function get() {
+                return this._layerDescriptions;
+            },
+            set: function set(descriptions) {
+                if (this._layerDescriptions.length > 0) {
+                    for (var i = 0, len = this._layerDescriptions; i < len; i++) {
+                        this.removeLayer(this._layerDescriptions[i]);
+                    }
+                }
+                for (var i = 0, len = descriptions.length; i < len; i++) {
+                    this.addLayer(descriptions[i].layer, descriptions[i].imageSrc);
+                }
+            }
+        },
+
+        activeLayer: {
+            get: function get() {
+                return this._activeLayer;
+            },
+            set: function set(layer) {
+                if (layer !== this._activeLayer) {
+                    var indexInList = this.getLayerIndex(layer),
+                        indexOnMap = 0;
+                    if (indexInList === -1) sGis.utils.error('The layer is not in the list');
+
+                    if (this._activeLayer) {
+                        indexOnMap = this._map.indexOf(this._activeLayer);
+                        this._map.removeLayer(this._activeLayer);
+                    }
+
+                    this._map.insertLayer(layer, indexOnMap);
+                    this._activeLayer = layer;
+
+                    this._setActiveLayerImage();
+                    this._updateInactiveLayersDecoration();
+
+                    this.fire('activeLayerChange');
+                }
+            }
+        },
+
+        useToggle: {
+            default: true,
+            set: function set(bool) {
+                if (this._inactiveLayerBox) {
+                    if (bool) {
+                        this._inactiveLayerBox.style.maxWidth = '0px';
+                    } else {
+                        this._inactiveLayerBox.style.maxWidth = '';
+                    }
+                }
+                this._useToggle = bool;
+            }
+        },
+
+        isActive: {
+            default: true,
+            set: function set(bool) {
+                if (bool) {
+                    if (this._painter.innerWrapper) this._painter.innerWrapper.appendChild(this._container);
+                    this._isActive = true;
+                    this.fire('activate');
+                } else {
+                    if (this._painter.innerWrapper && this._container.parentNode) this._painter.innerWrapper.removeChild(this._container);
+                    this._isActive = false;
+                    this.fire('deactivate');
+                }
+            }
+        },
+
+        containerCss: {
+            default: 'sGis-control-baseLayerSwitch-container',
+            set: function set(css) {
+                if (this._container) this._container.className = css;
+                this._containerCss = css;
+            }
+        },
+        activeCss: {
+            default: 'sGis-control-baseLayerSwitch-active',
+            set: function set(css) {
+                if (this._activeLayerImageContainer) this._activeLayerImageContainer.className = css;
+                this._activeCss = css;
+            }
+        },
+        pickerCss: {
+            default: 'sGis-control-baseLayerSwitch-picker',
+            set: function set(css) {
+                if (this._inactiveLayerBox) {
+                    var images = this._inactiveLayerBox.childNodes;
+                    for (var i = 0; i < images.length; i++) {
+                        images.className = css;
+                    }
+                }
+
+                this._pickerCss = css;
+
+                this._updateInactiveLayersDecoration();
+            }
+        },
+        pickerActiveCss: {
+            default: 'sGis-control-baseLayerSwitch-pickerActive',
+            set: function set(css) {
+                this._pickerActiveCss = css;
+                this.pickerCss = this._pickerCss;
+            }
+        },
+        pickerContainerCss: {
+            default: 'sGis-control-baseLayerSwitch-pickerContainer',
+            set: function set(css) {
+                if (this._inactiveLayerBox) this._inactiveLayerBox.className = css;
+                this._pickerContainerCss = css;
+            }
+        },
+        container: {
+            default: null,
+            get: function get() {
+                return this._container;
+            },
+            set: null
+        }
+    });
+
+    var defaultCss = '.sGis-control-baseLayerSwitch-container {position: absolute; right: 32px; bottom: 32px; width: 64px; height: 64px;} ' + '.sGis-control-baseLayerSwitch-active {position: absolute; right: 0px; top: 0px; width: 64px; height: 64px; border: 1px solid black; background-size: 100%; cursor: pointer;}' + '.sGis-control-baseLayerSwitch-picker {cursor: pointer; border: 1px solid gray;} ' + '.sGis-control-baseLayerSwitch-pickerActive {border: 2px solid DarkViolet;} ' + '.sGis-control-baseLayerSwitch-pickerContainer {transition: max-width 0.5s, max-height 0.5s; -webkit-transition: max-width 0.5s, max-height 0.5s; overflow: hidden; position: absolute; right: 70px; white-space: nowrap;} ' + '.sGis-control-baseLayerSwitch-pickerContainer img {width: 56px; height: 56px; margin: 5px;}' + '.sGis-control-baseLayerSwitch-imageContainer { display: inline-block; }' + '.sGis-control-baseLayerSwitch-imageContainer span { display: none; }',
+        buttonStyle = document.createElement('style');
+    buttonStyle.type = 'text/css';
+    if (buttonStyle.styleSheet) {
+        buttonStyle.styleSheet.cssText = defaultCss;
+    } else {
+        buttonStyle.appendChild(document.createTextNode(defaultCss));
+    }
+
+    document.head.appendChild(buttonStyle);
+
+    return BaseLayerSwitch;
+});
+'use strict';
+
+sGis.module('controls.Area', ['Control', 'controls.Polygon', 'Map', 'feature.Label', 'geotools', 'utils.proto'], function (Control, PolygonControl, Map, Label, geotools, proto) {
+    'use strict';
+
+    var Area = function Area(map, options) {
+        if (!(map instanceof sGis.Map)) sGis.utils.error('sGis.Map instance is expected but got ' + map + ' instead');
+        this._map = map;
+
+        this._polygonControl = new sGis.controls.Polygon(map, { activeLayer: options && options.activeLayer, style: { strokeWidth: 2, strokeColor: 'red', fillColor: 'rgba(100, 100, 100, 0.5)' } });
+        sGis.utils.init(this, options);
+
+        this._polygonControl.addListener('drawingBegin', function () {
+            if (this.activeLayer.features.length > 1) this.activeLayer.features = [this.activeLayer.features[this.activeLayer.features.length - 1]];
+
+            var feature = this._activeLayer.features[this._activeLayer.features.length - 1],
+                label = new sGis.feature.Label(feature.centroid, { content: '', crs: feature.crs, style: { css: 'sGis-distanceLabel', offset: { x: -50, y: -10 }, width: 120 } });
+
+            this.activeLayer.add(label);
+
+            map.addListener('mousemove.areaMeasureControl', function () {
+                label.coordinates = feature.centroid;
+                label.content = formatNumber(sGis.geotools.area(feature));
+            });
+        });
+
+        this._polygonControl.addListener('drawingFinish', function () {
+            map.removeListener('mousemove.areaMeasureControl');
+        });
+    };
+
+    Area.prototype = new sGis.Control({
+        _setActiveStatus: function _setActiveStatus(bool) {
+            this._polygonControl.isActive = bool;
+            this._active = bool;
+        }
+    });
+
+    sGis.utils.proto.setProperties(Area.prototype, {
+        activeLayer: {
+            get: function get() {
+                return this._polygonControl.activeLayer;
+            },
+            set: function set(layer) {
+                this._polygonControl.activeLayer = layer;
+            }
+        },
+
+        isActive: {
+            get: function get() {
+                return this._active;
+            },
+            set: function set(bool) {
+                this._setActiveStatus(bool);
+            }
+        }
+    });
+
+    function formatNumber(n) {
+        var s;
+        if (n < 10000) {
+            s = '' + n.toFixed(2) + 'м²';
+        } else if (n < 10000000) {
+            s = '' + (n / 10000).toFixed(2) + 'га';
+        } else {
+            s = '' + (n / 1000000).toFixed(2) + 'км²';
+            if (s.length > 10) {
+                for (var i = s.length - 9; i > 0; i -= 3) {
+                    s = s.substr(0, i) + ' ' + s.substr(i);
+                }
+            }
+        }
+        return s.replace('.', ',');
+    }
+
+    return Area;
+});
+'use strict';
+
+sGis.module('controls.Distance', ['utils', 'utils.proto', 'Map', 'controls.Polyline', 'geotools', 'Control'], function (utils, proto, Map, Polyline, geotools, Control) {
+    'use strict';
+
+    var Distance = function Distance(map, options) {
+        if (!(map instanceof sGis.Map)) sGis.utils.error('sGis.Map instance is expected but got ' + map + ' instead');
+        this._map = map;
+
+        this._polylineControl = new sGis.controls.Polyline(map, { activeLayer: options && options.activeLayer, style: { strokeWidth: 2, strokeColor: 'red' } });
+        sGis.utils.init(this, options);
+
+        this._polylineControl.addListener('drawingBegin', function () {
+            if (this.activeLayer.features.length > 1) this.activeLayer.features = [this.activeLayer.features[this.activeLayer.features.length - 1]];
+
+            var feature = this.activeLayer.features[this.activeLayer.features.length - 1],
+                coord = feature.rings[0],
+                label = new sGis.feature.Label(coord[1], { symbol: new sGis.symbol.label.Label({ css: 'sGis-symbol-label-center-top sGis-distanceLabel' }), crs: map.crs });
+
+            this.activeLayer.add(label);
+
+            map.addListener('mousemove.distanceMeasureControl', function () {
+                label.coordinates = feature.rings[0][feature.coordinates[0].length - 1];
+                label.content = formatNumber(sGis.geotools.length(feature));
+            });
+        });
+
+        this._polylineControl.addListener('drawingFinish', function () {
+            map.removeListener('mousemove.distanceMeasureControl');
+        });
+    };
+
+    Distance.prototype = new sGis.Control({
+        _setActiveStatus: function _setActiveStatus(bool) {
+            this._polylineControl.isActive = bool;
+            this._active = bool;
+        }
+    });
+
+    sGis.utils.proto.setProperties(Distance.prototype, {
+        activeLayer: {
+            get: function get() {
+                return this._polylineControl.activeLayer;
+            },
+            set: function set(layer) {
+                this._polylineControl.activeLayer = layer;
+            }
+        },
+
+        isActive: {
+            get: function get() {
+                return this._active;
+            },
+            set: function set(bool) {
+                this._setActiveStatus(bool);
+            }
+        }
+    });
+
+    function formatNumber(n) {
+        var s;
+        if (n > 10000) {
+            s = '' + (n / 1000).toFixed(2) + 'км';
+        } else {
+            s = '' + n.toFixed(2) + 'м';
+        }
+        return s.replace('.', ',');
+    }
+
+    function addStyleSheet() {
+        var styleSheet = document.createElement('style');
+        styleSheet.type = 'text/css';
+        styleSheet.innerHTML = '.sGis-distanceLabel {font-family: "PT Sans",Tahoma; font-size: 15px; background-color: rgba(200, 200, 255, 0.8);border: 1px solid black;border-radius: 5px; color: black;}';
+        document.head.appendChild(styleSheet);
+    }
+
+    addStyleSheet();
+
+    return Distance;
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+sGis.module('decorations.ScaleSlider', ['utils', 'utils.proto', 'EventHandler'], function (utils, proto, EventHandler) {
+    'use strict';
+
+    var defaults = {
+        _gridCss: 'sGis-decorations-scaleSlider-grid',
+        _gridWidth: 8,
+        _gridHeight: 120,
+        _gridTop: 50,
+        _gridLeft: 50,
+        _sliderCss: 'sGis-decorations-scaleSlider-slider',
+        _sliderWidth: 25,
+        _sliderHeight: 10,
+        _eventNamespace: '.sGis-decorations-scaleSlider'
+    };
+
+    var ScaleSlider = function (_EventHandler) {
+        _inherits(ScaleSlider, _EventHandler);
+
+        function ScaleSlider(map, options) {
+            _classCallCheck(this, ScaleSlider);
+
+            var _this = _possibleConstructorReturn(this, (ScaleSlider.__proto__ || Object.getPrototypeOf(ScaleSlider)).call(this));
+
+            _this._map = map;
+            _this._createGrid();
+            _this._createSlider();
+
+            sGis.utils.init(_this, options);
+            _this.updateDisplay();
+            _this._setListeners();
+            return _this;
+        }
+
+        _createClass(ScaleSlider, [{
+            key: 'updateDisplay',
+            value: function updateDisplay() {
+                var wrapper = this._map.innerWrapper;
+                if (wrapper) {
+                    wrapper.appendChild(this._grid);
+                    wrapper.appendChild(this._slider);
+                } else if (this._grid.parentNode) {
+                    this._grid.parentNode.removeChild(this._grid);
+                    this._slider.parentNode.removeChild(this._grid);
+                }
+            }
+        }, {
+            key: '_setListeners',
+            value: function _setListeners() {
+                this._map.on('wrapperSet', this.updateDisplay.bind(this));
+
+                this.on('drag', function () {
+                    this._moveSlider(sGisEvent.offset.yPx);
+                });
+
+                this.on('dragEnd', function () {
+                    this._map.painter.allowUpdate();
+                    this._map.adjustResolution();
+                });
+            }
+        }, {
+            key: '_createGrid',
+            value: function _createGrid() {
+                var grid = document.createElement('div');
+                grid.style.position = 'absolute';
+                grid.style.width = this._gridWidth + 'px';
+                grid.style.height = this._gridHeight + 'px';
+                grid.style.top = this._gridTop + 'px';
+                grid.style.left = this._gridLeft + 'px';
+                grid.className = this._gridCss;
+
+                this._grid = grid;
+            }
+        }, {
+            key: '_createSlider',
+            value: function _createSlider() {
+                var slider = document.createElement('div');
+
+                slider.style.position = 'absolute';
+                slider.style.width = this._sliderWidth + 'px';
+                slider.style.height = this._sliderHeight + 'px';
+                slider.style.top = this._getSliderPosition() + 'px';
+                slider.style.left = this._getSliderLeft() + 'px';
+                slider.className = this._sliderCss;
+
+                this._slider = slider;
+                this._setSliderEvents();
+            }
+        }, {
+            key: '_getSliderLeft',
+            value: function _getSliderLeft() {
+                return this._gridLeft + (this._gridWidth - this._sliderWidth) / 2;
+            }
+        }, {
+            key: '_getSliderPosition',
+            value: function _getSliderPosition() {
+                var height = this._gridHeight - this._sliderHeight;
+                var maxResolution = this._map.maxResolution;
+                var minResolution = this._map.minResolution;
+                var curResolution = this._map.resolution;
+
+                var offset = height * Math.log2(curResolution / minResolution) / Math.log2(maxResolution / minResolution);
+                if (sGis.utils.is.number(offset)) {
+                    return offset + this._gridTop;
+                } else {
+                    return this._gridTop;
+                }
+            }
+        }, {
+            key: '_setSliderEvents',
+            value: function _setSliderEvents() {
+                var self = this;
+                this._map.addListener('dragStart' + this._eventNamespace, function (sGisEvent) {
+                    if (sGisEvent.browserEvent.target === self._slider) {
+                        sGisEvent.draggingObject = self;
+                        self._map.painter.prohibitUpdate();
+                        sGisEvent.stopPropagation();
+                    }
+                });
+
+                this._map.addListener('layerAdd layerRemove bboxChangeEnd', this._updateSliderPosition.bind(this));
+            }
+        }, {
+            key: '_updateSliderPosition',
+            value: function _updateSliderPosition() {
+                this._slider.style.top = this._getSliderPosition() + 'px';
+            }
+        }, {
+            key: '_moveSlider',
+            value: function _moveSlider(delta) {
+                var offset = parseInt(this._slider.style.top) - this._gridTop;
+                offset -= delta;
+                if (offset < 0) {
+                    offset = 0;
+                } else if (offset > this._gridHeight - this._sliderHeight) {
+                    offset = this._gridHeight - this._sliderHeight;
+                }
+
+                this._slider.style.top = this._gridTop + offset + 'px';
+
+                var height = this._gridHeight - this._sliderHeight;
+                var maxResolution = this._map.maxResolution;
+                var minResolution = this._map.minResolution;
+
+                this._map.resolution = minResolution * Math.pow(2, offset * Math.log2(maxResolution / minResolution) / height);
+            }
+        }]);
+
+        return ScaleSlider;
+    }(EventHandler);
+
+    utils.extend(ScaleSlider.prototype, defaults);
+
+    Object.defineProperties(ScaleSlider.prototype, {
+        map: {
+            get: function get() {
+                return this._map;
+            }
+        },
+
+        gridCss: {
+            get: function get() {
+                return this._gridCss;
+            },
+            set: function set(css) {
+                sGis.utils.validate(css, 'string');
+                this._gridCss = css;
+                this._grid.className = css;
+            }
+        },
+
+        gridWidth: {
+            get: function get() {
+                return this._gridWidth;
+            },
+            set: function set(w) {
+                sGis.utils.validate(w, 'number');
+                this._gridWidth = w;
+
+                this._grid.style.width = w + 'px';
+            }
+        },
+
+        gridHeight: {
+            get: function get() {
+                return this._gridHeight;
+            },
+            set: function set(h) {
+                sGis.utils.validate(h, 'number');
+                this._gridHeight = h;
+
+                this._grid.style.height = h + 'px';
+            }
+        },
+
+        gridTop: {
+            get: function get() {
+                return this._gridTop;
+            },
+            set: function set(n) {
+                sGis.utils.validate(n, 'number');
+                this._gridTop = n;
+                this._grid.style.top = n + 'px';
+            }
+        },
+
+        gridLeft: {
+            get: function get() {
+                return this._gridLeft;
+            },
+            set: function set(n) {
+                sGis.utils.validate(n, 'number');
+                this._gridLeft = n;
+                this._grid.style.left = n + 'px';
+            }
+        },
+
+        sliderCss: {
+            get: function get() {
+                return this._sliderCss;
+            },
+            set: function set(css) {
+                sGis.utils.validate(css, 'string');
+                this._sliderCss = css;
+                this._slider.className = css;
+            }
+        },
+
+        sliderWidth: {
+            get: function get() {
+                return this._sliderWidth;
+            },
+            set: function set(w) {
+                sGis.utils.validate(w, 'number');
+                this._sliderWidth = w;
+
+                this._slider.style.width = w + 'px';
+                this._slider.style.left = this._getSliderLeft() + 'px';
+            }
+        },
+
+        sliderHeight: {
+            get: function get() {
+                return this._sliderHeight;
+            },
+            set: function set(h) {
+                sGis.utils.validate(h, 'number');
+                this._sliderHeight = h;
+
+                this._slider.style.height = h + 'px';
+            }
+        }
+    });
+
+    var defaultCss = '.sGis-decorations-scaleSlider-grid {' + 'border: 1px solid gray; ' + 'background-color: #CCCCCC; ' + 'border-radius: 5px;} ' + '.sGis-decorations-scaleSlider-slider {' + 'border: 1px solid gray;' + 'background-color: white;' + 'border-radius: 5px;' + 'cursor: pointer;}',
+        styles = document.createElement('style');
+    styles.type = 'text/css';
+    if (styles.styleSheet) {
+        styles.styleSheet.cssText = defaultCss;
+    } else {
+        styles.appendChild(document.createTextNode(defaultCss));
+    }
+
+    document.head.appendChild(styles);
+
+    return ScaleSlider;
+});
+'use strict';
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -16315,21 +17262,52 @@ sGis.module('plugins.ZoomButtons', ['utils'], function (utils) {
     var ZOOM_OUT_CLASS = 'sGis-zoomButtons-zoomOut';
 
     var ZoomButtons = function () {
-        function ZoomButtons(map, wrapper, properties) {
+        function ZoomButtons(map, painter, properties) {
             _classCallCheck(this, ZoomButtons);
 
             this._map = map;
-            this._init(wrapper);
-            if (properties) utils.extend(this, properties, true);
+            this._painter = painter;
+
+            var wrapper = void 0;
+            // TODO: providing wrapper directly is depricated
+            if (painter instanceof HTMLElement) {
+                wrapper = painter;
+            } else {
+                wrapper = painter.innerWrapper;
+            }
+
+            this._setDom();
+
+            if (wrapper) this._addToWrapper(wrapper);
+            if (properties) Object.assign(this, properties);
+
+            if (painter.on) {
+                painter.on('wrapperChange', this._changeWrapper.bind(this));
+            }
         }
 
         _createClass(ZoomButtons, [{
-            key: '_init',
-            value: function _init(wrapper) {
+            key: '_changeWrapper',
+            value: function _changeWrapper() {
+                if (this._container.parentNode) this._removeFromWrapper();
+                if (this._painter.innerWrapper) this._addToWrapper(this._painter.innerWrapper);
+            }
+        }, {
+            key: '_removeFromWrapper',
+            value: function _removeFromWrapper() {
+                this._container.parentNode.removeChild(this._container);
+            }
+        }, {
+            key: '_setDom',
+            value: function _setDom() {
                 var container = utils.createNode('div', this.wrapperClass, {}, [utils.createNode('div', ZOOM_IN_CLASS, { onclick: this._zoomIn.bind(this) }), utils.createNode('div', ZOOM_OUT_CLASS, { onclick: this._zoomOut.bind(this) })]);
 
-                wrapper.appendChild(container);
                 this._container = container;
+            }
+        }, {
+            key: '_addToWrapper',
+            value: function _addToWrapper(wrapper) {
+                wrapper.appendChild(this._container);
             }
         }, {
             key: '_zoomIn',
