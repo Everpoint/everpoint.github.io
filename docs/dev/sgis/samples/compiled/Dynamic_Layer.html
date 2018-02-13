@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Using DynamicLayer to Show Arcgis MapService</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
+    <style>
+        body, html { height: 100%; margin: 0; padding: 0; }
+    </style>
+</head>
+<body>
+    <script>
+        window.onload = function() {
+            require.config({
+                paths: {
+                    "sgis/dist": "..\\..\\source"
+                }
+            });
+            require(["..\\code\\Dynamic_Layer.js"], function() {});
+        }
+    </script>
+</body>
+</html>
