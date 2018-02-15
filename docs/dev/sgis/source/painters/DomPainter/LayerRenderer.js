@@ -1,4 +1,4 @@
-define(["require", "exports", "./Canvas", "../../renders/Render", "../../renders/StaticVectorImageRender", "../../renders/StaticImageRender", "../../renders/StaticHtmlImageRender", "../../EventHandler"], function (require, exports, Canvas_1, Render_1, StaticVectorImageRender_1, StaticImageRender_1, StaticHtmlImageRender_1, EventHandler_1) {
+define(["require", "exports", "./Canvas", "../../renders/Render", "../../renders/StaticVectorImageRender", "../../renders/StaticImageRender", "../../renders/StaticHtmlImageRender", "../../EventHandler", "../../utils/domEvent"], function (require, exports, Canvas_1, Render_1, StaticVectorImageRender_1, StaticImageRender_1, StaticHtmlImageRender_1, EventHandler_1, domEvent_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -166,8 +166,11 @@ define(["require", "exports", "./Canvas", "../../renders/Render", "../../renders
             if (render instanceof StaticHtmlImageRender_1.StaticHtmlImageRender) {
                 this._drawImageRender(render);
             }
-            else if (render instanceof Render_1.VectorRender || render instanceof StaticVectorImageRender_1.StaticVectorImageRender) {
+            else if (render instanceof Render_1.VectorRender) {
                 this._drawVectorRender(render);
+            }
+            else if (render instanceof StaticVectorImageRender_1.StaticVectorImageRender) {
+                this._drawAfterLoad(render);
             }
         }
         _drawImageRender(render) {
@@ -177,6 +180,18 @@ define(["require", "exports", "./Canvas", "../../renders/Render", "../../renders
             this._currentContainer.addNode(render.node, render.width, render.height, render.bbox);
             if (render.onDisplayed)
                 render.onDisplayed();
+        }
+        _drawAfterLoad(render) {
+            let image = render.node;
+            if (image.complete)
+                return this._drawVectorRender(render);
+            domEvent_1.listenDomEvent(image, 'load', () => {
+                if (this._renders.indexOf(render) >= 0) {
+                    this._drawVectorRender(render);
+                    if (!this._canvas.node.parentNode)
+                        this._addCanvasToDom(this._master.bbox);
+                }
+            });
         }
         _drawVectorRender(render) {
             this._canvas.draw(render);
