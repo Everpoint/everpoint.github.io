@@ -69,6 +69,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Snapping providers are used by feature creation/editing controls to snap to some relevant points.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -112,9 +119,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/b591566/source/controls/snapping/ISnappingProvider.ts#L5">controls/snapping/ISnappingProvider.ts:5</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/c6dbb66/source/controls/snapping/ISnappingProvider.ts#L24">controls/snapping/ISnappingProvider.ts:24</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a copy of the given provider. This method is needed to create complex snapping providers, consisting
+									of several other providers.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="_controls_snapping_isnappingprovider_.isnappingprovider.html" class="tsd-signature-type">ISnappingProvider</a></h4>
 						</li>
 					</ul>
@@ -129,22 +142,43 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/b591566/source/controls/snapping/ISnappingProvider.ts#L4">controls/snapping/ISnappingProvider.ts:4</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/c6dbb66/source/controls/snapping/ISnappingProvider.ts#L18">controls/snapping/ISnappingProvider.ts:18</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This method is called by a control to find a snapping point close to the given point. If a relevant snapping point
+									not found, the method must return null.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>point: <a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>this is usually where the mouse cursor is at the current moment. So snapping point should be in
+										vicinity of this point.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> activeContour: <a href="../modules/_basetypes_.html#contour" class="tsd-signature-type">Contour</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>in case of editing a polygon or polyline, this argument will contain the contour (set of points)
+										that is being edited at the moment.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> activeIndex: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>in case of editing a polygon or polyline, this argument will be an index of the point in &#39;contour&#39;
+										that is being edited at the moment.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> isPolygon: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>specifies if the feature being edited should be considered enclosed.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a>

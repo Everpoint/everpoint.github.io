@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>BalloonParams | sgis</title>
+	<title>SnappingMethodParams | sgis</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_features_balloon_.html">&quot;features/Balloon&quot;</a>
+					<a href="../modules/_controls_snapping_snappingmethods_.html">&quot;controls/snapping/SnappingMethods&quot;</a>
 				</li>
 				<li>
-					<a href="_features_balloon_.balloonparams.html">BalloonParams</a>
+					<a href="_controls_snapping_snappingmethods_.snappingmethodparams.html">SnappingMethodParams</a>
 				</li>
 			</ul>
-			<h1>Interface BalloonParams</h1>
+			<h1>Interface SnappingMethodParams</h1>
 		</div>
 	</div>
 </header>
@@ -73,12 +73,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="_features_feature_.featureparams.html" class="tsd-signature-type">FeatureParams</a>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">BalloonParams</span>
-							</li>
-						</ul>
+						<span class="target">SnappingMethodParams</span>
 					</li>
 				</ul>
 			</section>
@@ -89,11 +84,12 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_features_balloon_.balloonparams.html#content" class="tsd-kind-icon">content</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_features_balloon_.balloonparams.html#crs" class="tsd-kind-icon">crs</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_features_balloon_.balloonparams.html#persistonmap" class="tsd-kind-icon">persist<wbr>OnMap</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_features_balloon_.balloonparams.html#position" class="tsd-kind-icon">position</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_features_balloon_.balloonparams.html#symbol" class="tsd-kind-icon">symbol</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_controls_snapping_snappingmethods_.snappingmethodparams.html#activecontour" class="tsd-kind-icon">active<wbr>Contour</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_controls_snapping_snappingmethods_.snappingmethodparams.html#activeindex" class="tsd-kind-icon">active<wbr>Index</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_controls_snapping_snappingmethods_.snappingmethodparams.html#data" class="tsd-kind-icon">data</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_controls_snapping_snappingmethods_.snappingmethodparams.html#isenclosed" class="tsd-kind-icon">is<wbr>Enclosed</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_controls_snapping_snappingmethods_.snappingmethodparams.html#position" class="tsd-kind-icon">position</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_controls_snapping_snappingmethods_.snappingmethodparams.html#snappingdistance" class="tsd-kind-icon">snapping<wbr>Distance</a></li>
 							</ul>
 						</section>
 					</div>
@@ -102,36 +98,64 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="content" class="tsd-anchor"></a>
-					<h3>content</h3>
-					<div class="tsd-signature tsd-kind-icon">content<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<a name="activecontour" class="tsd-anchor"></a>
+					<h3>active<wbr>Contour</h3>
+					<div class="tsd-signature tsd-kind-icon">active<wbr>Contour<span class="tsd-signature-symbol">:</span> <a href="../modules/_basetypes_.html#contour" class="tsd-signature-type">Contour</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/c6dbb66/source/features/Balloon.ts#L10">features/Balloon.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/c6dbb66/source/controls/snapping/SnappingMethods.ts#L18">controls/snapping/SnappingMethods.ts:18</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Contour that is being currently edited (if applicable).</p>
+						</div>
+					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="crs" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> crs</h3>
-					<div class="tsd-signature tsd-kind-icon">crs<span class="tsd-signature-symbol">:</span> <a href="../classes/_crs_.crs.html" class="tsd-signature-type">Crs</a></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="activeindex" class="tsd-anchor"></a>
+					<h3>active<wbr>Index</h3>
+					<div class="tsd-signature tsd-kind-icon">active<wbr>Index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_features_feature_.featureparams.html">FeatureParams</a>.<a href="_features_feature_.featureparams.html#crs">crs</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/c6dbb66/source/features/Feature.ts#L14">features/Feature.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/c6dbb66/source/controls/snapping/SnappingMethods.ts#L20">controls/snapping/SnappingMethods.ts:20</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Index of the point in the active contour that is being currently edited (if applicable).</p>
+						</div>
+					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="persistonmap" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> persist<wbr>OnMap</h3>
-					<div class="tsd-signature tsd-kind-icon">persist<wbr>OnMap<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="data" class="tsd-anchor"></a>
+					<h3>data</h3>
+					<div class="tsd-signature tsd-kind-icon">data<span class="tsd-signature-symbol">:</span> <a href="../modules/_controls_snapping_snappingmethods_.html#snappingdata" class="tsd-signature-type">SnappingData</a></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_features_feature_.featureparams.html">FeatureParams</a>.<a href="_features_feature_.featureparams.html#persistonmap">persistOnMap</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/c6dbb66/source/features/Feature.ts#L16">features/Feature.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/c6dbb66/source/controls/snapping/SnappingMethods.ts#L14">controls/snapping/SnappingMethods.ts:14</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The set of relevant point and contours in the vicinity.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="isenclosed" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> is<wbr>Enclosed</h3>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>Enclosed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/c6dbb66/source/controls/snapping/SnappingMethods.ts#L22">controls/snapping/SnappingMethods.ts:22</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Where the active contour is enclosed (if it is a polygon contour).</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="position" class="tsd-anchor"></a>
@@ -139,20 +163,29 @@
 					<div class="tsd-signature tsd-kind-icon">position<span class="tsd-signature-symbol">:</span> <a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/c6dbb66/source/features/Balloon.ts#L9">features/Balloon.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/c6dbb66/source/controls/snapping/SnappingMethods.ts#L12">controls/snapping/SnappingMethods.ts:12</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Base point for snapping.</p>
+						</div>
+					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="symbol" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> symbol</h3>
-					<div class="tsd-signature tsd-kind-icon">symbol<span class="tsd-signature-symbol">:</span> <a href="../classes/_symbols_symbol_.symbol.html" class="tsd-signature-type">Symbol</a></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="snappingdistance" class="tsd-anchor"></a>
+					<h3>snapping<wbr>Distance</h3>
+					<div class="tsd-signature tsd-kind-icon">snapping<wbr>Distance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_features_feature_.featureparams.html">FeatureParams</a>.<a href="_features_feature_.featureparams.html#symbol">symbol</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/c6dbb66/source/features/Feature.ts#L15">features/Feature.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/c6dbb66/source/controls/snapping/SnappingMethods.ts#L16">controls/snapping/SnappingMethods.ts:16</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Maximum distance the snapping point can be from the base point in the coordinates of the base point.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -163,39 +196,63 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_features_balloon_.html">"features/<wbr>Balloon"</a>
+						<a href="../modules/_controls_snapping_snappingmethods_.html">"controls/snapping/<wbr>Snapping<wbr>Methods"</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/_features_balloon_.balloon.html" class="tsd-kind-icon">Balloon</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_features_balloon_.balloonparams.html" class="tsd-kind-icon">Balloon<wbr>Params</a>
+						<a href="_controls_snapping_snappingmethods_.snappingmethodparams.html" class="tsd-kind-icon">Snapping<wbr>Method<wbr>Params</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_features_balloon_.balloonparams.html#content" class="tsd-kind-icon">content</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="_features_balloon_.balloonparams.html#crs" class="tsd-kind-icon">crs</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="_features_balloon_.balloonparams.html#persistonmap" class="tsd-kind-icon">persist<wbr>OnMap</a>
+								<a href="_controls_snapping_snappingmethods_.snappingmethodparams.html#activecontour" class="tsd-kind-icon">active<wbr>Contour</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_features_balloon_.balloonparams.html#position" class="tsd-kind-icon">position</a>
+								<a href="_controls_snapping_snappingmethods_.snappingmethodparams.html#activeindex" class="tsd-kind-icon">active<wbr>Index</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="_features_balloon_.balloonparams.html#symbol" class="tsd-kind-icon">symbol</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_controls_snapping_snappingmethods_.snappingmethodparams.html#data" class="tsd-kind-icon">data</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_controls_snapping_snappingmethods_.snappingmethodparams.html#isenclosed" class="tsd-kind-icon">is<wbr>Enclosed</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_controls_snapping_snappingmethods_.snappingmethodparams.html#position" class="tsd-kind-icon">position</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_controls_snapping_snappingmethods_.snappingmethodparams.html#snappingdistance" class="tsd-kind-icon">snapping<wbr>Distance</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/_controls_snapping_snappingmethods_.html#snappingdata" class="tsd-kind-icon">Snapping<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/_controls_snapping_snappingmethods_.html#snappingmethod" class="tsd-kind-icon">Snapping<wbr>Method</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/_controls_snapping_snappingmethods_.html#axissnapping" class="tsd-kind-icon">axis<wbr>Snapping</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/_controls_snapping_snappingmethods_.html#emptysnapping" class="tsd-kind-icon">empty<wbr>Snapping</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/_controls_snapping_snappingmethods_.html#linesnapping" class="tsd-kind-icon">line<wbr>Snapping</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/_controls_snapping_snappingmethods_.html#midpointsnapping" class="tsd-kind-icon">mid<wbr>Point<wbr>Snapping</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/_controls_snapping_snappingmethods_.html#orthogonalsnapping" class="tsd-kind-icon">orthogonal<wbr>Snapping</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/_controls_snapping_snappingmethods_.html#vertexsnapping" class="tsd-kind-icon">vertex<wbr>Snapping</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

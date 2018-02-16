@@ -1,9 +1,17 @@
 define(["require", "exports", "./SnappingProviderBase", "../../Bbox", "../../Point", "../../features/Point", "../../features/Poly", "../../features/Polygon"], function (require, exports, SnappingProviderBase_1, Bbox_1, Point_1, Point_2, Poly_1, Polygon_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    /**
+     * Provides snapping to points, lines and polygons in a [[FeatureLayer]].
+     */
     class FeatureLayerSnappingProvider extends SnappingProviderBase_1.SnappingProviderBase {
-        constructor(map, layer, options = {}) {
-            super(map, options);
+        /**
+         * @param map - working map of the control that uses snapping.
+         * @param layer - the layer that contains the features to be snapped to.
+         * @param params - snapping parameters.
+         */
+        constructor(map, layer, params = {}) {
+            super(map, params);
             this._layer = layer;
         }
         _getSnappingData(point) {
@@ -20,6 +28,11 @@ define(["require", "exports", "./SnappingProviderBase", "../../Bbox", "../../Poi
             });
             return snappingData;
         }
+        /**
+         * For the given snapping data object, it adds the snapping lines
+         * @param poly - line or polygon to be snapped to
+         * @param data - snapping data to modify
+         */
         static setPolyData(poly, data) {
             const isPolygon = poly instanceof Polygon_1.Polygon;
             poly.rings.forEach(ring => {

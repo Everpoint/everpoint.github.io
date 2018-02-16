@@ -1,10 +1,16 @@
 define(["require", "exports", "../../utils/math", "../../geotools"], function (require, exports, math_1, geotools_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.emptySnapping = (position) => {
+    /**
+     * Snaps to the given base point.
+     */
+    exports.emptySnapping = ({ position }) => {
         return position;
     };
-    exports.vertexSnapping = (position, data, snappingDistance) => {
+    /**
+     * Snaps to the closest point among given relevant points and contour vertexes.
+     */
+    exports.vertexSnapping = ({ position, data, snappingDistance }) => {
         let minSqDist = snappingDistance * snappingDistance;
         let snappingPoint = null;
         data.points.forEach(point => {
@@ -16,7 +22,10 @@ define(["require", "exports", "../../utils/math", "../../geotools"], function (r
         });
         return snappingPoint;
     };
-    exports.lineSnapping = (position, data, snappingDistance) => {
+    /**
+     * Snaps to the closest point on any edge given in data.lines parameter.
+     */
+    exports.lineSnapping = ({ position, data, snappingDistance }) => {
         let snappingPoint = null;
         let currDistanceSq = snappingDistance * snappingDistance;
         data.lines.forEach(contour => {
@@ -35,7 +44,10 @@ define(["require", "exports", "../../utils/math", "../../geotools"], function (r
         });
         return snappingPoint;
     };
-    exports.midPointSnapping = (position, data, snappingDistance) => {
+    /**
+     * Snaps to a closest middle point on the lines given in data.lines parameter.
+     */
+    exports.midPointSnapping = ({ position, data, snappingDistance }) => {
         let snappingPoint = null;
         let currDistanceSq = snappingDistance * snappingDistance;
         data.lines.forEach(contour => {
@@ -51,7 +63,12 @@ define(["require", "exports", "../../utils/math", "../../geotools"], function (r
         });
         return snappingPoint;
     };
-    exports.axisSnapping = (position, data, snappingDistance, activeContour, activeIndex = -1, isEnclosed = false) => {
+    /**
+     * In case a contour is being edited, this method takes two edges in the active contour adjusted to the active point
+     * (that is point being edited), and then tries to find such a snapping point so that one of the edges (or both of them)
+     * are either vertical or horizontal.
+     */
+    exports.axisSnapping = ({ position, data, snappingDistance, activeContour, activeIndex = -1, isEnclosed = false }) => {
         if (!activeContour || activeIndex < 0 || activeContour.length < 2)
             return null;
         const lines = [];
@@ -83,7 +100,12 @@ define(["require", "exports", "../../utils/math", "../../geotools"], function (r
         }
         return null;
     };
-    exports.orthogonalSnapping = (position, data, snappingDistance, activeContour, activeIndex = -1, isEnclosed = false) => {
+    /**
+     * In case a contour is being edited, this method takes two edges in the active contour adjusted to the active point
+     * (that is point being edited), and then tries to find such a snapping point so that one of the edges (or both of them)
+     * is orthogonal to its neighbours or each other.
+     */
+    exports.orthogonalSnapping = ({ position, data, snappingDistance, activeContour, activeIndex = -1, isEnclosed = false }) => {
         if (!activeContour || activeIndex < 0 || activeContour.length < 3)
             return null;
         const lines = [];

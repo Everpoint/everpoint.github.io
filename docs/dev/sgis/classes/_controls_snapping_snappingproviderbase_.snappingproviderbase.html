@@ -69,6 +69,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Base functionality for snapping based on selected <a href="../modules/_controls_snapping_snappingmethods_.html#snappingmethod">SnappingMethod</a>s and snapping distance.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -126,22 +133,29 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Snapping<wbr>Provider<wbr>Base<span class="tsd-signature-symbol">(</span>map<span class="tsd-signature-symbol">: </span><a href="_map_.map.html" class="tsd-signature-type">Map</a>, __namedParameters<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_controls_snapping_snappingproviderbase_.snappingproviderbaseconstructorparams.html" class="tsd-signature-type">SnappingProviderBaseConstructorParams</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_controls_snapping_snappingproviderbase_.snappingproviderbase.html" class="tsd-signature-type">SnappingProviderBase</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Snapping<wbr>Provider<wbr>Base<span class="tsd-signature-symbol">(</span>map<span class="tsd-signature-symbol">: </span><a href="_map_.map.html" class="tsd-signature-type">Map</a>, __namedParameters<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_controls_snapping_snappingproviderbase_.snappingproviderbaseparams.html" class="tsd-signature-type">SnappingProviderBaseParams</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_controls_snapping_snappingproviderbase_.snappingproviderbase.html" class="tsd-signature-type">SnappingProviderBase</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/b591566/source/controls/snapping/SnappingProviderBase.ts#L18">controls/snapping/SnappingProviderBase.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/c6dbb66/source/controls/snapping/SnappingProviderBase.ts#L31">controls/snapping/SnappingProviderBase.ts:31</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>map: <a href="_map_.map.html" class="tsd-signature-type">Map</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>working map of the control that uses snapping.</p>
+										</div>
+									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> __namedParameters: <a href="../interfaces/_controls_snapping_snappingproviderbase_.snappingproviderbaseconstructorparams.html" class="tsd-signature-type">SnappingProviderBaseConstructorParams</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> __namedParameters: <a href="../interfaces/_controls_snapping_snappingproviderbase_.snappingproviderbaseparams.html" class="tsd-signature-type">SnappingProviderBaseParams</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter">
 											<h5>snapping<wbr>Distance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;7</span></h5>
@@ -165,7 +179,7 @@
 					<div class="tsd-signature tsd-kind-icon">_map<span class="tsd-signature-symbol">:</span> <a href="_map_.map.html" class="tsd-signature-type">Map</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/b591566/source/controls/snapping/SnappingProviderBase.ts#L15">controls/snapping/SnappingProviderBase.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/c6dbb66/source/controls/snapping/SnappingProviderBase.ts#L20">controls/snapping/SnappingProviderBase.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -175,9 +189,14 @@
 					<div class="tsd-signature tsd-kind-icon">snapping<wbr>Distance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/b591566/source/controls/snapping/SnappingProviderBase.ts#L17">controls/snapping/SnappingProviderBase.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/c6dbb66/source/controls/snapping/SnappingProviderBase.ts#L25">controls/snapping/SnappingProviderBase.ts:25</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Maximum distance the snapping point can be from the base point in the coordinates of the base point.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="snappingmethods" class="tsd-anchor"></a>
@@ -185,9 +204,15 @@
 					<div class="tsd-signature tsd-kind-icon">snapping<wbr>Methods<span class="tsd-signature-symbol">:</span> <a href="../modules/_controls_snapping_snappingmethods_.html#snappingmethod" class="tsd-signature-type">SnappingMethod</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/b591566/source/controls/snapping/SnappingProviderBase.ts#L18">controls/snapping/SnappingProviderBase.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/c6dbb66/source/controls/snapping/SnappingProviderBase.ts#L31">controls/snapping/SnappingProviderBase.ts:31</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>List of snapping methods to be used for finding the snapping point. The methods are applied in the order of this list.
+							So the snapping point from first method to return a value other then null will be used for snapping.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -202,13 +227,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/b591566/source/controls/snapping/SnappingProviderBase.ts#L42">controls/snapping/SnappingProviderBase.ts:42</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/c6dbb66/source/controls/snapping/SnappingProviderBase.ts#L63">controls/snapping/SnappingProviderBase.ts:63</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the relevant points and lines to snap to.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>point: <a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>base point for snapping, in the vicinity of which the snapping is performed.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../modules/_controls_snapping_snappingmethods_.html#snappingdata" class="tsd-signature-type">SnappingData</a></h4>
@@ -226,7 +259,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_controls_snapping_isnappingprovider_.isnappingprovider.html">ISnappingProvider</a>.<a href="../interfaces/_controls_snapping_isnappingprovider_.isnappingprovider.html#clone">clone</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/b591566/source/controls/snapping/SnappingProviderBase.ts#L43">controls/snapping/SnappingProviderBase.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/c6dbb66/source/controls/snapping/SnappingProviderBase.ts#L64">controls/snapping/SnappingProviderBase.ts:64</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_controls_snapping_isnappingprovider_.isnappingprovider.html" class="tsd-signature-type">ISnappingProvider</a></h4>
@@ -237,20 +270,20 @@
 					<a name="getsnappingpoint" class="tsd-anchor"></a>
 					<h3>get<wbr>Snapping<wbr>Point</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Snapping<wbr>Point<span class="tsd-signature-symbol">(</span>point<span class="tsd-signature-symbol">: </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a>, activeContour<span class="tsd-signature-symbol">?: </span><a href="../modules/_basetypes_.html#contour" class="tsd-signature-type">Contour</a>, activeIndex<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, isPolygon<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Snapping<wbr>Point<span class="tsd-signature-symbol">(</span>position<span class="tsd-signature-symbol">: </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a>, activeContour<span class="tsd-signature-symbol">?: </span><a href="../modules/_basetypes_.html#contour" class="tsd-signature-type">Contour</a>, activeIndex<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, isEnclosed<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_controls_snapping_isnappingprovider_.isnappingprovider.html">ISnappingProvider</a>.<a href="../interfaces/_controls_snapping_isnappingprovider_.isnappingprovider.html#getsnappingpoint">getSnappingPoint</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/b591566/source/controls/snapping/SnappingProviderBase.ts#L30">controls/snapping/SnappingProviderBase.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/c6dbb66/source/controls/snapping/SnappingProviderBase.ts#L47">controls/snapping/SnappingProviderBase.ts:47</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>point: <a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></h5>
+									<h5>position: <a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> activeContour: <a href="../modules/_basetypes_.html#contour" class="tsd-signature-type">Contour</a></h5>
@@ -259,7 +292,7 @@
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> activeIndex: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> isPolygon: <span class="tsd-signature-type">boolean</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> isEnclosed: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a>
@@ -315,7 +348,7 @@
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_controls_snapping_snappingproviderbase_.snappingproviderbaseconstructorparams.html" class="tsd-kind-icon">Snapping<wbr>Provider<wbr>Base<wbr>Constructor<wbr>Params</a>
+						<a href="../interfaces/_controls_snapping_snappingproviderbase_.snappingproviderbaseparams.html" class="tsd-kind-icon">Snapping<wbr>Provider<wbr>Base<wbr>Params</a>
 					</li>
 				</ul>
 			</nav>
