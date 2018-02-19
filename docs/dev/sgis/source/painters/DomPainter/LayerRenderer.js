@@ -183,15 +183,20 @@ define(["require", "exports", "./Canvas", "../../renders/Render", "../../renders
         }
         _drawAfterLoad(render) {
             let image = render.node;
-            if (image.complete)
-                return this._drawVectorRender(render);
-            domEvent_1.listenDomEvent(image, 'load', () => {
-                if (this._renders.indexOf(render) >= 0) {
-                    this._drawVectorRender(render);
-                    if (!this._canvas.node.parentNode)
-                        this._addCanvasToDom(this._master.bbox);
-                }
-            });
+            if (image instanceof HTMLImageElement) {
+                if (image.complete)
+                    return this._drawVectorRender(render);
+                domEvent_1.listenDomEvent(image, 'load', () => {
+                    if (this._renders.indexOf(render) >= 0) {
+                        this._drawVectorRender(render);
+                        if (!this._canvas.node.parentNode)
+                            this._addCanvasToDom(this._master.bbox);
+                    }
+                });
+            }
+            else {
+                this._drawVectorRender(render);
+            }
         }
         _drawVectorRender(render) {
             this._canvas.draw(render);

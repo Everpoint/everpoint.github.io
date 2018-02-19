@@ -2,6 +2,9 @@ define(["require", "exports", "./Feature", "../Point", "../Bbox", "../symbols/la
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     const DEFAULT_LABEL_SYMBOL = new StaticLabelSymbol_1.StaticLabelSymbol();
+    /**
+     * @example symbols/Label_Symbols
+     */
     class LabelFeature extends Feature_1.Feature {
         constructor(position, { crs, content = '', symbol = DEFAULT_LABEL_SYMBOL }) {
             super({ crs, symbol });

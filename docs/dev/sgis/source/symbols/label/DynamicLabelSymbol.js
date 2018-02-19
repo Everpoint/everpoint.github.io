@@ -9,6 +9,9 @@ define(["require", "exports", "../Symbol", "../../utils/utils"], function (requi
     text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white; 
 `;
     utils_1.setCssClasses({ [DEFAULT_CLASS_NAME]: DEFAULT_STYLE });
+    /**
+     * @example symbols/Label_Symbols
+     */
     class DynamicLabelSymbol extends Symbol_1.DynamicPointSymbol {
         constructor({ cssClassName = DEFAULT_CLASS_NAME, offset } = {}) {
             super({ offset });
