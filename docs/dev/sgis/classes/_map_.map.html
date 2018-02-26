@@ -79,10 +79,6 @@
 						<dd>
 							<p>sGis.Map</p>
 						</dd>
-						<dt>extends</dt>
-						<dd>
-							<p>sGis.LayerGroup</p>
-						</dd>
 					</dl>
 				</div>
 			</section>
@@ -112,8 +108,6 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_map_.map.html#_position" class="tsd-kind-icon">_position</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_map_.map.html#_resolution" class="tsd-kind-icon">_resolution</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_map_.map.html#animationtime" class="tsd-kind-icon">animation<wbr>Time</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_map_.map.html#changeenddelay" class="tsd-kind-icon">change<wbr>End<wbr>Delay</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_map_.map.html#eventflags" class="tsd-kind-icon">event<wbr>Flags</a></li>
@@ -136,9 +130,6 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_map_.map.html#_easefunction" class="tsd-kind-icon">_ease<wbr>Function</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_map_.map.html#_getscaledposition" class="tsd-kind-icon">_get<wbr>Scaled<wbr>Position</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_map_.map.html#_listenforbboxchange" class="tsd-kind-icon">_listen<wbr>For<wbr>Bbox<wbr>Change</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_map_.map.html#addlayer" class="tsd-kind-icon">add<wbr>Layer</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_map_.map.html#addlistener" class="tsd-kind-icon">add<wbr>Listener</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_map_.map.html#adjustresolution" class="tsd-kind-icon">adjust<wbr>Resolution</a></li>
@@ -183,27 +174,52 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Map<span class="tsd-signature-symbol">(</span>properties<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_map_.map.html" class="tsd-signature-type">Map</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Map<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_map_.mapparams.html" class="tsd-signature-type">MapParams</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_map_.map.html" class="tsd-signature-type">Map</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_layergroup_.layergroup.html">LayerGroup</a>.<a href="_layergroup_.layergroup.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L41">Map.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L83">Map.ts:83</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>constructor</dt>
-									<dd>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> properties: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> __namedParameters: <a href="../interfaces/_map_.mapparams.html" class="tsd-signature-type">MapParams</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter">
+											<h5>animation<wbr>Time<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;300</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>center<wbr>Point<span class="tsd-signature-symbol">: </span><a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>change<wbr>End<wbr>Delay<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;300</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>crs<span class="tsd-signature-symbol">: </span><a href="_crs_.crs.html" class="tsd-signature-type">Crs</a><span class="tsd-signature-symbol"> =&nbsp;webMercator</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>layers<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><a href="_layers_layer_.layer.html" class="tsd-signature-type">Layer</a><span class="tsd-signature-symbol"> | </span><a href="_layergroup_.layergroup.html" class="tsd-signature-type">LayerGroup</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>max<wbr>Resolution<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;-1</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>min<wbr>Resolution<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;-1</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>position<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol"> =&nbsp;new Point([55.755831, 37.617673]).projectTo(webMercator).position</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>resolution<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;611.4962262812505 / 2</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>tile<wbr>Scheme<span class="tsd-signature-symbol">: </span><a href="_tilescheme_.tilescheme.html" class="tsd-signature-type">TileScheme</a><span class="tsd-signature-symbol"> =&nbsp;TileScheme.default</span></h5>
+										</li>
+									</ul>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_map_.map.html" class="tsd-signature-type">Map</a></h4>
@@ -214,32 +230,12 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="_position" class="tsd-anchor"></a>
-					<h3>_position</h3>
-					<div class="tsd-signature tsd-kind-icon">_position<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol"> =&nbsp;new Point([55.755831, 37.617673]).projectTo(webMercator).position</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L17">Map.ts:17</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="_resolution" class="tsd-anchor"></a>
-					<h3>_resolution</h3>
-					<div class="tsd-signature tsd-kind-icon">_resolution<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;611.4962262812505 / 2</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L18">Map.ts:18</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="animationtime" class="tsd-anchor"></a>
 					<h3>animation<wbr>Time</h3>
-					<div class="tsd-signature tsd-kind-icon">animation<wbr>Time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;300</span></div>
+					<div class="tsd-signature tsd-kind-icon">animation<wbr>Time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L28">Map.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L71">Map.ts:71</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -251,10 +247,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="changeenddelay" class="tsd-anchor"></a>
 					<h3>change<wbr>End<wbr>Delay</h3>
-					<div class="tsd-signature tsd-kind-icon">change<wbr>End<wbr>Delay<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;300</span></div>
+					<div class="tsd-signature tsd-kind-icon">change<wbr>End<wbr>Delay<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L33">Map.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L76">Map.ts:76</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -270,22 +266,22 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#eventflags">eventFlags</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L93">EventHandler.ts:93</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/EventHandler.ts#L93">EventHandler.ts:93</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="tilescheme" class="tsd-anchor"></a>
 					<h3>tile<wbr>Scheme</h3>
-					<div class="tsd-signature tsd-kind-icon">tile<wbr>Scheme<span class="tsd-signature-symbol">:</span> <a href="_tilescheme_.tilescheme.html" class="tsd-signature-type">TileScheme</a><span class="tsd-signature-symbol"> =&nbsp;TileScheme.default</span></div>
+					<div class="tsd-signature tsd-kind-icon">tile<wbr>Scheme<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L23">Map.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L66">Map.ts:66</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Tile scheme of the map</p>
+							<p>Tile scheme of the map.</p>
 						</div>
 					</div>
 				</section>
@@ -296,33 +292,27 @@
 					<a name="centerpoint" class="tsd-anchor"></a>
 					<h3>center<wbr>Point</h3>
 					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> centerPoint<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_point_.point.html" class="tsd-signature-type">Point</a></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> centerPoint<span class="tsd-signature-symbol">(</span>point<span class="tsd-signature-symbol">: </span><a href="_point_.point.html" class="tsd-signature-type">Point</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> centerPoint<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> centerPoint<span class="tsd-signature-symbol">(</span>point<span class="tsd-signature-symbol">: </span><a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L256">Map.ts:256</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L310">Map.ts:310</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Center point of the map</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>type</dt>
-									<dd>
-										<p>{sGis.Point}</p>
-									</dd>
-								</dl>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="_point_.point.html" class="tsd-signature-type">Point</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L257">Map.ts:257</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L311">Map.ts:311</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -333,7 +323,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>point: <a href="_point_.point.html" class="tsd-signature-type">Point</a></h5>
+									<h5>point: <a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -351,7 +341,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L266">Map.ts:266</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L319">Map.ts:319</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -359,19 +349,13 @@
 									<p>Coordinate system of the map. If the value is set and old crs cannot be projected to the new one, position of the map is set to [0, 0].
 									Otherwise position is projected to the new crs.</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>type</dt>
-									<dd>
-										<p>{sGis.Crs}</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="_crs_.crs.html" class="tsd-signature-type">Crs</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L267">Map.ts:267</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L320">Map.ts:320</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -402,7 +386,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_layergroup_.layergroup.html">LayerGroup</a>.<a href="_layergroup_.layergroup.html#isdisplayed">isDisplayed</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/LayerGroup.ts#L245">LayerGroup.ts:245</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/LayerGroup.ts#L245">LayerGroup.ts:245</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -422,7 +406,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_layergroup_.layergroup.html">LayerGroup</a>.<a href="_layergroup_.layergroup.html#isdisplayed">isDisplayed</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/LayerGroup.ts#L248">LayerGroup.ts:248</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/LayerGroup.ts#L248">LayerGroup.ts:248</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -452,7 +436,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_layergroup_.layergroup.html">LayerGroup</a>.<a href="_layergroup_.layergroup.html#layers">layers</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/LayerGroup.ts#L221">LayerGroup.ts:221</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/LayerGroup.ts#L221">LayerGroup.ts:221</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -473,7 +457,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_layergroup_.layergroup.html">LayerGroup</a>.<a href="_layergroup_.layergroup.html#layers">layers</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/LayerGroup.ts#L224">LayerGroup.ts:224</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/LayerGroup.ts#L224">LayerGroup.ts:224</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -503,7 +487,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L307">Map.ts:307</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L357">Map.ts:357</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -511,19 +495,13 @@
 									<p>Maximum allowed resolution of the map. If not set, the maximum value from the map tile scheme will be used. Must be larger then min resolution.
 									If current resolution is larger that the newly assigned maxResolution, the current resolution will be adjusted accordingly.</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>type</dt>
-									<dd>
-										<p>{Number}</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L308">Map.ts:308</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L358">Map.ts:358</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -553,7 +531,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L292">Map.ts:292</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L343">Map.ts:343</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -561,19 +539,13 @@
 									<p>Minimum allowed resolution of the map. If not set, the minimum value from the map tile scheme will be used. Must be smaller then max resolution.
 									If current resolution is smaller that the newly assigned minResolution, the current resolution will be adjusted accordingly.</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>type</dt>
-									<dd>
-										<p>{Number}</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L293">Map.ts:293</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L344">Map.ts:344</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -596,33 +568,27 @@
 					<a name="position" class="tsd-anchor"></a>
 					<h3>position</h3>
 					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> position<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> position<span class="tsd-signature-symbol">(</span>position<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> position<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> position<span class="tsd-signature-symbol">(</span>position<span class="tsd-signature-symbol">: </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L246">Map.ts:246</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L301">Map.ts:301</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Geographical position of the center of the map given in map coordinate system</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>type</dt>
-									<dd>
-										<p>{Position}</p>
-									</dd>
-								</dl>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Object</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L247">Map.ts:247</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L302">Map.ts:302</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -633,7 +599,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>position: <span class="tsd-signature-type">Object</span></h5>
+									<h5>position: <a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -651,26 +617,20 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L281">Map.ts:281</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L333">Map.ts:333</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Resolution of the map. Can be any positive number.</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>type</dt>
-									<dd>
-										<p>{Number}</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L282">Map.ts:282</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L334">Map.ts:334</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -691,81 +651,6 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="_easefunction" class="tsd-anchor"></a>
-					<h3>_ease<wbr>Function</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">_ease<wbr>Function<span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, c<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, d<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L213">Map.ts:213</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>t: <span class="tsd-signature-type">any</span></h5>
-								</li>
-								<li>
-									<h5>b: <span class="tsd-signature-type">any</span></h5>
-								</li>
-								<li>
-									<h5>c: <span class="tsd-signature-type">any</span></h5>
-								</li>
-								<li>
-									<h5>d: <span class="tsd-signature-type">any</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="_getscaledposition" class="tsd-anchor"></a>
-					<h3>_get<wbr>Scaled<wbr>Position</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">_get<wbr>Scaled<wbr>Position<span class="tsd-signature-symbol">(</span>newResolution<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, basePoint<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_point_.point.html" class="tsd-signature-type">Point</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L192">Map.ts:192</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>newResolution: <span class="tsd-signature-type">any</span></h5>
-								</li>
-								<li>
-									<h5>basePoint: <span class="tsd-signature-type">any</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_point_.point.html" class="tsd-signature-type">Point</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="_listenforbboxchange" class="tsd-anchor"></a>
-					<h3>_listen<wbr>For<wbr>Bbox<wbr>Change</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">_listen<wbr>For<wbr>Bbox<wbr>Change<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L56">Map.ts:56</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="addlayer" class="tsd-anchor"></a>
 					<h3>add<wbr>Layer</h3>
@@ -777,7 +662,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_layergroup_.layergroup.html">LayerGroup</a>.<a href="_layergroup_.layergroup.html#addlayer">addLayer</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/LayerGroup.ts#L64">LayerGroup.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/LayerGroup.ts#L64">LayerGroup.ts:64</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -819,7 +704,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L148">EventHandler.ts:148</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/EventHandler.ts#L148">EventHandler.ts:148</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -862,7 +747,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L122">Map.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L175">Map.ts:175</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -874,6 +759,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> direction: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>if false will adjust to smaller resolution, if true - to larger</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -891,7 +779,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#allowevent">allowEvent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L209">EventHandler.ts:209</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/EventHandler.ts#L209">EventHandler.ts:209</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -916,13 +804,13 @@
 					<a name="animatechangescale" class="tsd-anchor"></a>
 					<h3>animate<wbr>Change<wbr>Scale</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">animate<wbr>Change<wbr>Scale<span class="tsd-signature-symbol">(</span>scalingK<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, basePoint<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">animate<wbr>Change<wbr>Scale<span class="tsd-signature-symbol">(</span>scalingK<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, basePoint<span class="tsd-signature-symbol">: </span><a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L93">Map.ts:93</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L146">Map.ts:146</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -933,13 +821,16 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>scalingK: <span class="tsd-signature-type">any</span></h5>
+									<h5>scalingK: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Coefficient of scaling (Ex. 5 -&gt; 5 times zoom in)</p>
 									</div>
 								</li>
 								<li>
-									<h5>basePoint: <span class="tsd-signature-type">any</span></h5>
+									<h5>basePoint: <a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Base point of zooming</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -950,13 +841,13 @@
 					<a name="animatesetresolution" class="tsd-anchor"></a>
 					<h3>animate<wbr>Set<wbr>Resolution</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">animate<wbr>Set<wbr>Resolution<span class="tsd-signature-symbol">(</span>resolution<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, basePoint<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">animate<wbr>Set<wbr>Resolution<span class="tsd-signature-symbol">(</span>resolution<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, basePoint<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L150">Map.ts:150</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L201">Map.ts:201</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -967,10 +858,13 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>resolution: <span class="tsd-signature-type">any</span></h5>
+									<h5>resolution: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> basePoint: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;null</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> basePoint: <a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a><span class="tsd-signature-symbol"> =&nbsp;null</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Base point of zooming</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -981,13 +875,13 @@
 					<a name="animateto" class="tsd-anchor"></a>
 					<h3>animate<wbr>To</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">animate<wbr>To<span class="tsd-signature-symbol">(</span>point<span class="tsd-signature-symbol">: </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a>, resolution<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">animate<wbr>To<span class="tsd-signature-symbol">(</span>point<span class="tsd-signature-symbol">: </span><a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a>, resolution<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L161">Map.ts:161</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L212">Map.ts:212</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -998,13 +892,13 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>point: <a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a></h5>
+									<h5>point: <a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>target center point of the map</p>
 									</div>
 								</li>
 								<li>
-									<h5>resolution: <span class="tsd-signature-type">any</span></h5>
+									<h5>resolution: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>target resolution;</p>
 									</div>
@@ -1018,13 +912,13 @@
 					<a name="changescale" class="tsd-anchor"></a>
 					<h3>change<wbr>Scale</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">change<wbr>Scale<span class="tsd-signature-symbol">(</span>scalingK<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, basePoint<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, doNotAdjust<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">change<wbr>Scale<span class="tsd-signature-symbol">(</span>scalingK<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, basePoint<span class="tsd-signature-symbol">: </span><a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a>, doNotAdjust<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L83">Map.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L137">Map.ts:137</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1035,16 +929,22 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>scalingK: <span class="tsd-signature-type">any</span></h5>
+									<h5>scalingK: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Coefficient of scaling (Ex. 5 -&gt; 5 times zoom in)</p>
 									</div>
 								</li>
 								<li>
-									<h5>basePoint: <span class="tsd-signature-type">any</span></h5>
+									<h5>basePoint: <a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Base point of zooming</p>
+									</div>
 								</li>
 								<li>
-									<h5>doNotAdjust: <span class="tsd-signature-type">any</span></h5>
+									<h5>doNotAdjust: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>do not adjust resolution to the round ones</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1062,7 +962,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_layergroup_.layergroup.html">LayerGroup</a>.<a href="_layergroup_.layergroup.html#contains">contains</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/LayerGroup.ts#L133">LayerGroup.ts:133</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/LayerGroup.ts#L133">LayerGroup.ts:133</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1093,7 +993,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L209">Map.ts:209</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L265">Map.ts:265</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1117,7 +1017,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#fire">fire</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L130">EventHandler.ts:130</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/EventHandler.ts#L130">EventHandler.ts:130</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1156,7 +1056,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#forwardevent">forwardEvent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L106">EventHandler.ts:106</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/EventHandler.ts#L106">EventHandler.ts:106</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1181,13 +1081,13 @@
 					<a name="getadjustedresolution" class="tsd-anchor"></a>
 					<h3>get<wbr>Adjusted<wbr>Resolution</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Adjusted<wbr>Resolution<span class="tsd-signature-symbol">(</span>resolution<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, direction<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Adjusted<wbr>Resolution<span class="tsd-signature-symbol">(</span>resolution<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, direction<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L139">Map.ts:139</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L191">Map.ts:191</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1198,16 +1098,19 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>resolution: <span class="tsd-signature-type">any</span></h5>
+									<h5>resolution: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>target resolution</p>
 									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> direction: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>if false will adjust to smaller resolution, if true - to larger</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1222,7 +1125,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_layergroup_.layergroup.html">LayerGroup</a>.<a href="_layergroup_.layergroup.html#getlayers">getLayers</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/LayerGroup.ts#L202">LayerGroup.ts:202</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/LayerGroup.ts#L202">LayerGroup.ts:202</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1262,7 +1165,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#haslistener">hasListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L219">EventHandler.ts:219</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/EventHandler.ts#L219">EventHandler.ts:219</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1300,7 +1203,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#haslisteners">hasListeners</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L234">EventHandler.ts:234</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/EventHandler.ts#L234">EventHandler.ts:234</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1333,7 +1236,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_layergroup_.layergroup.html">LayerGroup</a>.<a href="_layergroup_.layergroup.html#hide">hide</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/LayerGroup.ts#L265">LayerGroup.ts:265</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/LayerGroup.ts#L265">LayerGroup.ts:265</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1356,7 +1259,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_layergroup_.layergroup.html">LayerGroup</a>.<a href="_layergroup_.layergroup.html#indexof">indexOf</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/LayerGroup.ts#L151">LayerGroup.ts:151</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/LayerGroup.ts#L151">LayerGroup.ts:151</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1387,7 +1290,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_layergroup_.layergroup.html">LayerGroup</a>.<a href="_layergroup_.layergroup.html#insertlayer">insertLayer</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/LayerGroup.ts#L164">LayerGroup.ts:164</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/LayerGroup.ts#L164">LayerGroup.ts:164</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1430,13 +1333,13 @@
 					<a name="move" class="tsd-anchor"></a>
 					<h3>move</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">move<span class="tsd-signature-symbol">(</span>dx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, dy<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">move<span class="tsd-signature-symbol">(</span>dx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, dy<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L71">Map.ts:71</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L125">Map.ts:125</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1447,13 +1350,13 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>dx: <span class="tsd-signature-type">any</span></h5>
+									<h5>dx: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Offset along X axis in map coordinates, positive direction is right</p>
 									</div>
 								</li>
 								<li>
-									<h5>dy: <span class="tsd-signature-type">any</span></h5>
+									<h5>dy: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Offset along Y axis in map coordinates, positive direction is down</p>
 									</div>
@@ -1474,7 +1377,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_layergroup_.layergroup.html">LayerGroup</a>.<a href="_layergroup_.layergroup.html#movelayertotop">moveLayerToTop</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/LayerGroup.ts#L191">LayerGroup.ts:191</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/LayerGroup.ts#L191">LayerGroup.ts:191</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1506,7 +1409,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#off">off</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L271">EventHandler.ts:271</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/EventHandler.ts#L271">EventHandler.ts:271</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1541,7 +1444,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#on">on</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L266">EventHandler.ts:266</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/EventHandler.ts#L266">EventHandler.ts:266</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1579,7 +1482,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#once">once</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L167">EventHandler.ts:167</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/EventHandler.ts#L167">EventHandler.ts:167</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1617,7 +1520,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#prohibitevent">prohibitEvent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L201">EventHandler.ts:201</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/EventHandler.ts#L201">EventHandler.ts:201</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1649,7 +1552,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#removealllisteners">removeAllListeners</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L259">EventHandler.ts:259</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/EventHandler.ts#L259">EventHandler.ts:259</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1672,7 +1575,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_layergroup_.layergroup.html">LayerGroup</a>.<a href="_layergroup_.layergroup.html#removelayer">removeLayer</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/LayerGroup.ts#L87">LayerGroup.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/LayerGroup.ts#L87">LayerGroup.ts:87</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1720,7 +1623,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#removelistener">removeListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L176">EventHandler.ts:176</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/EventHandler.ts#L176">EventHandler.ts:176</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1751,13 +1654,13 @@
 					<a name="setposition" class="tsd-anchor"></a>
 					<h3>set<wbr>Position</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Position<span class="tsd-signature-symbol">(</span>point<span class="tsd-signature-symbol">: </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a>, resolution<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Position<span class="tsd-signature-symbol">(</span>point<span class="tsd-signature-symbol">: </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a>, resolution<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L222">Map.ts:222</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L278">Map.ts:278</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1774,7 +1677,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>resolution: <span class="tsd-signature-type">any</span></h5>
+									<h5>resolution: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>new resolution of the map</p>
 									</div>
@@ -1788,13 +1691,13 @@
 					<a name="setresolution" class="tsd-anchor"></a>
 					<h3>set<wbr>Resolution</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Resolution<span class="tsd-signature-symbol">(</span>resolution<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, basePoint<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span>, doNotAdjust<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Resolution<span class="tsd-signature-symbol">(</span>resolution<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, basePoint<span class="tsd-signature-symbol">?: </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, doNotAdjust<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L238">Map.ts:238</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L294">Map.ts:294</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1805,13 +1708,19 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>resolution: <span class="tsd-signature-type">any</span></h5>
+									<h5>resolution: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> basePoint: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;null</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> basePoint: <a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Base point of zooming</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> doNotAdjust: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>do not adjust resolution to the round ones</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1829,7 +1738,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_layergroup_.layergroup.html">LayerGroup</a>.<a href="_layergroup_.layergroup.html#show">show</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/LayerGroup.ts#L258">LayerGroup.ts:258</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/LayerGroup.ts#L258">LayerGroup.ts:258</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1851,7 +1760,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L203">Map.ts:203</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L259">Map.ts:259</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1867,13 +1776,13 @@
 					<a name="zoom" class="tsd-anchor"></a>
 					<h3>zoom</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">zoom<span class="tsd-signature-symbol">(</span>k<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, basePoint<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">zoom<span class="tsd-signature-symbol">(</span>k<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, basePoint<span class="tsd-signature-symbol">: </span><a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/Map.ts#L102">Map.ts:102</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L155">Map.ts:155</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1884,13 +1793,16 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>k: <span class="tsd-signature-type">any</span></h5>
+									<h5>k: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>number of levels to zoom</p>
 									</div>
 								</li>
 								<li>
-									<h5>basePoint: <span class="tsd-signature-type">any</span></h5>
+									<h5>basePoint: <a href="../interfaces/_point_.ipoint.html" class="tsd-signature-type">IPoint</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>zooming base point</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1912,6 +1824,18 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_map_.animationendevent.html" class="tsd-kind-icon">Animation<wbr>End<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_map_.animationstartevent.html" class="tsd-kind-icon">Animation<wbr>Start<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_map_.bboxchangeendevent.html" class="tsd-kind-icon">Bbox<wbr>Change<wbr>End<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_map_.bboxchangeevent.html" class="tsd-kind-icon">Bbox<wbr>Change<wbr>Event</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
@@ -1919,12 +1843,6 @@
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_map_.map.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_map_.map.html#_position" class="tsd-kind-icon">_position</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_map_.map.html#_resolution" class="tsd-kind-icon">_resolution</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_map_.map.html#animationtime" class="tsd-kind-icon">animation<wbr>Time</a>
@@ -1961,15 +1879,6 @@
 							</li>
 							<li class=" tsd-kind-accessor tsd-parent-kind-class">
 								<a href="_map_.map.html#resolution" class="tsd-kind-icon">resolution</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_map_.map.html#_easefunction" class="tsd-kind-icon">_ease<wbr>Function</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_map_.map.html#_getscaledposition" class="tsd-kind-icon">_get<wbr>Scaled<wbr>Position</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_map_.map.html#_listenforbboxchange" class="tsd-kind-icon">_listen<wbr>For<wbr>Bbox<wbr>Change</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_map_.map.html#addlayer" class="tsd-kind-icon">add<wbr>Layer</a>
@@ -2074,6 +1983,9 @@
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/_map_.mapparams.html" class="tsd-kind-icon">Map<wbr>Params</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

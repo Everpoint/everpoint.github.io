@@ -62,15 +62,13 @@ define(["require", "exports", "./domEvent"], function (require, exports, domEven
      * @return {Function}
      */
     exports.debounce = function (func, ms) {
-        var state = null;
-        var COOLDOWN = 1;
+        let timer = null;
         return function () {
-            if (state)
-                return;
-            func.apply(this, arguments);
-            state = COOLDOWN;
-            setTimeout(function () {
-                state = null;
+            if (timer)
+                clearTimeout(timer);
+            timer = setTimeout(function () {
+                timer = null;
+                func.apply(this, arguments);
             }, ms);
         };
     };

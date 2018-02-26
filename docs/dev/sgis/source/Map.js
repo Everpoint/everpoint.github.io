@@ -1,82 +1,88 @@
-define(["require", "exports", "./Point", "./TileScheme", "./Crs", "./LayerGroup", "./utils/utils"], function (require, exports, Point_1, TileScheme_1, Crs_1, LayerGroup_1, utils_1) {
+define(["require", "exports", "./Point", "./TileScheme", "./Crs", "./LayerGroup", "./utils/utils", "./EventHandler"], function (require, exports, Point_1, TileScheme_1, Crs_1, LayerGroup_1, utils_1, EventHandler_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    class BboxChangeEvent extends EventHandler_1.sGisEvent {
+        constructor() {
+            super(BboxChangeEvent.type);
+        }
+    }
+    BboxChangeEvent.type = 'bboxChange';
+    exports.BboxChangeEvent = BboxChangeEvent;
+    class BboxChangeEndEvent extends EventHandler_1.sGisEvent {
+        constructor() {
+            super(BboxChangeEndEvent.type);
+        }
+    }
+    BboxChangeEndEvent.type = 'bboxChangeEnd';
+    exports.BboxChangeEndEvent = BboxChangeEndEvent;
+    class AnimationStartEvent extends EventHandler_1.sGisEvent {
+        constructor() {
+            super(AnimationStartEvent.type);
+        }
+    }
+    AnimationStartEvent.type = 'animationStart';
+    exports.AnimationStartEvent = AnimationStartEvent;
+    class AnimationEndEvent extends EventHandler_1.sGisEvent {
+        constructor() {
+            super(AnimationEndEvent.type);
+        }
+    }
+    AnimationEndEvent.type = 'animationEnd';
+    exports.AnimationEndEvent = AnimationEndEvent;
     /**
      * Map object with set of layers, specified position, resolution, coordinate system.
      * @alias sGis.Map
-     * @extends sGis.LayerGroup
      */
     class Map extends LayerGroup_1.LayerGroup {
-        /**
-         * @constructor
-         * @param {Object} [properties] - key-value set of properties to be set to the instance
-         */
-        constructor(properties = {}) {
-            super();
-            this._crs = Crs_1.webMercator;
-            this._position = new Point_1.Point([55.755831, 37.617673]).projectTo(Crs_1.webMercator).position;
-            this._resolution = 611.4962262812505 / 2;
-            /**
-             * Tile scheme of the map
-             */
-            this.tileScheme = TileScheme_1.TileScheme.default;
-            /**
-             * Length of the map animations in milliseconds. Set higher values for slower animations.
-             */
-            this.animationTime = 300;
-            /**
-             * Delay value before bboxChangeEnd event is fired.
-             */
-            this.changeEndDelay = 300;
-            if (properties.crs)
-                this.crs = properties.crs;
-            if (!properties.centerPoint)
-                this.position = properties.position || [this.position[0], this.position[1]];
-            utils_1.assignDefined(this, properties);
+        constructor({ position = new Point_1.Point([55.755831, 37.617673]).projectTo(Crs_1.webMercator).position, resolution = 611.4962262812505 / 2, crs = Crs_1.webMercator, centerPoint, tileScheme = TileScheme_1.TileScheme.default, animationTime = 300, changeEndDelay = 300, minResolution = -1, maxResolution = -1, layers = [] } = {}) {
+            super(layers);
+            this._crs = crs;
+            this._position = centerPoint ? centerPoint.projectTo(crs).position : position;
+            this._resolution = resolution;
+            this.tileScheme = tileScheme;
+            this.animationTime = animationTime;
+            this.changeEndDelay = changeEndDelay;
+            this._minResolution = minResolution;
+            this._maxResolution = maxResolution;
             this._listenForBboxChange();
         }
         _listenForBboxChange() {
-            this.on('bboxChange', () => {
-                if (this._changeTimer)
-                    clearTimeout(this._changeTimer);
-                this._changeTimer = setTimeout(() => {
-                    this._changeTimer = null;
-                    this.fire('bboxChangeEnd');
-                }, this.changeEndDelay);
-            });
+            this.on(BboxChangeEvent.type, utils_1.debounce(this._fireBboxChangeEnd.bind(this), this.changeEndDelay));
+        }
+        _fireBboxChangeEnd() {
+            this.fire(new BboxChangeEndEvent());
         }
         /**
          * Moves the map position by the specified offset
-         * @param {Number} dx - Offset along X axis in map coordinates, positive direction is right
-         * @param {Number} dy - Offset along Y axis in map coordinates, positive direction is down
+         * @param dx - Offset along X axis in map coordinates, positive direction is right
+         * @param dy - Offset along Y axis in map coordinates, positive direction is down
          */
         move(dx, dy) {
             this._position[0] += dx;
             this._position[1] += dy;
-            this.fire('bboxChange');
+            this.fire(new BboxChangeEvent());
         }
         /**
          * Changes the scale of map by scalingK
-         * @param {Number} scalingK - Coefficient of scaling (Ex. 5 -> 5 times zoom in)
-         * @param {sGis.Point} [basePoint] - Base point of zooming
-         * @param {Boolean} [doNotAdjust=false] - do not adjust resolution to the round ones
+         * @param scalingK - Coefficient of scaling (Ex. 5 -> 5 times zoom in)
+         * @param basePoint - Base point of zooming
+         * @param doNotAdjust - do not adjust resolution to the round ones
          */
         changeScale(scalingK, basePoint, doNotAdjust) {
-            let resolution = this.resolution;
-            this.setResolution(resolution * scalingK, basePoint, doNotAdjust);
+            this.setResolution(this.resolution * scalingK, basePoint, doNotAdjust);
         }
         /**
          * Changes the scale of map by scalingK with animation
-         * @param {float} scalingK - Coefficient of scaling (Ex. 5 -> 5 times zoom in)
-         * @param {sGis.Point} [basePoint] - Base point of zooming
+         * @param scalingK - Coefficient of scaling (Ex. 5 -> 5 times zoom in)
+         * @param basePoint - Base point of zooming
          */
         animateChangeScale(scalingK, basePoint) {
             this.animateSetResolution(this.resolution * scalingK, basePoint);
         }
         /**
          * Changes resolution of the map by k zoom levels. Positive values represent zoom in.
-         * @param {Number} k - number of levels to zoom
-         * @param {sGis.Point} [basePoint] - zooming base point
+         * @param k - number of levels to zoom
+         * @param basePoint - zooming base point
          */
         zoom(k, basePoint) {
             let tileScheme = this.tileScheme;
@@ -94,7 +100,7 @@ define(["require", "exports", "./Point", "./TileScheme", "./Crs", "./LayerGroup"
         }
         /**
          * Changes resolution of the map so that the new resolution corresponds to an even tile scheme level. Resolution is changed with animation.
-         * @param {Boolean} [direction=false] - if false will adjust to smaller resolution, if true - to larger
+         * @param direction - if false will adjust to smaller resolution, if true - to larger
          */
         adjustResolution(direction = false) {
             let resolution = this.resolution;
@@ -109,9 +115,8 @@ define(["require", "exports", "./Point", "./TileScheme", "./Crs", "./LayerGroup"
         }
         /**
          * Returns closest resolution to the given one that corresponds to an even tile scheme level.
-         * @param {Number} resolution - target resolution
-         * @param {Boolean} [direction=false] - if false will adjust to smaller resolution, if true - to larger
-         * @returns {Number}
+         * @param resolution - target resolution
+         * @param direction - if false will adjust to smaller resolution, if true - to larger
          */
         getAdjustedResolution(resolution, direction = false) {
             if (!this.tileScheme)
@@ -120,25 +125,24 @@ define(["require", "exports", "./Point", "./TileScheme", "./Crs", "./LayerGroup"
         }
         /**
          * Sets new resolution to the map with animation
-         * @param {Number} resolution
-         * @param {sGis.Point} [basePoint] - Base point of zooming
-         * @returns {undefined}
+         * @param resolution
+         * @param basePoint - Base point of zooming
          */
         animateSetResolution(resolution, basePoint = null) {
             let adjustedResolution = this.getAdjustedResolution(resolution);
-            let newPosition = this._getScaledPosition(adjustedResolution, basePoint);
+            let newPosition = this._getScaledPosition(adjustedResolution, this._getBase(basePoint));
             this.animateTo(newPosition, adjustedResolution);
         }
         /**
          * Changes position and resolution of the map with animation
          * @param point - target center point of the map
-         * @param {Number} resolution - target resolution;
+         * @param resolution - target resolution;
          */
         animateTo(point, resolution) {
             if (!Array.isArray(point))
                 point = point.projectTo(this.crs).position;
             this.stopAnimation();
-            this.fire('animationStart');
+            this.fire(new AnimationStartEvent());
             let originalPosition = this.centerPoint;
             let originalResolution = this.resolution;
             let dx = point[0] - originalPosition.x;
@@ -148,12 +152,12 @@ define(["require", "exports", "./Point", "./TileScheme", "./Crs", "./LayerGroup"
             this._animationStopped = false;
             this._animationTarget = [point, resolution];
             let self = this;
-            this.animationTimer = setInterval(function () {
+            this._animationTimer = setInterval(function () {
                 let time = Date.now() - startTime;
                 if (time >= self.animationTime || self._animationStopped) {
                     self.setPosition(point, resolution);
                     self.stopAnimation();
-                    self.fire('animationEnd');
+                    self.fire(new AnimationEndEvent());
                 }
                 else {
                     let x = self._easeFunction(time, originalPosition.x, dx, self.animationTime);
@@ -163,12 +167,15 @@ define(["require", "exports", "./Point", "./TileScheme", "./Crs", "./LayerGroup"
                 }
             }, 1000 / 60);
         }
-        _getScaledPosition(newResolution, basePoint) {
-            let position = this.centerPoint;
-            basePoint = basePoint ? basePoint.projectTo(this.crs) : position;
+        _getBase(basePoint) {
+            return basePoint.projectTo ? basePoint.projectTo(this.crs).position : basePoint;
+        }
+        _getScaledPosition(newResolution, basePoint = null) {
+            let position = this.position;
+            let base = basePoint ? basePoint : position;
             let resolution = this.resolution;
             let scalingK = newResolution / resolution;
-            return new Point_1.Point([(position.x - basePoint.x) * scalingK + basePoint.x, (position.y - basePoint.y) * scalingK + basePoint.y], position.crs);
+            return [(position[0] - base[0]) * scalingK + base[0], (position[1] - base[1]) * scalingK + base[1]];
         }
         /**
          * Stops all animations of the map
@@ -176,7 +183,7 @@ define(["require", "exports", "./Point", "./TileScheme", "./Crs", "./LayerGroup"
         stopAnimation() {
             this._animationStopped = true;
             this._animationTarget = null;
-            clearInterval(this.animationTimer);
+            clearInterval(this._animationTimer);
         }
         easing(t) {
             return t < 0.5 ? 2 * t * t : (4 - 2 * t) * t - 1;
@@ -187,51 +194,48 @@ define(["require", "exports", "./Point", "./TileScheme", "./Crs", "./LayerGroup"
         /**
          * Sets new position and resolution to the map
          * @param point - new center point of the map
-         * @param {Number} resolution - new resolution of the map
+         * @param resolution - new resolution of the map
          */
         setPosition(point, resolution) {
             if (!Array.isArray(point))
                 point = point.projectTo(this.crs).position;
-            this.prohibitEvent('bboxChange');
+            this.prohibitEvent(BboxChangeEvent.type);
             this.position = point;
             if (resolution)
                 this.resolution = resolution;
-            this.allowEvent('bboxChange');
-            this.fire('bboxChange');
+            this.allowEvent(BboxChangeEvent.type);
+            this.fire(new BboxChangeEvent());
         }
         /**
          * Sets new resolution to the map
-         * @param {Number} resolution
-         * @param {sGis.Point} [basePoint] - Base point of zooming
-         * @param {Boolean} [doNotAdjust=false] - do not adjust resolution to the round ones
+         * @param resolution
+         * @param basePoint - Base point of zooming
+         * @param doNotAdjust - do not adjust resolution to the round ones
          */
         setResolution(resolution, basePoint = null, doNotAdjust = false) {
-            this.setPosition(this._getScaledPosition(resolution, basePoint), doNotAdjust ? resolution : this.getAdjustedResolution(resolution));
+            this.setPosition(this._getScaledPosition(resolution, this._getBase(basePoint)), doNotAdjust ? resolution : this.getAdjustedResolution(resolution));
         }
         /**
          * Geographical position of the center of the map given in map coordinate system
-         * @type {Position}
          */
         get position() { return this._position; }
-        set position(/** Position */ position) {
+        set position(position) {
             this._position = position;
-            this.fire('bboxChange');
+            this.fire(new BboxChangeEvent());
         }
         /**
          * Center point of the map
-         * @type {sGis.Point}
          */
         get centerPoint() { return new Point_1.Point(this.position, this.crs); }
-        set centerPoint(/** sGis.Point */ point) {
+        set centerPoint(point) {
             this.position = point.projectTo(this.crs).position;
         }
         /**
          * Coordinate system of the map. If the value is set and old crs cannot be projected to the new one, position of the map is set to [0, 0].
          * Otherwise position is projected to the new crs.
-         * @type {sGis.Crs}
          */
         get crs() { return this._crs; }
-        set crs(/** sGis.Crs */ crs) {
+        set crs(crs) {
             let projection = this._crs.projectionTo(crs);
             this._crs = crs;
             if (projection) {
@@ -243,21 +247,19 @@ define(["require", "exports", "./Point", "./TileScheme", "./Crs", "./LayerGroup"
         }
         /**
          * Resolution of the map. Can be any positive number.
-         * @type {Number}
          */
         get resolution() { return this._resolution; }
-        set resolution(/** Number */ resolution) {
+        set resolution(resolution) {
             this._resolution = resolution;
-            this.fire('bboxChange');
+            this.fire(new BboxChangeEvent());
         }
         /**
          * Minimum allowed resolution of the map. If not set, the minimum value from the map tile scheme will be used. Must be smaller then max resolution.
          * If current resolution is smaller that the newly assigned minResolution, the current resolution will be adjusted accordingly.
-         * @type {Number}
          */
-        get minResolution() { return this._minResolution || this.tileScheme && this.tileScheme.minResolution; }
-        set minResolution(/** Number */ resolution) {
-            if (resolution !== null) {
+        get minResolution() { return this._minResolution > 0 ? this._minResolution : this.tileScheme && this.tileScheme.minResolution; }
+        set minResolution(resolution) {
+            if (resolution > 0) {
                 let maxResolution = this.maxResolution;
                 if (resolution > maxResolution)
                     utils_1.error('maxResolution cannot be less then minResolution');
@@ -269,11 +271,10 @@ define(["require", "exports", "./Point", "./TileScheme", "./Crs", "./LayerGroup"
         /**
          * Maximum allowed resolution of the map. If not set, the maximum value from the map tile scheme will be used. Must be larger then min resolution.
          * If current resolution is larger that the newly assigned maxResolution, the current resolution will be adjusted accordingly.
-         * @type {Number}
          */
-        get maxResolution() { return this._maxResolution || this.tileScheme && this.tileScheme.maxResolution; }
-        set maxResolution(/** Number */ resolution) {
-            if (resolution !== null) {
+        get maxResolution() { return this._maxResolution > 0 ? this._maxResolution : this.tileScheme && this.tileScheme.maxResolution; }
+        set maxResolution(resolution) {
+            if (resolution > 0) {
                 let minResolution = this.minResolution;
                 if (resolution < minResolution)
                     utils_1.error('maxResolution cannot be less then minResolution');

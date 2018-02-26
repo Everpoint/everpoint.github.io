@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IPoint | sgis</title>
+	<title>MapParams | sgis</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,43 +56,25 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_point_.html">&quot;Point&quot;</a>
+					<a href="../modules/_map_.html">&quot;Map&quot;</a>
 				</li>
 				<li>
-					<a href="_point_.ipoint.html">IPoint</a>
+					<a href="_map_.mapparams.html">MapParams</a>
 				</li>
 			</ul>
-			<h1>Interface IPoint</h1>
+			<h1>Interface MapParams</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>IPoint interface</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IPoint</span>
+						<span class="target">MapParams</span>
 					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel">
-				<h3>Implemented by</h3>
-				<ul class="tsd-hierarchy">
-					<li><a href="../classes/_features_balloon_.balloon.html" class="tsd-signature-type">Balloon</a></li>
-					<li><a href="../classes/_symbols_dynamicsymbolfeature_.dynamicsymbolfeature.html" class="tsd-signature-type">DynamicSymbolFeature</a></li>
-					<li><a href="../classes/_symbols_dynamicsymbolfeature_.dynamicsymbolfeature.html" class="tsd-signature-type">DynamicSymbolFeature</a></li>
-					<li><a href="../classes/_features_label_.labelfeature.html" class="tsd-signature-type">LabelFeature</a></li>
-					<li><a href="../classes/_point_.point.html" class="tsd-signature-type">Point</a></li>
-					<li><a href="../classes/_features_pointfeature_.pointfeature.html" class="tsd-signature-type">PointFeature</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -102,16 +84,16 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_point_.ipoint.html#crs" class="tsd-kind-icon">crs</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_point_.ipoint.html#position" class="tsd-kind-icon">position</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_point_.ipoint.html#x" class="tsd-kind-icon">x</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_point_.ipoint.html#y" class="tsd-kind-icon">y</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Methods</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_point_.ipoint.html#projectto" class="tsd-kind-icon">project<wbr>To</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_map_.mapparams.html#animationtime" class="tsd-kind-icon">animation<wbr>Time</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_map_.mapparams.html#centerpoint" class="tsd-kind-icon">center<wbr>Point</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_map_.mapparams.html#changeenddelay" class="tsd-kind-icon">change<wbr>End<wbr>Delay</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_map_.mapparams.html#crs" class="tsd-kind-icon">crs</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_map_.mapparams.html#layers" class="tsd-kind-icon">layers</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_map_.mapparams.html#maxresolution" class="tsd-kind-icon">max<wbr>Resolution</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_map_.mapparams.html#minresolution" class="tsd-kind-icon">min<wbr>Resolution</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_map_.mapparams.html#position" class="tsd-kind-icon">position</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_map_.mapparams.html#resolution" class="tsd-kind-icon">resolution</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_map_.mapparams.html#tilescheme" class="tsd-kind-icon">tile<wbr>Scheme</a></li>
 							</ul>
 						</section>
 					</div>
@@ -120,104 +102,104 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="animationtime" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> animation<wbr>Time</h3>
+					<div class="tsd-signature tsd-kind-icon">animation<wbr>Time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L15">Map.ts:15</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="centerpoint" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> center<wbr>Point</h3>
+					<div class="tsd-signature tsd-kind-icon">center<wbr>Point<span class="tsd-signature-symbol">:</span> <a href="_point_.ipoint.html" class="tsd-signature-type">IPoint</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L13">Map.ts:13</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="changeenddelay" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> change<wbr>End<wbr>Delay</h3>
+					<div class="tsd-signature tsd-kind-icon">change<wbr>End<wbr>Delay<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L16">Map.ts:16</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="crs" class="tsd-anchor"></a>
-					<h3>crs</h3>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> crs</h3>
 					<div class="tsd-signature tsd-kind-icon">crs<span class="tsd-signature-symbol">:</span> <a href="../classes/_crs_.crs.html" class="tsd-signature-type">Crs</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Point.ts#L25">Point.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L12">Map.ts:12</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Coordinate system of this point</p>
-						</div>
-					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="layers" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> layers</h3>
+					<div class="tsd-signature tsd-kind-icon">layers<span class="tsd-signature-symbol">:</span> <a href="../modules/_layergroup_.html#groupitem" class="tsd-signature-type">GroupItem</a><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L19">Map.ts:19</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="maxresolution" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> max<wbr>Resolution</h3>
+					<div class="tsd-signature tsd-kind-icon">max<wbr>Resolution<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L18">Map.ts:18</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="minresolution" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> min<wbr>Resolution</h3>
+					<div class="tsd-signature tsd-kind-icon">min<wbr>Resolution<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L17">Map.ts:17</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="position" class="tsd-anchor"></a>
-					<h3>position</h3>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> position</h3>
 					<div class="tsd-signature tsd-kind-icon">position<span class="tsd-signature-symbol">:</span> <a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Point.ts#L13">Point.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L10">Map.ts:10</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Position of this point</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="x" class="tsd-anchor"></a>
-					<h3>x</h3>
-					<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="resolution" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> resolution</h3>
+					<div class="tsd-signature tsd-kind-icon">resolution<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Point.ts#L17">Point.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L11">Map.ts:11</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>First coordinate of this point</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="y" class="tsd-anchor"></a>
-					<h3>y</h3>
-					<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="tilescheme" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> tile<wbr>Scheme</h3>
+					<div class="tsd-signature tsd-kind-icon">tile<wbr>Scheme<span class="tsd-signature-symbol">:</span> <a href="../classes/_tilescheme_.tilescheme.html" class="tsd-signature-type">TileScheme</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Point.ts#L21">Point.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Map.ts#L14">Map.ts:14</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Second coordinate of this point</p>
-						</div>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="projectto" class="tsd-anchor"></a>
-					<h3>project<wbr>To</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">project<wbr>To<span class="tsd-signature-symbol">(</span>newCrs<span class="tsd-signature-symbol">: </span><a href="../classes/_crs_.crs.html" class="tsd-signature-type">Crs</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_point_.ipoint.html" class="tsd-signature-type">IPoint</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/Point.ts#L32">Point.ts:32</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns a new point with same position in new crs</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>throws</dt>
-									<dd>
-										<p>Cannot project to specified crs.</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>newCrs: <a href="../classes/_crs_.crs.html" class="tsd-signature-type">Crs</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>target coordinate system</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_point_.ipoint.html" class="tsd-signature-type">IPoint</a></h4>
-						</li>
-					</ul>
 				</section>
 			</section>
 		</div>
@@ -228,34 +210,61 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_point_.html">"<wbr>Point"</a>
+						<a href="../modules/_map_.html">"<wbr>Map"</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/_point_.point.html" class="tsd-kind-icon">Point</a>
+						<a href="../classes/_map_.animationendevent.html" class="tsd-kind-icon">Animation<wbr>End<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/_map_.animationstartevent.html" class="tsd-kind-icon">Animation<wbr>Start<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/_map_.bboxchangeendevent.html" class="tsd-kind-icon">Bbox<wbr>Change<wbr>End<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/_map_.bboxchangeevent.html" class="tsd-kind-icon">Bbox<wbr>Change<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/_map_.map.html" class="tsd-kind-icon">Map</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_point_.ipoint.html" class="tsd-kind-icon">IPoint</a>
+						<a href="_map_.mapparams.html" class="tsd-kind-icon">Map<wbr>Params</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_point_.ipoint.html#crs" class="tsd-kind-icon">crs</a>
+								<a href="_map_.mapparams.html#animationtime" class="tsd-kind-icon">animation<wbr>Time</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_point_.ipoint.html#position" class="tsd-kind-icon">position</a>
+								<a href="_map_.mapparams.html#centerpoint" class="tsd-kind-icon">center<wbr>Point</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_point_.ipoint.html#x" class="tsd-kind-icon">x</a>
+								<a href="_map_.mapparams.html#changeenddelay" class="tsd-kind-icon">change<wbr>End<wbr>Delay</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_point_.ipoint.html#y" class="tsd-kind-icon">y</a>
+								<a href="_map_.mapparams.html#crs" class="tsd-kind-icon">crs</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="_point_.ipoint.html#projectto" class="tsd-kind-icon">project<wbr>To</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_map_.mapparams.html#layers" class="tsd-kind-icon">layers</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_map_.mapparams.html#maxresolution" class="tsd-kind-icon">max<wbr>Resolution</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_map_.mapparams.html#minresolution" class="tsd-kind-icon">min<wbr>Resolution</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_map_.mapparams.html#position" class="tsd-kind-icon">position</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_map_.mapparams.html#resolution" class="tsd-kind-icon">resolution</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_map_.mapparams.html#tilescheme" class="tsd-kind-icon">tile<wbr>Scheme</a>
 							</li>
 						</ul>
 					</li>
