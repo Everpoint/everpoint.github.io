@@ -33,7 +33,7 @@ define(["require", "exports", "../symbols/label/StaticLabelSymbol", "./PointFeat
             return new LabelFeature(this.position, { crs: this.crs, symbol: this.symbol, content: this.content, persistOnMap: this.persistOnMap });
         }
         projectTo(crs) {
-            let projected = Point_1.Point.prototype.projectTo.call(this, crs);
+            let projected = Point_1.Point.prototype.projectTo.call(this, crs).position;
             return new LabelFeature(projected, { crs, symbol: this.symbol, content: this.content, persistOnMap: this.persistOnMap });
         }
     }
