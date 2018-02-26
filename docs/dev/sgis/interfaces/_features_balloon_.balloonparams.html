@@ -92,7 +92,6 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_features_balloon_.balloonparams.html#content" class="tsd-kind-icon">content</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_features_balloon_.balloonparams.html#crs" class="tsd-kind-icon">crs</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_features_balloon_.balloonparams.html#persistonmap" class="tsd-kind-icon">persist<wbr>OnMap</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_features_balloon_.balloonparams.html#position" class="tsd-kind-icon">position</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_features_balloon_.balloonparams.html#symbol" class="tsd-kind-icon">symbol</a></li>
 							</ul>
 						</section>
@@ -107,9 +106,20 @@
 					<div class="tsd-signature tsd-kind-icon">content<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Balloon.ts#L8">features/Balloon.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Balloon.ts#L16">features/Balloon.ts:16</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The content of the balloon. If an DOM element is given, it will be inserted into the balloon without modifications.
+								It means that if multiple balloons have the same DOM element as their &#39;content&#39;, opening another one will remove
+								the contents of the first one (for one DOM element can exist only in one place of DOM tree at the same time).
+								If you need multiple balloons with the same content, set the content as HTML string.
+								<br>
+								If the &#39;content&#39; property is given as string, it is used to create content DOM element. <b>Pay attention, that
+							HTML content is not escaped, so use only safe HTML strings as the content property</b>.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="crs" class="tsd-anchor"></a>
@@ -118,7 +128,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_features_feature_.featureparams.html">FeatureParams</a>.<a href="_features_feature_.featureparams.html#crs">crs</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Feature.ts#L9">features/Feature.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Feature.ts#L9">features/Feature.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -129,17 +139,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_features_feature_.featureparams.html">FeatureParams</a>.<a href="_features_feature_.featureparams.html#persistonmap">persistOnMap</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Feature.ts#L11">features/Feature.ts:11</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="position" class="tsd-anchor"></a>
-					<h3>position</h3>
-					<div class="tsd-signature tsd-kind-icon">position<span class="tsd-signature-symbol">:</span> <a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Balloon.ts#L7">features/Balloon.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Feature.ts#L11">features/Feature.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -150,7 +150,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_features_feature_.featureparams.html">FeatureParams</a>.<a href="_features_feature_.featureparams.html#symbol">symbol</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Feature.ts#L10">features/Feature.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Feature.ts#L10">features/Feature.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -185,9 +185,6 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_features_balloon_.balloonparams.html#persistonmap" class="tsd-kind-icon">persist<wbr>OnMap</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_features_balloon_.balloonparams.html#position" class="tsd-kind-icon">position</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_features_balloon_.balloonparams.html#symbol" class="tsd-kind-icon">symbol</a>

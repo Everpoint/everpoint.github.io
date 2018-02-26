@@ -1,4 +1,13 @@
-define(["require", "exports", "../Point", "./Feature", "../Bbox", "../symbols/point/Point", "../symbols/MultiPointSymbol"], function (require, exports, Point_1, Feature_1, Bbox_1, Point_2, MultiPointSymbol_1) {
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
+            t[p[i]] = s[p[i]];
+    return t;
+};
+define(["require", "exports", "./Feature", "../Bbox", "../symbols/point/Point", "../symbols/MultiPointSymbol", "../geotools"], function (require, exports, Feature_1, Bbox_1, Point_1, MultiPointSymbol_1, geotools_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -6,46 +15,32 @@ define(["require", "exports", "../Point", "./Feature", "../Bbox", "../symbols/po
      * @alias sGis.feature.MultiPoint
      */
     class MultiPoint extends Feature_1.Feature {
-        /**
-         * @param {Position[]} points - set of the points' coordinates
-         * @param {Object} properties - key-value set of properties to be set to the instance
-         */
-        constructor(points = [], { symbol = new MultiPointSymbol_1.MultiPointSymbol(new Point_2.PointSymbol()), crs } = {}) {
-            super({ symbol, crs });
+        constructor(points = [], _a = {}) {
+            var { symbol = new MultiPointSymbol_1.MultiPointSymbol(new Point_1.PointSymbol()) } = _a, params = __rest(_a, ["symbol"]);
+            super(Object.assign({ symbol }, params));
             this._points = points;
         }
         /**
-         * Set of points' coordinates
-         * @type {Position[]}
-         * @default []
+         * Set of points' coordinates.
          */
         get points() { return this._points; }
-        set points(/** Position[] */ points) {
+        set points(points) {
             this._points = points.slice();
             this._update();
         }
-        /**
-         * Returns a copy of the feature, projected into the given coordinate system. Only generic properties are copied to the projected feature.
-         * @param {sGis.Crs} crs - target coordinate system.
-         * @returns {sGis.feature.MultiPoint}
-         */
         projectTo(crs) {
-            let projected = [];
-            this._points.forEach(point => {
-                projected.push(new Point_1.Point(point, this.crs).projectTo(crs).coordinates);
-            });
-            return new MultiPoint(projected, { symbol: this.symbol, crs: crs });
+            let projected = geotools_1.projectPoints(this.points, this.crs, crs);
+            return new MultiPoint(projected, { symbol: this.symbol, crs: crs, persistOnMap: this.persistOnMap });
         }
         /**
          * Returns a copy of the feature. Only generic properties are copied.
-         * @returns {sGis.feature.MultiPoint}
          */
         clone() {
             return this.projectTo(this.crs);
         }
         /**
-         * Adds a point to the end of the coordinates' list
-         * @param {sGis.IPoint|Position} point - if sGis.IPoint instance is given, it will be automatically projected to the multipoint coordinate system.
+         * Adds a point to the end of the coordinates' list.
+         * @param point - if sGis.IPoint instance is given, it will be automatically projected to the multipoint coordinate system.
          */
         addPoint(point) {
             if (point.position && point.crs) {

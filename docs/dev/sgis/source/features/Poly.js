@@ -1,4 +1,4 @@
-define(["require", "exports", "./Feature", "../utils/utils", "../Bbox", "../geotools"], function (require, exports, Feature_1, utils_1, Bbox_1, geotools_1) {
+define(["require", "exports", "./Feature", "../utils/utils", "../Bbox"], function (require, exports, Feature_1, utils_1, Bbox_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -6,10 +6,6 @@ define(["require", "exports", "./Feature", "../utils/utils", "../Bbox", "../geot
      * @alias sGis.feature.Poly
      */
     class Poly extends Feature_1.Feature {
-        /**
-         * @param {Position[][]} rings - coordinates of the feature
-         * @param {Object} properties - key-value set of properties to be set to the instance
-         */
         constructor(rings, properties) {
             super(properties);
             if (rings && rings.length > 0) {
@@ -23,8 +19,6 @@ define(["require", "exports", "./Feature", "../utils/utils", "../Bbox", "../geot
         }
         /**
          * Array of contours of coordinates. The contours must be not-enclosed for both polylines and polygons (first and last points of a contour must not be same)
-         * @type {Position[][]}
-         * @default [[]]
          */
         get rings() { return this._rings; }
         set rings(rings) {
@@ -33,8 +27,8 @@ define(["require", "exports", "./Feature", "../utils/utils", "../Bbox", "../geot
         }
         /**
          * Adds a point to the end of the specified contour (ring).
-         * @param {sGis.Point|Position} point - point to be added. If sGis.Point is given, the point will be automatically projected to the feature coordinate system.
-         * @param {Number} [ringN] - number of the ring the point will be added to. If not specified, the point will be added to the last ring.
+         * @param point - point to be added. If sGis.Point is given, the point will be automatically projected to the feature coordinate system.
+         * @param [ringN] - number of the ring the point will be added to. If not specified, the point will be added to the last ring.
          */
         addPoint(point, ringN) {
             if (!ringN)
@@ -43,8 +37,8 @@ define(["require", "exports", "./Feature", "../utils/utils", "../Bbox", "../geot
         }
         /**
          * Removes a point from the feature.
-         * @param {Number} ringN - index of the ring (contour) the point will be removed from.
-         * @param {Number} index - index of the point in the ring.
+         * @param ringN - index of the ring (contour) the point will be removed from.
+         * @param index - index of the point in the ring.
          */
         removePoint(ringN, index) {
             this._rings[ringN].splice(index, 1);
@@ -55,7 +49,7 @@ define(["require", "exports", "./Feature", "../utils/utils", "../Bbox", "../geot
         }
         /**
          * Removes a ring (contour) from the feature.
-         * @param {Number} ringN - index of the ring to be removed.
+         * @param ringN - index of the ring to be removed.
          */
         removeRing(ringN) {
             this._rings.splice(ringN, 1);
@@ -66,25 +60,9 @@ define(["require", "exports", "./Feature", "../utils/utils", "../Bbox", "../geot
             this.redraw();
         }
         /**
-         * Returns a copy of the feature. Only generic properties are copied.
-         * @returns {sGis.feature.Poly}
-         */
-        clone() {
-            return new Poly(this.rings, { crs: this.crs });
-        }
-        /**
-         * Returns a copy of the feature, projected into the given coordinate system. Only generic properties are copied to the projected feature.
-         * @param {sGis.Crs} crs - target coordinate system.
-         * @returns {sGis.feature.Poly}
-         */
-        projectTo(crs) {
-            let projected = geotools_1.projectRings(this.rings, this.crs, crs);
-            return new Poly(projected, { crs: crs, symbol: this.symbol });
-        }
-        /**
          * Sets new coordinates for a contour.
-         * @param {Number} ringN - index of the contour to be set. If the index is larger then the number of rings of the feature, new ring will be appended to the ring list.
-         * @param {Position[]} ring - coordinate set of the contour.
+         * @param ringN - index of the contour to be set. If the index is larger then the number of rings of the feature, new ring will be appended to the ring list.
+         * @param ring - coordinate set of the contour.
          */
         setRing(ringN, ring) {
             ringN = Math.min(ringN, this._rings.length);
@@ -93,9 +71,9 @@ define(["require", "exports", "./Feature", "../utils/utils", "../Bbox", "../geot
         }
         /**
          * Sets a new value for a point in the feature.
-         * @param {Number} ringN - index of the contour of the point.
-         * @param {Number} pointN - index of the point in the contour.
-         * @param {Position|sGis.IPoint} point - new coordinates
+         * @param ringN - index of the contour of the point.
+         * @param pointN - index of the point in the contour.
+         * @param point - new coordinates
          */
         setPoint(ringN, pointN, point) {
             pointN = Math.min(pointN, this._rings[ringN].length);
@@ -104,9 +82,9 @@ define(["require", "exports", "./Feature", "../utils/utils", "../Bbox", "../geot
         }
         /**
          * Inserts a new point to the given position.
-         * @param {Number} ringN - index of the contour the point will be inserted into.
-         * @param {Number} pointN - index of the point to insert to.
-         * @param {Position|sGis.IPoint} point - point to be inserted
+         * @param ringN - index of the contour the point will be inserted into.
+         * @param pointN - index of the point to insert to.
+         * @param point - point to be inserted
          */
         insertPoint(ringN, pointN, point) {
             pointN = Math.min(pointN, this._rings[ringN].length);
@@ -115,7 +93,6 @@ define(["require", "exports", "./Feature", "../utils/utils", "../Bbox", "../geot
         }
         /**
          * Bounding box of the feature
-         * @type {sGis.Bbox}
          */
         get bbox() {
             if (this._bbox)
@@ -135,10 +112,6 @@ define(["require", "exports", "./Feature", "../utils/utils", "../Bbox", "../geot
             this._bbox = new Bbox_1.Bbox([xMin, yMin], [xMax, yMax], this.crs);
             return this._bbox;
         }
-        /**
-         * Center of the feature. At the point it's the middle point of feature's bounding box.
-         * @type {Position}
-         */
         get centroid() {
             let bbox = this.bbox;
             let x = (bbox.xMin + bbox.xMax) / 2;

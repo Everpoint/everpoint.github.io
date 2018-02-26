@@ -105,10 +105,11 @@
 								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="_features_polyline_.polyline.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-inherited">
+						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_features_polyline_.polyline.html#eventflags" class="tsd-kind-icon">event<wbr>Flags</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="_features_polyline_.polyline.html#isenclosed" class="tsd-kind-icon">is<wbr>Enclosed</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_features_polyline_.polyline.html#persistonmap" class="tsd-kind-icon">persist<wbr>OnMap</a></li>
 							</ul>
 						</section>
@@ -144,7 +145,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_features_polyline_.polyline.html#on" class="tsd-kind-icon">on</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_features_polyline_.polyline.html#once" class="tsd-kind-icon">once</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_features_polyline_.polyline.html#prohibitevent" class="tsd-kind-icon">prohibit<wbr>Event</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_features_polyline_.polyline.html#projectto" class="tsd-kind-icon">project<wbr>To</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_features_polyline_.polyline.html#projectto" class="tsd-kind-icon">project<wbr>To</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_features_polyline_.polyline.html#redraw" class="tsd-kind-icon">redraw</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_features_polyline_.polyline.html#removealllisteners" class="tsd-kind-icon">remove<wbr>All<wbr>Listeners</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_features_polyline_.polyline.html#removelistener" class="tsd-kind-icon">remove<wbr>Listener</a></li>
@@ -174,7 +175,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_features_poly_.poly.html">Poly</a>.<a href="_features_poly_.poly.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Polyline.ts#L9">features/Polyline.ts:9</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Polyline.ts#L12">features/Polyline.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -186,7 +187,7 @@
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> __namedParameters: <a href="../interfaces/_features_feature_.featureparams.html" class="tsd-signature-type">FeatureParams</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter">
-											<h5>crs<span class="tsd-signature-symbol">: </span><a href="_crs_.crs.html" class="tsd-signature-type">Crs</a></h5>
+											<h5>params<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type">params</a></h5>
 										</li>
 										<li class="tsd-parameter">
 											<h5>symbol<span class="tsd-signature-symbol">: </span><a href="_symbols_symbol_.symbol.html" class="tsd-signature-type">Symbol</a><span class="tsd-signature-symbol">&lt;</span><a href="_features_feature_.feature.html" class="tsd-signature-type">Feature</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new PolylineSymbol()</span></h5>
@@ -199,7 +200,7 @@
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="eventflags" class="tsd-anchor"></a>
@@ -208,7 +209,18 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#eventflags">eventFlags</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/EventHandler.ts#L93">EventHandler.ts:93</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L93">EventHandler.ts:93</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
+					<a name="isenclosed" class="tsd-anchor"></a>
+					<h3>is<wbr>Enclosed</h3>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>Enclosed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
+					<aside class="tsd-sources">
+						<p>Overrides <a href="_features_poly_.poly.html">Poly</a>.<a href="_features_poly_.poly.html#isenclosed">isEnclosed</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Polyline.ts#L12">features/Polyline.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -219,7 +231,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#persistonmap">persistOnMap</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Feature.ts#L27">features/Feature.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Feature.ts#L27">features/Feature.ts:27</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -244,19 +256,13 @@
 								<p>Inherited from <a href="_features_poly_.poly.html">Poly</a>.<a href="_features_poly_.poly.html#bbox">bbox</a></p>
 								<p>Overrides <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#bbox">bbox</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Poly.ts#L136">features/Poly.ts:136</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Poly.ts#L112">features/Poly.ts:112</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Bounding box of the feature</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>type</dt>
-									<dd>
-										<p>{sGis.Bbox}</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="_bbox_.bbox.html" class="tsd-signature-type">Bbox</a></h4>
 						</li>
@@ -274,20 +280,9 @@
 								<p>Inherited from <a href="_features_poly_.poly.html">Poly</a>.<a href="_features_poly_.poly.html#centroid">centroid</a></p>
 								<p>Overrides <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#centroid">centroid</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Poly.ts#L160">features/Poly.ts:160</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Poly.ts#L132">features/Poly.ts:132</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Center of the feature. At the point it&#39;s the middle point of feature&#39;s bounding box.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>type</dt>
-									<dd>
-										<p>{Position}</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></h4>
 						</li>
 					</ul>
@@ -304,7 +299,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_poly_.poly.html">Poly</a>.<a href="_features_poly_.poly.html#coordinates">coordinates</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Poly.ts#L170">features/Poly.ts:170</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Poly.ts#L142">features/Poly.ts:142</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -320,7 +315,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_poly_.poly.html">Poly</a>.<a href="_features_poly_.poly.html#coordinates">coordinates</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Poly.ts#L171">features/Poly.ts:171</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Poly.ts#L143">features/Poly.ts:143</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -344,7 +339,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#crs">crs</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Feature.ts#L102">features/Feature.ts:102</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Feature.ts#L102">features/Feature.ts:102</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -367,7 +362,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#hidden">hidden</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Feature.ts#L113">features/Feature.ts:113</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Feature.ts#L113">features/Feature.ts:113</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -390,7 +385,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#istempsymbolset">isTempSymbolSet</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Feature.ts#L92">features/Feature.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Feature.ts#L92">features/Feature.ts:92</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -413,7 +408,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#originalsymbol">originalSymbol</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Feature.ts#L97">features/Feature.ts:97</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Feature.ts#L97">features/Feature.ts:97</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -437,23 +432,13 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_poly_.poly.html">Poly</a>.<a href="_features_poly_.poly.html#rings">rings</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Poly.ts#L36">features/Poly.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Poly.ts#L31">features/Poly.ts:31</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Array of contours of coordinates. The contours must be not-enclosed for both polylines and polygons (first and last points of a contour must not be same)</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>type</dt>
-									<dd>
-										<p>{Position[][]}</p>
-									</dd>
-									<dt>default</dt>
-									<dd>
-										<p>[[]]</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
@@ -461,7 +446,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_poly_.poly.html">Poly</a>.<a href="_features_poly_.poly.html#rings">rings</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Poly.ts#L37">features/Poly.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Poly.ts#L32">features/Poly.ts:32</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -491,7 +476,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#symbol">symbol</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Feature.ts#L107">features/Feature.ts:107</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Feature.ts#L107">features/Feature.ts:107</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -505,7 +490,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#symbol">symbol</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Feature.ts#L108">features/Feature.ts:108</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Feature.ts#L108">features/Feature.ts:108</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -537,7 +522,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/EventHandler.ts#L148">EventHandler.ts:148</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L148">EventHandler.ts:148</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -581,7 +566,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_poly_.poly.html">Poly</a>.<a href="_features_poly_.poly.html#addpoint">addPoint</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Poly.ts#L47">features/Poly.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Poly.ts#L42">features/Poly.ts:42</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -616,7 +601,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#allowevent">allowEvent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/EventHandler.ts#L209">EventHandler.ts:209</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L209">EventHandler.ts:209</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -648,7 +633,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#cleartempsymbol">clearTempSymbol</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Feature.ts#L85">features/Feature.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Feature.ts#L85">features/Feature.ts:85</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -671,7 +656,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_features_poly_.poly.html">Poly</a>.<a href="_features_poly_.poly.html#clone">clone</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Polyline.ts#L18">features/Polyline.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Polyline.ts#L21">features/Polyline.ts:21</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -694,7 +679,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#fire">fire</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/EventHandler.ts#L130">EventHandler.ts:130</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L130">EventHandler.ts:130</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -733,7 +718,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#forwardevent">forwardEvent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/EventHandler.ts#L106">EventHandler.ts:106</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L106">EventHandler.ts:106</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -765,7 +750,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#haslistener">hasListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/EventHandler.ts#L219">EventHandler.ts:219</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L219">EventHandler.ts:219</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -803,7 +788,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#haslisteners">hasListeners</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/EventHandler.ts#L234">EventHandler.ts:234</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L234">EventHandler.ts:234</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -836,7 +821,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#hide">hide</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Feature.ts#L67">features/Feature.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Feature.ts#L67">features/Feature.ts:67</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -859,7 +844,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_poly_.poly.html">Poly</a>.<a href="_features_poly_.poly.html#insertpoint">insertPoint</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Poly.ts#L126">features/Poly.ts:126</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Poly.ts#L103">features/Poly.ts:103</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -903,7 +888,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#off">off</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/EventHandler.ts#L271">EventHandler.ts:271</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L271">EventHandler.ts:271</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -938,7 +923,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#on">on</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/EventHandler.ts#L266">EventHandler.ts:266</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L266">EventHandler.ts:266</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -976,7 +961,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#once">once</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/EventHandler.ts#L167">EventHandler.ts:167</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L167">EventHandler.ts:167</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1014,7 +999,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#prohibitevent">prohibitEvent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/EventHandler.ts#L201">EventHandler.ts:201</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L201">EventHandler.ts:201</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1035,36 +1020,27 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="projectto" class="tsd-anchor"></a>
 					<h3>project<wbr>To</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">project<wbr>To<span class="tsd-signature-symbol">(</span>crs<span class="tsd-signature-symbol">: </span><a href="_crs_.crs.html" class="tsd-signature-type">Crs</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_features_poly_.poly.html" class="tsd-signature-type">Poly</a></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">project<wbr>To<span class="tsd-signature-symbol">(</span>crs<span class="tsd-signature-symbol">: </span><a href="_crs_.crs.html" class="tsd-signature-type">Crs</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_features_polyline_.polyline.html" class="tsd-signature-type">Polyline</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_features_poly_.poly.html">Poly</a>.<a href="_features_poly_.poly.html#projectto">projectTo</a></p>
-								<p>Overrides <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#projectto">projectTo</a></p>
+								<p>Overrides <a href="_features_poly_.poly.html">Poly</a>.<a href="_features_poly_.poly.html#projectto">projectTo</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Poly.ts#L92">features/Poly.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Polyline.ts#L25">features/Polyline.ts:25</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns a copy of the feature, projected into the given coordinate system. Only generic properties are copied to the projected feature.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>crs: <a href="_crs_.crs.html" class="tsd-signature-type">Crs</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>target coordinate system.</p>
-									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_features_poly_.poly.html" class="tsd-signature-type">Poly</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_features_polyline_.polyline.html" class="tsd-signature-type">Polyline</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -1079,7 +1055,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#redraw">redraw</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Feature.ts#L60">features/Feature.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Feature.ts#L60">features/Feature.ts:60</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1102,7 +1078,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#removealllisteners">removeAllListeners</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/EventHandler.ts#L259">EventHandler.ts:259</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L259">EventHandler.ts:259</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1125,7 +1101,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#removelistener">removeListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/EventHandler.ts#L176">EventHandler.ts:176</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/EventHandler.ts#L176">EventHandler.ts:176</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1163,7 +1139,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_poly_.poly.html">Poly</a>.<a href="_features_poly_.poly.html#removepoint">removePoint</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Poly.ts#L57">features/Poly.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Poly.ts#L52">features/Poly.ts:52</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1201,7 +1177,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_poly_.poly.html">Poly</a>.<a href="_features_poly_.poly.html#removering">removeRing</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Poly.ts#L69">features/Poly.ts:69</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Poly.ts#L64">features/Poly.ts:64</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1233,7 +1209,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#render">render</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Feature.ts#L55">features/Feature.ts:55</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Feature.ts#L55">features/Feature.ts:55</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1268,7 +1244,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_poly_.poly.html">Poly</a>.<a href="_features_poly_.poly.html#setpoint">setPoint</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Poly.ts#L114">features/Poly.ts:114</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Poly.ts#L91">features/Poly.ts:91</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1312,7 +1288,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_poly_.poly.html">Poly</a>.<a href="_features_poly_.poly.html#setring">setRing</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Poly.ts#L102">features/Poly.ts:102</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Poly.ts#L79">features/Poly.ts:79</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1350,7 +1326,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#settempsymbol">setTempSymbol</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Feature.ts#L78">features/Feature.ts:78</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Feature.ts#L78">features/Feature.ts:78</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1381,7 +1357,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#show">show</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Feature.ts#L72">features/Feature.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Feature.ts#L72">features/Feature.ts:72</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1404,7 +1380,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#setdefaultcrs">setDefaultCrs</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/features/Feature.ts#L37">features/Feature.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e93ca0c/source/features/Feature.ts#L37">features/Feature.ts:37</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1453,6 +1429,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="_features_polyline_.polyline.html#eventflags" class="tsd-kind-icon">event<wbr>Flags</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
+								<a href="_features_polyline_.polyline.html#isenclosed" class="tsd-kind-icon">is<wbr>Enclosed</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="_features_polyline_.polyline.html#persistonmap" class="tsd-kind-icon">persist<wbr>OnMap</a>
@@ -1529,7 +1508,7 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_features_polyline_.polyline.html#prohibitevent" class="tsd-kind-icon">prohibit<wbr>Event</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_features_polyline_.polyline.html#projectto" class="tsd-kind-icon">project<wbr>To</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">

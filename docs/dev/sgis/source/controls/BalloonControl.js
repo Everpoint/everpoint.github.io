@@ -14,7 +14,7 @@ define(["require", "exports", "./Control", "../commonEvents", "../features/Ballo
             this._symbol = new BalloonSymbol_1.BalloonSymbol({ onRender: this._onRender.bind(this) });
         }
         attach(feature, html) {
-            let balloon = new Balloon_1.Balloon({ position: [0, 0], crs: feature.crs, content: html, symbol: this._symbol });
+            let balloon = new Balloon_1.Balloon([0, 0], { crs: feature.crs, content: html, symbol: this._symbol });
             feature.on(commonEvents_1.sGisClickEvent.type + this._ns, this._showBalloon.bind(this, feature, balloon));
         }
         detach(feature) {

@@ -13,6 +13,7 @@ define(["require", "exports", "./Feature", "../Point", "../Bbox", "../symbols/po
     /**
      * Simple geographical point.
      * @alias sGis.feature.Point
+     * @example symbols/Point_Symbols
      */
     class PointFeature extends Feature_1.Feature {
         constructor(position, _a = {}) {
