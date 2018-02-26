@@ -1,31 +1,25 @@
 define(["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.degToRad = function (d) {
-        return d / 180 * Math.PI;
-    };
+    /**
+     * Converts degrees to radians
+     */
+    exports.degToRad = d => d / 180 * Math.PI;
     /**
      * Converts radians to degrees
-     * @param {number} r - radians
-     * @returns {number}
      */
-    exports.radToDeg = function (r) {
-        return r / Math.PI * 180;
-    };
-    exports.tolerance = 0.000001;
+    exports.radToDeg = r => r / Math.PI * 180;
+    const TOLERANCE = 0.000001;
     /**
-     * Returns true if a and b differ less then one millionth of a, otherwise false
-     * @param {Number} a
-     * @param {Number} b
-     * @returns {boolean}
+     * Returns true if a and b differ less then tolerance
      */
-    exports.softEquals = function softEquals(a, b) {
-        return Math.abs(a - b) < exports.tolerance * Math.abs(a);
+    exports.softEquals = function softEquals(a, b, tolerance = TOLERANCE) {
+        return Math.abs(a - b) <= tolerance;
     };
     /**
      * Prepares the set of coordinates for matrix operations
-     * @param {Position[]} coord
-     * @param {Position} center - the center of the operation
+     * @param coord
+     * @param center - the center of the operation
      */
     exports.extendCoordinates = function (coord, center) {
         coord.forEach(point => {
@@ -36,8 +30,8 @@ define(["require", "exports"], function (require, exports) {
     };
     /**
      * Takes extended coordinates and make them plain again
-     * @param {Position[]} coord
-     * @param {Position} center - the center of the operation
+     * @param coord
+     * @param center - the center of the operation
      */
     exports.collapseCoordinates = function (coord, center) {
         coord.forEach(point => {
@@ -48,16 +42,15 @@ define(["require", "exports"], function (require, exports) {
     };
     /**
      * Returns a new array with simplified coordinates
-     * @param {Position[][]} rings - array of coordinate contours
+     * @param rings - array of coordinate contours
      * @param tolerance - the tolerance of simplification. Points that are overflow other points or lines with given tolerance will be excluded from the result
-     * @returns {Position[][]}
      */
     exports.simplifyCoordinates = function (rings, tolerance) {
-        var result = [];
-        for (var ring = 0, l = rings.length; ring < l; ring++) {
-            var simplified = [rings[ring][0]];
-            for (var i = 1, len = rings[ring].length - 1; i < len; i++) {
-                if (rings[ring][i].length === 0 || simplified[simplified.length - 1].length === 0 || Math.abs(rings[ring][i][0] - simplified[simplified.length - 1][0]) > tolerance || Math.abs(rings[ring][i][1] - simplified[simplified.length - 1][1]) > tolerance) {
+        let result = [];
+        for (let ring = 0, l = rings.length; ring < l; ring++) {
+            let simplified = [rings[ring][0]];
+            for (let i = 1, len = rings[ring].length - 1; i < len; i++) {
+                if (!exports.softEquals(rings[ring][i][0], simplified[simplified.length - 1][0], tolerance) || exports.softEquals(rings[ring][i][1], simplified[simplified.length - 1][1], tolerance)) {
                     simplified.push(rings[ring][i]);
                 }
             }
@@ -69,17 +62,14 @@ define(["require", "exports"], function (require, exports) {
     };
     /**
      * Multiplies matrix a by matrix b
-     * @param a
-     * @param b
-     * @returns {Array}
      */
     exports.multiplyMatrix = function (a, b) {
-        var c = [];
-        for (var i = 0, m = a.length; i < m; i++) {
+        let c = [];
+        for (let i = 0, m = a.length; i < m; i++) {
             c[i] = [];
-            for (var j = 0, q = b[0].length; j < q; j++) {
+            for (let j = 0, q = b[0].length; j < q; j++) {
                 c[i][j] = 0;
-                for (var r = 0, n = b.length; r < n; r++) {
+                for (let r = 0, n = b.length; r < n; r++) {
                     c[i][j] += a[i][r] * b[r][j];
                 }
             }

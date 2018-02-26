@@ -70,10 +70,10 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="_utils_math_.html#tolerance" class="tsd-kind-icon">tolerance</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_utils_math_.html#tolerance" class="tsd-kind-icon">TOLERANCE</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -92,15 +92,15 @@
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Variables</h2>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
 					<a name="tolerance" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> tolerance</h3>
-					<div class="tsd-signature tsd-kind-icon">tolerance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">0.000001</span><span class="tsd-signature-symbol"> =&nbsp;0.000001</span></div>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> TOLERANCE</h3>
+					<div class="tsd-signature tsd-kind-icon">TOLERANCE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">0.000001</span><span class="tsd-signature-symbol"> =&nbsp;0.000001</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/6d263e4/source/utils/math.ts#L21">utils/math.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/b875229/source/utils/math.ts#L13">utils/math.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -111,13 +111,13 @@
 					<a name="collapsecoordinates" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> collapse<wbr>Coordinates</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">collapse<wbr>Coordinates<span class="tsd-signature-symbol">(</span>coord<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, center<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">collapse<wbr>Coordinates<span class="tsd-signature-symbol">(</span>coord<span class="tsd-signature-symbol">: </span><a href="_basetypes_.html#contour" class="tsd-signature-type">Contour</a>, center<span class="tsd-signature-symbol">: </span><a href="_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/6d263e4/source/utils/math.ts#L50">utils/math.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/b875229/source/utils/math.ts#L39">utils/math.ts:39</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -128,10 +128,10 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>coord: <span class="tsd-signature-type">any</span></h5>
+									<h5>coord: <a href="_basetypes_.html#contour" class="tsd-signature-type">Contour</a></h5>
 								</li>
 								<li>
-									<h5>center: <span class="tsd-signature-type">any</span></h5>
+									<h5>center: <a href="_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>the center of the operation</p>
@@ -153,9 +153,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/6d263e4/source/utils/math.ts#L8">utils/math.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/b875229/source/utils/math.ts#L6">utils/math.ts:6</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts degrees to radians</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -170,13 +175,13 @@
 					<a name="extendcoordinates" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> extend<wbr>Coordinates</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">extend<wbr>Coordinates<span class="tsd-signature-symbol">(</span>coord<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, center<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">extend<wbr>Coordinates<span class="tsd-signature-symbol">(</span>coord<span class="tsd-signature-symbol">: </span><a href="_basetypes_.html#contour" class="tsd-signature-type">Contour</a>, center<span class="tsd-signature-symbol">: </span><a href="_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/6d263e4/source/utils/math.ts#L37">utils/math.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/b875229/source/utils/math.ts#L26">utils/math.ts:26</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -187,10 +192,10 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>coord: <span class="tsd-signature-type">any</span></h5>
+									<h5>coord: <a href="_basetypes_.html#contour" class="tsd-signature-type">Contour</a></h5>
 								</li>
 								<li>
-									<h5>center: <span class="tsd-signature-type">any</span></h5>
+									<h5>center: <a href="_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>the center of the operation</p>
@@ -206,13 +211,13 @@
 					<a name="multiplymatrix" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> multiply<wbr>Matrix</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">multiply<wbr>Matrix<span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">multiply<wbr>Matrix<span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span>, b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/6d263e4/source/utils/math.ts#L87">utils/math.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/b875229/source/utils/math.ts#L72">utils/math.ts:72</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -223,13 +228,13 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>a: <span class="tsd-signature-type">any</span></h5>
+									<h5>a: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 								<li>
-									<h5>b: <span class="tsd-signature-type">any</span></h5>
+									<h5>b: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -243,7 +248,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/6d263e4/source/utils/math.ts#L17">utils/math.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/b875229/source/utils/math.ts#L11">utils/math.ts:11</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -255,11 +260,6 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>r: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>radians</p>
-										</div>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -270,13 +270,13 @@
 					<a name="simplifycoordinates" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> simplify<wbr>Coordinates</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">simplify<wbr>Coordinates<span class="tsd-signature-symbol">(</span>rings<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, tolerance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">simplify<wbr>Coordinates<span class="tsd-signature-symbol">(</span>rings<span class="tsd-signature-symbol">: </span><a href="_basetypes_.html#contour" class="tsd-signature-type">Contour</a><span class="tsd-signature-symbol">[]</span>, tolerance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/6d263e4/source/utils/math.ts#L64">utils/math.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/b875229/source/utils/math.ts#L52">utils/math.ts:52</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -287,7 +287,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>rings: <span class="tsd-signature-type">any</span></h5>
+									<h5>rings: <a href="_basetypes_.html#contour" class="tsd-signature-type">Contour</a><span class="tsd-signature-symbol">[]</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>array of coordinate contours</p>
@@ -295,7 +295,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>tolerance: <span class="tsd-signature-type">any</span></h5>
+									<h5>tolerance: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>the tolerance of simplification. Points that are overflow other points or lines with given tolerance will be excluded from the result</p>
@@ -303,7 +303,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -311,18 +311,18 @@
 					<a name="softequals" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> soft<wbr>Equals</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">soft<wbr>Equals<span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">soft<wbr>Equals<span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, tolerance<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/6d263e4/source/utils/math.ts#L28">utils/math.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/b875229/source/utils/math.ts#L17">utils/math.ts:17</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Returns true if a and b differ less then one millionth of a, otherwise false</p>
+									<p>Returns true if a and b differ less then tolerance</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -332,6 +332,9 @@
 								</li>
 								<li>
 									<h5>b: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> tolerance: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;TOLERANCE</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -348,7 +351,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/6d263e4/source/utils/math.ts#L102">utils/math.ts:102</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/b875229/source/utils/math.ts#L87">utils/math.ts:87</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -379,8 +382,8 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
-						<a href="_utils_math_.html#tolerance" class="tsd-kind-icon">tolerance</a>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_utils_math_.html#tolerance" class="tsd-kind-icon">TOLERANCE</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_utils_math_.html#collapsecoordinates" class="tsd-kind-icon">collapse<wbr>Coordinates</a>
