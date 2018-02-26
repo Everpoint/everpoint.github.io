@@ -1,4 +1,4 @@
-define(["require", "exports", "./Control", "../features/Point", "../symbols/point/Point", "../commonEvents"], function (require, exports, Control_1, Point_1, Point_2, commonEvents_1) {
+define(["require", "exports", "./Control", "../features/PointFeature", "../symbols/point/Point", "../commonEvents"], function (require, exports, Control_1, PointFeature_1, Point_1, commonEvents_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -12,7 +12,7 @@ define(["require", "exports", "./Control", "../features/Point", "../symbols/poin
          * @param map
          * @param __namedParameters - key-value set of properties to be set to the instance
          */
-        constructor(map, { activeLayer = null, snappingProvider = null, isActive = false, symbol = new Point_2.PointSymbol() } = {}) {
+        constructor(map, { activeLayer = null, snappingProvider = null, isActive = false, symbol = new Point_1.PointSymbol() } = {}) {
             super(map, { activeLayer, snappingProvider, useTempLayer: true });
             this._handleClick = this._handleClick.bind(this);
             this._handleMouseMove = this._handleMouseMove.bind(this);
@@ -29,7 +29,7 @@ define(["require", "exports", "./Control", "../features/Point", "../symbols/poin
         }
         _handleClick(event) {
             event.stopPropagation();
-            let feature = new Point_1.PointFeature(this._snap(event.point.position, event.browserEvent.altKey), { crs: this.map.crs, symbol: this.symbol });
+            let feature = new PointFeature_1.PointFeature(this._snap(event.point.position, event.browserEvent.altKey), { crs: this.map.crs, symbol: this.symbol });
             if (this.activeLayer)
                 this.activeLayer.add(feature);
             this.fire(new Control_1.DrawingFinishEvent(feature, event.browserEvent));

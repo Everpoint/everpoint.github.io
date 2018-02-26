@@ -1,10 +1,9 @@
-define(["require", "exports", "./Feature", "../Point", "../Bbox", "../symbols/BalloonSymbol"], function (require, exports, Feature_1, Point_1, Bbox_1, BalloonSymbol_1) {
+define(["require", "exports", "../symbols/BalloonSymbol", "./PointFeature"], function (require, exports, BalloonSymbol_1, PointFeature_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    class Balloon extends Feature_1.Feature {
+    class Balloon extends PointFeature_1.PointFeature {
         constructor({ position, content, crs, symbol = new BalloonSymbol_1.BalloonSymbol(), persistOnMap = true }) {
-            super({ crs, symbol, persistOnMap });
-            this._position = position;
+            super(position, { crs, symbol, persistOnMap });
             if (content instanceof HTMLElement) {
                 this._content = content;
             }
@@ -23,20 +22,6 @@ define(["require", "exports", "./Feature", "../Point", "../Bbox", "../symbols/Ba
             }
         }
         get content() { return this._content; }
-        get position() { return this._position; }
-        set position(value) {
-            this._position = value;
-            this.redraw();
-        }
-        get x() { return this._position[0]; }
-        get y() { return this._position[1]; }
-        projectTo(newCrs) {
-            let projected = Point_1.Point.prototype.projectTo.call(this, newCrs);
-            return new Balloon({ position: projected.position, content: this._content, crs: newCrs, symbol: this.symbol });
-        }
-        get bbox() {
-            return new Bbox_1.Bbox(this._position, this._position, this.crs);
-        }
     }
     exports.Balloon = Balloon;
 });

@@ -1,18 +1,17 @@
-define(["require", "exports", "../Point", "./Feature", "../Bbox", "./Point", "../symbols/point/Point"], function (require, exports, Point_1, Feature_1, Bbox_1, Point_2, Point_3) {
+define(["require", "exports", "../Point", "./Feature", "../Bbox", "../symbols/point/Point", "../symbols/MultiPointSymbol"], function (require, exports, Point_1, Feature_1, Bbox_1, Point_2, MultiPointSymbol_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
      * Represents a set of points on a map that behave as one feature: have same symbol, can be added, transformed or removed as one.
      * @alias sGis.feature.MultiPoint
-     * @extends sGis.Feature
      */
     class MultiPoint extends Feature_1.Feature {
         /**
          * @param {Position[]} points - set of the points' coordinates
          * @param {Object} properties - key-value set of properties to be set to the instance
          */
-        constructor(points = [], { symbol = new Point_3.PointSymbol(), crs } = {}, extension) {
-            super({ symbol, crs }, extension);
+        constructor(points = [], { symbol = new MultiPointSymbol_1.MultiPointSymbol(new Point_2.PointSymbol()), crs } = {}) {
+            super({ symbol, crs });
             this._points = points;
         }
         /**
@@ -61,23 +60,6 @@ define(["require", "exports", "../Point", "./Feature", "../Bbox", "./Point", "..
             this._bbox = null;
             this.redraw();
         }
-        render(resolution, crs) {
-            if (this.hidden || !this.symbol)
-                return [];
-            if (!this._needToRender(resolution, crs))
-                return this._rendered.renders;
-            let renders = [];
-            this._points.forEach(point => {
-                let f = new Point_2.PointFeature(point, { crs: this.crs, symbol: this.symbol });
-                renders = renders.concat(f.render(resolution, crs));
-            });
-            this._rendered = {
-                resolution: resolution,
-                crs: crs,
-                renders: renders
-            };
-            return this._rendered.renders;
-        }
         get bbox() {
             if (this._bbox)
                 return this._bbox;
@@ -99,6 +81,9 @@ define(["require", "exports", "../Point", "./Feature", "../Bbox", "./Point", "..
          */
         get coordinates() { return this._points.slice(); }
         set coordinates(points) { this.points = points; }
+        get centroid() {
+            return this.bbox.center;
+        }
     }
     exports.MultiPoint = MultiPoint;
 });

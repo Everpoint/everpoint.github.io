@@ -1,4 +1,4 @@
-define(["require", "exports", "./Control", "../symbols/point/Point", "../symbols/point/Square", "../features/Point", "../geotools", "../commonEvents", "../EventHandler"], function (require, exports, Control_1, Point_1, Square_1, Point_2, geotools_1, commonEvents_1, EventHandler_1) {
+define(["require", "exports", "./Control", "../symbols/point/Point", "../symbols/point/Square", "../features/PointFeature", "../geotools", "../commonEvents", "../EventHandler"], function (require, exports, Control_1, Point_1, Square_1, PointFeature_1, geotools_1, commonEvents_1, EventHandler_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -104,7 +104,7 @@ define(["require", "exports", "./Control", "../symbols/point/Point", "../symbols
                 this._setScaleHandles();
         }
         _setRotationHandle() {
-            this._rotationHandle = new Point_2.PointFeature([0, 0], { crs: this.map.crs, symbol: this.rotationHandleSymbol });
+            this._rotationHandle = new PointFeature_1.PointFeature([0, 0], { crs: this.map.crs, symbol: this.rotationHandleSymbol });
             this._updateRotationHandle();
             this._rotationHandle.on(commonEvents_1.DragStartEvent.type, this._handleRotationStart);
             this._rotationHandle.on(commonEvents_1.DragEvent.type, this._handleRotation);
@@ -120,7 +120,7 @@ define(["require", "exports", "./Control", "../symbols/point/Point", "../symbols
                 let xk = i % 3 - 1;
                 let yk = 1 - Math.floor(i / 3);
                 symbol.offset = [this.scaleHandleOffset * xk, this.scaleHandleOffset * yk];
-                this._scaleHandles[i] = new Point_2.PointFeature([0, 0], { symbol: symbol, crs: this.map.crs });
+                this._scaleHandles[i] = new PointFeature_1.PointFeature([0, 0], { symbol: symbol, crs: this.map.crs });
                 this._scaleHandles[i].on(commonEvents_1.DragStartEvent.type, this._handleScalingStart.bind(this, i));
                 this._scaleHandles[i].on(commonEvents_1.DragEvent.type, this._handleScaling.bind(this, i));
                 this._scaleHandles[i].on(commonEvents_1.DragEndEvent.type, this._handleScalingEnd);
@@ -131,7 +131,7 @@ define(["require", "exports", "./Control", "../symbols/point/Point", "../symbols
         _handleRotationStart(event) {
             if (this.ignoreEvents)
                 return;
-            this._rotationBase = this._activeFeature.bbox.center.projectTo(this.map.crs).position;
+            this._rotationBase = this._activeFeature.bbox.projectTo(this.map.crs).center;
             event.draggingObject = this._rotationHandle;
             event.stopPropagation();
             this.fire(new RotationStartEvent());

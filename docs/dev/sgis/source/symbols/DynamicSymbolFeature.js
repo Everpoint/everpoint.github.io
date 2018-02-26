@@ -1,0 +1,11 @@
+define(["require", "exports", "../features/PointFeature"], function (require, exports, PointFeature_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    class DynamicSymbolFeature extends PointFeature_1.PointFeature {
+        constructor() {
+            super(...arguments);
+            this.__dynamicSymbolRender = null;
+        }
+    }
+    exports.DynamicSymbolFeature = DynamicSymbolFeature;
+});

@@ -9,8 +9,8 @@ define(["require", "exports", "../Symbol", "../../serializers/symbolSerializer",
         /**
          * @param options - key-value list of the properties to be assigned to the instance.
          */
-        constructor(options = {}) {
-            super();
+        constructor({ width = 32, height = 32, anchorPoint = [16, 32], source = images_1.PIN_IMAGE, angle = 0 } = {}) {
+            super({ offset: [0, 0] });
             /** Width of the image. If not set, image will be automatically resized according to height. If both width and height are not set, original image size will be used. */
             this.width = 32;
             /** Height of the image. If not set, image will be automatically resized according to width. If both width and height are not set, original image size will be used. */
@@ -26,7 +26,11 @@ define(["require", "exports", "../Symbol", "../../serializers/symbolSerializer",
              * Clockwise rotation of the image in radians.
              */
             this.angle = 0;
-            Object.assign(this, options);
+            this.width = width;
+            this.height = height;
+            this.anchorPoint = anchorPoint;
+            this.angle = angle;
+            this.source = source;
         }
         _getFeatureNode(feature) {
             let node = new Image();

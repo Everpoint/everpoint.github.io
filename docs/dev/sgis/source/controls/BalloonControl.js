@@ -1,4 +1,4 @@
-define(["require", "exports", "./Control", "../commonEvents", "../features/Balloon", "../features/Poly", "../features/Point", "../utils/utils", "../symbols/BalloonSymbol", "../Bbox"], function (require, exports, Control_1, commonEvents_1, Balloon_1, Poly_1, Point_1, utils_1, BalloonSymbol_1, Bbox_1) {
+define(["require", "exports", "./Control", "../commonEvents", "../features/Balloon", "../features/Poly", "../features/PointFeature", "../utils/utils", "../symbols/BalloonSymbol", "../Bbox"], function (require, exports, Control_1, commonEvents_1, Balloon_1, Poly_1, PointFeature_1, utils_1, BalloonSymbol_1, Bbox_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     const OFFSET = 10;
@@ -25,7 +25,7 @@ define(["require", "exports", "./Control", "../commonEvents", "../features/Ballo
             if (feature instanceof Poly_1.Poly) {
                 balloon.position = feature.centroid;
             }
-            else if (feature instanceof Point_1.PointFeature) {
+            else if (feature instanceof PointFeature_1.PointFeature) {
                 balloon.position = feature.position;
             }
             if (this._activeBalloon) {

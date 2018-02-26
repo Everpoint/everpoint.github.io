@@ -62,7 +62,7 @@
 					<a href="_symbols_symbol_.symbol.html">Symbol</a>
 				</li>
 			</ul>
-			<h1>Class Symbol</h1>
+			<h1>Class Symbol&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -83,6 +83,14 @@
 					</dl>
 				</div>
 			</section>
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>T<span class="tsd-signature-symbol">: </span><a href="_features_feature_.feature.html" class="tsd-signature-type">Feature</a></h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -90,10 +98,13 @@
 						<span class="target">Symbol</span>
 						<ul class="tsd-hierarchy">
 							<li>
+								<a href="_symbols_point_point_.pointsymbol.html" class="tsd-signature-type">PointSymbol</a>
+							</li>
+							<li>
 								<a href="_symbols_symbol_.dynamicpointsymbol.html" class="tsd-signature-type">DynamicPointSymbol</a>
 							</li>
 							<li>
-								<a href="_symbols_point_point_.pointsymbol.html" class="tsd-signature-type">PointSymbol</a>
+								<a href="_symbols_multipointsymbol_.multipointsymbol.html" class="tsd-signature-type">MultiPointSymbol</a>
 							</li>
 							<li>
 								<a href="_symbols_point_crosspointsymbol_.crosspointsymbol.html" class="tsd-signature-type">CrossPointSymbol</a>
@@ -149,13 +160,13 @@
 					<a name="clone" class="tsd-anchor"></a>
 					<h3>clone</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">clone<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_symbols_symbol_.symbol.html" class="tsd-signature-type">Symbol</a></li>
+						<li class="tsd-signature tsd-kind-icon">clone<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_symbols_symbol_.symbol.html" class="tsd-signature-type">Symbol</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/df57876/source/symbols/Symbol.ts#L30">symbols/Symbol.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/symbols/Symbol.ts#L31">symbols/Symbol.ts:31</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -163,7 +174,7 @@
 									<p>Returns a copy of the symbol. Only essential properties are copied.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="_symbols_symbol_.symbol.html" class="tsd-signature-type">Symbol</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_symbols_symbol_.symbol.html" class="tsd-signature-type">Symbol</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -171,13 +182,13 @@
 					<a name="renderfunction" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> render<wbr>Function</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">render<wbr>Function<span class="tsd-signature-symbol">(</span>feature<span class="tsd-signature-symbol">: </span><a href="_features_feature_.feature.html" class="tsd-signature-type">Feature</a>, resolution<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, crs<span class="tsd-signature-symbol">: </span><a href="_crs_.crs.html" class="tsd-signature-type">Crs</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_renders_render_.render.html" class="tsd-signature-type">Render</a><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">render<wbr>Function<span class="tsd-signature-symbol">(</span>feature<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, resolution<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, crs<span class="tsd-signature-symbol">: </span><a href="_crs_.crs.html" class="tsd-signature-type">Crs</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_renders_render_.render.html" class="tsd-signature-type">Render</a><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/df57876/source/symbols/Symbol.ts#L25">symbols/Symbol.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/728d868/source/symbols/Symbol.ts#L26">symbols/Symbol.ts:26</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -189,7 +200,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>feature: <a href="_features_feature_.feature.html" class="tsd-signature-type">Feature</a></h5>
+									<h5>feature: <span class="tsd-signature-type">T</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>feature to be drawn.</p>
 									</div>
@@ -229,12 +240,9 @@
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
 						<a href="_symbols_symbol_.dynamicpointsymbol.html" class="tsd-kind-icon">Dynamic<wbr>Point<wbr>Symbol</a>
 					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_symbols_symbol_.dynamicsymbolfeature.html" class="tsd-kind-icon">Dynamic<wbr>Symbol<wbr>Feature</a>
-					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+					<li class="current tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="_symbols_symbol_.symbol.html" class="tsd-kind-icon">Symbol</a>
 						<ul>
 							<li class=" tsd-kind-method tsd-parent-kind-class">

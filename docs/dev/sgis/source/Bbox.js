@@ -30,7 +30,7 @@ define(["require", "exports", "./Crs", "./Point", "./utils/math", "./utils/utils
         /**
          * Center point of the bounding box
          */
-        get center() { return new Point_1.Point([(this.xMax + this.xMin) / 2, (this.yMax + this.yMin) / 2], this.crs); }
+        get center() { return [(this.xMax + this.xMin) / 2, (this.yMax + this.yMin) / 2]; }
         /**
          * Returns a copy of the bbox
          */

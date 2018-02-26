@@ -1,4 +1,4 @@
-define(["require", "exports", "../Symbol", "../../features/Point", "../../renders/Poly"], function (require, exports, Symbol_1, Point_1, Poly_1) {
+define(["require", "exports", "../Symbol", "../../features/PointFeature", "../../renders/Poly"], function (require, exports, Symbol_1, PointFeature_1, Poly_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class CrossPointSymbol extends Symbol_1.Symbol {
@@ -18,7 +18,7 @@ define(["require", "exports", "../Symbol", "../../features/Point", "../../render
             Object.assign(this, options);
         }
         renderFunction(feature, resolution, crs) {
-            if (!(feature instanceof Point_1.PointFeature))
+            if (!(feature instanceof PointFeature_1.PointFeature))
                 return [];
             let position = feature.projectTo(crs).position;
             let pxPosition = [position[0] / resolution, -position[1] / resolution];

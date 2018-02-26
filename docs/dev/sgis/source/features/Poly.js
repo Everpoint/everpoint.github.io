@@ -4,15 +4,14 @@ define(["require", "exports", "./Feature", "../utils/utils", "../Bbox", "../geot
     /**
      * Base class for polylines and polygons.
      * @alias sGis.feature.Poly
-     * @extends sGis.Feature
      */
     class Poly extends Feature_1.Feature {
         /**
          * @param {Position[][]} rings - coordinates of the feature
          * @param {Object} properties - key-value set of properties to be set to the instance
          */
-        constructor(rings, properties, extension) {
-            super(properties, extension);
+        constructor(rings, properties) {
+            super(properties);
             if (rings && rings.length > 0) {
                 if (!utils_1.isArray(rings[0][0]))
                     rings = [rings];

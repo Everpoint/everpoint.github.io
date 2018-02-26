@@ -44,7 +44,7 @@ define(["require", "exports", "./point/Point", "../renders/Poly", "../renders/Ar
                 else if (this.baseSymbol instanceof StaticImageSymbol_1.StaticImageSymbol || this.baseSymbol instanceof MaskedImage_1.MaskedImage) {
                     halo = new Arc_1.Arc([
                         baseRender[i].position[0] - (+this.baseSymbol.anchorPoint[0]) + this.baseSymbol.width / 2,
-                        baseRender[i].position[1] - (+this.baseSymbol.anchorPoint[0]) + this.baseSymbol.width / 2,
+                        baseRender[i].position[1] - (+this.baseSymbol.anchorPoint[1]) + this.baseSymbol.height / 2,
                     ], {
                         fillColor: this.color,
                         radius: this.baseSymbol.width / 2 + this.haloSize,

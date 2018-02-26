@@ -218,9 +218,7 @@ define(["require", "exports", "./Canvas", "../../renders/Render", "../../renders
             }
         }
         _removeRender(render) {
-            if (render instanceof StaticImageRender_1.StaticImageRender || render instanceof Render_1.DynamicRender) {
-                if (!render.node.parentNode)
-                    return;
+            if ((render instanceof StaticImageRender_1.StaticImageRender || render instanceof Render_1.DynamicRender) && render.node.parentNode) {
                 render.node.parentNode.removeChild(render.node);
                 if (render instanceof StaticHtmlImageRender_1.StaticHtmlImageRender && render.onRemoved)
                     render.onRemoved();

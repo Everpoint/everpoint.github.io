@@ -1,4 +1,4 @@
-define(["require", "exports", "./SnappingProviderBase", "../../Bbox", "../../Point", "../../features/Point", "../../features/Poly", "../../features/Polygon"], function (require, exports, SnappingProviderBase_1, Bbox_1, Point_1, Point_2, Poly_1, Polygon_1) {
+define(["require", "exports", "./SnappingProviderBase", "../../Bbox", "../../Point", "../../features/PointFeature", "../../features/Poly", "../../features/Polygon"], function (require, exports, SnappingProviderBase_1, Bbox_1, Point_1, PointFeature_1, Poly_1, Polygon_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -19,7 +19,7 @@ define(["require", "exports", "./SnappingProviderBase", "../../Bbox", "../../Poi
             let features = this._layer.getFeatures(bbox, this._map.resolution);
             let snappingData = { points: [], lines: [] };
             features.forEach(feature => {
-                if (feature instanceof Point_2.PointFeature) {
+                if (feature instanceof PointFeature_1.PointFeature) {
                     snappingData.points.push(feature.position);
                 }
                 else if (feature instanceof Poly_1.Poly) {

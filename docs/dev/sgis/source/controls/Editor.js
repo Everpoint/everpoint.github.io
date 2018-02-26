@@ -1,4 +1,4 @@
-define(["require", "exports", "./Control", "../utils/StateManager", "./PointEditor", "./PolyEditor", "./PolyTransform", "../utils/utils", "../utils/domEvent", "../symbols/EditorSymbol", "../layers/FeatureLayer", "../commonEvents", "../features/Point", "../features/Poly", "../EventHandler", "./snapping/SnappingProviderBase", "./snapping/SnappingMethods", "./snapping/CombinedSnappingProvider"], function (require, exports, Control_1, StateManager_1, PointEditor_1, PolyEditor_1, PolyTransform_1, utils_1, domEvent_1, EditorSymbol_1, FeatureLayer_1, commonEvents_1, Point_1, Poly_1, EventHandler_1, SnappingProviderBase_1, SnappingMethods_1, CombinedSnappingProvider_1) {
+define(["require", "exports", "./Control", "../utils/StateManager", "./PointEditor", "./PolyEditor", "./PolyTransform", "../utils/utils", "../utils/domEvent", "../symbols/EditorSymbol", "../layers/FeatureLayer", "../commonEvents", "../features/PointFeature", "../features/Poly", "../EventHandler", "./snapping/SnappingProviderBase", "./snapping/SnappingMethods", "./snapping/CombinedSnappingProvider"], function (require, exports, Control_1, StateManager_1, PointEditor_1, PolyEditor_1, PolyTransform_1, utils_1, domEvent_1, EditorSymbol_1, FeatureLayer_1, commonEvents_1, PointFeature_1, Poly_1, EventHandler_1, SnappingProviderBase_1, SnappingMethods_1, CombinedSnappingProvider_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class FeatureSelectEvent extends EventHandler_1.sGisEvent {
@@ -160,7 +160,7 @@ define(["require", "exports", "./Control", "../utils/StateManager", "./PointEdit
             if (!feature)
                 return;
             feature.setTempSymbol(new EditorSymbol_1.EditorSymbol({ baseSymbol: feature.symbol }));
-            if (feature instanceof Point_1.PointFeature) {
+            if (feature instanceof PointFeature_1.PointFeature) {
                 this._pointEditor.activeLayer = this.activeLayer;
                 this._pointEditor.activeFeature = feature;
             }
@@ -297,7 +297,7 @@ define(["require", "exports", "./Control", "../utils/StateManager", "./PointEdit
             this.activeLayer.redraw();
         }
         _setCoordinates(state) {
-            if (state.feature instanceof Point_1.PointFeature) {
+            if (state.feature instanceof PointFeature_1.PointFeature) {
                 state.feature.position = state.coordinates;
             }
             else if (state.feature instanceof Poly_1.Poly) {

@@ -4,15 +4,13 @@ define(["require", "exports", "./Poly", "../symbols/PolylineSymbol"], function (
     /**
      * A line or a set of geographical lines.
      * @alias sGis.feature.Polyline
-     * @extends sGis.feature.Poly
      */
     class Polyline extends Poly_1.Poly {
-        constructor(rings, { symbol = new PolylineSymbol_1.PolylineSymbol(), crs } = {}, extension) {
-            super(rings, { symbol, crs }, extension);
+        constructor(rings, { symbol = new PolylineSymbol_1.PolylineSymbol(), crs } = {}) {
+            super(rings, { symbol, crs });
         }
         /**
          * Returns a copy of the feature. Only generic properties are copied.
-         * @returns {sGis.feature.Polyline}
          */
         clone() {
             return new Polyline(this.rings, { crs: this.crs, symbol: this.originalSymbol });

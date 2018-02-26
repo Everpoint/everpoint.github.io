@@ -20,12 +20,11 @@ define(["require", "exports", "../Symbol", "../../renders/VectorLabel"], functio
         renderFunction(feature, resolution, crs) {
             if (!feature.crs.canProjectTo(crs))
                 return [];
-            let label = feature;
-            let position = label.projectTo(crs).position;
+            let position = feature.projectTo(crs).position;
             let pxPosition = [position[0] / resolution + (this.offset[0] || 0), -position[1] / resolution + (this.offset[1] || 0)];
             return [new VectorLabel_1.VectorLabel({
                     position: pxPosition,
-                    text: label.content,
+                    text: feature.content,
                     fontSize: this.fontSize,
                     fontFamily: this.fontFamily,
                     fontStyle: this.fontStyle,

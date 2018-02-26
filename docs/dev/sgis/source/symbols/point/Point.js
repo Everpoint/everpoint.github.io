@@ -1,4 +1,4 @@
-define(["require", "exports", "../../serializers/symbolSerializer", "../Symbol", "../../features/Point", "../../renders/Arc", "../../utils/utils"], function (require, exports, symbolSerializer_1, Symbol_1, Point_1, Arc_1, utils_1) {
+define(["require", "exports", "../../serializers/symbolSerializer", "../Symbol", "../../renders/Arc", "../../utils/utils"], function (require, exports, symbolSerializer_1, Symbol_1, Arc_1, utils_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -36,8 +36,6 @@ define(["require", "exports", "../../serializers/symbolSerializer", "../Symbol",
             }
         }
         renderFunction(feature, resolution, crs) {
-            if (!(feature instanceof Point_1.PointFeature))
-                return [];
             let position = feature.projectTo(crs).position;
             let pxPosition = [position[0] / resolution + (this.offset[0] || 0), -position[1] / resolution + (this.offset[1] || 0)];
             return [new Arc_1.Arc(pxPosition, {

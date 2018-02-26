@@ -1,4 +1,4 @@
-define(["require", "exports", "../EventHandler", "../layers/FeatureLayer", "../features/Point", "../symbols/point/CrossPointSymbol"], function (require, exports, EventHandler_1, FeatureLayer_1, Point_1, CrossPointSymbol_1) {
+define(["require", "exports", "../EventHandler", "../layers/FeatureLayer", "../features/PointFeature", "../symbols/point/CrossPointSymbol"], function (require, exports, EventHandler_1, FeatureLayer_1, PointFeature_1, CrossPointSymbol_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -162,7 +162,7 @@ define(["require", "exports", "../EventHandler", "../layers/FeatureLayer", "../f
         }
         _getSnappingFeature(point) {
             if (!this._snappingFeature) {
-                this._snappingFeature = new Point_1.PointFeature([0, 0], { crs: this._map.crs, symbol: this._snappingSymbol });
+                this._snappingFeature = new PointFeature_1.PointFeature([0, 0], { crs: this._map.crs, symbol: this._snappingSymbol });
             }
             if (point) {
                 this._snappingFeature.position = point;

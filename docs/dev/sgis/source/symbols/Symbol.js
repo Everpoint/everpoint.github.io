@@ -1,4 +1,4 @@
-define(["require", "exports", "../serializers/symbolSerializer", "../features/Feature", "../renders/Render", "../EventHandler", "../utils/domEvent"], function (require, exports, symbolSerializer_1, Feature_1, Render_1, EventHandler_1, domEvent_1) {
+define(["require", "exports", "../serializers/symbolSerializer", "../renders/Render", "../EventHandler", "../utils/domEvent"], function (require, exports, symbolSerializer_1, Render_1, EventHandler_1, domEvent_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -64,10 +64,4 @@ define(["require", "exports", "../serializers/symbolSerializer", "../features/Fe
         }
     }
     exports.DynamicPointSymbol = DynamicPointSymbol;
-    class DynamicSymbolFeature extends Feature_1.Feature {
-        constructor() {
-            super(...arguments);
-            this.__dynamicSymbolRender = null;
-        }
-    }
 });

@@ -131,16 +131,18 @@ define(["require", "exports", "./Point", "./TileScheme", "./Crs", "./LayerGroup"
         }
         /**
          * Changes position and resolution of the map with animation
-         * @param {sGis.IPoint} point - target center point of the map
+         * @param point - target center point of the map
          * @param {Number} resolution - target resolution;
          */
         animateTo(point, resolution) {
+            if (!Array.isArray(point))
+                point = point.projectTo(this.crs).position;
             this.stopAnimation();
             this.fire('animationStart');
             let originalPosition = this.centerPoint;
             let originalResolution = this.resolution;
-            let dx = point.x - originalPosition.x;
-            let dy = point.y - originalPosition.y;
+            let dx = point[0] - originalPosition.x;
+            let dy = point[1] - originalPosition.y;
             let dr = resolution - originalResolution;
             let startTime = Date.now();
             this._animationStopped = false;
@@ -184,12 +186,14 @@ define(["require", "exports", "./Point", "./TileScheme", "./Crs", "./LayerGroup"
         }
         /**
          * Sets new position and resolution to the map
-         * @param {sGis.Point} point - new center point of the map
+         * @param point - new center point of the map
          * @param {Number} resolution - new resolution of the map
          */
         setPosition(point, resolution) {
+            if (!Array.isArray(point))
+                point = point.projectTo(this.crs).position;
             this.prohibitEvent('bboxChange');
-            this.centerPoint = point;
+            this.position = point;
             if (resolution)
                 this.resolution = resolution;
             this.allowEvent('bboxChange');
