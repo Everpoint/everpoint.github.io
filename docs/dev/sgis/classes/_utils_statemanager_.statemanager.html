@@ -62,7 +62,7 @@
 					<a href="_utils_statemanager_.statemanager.html">StateManager</a>
 				</li>
 			</ul>
-			<h1>Class StateManager</h1>
+			<h1>Class StateManager&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -75,6 +75,14 @@
 						<p>Utility class to save and restore sets of states. Used for undo/redo functions.</p>
 					</div>
 				</div>
+			</section>
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>T</h4>
+					</li>
+				</ul>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
@@ -97,7 +105,6 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_utils_statemanager_.statemanager.html#_trimstates" class="tsd-kind-icon">_trim<wbr>States</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_utils_statemanager_.statemanager.html#clear" class="tsd-kind-icon">clear</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_utils_statemanager_.statemanager.html#getcurrentstate" class="tsd-kind-icon">get<wbr>Current<wbr>State</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_utils_statemanager_.statemanager.html#redo" class="tsd-kind-icon">redo</a></li>
@@ -120,7 +127,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/utils/StateManager.ts#L9">utils/StateManager.ts:9</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/6d263e4/source/utils/StateManager.ts#L7">utils/StateManager.ts:7</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -129,6 +136,11 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> maxStates: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;256</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>max number of stored states</p>
+										</div>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_utils_statemanager_.statemanager.html" class="tsd-signature-type">StateManager</a></h4>
@@ -139,23 +151,6 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="_trimstates" class="tsd-anchor"></a>
-					<h3>_trim<wbr>States</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">_trim<wbr>States<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/utils/StateManager.ts#L67">utils/StateManager.ts:67</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="clear" class="tsd-anchor"></a>
 					<h3>clear</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -165,7 +160,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/utils/StateManager.ts#L22">utils/StateManager.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/6d263e4/source/utils/StateManager.ts#L20">utils/StateManager.ts:20</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -181,13 +176,13 @@
 					<a name="getcurrentstate" class="tsd-anchor"></a>
 					<h3>get<wbr>Current<wbr>State</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Current<wbr>State<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Current<wbr>State<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/utils/StateManager.ts#L45">utils/StateManager.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/6d263e4/source/utils/StateManager.ts#L42">utils/StateManager.ts:42</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -195,7 +190,10 @@
 									<p>Returns current state.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">null</span>
+							</h4>
 						</li>
 					</ul>
 				</section>
@@ -203,13 +201,13 @@
 					<a name="redo" class="tsd-anchor"></a>
 					<h3>redo</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">redo<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">redo<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/utils/StateManager.ts#L62">utils/StateManager.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/6d263e4/source/utils/StateManager.ts#L57">utils/StateManager.ts:57</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -217,7 +215,10 @@
 									<p>Returns next state and makes it active. If there is no next state, returns null.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">null</span>
+							</h4>
 						</li>
 					</ul>
 				</section>
@@ -225,13 +226,13 @@
 					<a name="setstate" class="tsd-anchor"></a>
 					<h3>set<wbr>State</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>State<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>State<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/utils/StateManager.ts#L31">utils/StateManager.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/6d263e4/source/utils/StateManager.ts#L29">utils/StateManager.ts:29</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -242,7 +243,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>state: <span class="tsd-signature-type">any</span></h5>
+									<h5>state: <span class="tsd-signature-type">T</span></h5>
 									<div class="tsd-comment tsd-typography">
 									</div>
 								</li>
@@ -255,13 +256,13 @@
 					<a name="undo" class="tsd-anchor"></a>
 					<h3>undo</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">undo<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">undo<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/3c7c97d/source/utils/StateManager.ts#L53">utils/StateManager.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/6d263e4/source/utils/StateManager.ts#L49">utils/StateManager.ts:49</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -269,7 +270,10 @@
 									<p>Returns previous state and makes it active. If there is no previous state, returns null.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">null</span>
+							</h4>
 						</li>
 					</ul>
 				</section>
@@ -290,14 +294,11 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+					<li class="current tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="_utils_statemanager_.statemanager.html" class="tsd-kind-icon">State<wbr>Manager</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="_utils_statemanager_.statemanager.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_utils_statemanager_.statemanager.html#_trimstates" class="tsd-kind-icon">_trim<wbr>States</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_utils_statemanager_.statemanager.html#clear" class="tsd-kind-icon">clear</a>
