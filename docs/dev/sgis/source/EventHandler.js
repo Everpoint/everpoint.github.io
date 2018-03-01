@@ -37,13 +37,10 @@ define(["require", "exports", "./utils/utils"], function (require, exports, util
     class sGisEvent {
         /**
          * @param type - name of the event
-         * @param parameters - [JS ONLY]  dictionary of parameters to be added to the event object
          */
-        constructor(type, parameters) {
+        constructor(type) {
             this._cancelPropagation = false;
             this.type = type;
-            if (parameters)
-                Object.assign(this, parameters);
         }
         /**
          * Prevents any further event handlers to be called for this event.
@@ -97,7 +94,9 @@ define(["require", "exports", "./utils/utils"], function (require, exports, util
          */
         fire(event, parameters) {
             if (typeof event === 'string') {
-                event = new sGisEvent(event, parameters);
+                event = new sGisEvent(event);
+                if (parameters)
+                    Object.assign(event, parameters);
                 event.sourceObject = this;
             }
             if (this._prohibitedEvents.indexOf(event.type) !== -1)

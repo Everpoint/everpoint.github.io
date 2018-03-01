@@ -1,4 +1,4 @@
-define(["require", "exports", "./Point", "./Crs", "./utils/math", "./utils/utils"], function (require, exports, Point_1, Crs_1, math_1, utils_1) {
+define(["require", "exports", "./Point", "./Crs", "./utils/math"], function (require, exports, Point_1, Crs_1, math_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -137,7 +137,7 @@ define(["require", "exports", "./Point", "./Crs", "./utils/math", "./utils/utils
      */
     exports.contains = function (polygon, point, tolerance = 0) {
         let intersectionCount = 0;
-        let adjusted = utils_1.isArray(polygon[0][0]) ? polygon : [polygon];
+        let adjusted = Array.isArray(polygon[0][0]) ? polygon : [polygon];
         for (let ring = 0, l = adjusted.length; ring < l; ring++) {
             let points = adjusted[ring].concat([adjusted[ring][0]]);
             let prevD = points[0][0] - point[0];

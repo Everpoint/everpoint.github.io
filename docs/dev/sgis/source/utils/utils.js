@@ -1,4 +1,4 @@
-define(["require", "exports", "./domEvent"], function (require, exports, domEvent_1) {
+define(["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -13,73 +13,35 @@ define(["require", "exports", "./domEvent"], function (require, exports, domEven
             throw error;
         }
     };
-    exports.warn = function (exeption) {
+    exports.warn = function (error) {
         // eslint-disable-next-line no-console
-        if (typeof console === 'object')
-            console.warn(exeption);
+        console.warn(error);
     };
     /**
-     * Sets the values of the properties in 'options' to the 'object' ignoring any undefined properties.
-     * @param {Object} object
-     * @param {Object} options
+     * Calls the 'func' callback in 'interval' ms after a series of subsequent function calls.
+     * @param func - callback function
+     * @param interval - interval in ms
      */
-    exports.assignDefined = function (object, options) {
-        if (!options)
-            return;
-        let keys = Object.keys(options);
-        keys.forEach(function (key) {
-            if (options[key] !== undefined) {
-                try {
-                    object[key] = options[key];
-                }
-                catch (e) {
-                    if (!(e instanceof TypeError))
-                        exports.error(e);
-                }
-            }
-        });
-    };
-    /**
-     * Calls window.requestAnimationFrame or its friends if available or uses timeout to simulate their behavior
-     * @param {Function} callback - callback function
-     * @param {HTMLElement} [element] - the target of rendering
-     */
-    exports.requestAnimationFrame = function (callback, element) {
-        var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-        if (requestAnimationFrame) {
-            requestAnimationFrame(callback, element);
-        }
-        else {
-            setTimeout(function () {
-                callback();
-            }, 1000 / 30);
-        }
-    };
-    /**
-     * Debounce function calls
-     * @param {Function} func - callback function
-     * @param {number} ms - interval
-     * @return {Function}
-     */
-    exports.debounce = function (func, ms) {
+    exports.debounce = function (func, interval) {
         let timer = null;
         return function () {
             if (timer)
                 clearTimeout(timer);
-            timer = setTimeout(function () {
+            timer = window.setTimeout(function () {
                 timer = null;
                 func.apply(this, arguments);
-            }, ms);
+            }, interval);
         };
     };
     /**
      * Throttle function calls
-     * @param {Function} func - callback function
-     * @param {number} ms - interval
-     * @return {Function}
+     * @param func - callback function
+     * @param interval - interval
      */
-    exports.throttle = function (func, ms) {
-        var isThrottled = false, savedArgs, savedThis;
+    exports.throttle = function (func, interval) {
+        let isThrottled = false;
+        let savedArgs;
+        let savedThis;
         function wrapper() {
             if (isThrottled) {
                 savedArgs = arguments;
@@ -94,163 +56,49 @@ define(["require", "exports", "./domEvent"], function (require, exports, domEven
                     wrapper.apply(savedThis, savedArgs);
                     savedArgs = savedThis = null;
                 }
-            }, ms);
+            }, interval);
         }
         return wrapper;
     };
     /**
-     * Copies the own properties of source to target, ignoring the properties already existing in target. Only one-level copy.
-     * @param {Object} target
-     * @param {Object} source
-     * @param {Boolean} [ignoreUndefined=false] - if set to true, properties in the source that have the value of undefined will be ignored
-     */
-    exports.extend = function (target, source, ignoreUndefined = false) {
-        let keys = Object.keys(source);
-        keys.forEach(function (key) {
-            if (ignoreUndefined && source[key] === undefined)
-                return;
-            target[key] = source[key];
-        });
-        return target;
-    };
-    exports.mixin = function (target, source) {
-        Object.getOwnPropertyNames(source).forEach(key => {
-            if (key === 'constructor')
-                return;
-            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-        });
-    };
-    /**
-     * Returns true is obj is Array, otherwise false
-     * @param {Any} obj
-     * @returns {boolean}
-     */
-    exports.isArray = function (obj) {
-        return Array.isArray(obj);
-    };
-    /**
      * Returns true if n is a finite number, otherwise false
-     * @param {Any} n
-     * @returns {boolean}
+     * @param n
      */
     exports.isNumber = function (n) {
         return typeof n === 'number' && isFinite(n);
     };
     /**
      * Returns true if n is an integer number, otherwise false
-     * @param {Any} n
-     * @returns {boolean}
+     * @param n
      */
     exports.isInteger = function (n) {
         return exports.isNumber(n) && Math.round(n) === n;
     };
     /**
      * Returns true if s is a string, otherwise false
-     * @param {Any} s
-     * @returns {boolean}
+     * @param s
      */
     exports.isString = function (s) {
         return typeof s === 'string';
     };
     /**
-     * Returns true if f is a function, otherwise false
-     * @param {Any} f
-     * @returns {boolean}
-     */
-    exports.isFunction = function (f) {
-        return typeof f === 'function';
-    };
-    /**
-     * Returns true if o is a HTML node
-     * @param {Any} o
-     * @returns {boolean}
-     */
-    exports.isNode = function (o) {
-        return !!o.nodeType;
-    };
-    /**
-     * Returns true if o is a HTML img element
-     * @param {Any} o
-     * @returns {boolean}
-     */
-    exports.isImage = function (o) {
-        return exports.browser.indexOf('Opera') !== 0 && o instanceof Image || o instanceof HTMLImageElement;
-    };
-    /**
-     * Throws an exception if s is not a string
-     * @param {Any} s
-     */
-    exports.validateString = function (s) {
-        if (!exports.isString(s))
-            exports.error('String is expected but got ' + s + ' instead');
-    };
-    /**
-     * Throws an exception if v is not one of the allowed values
-     * @param {Any} v
-     * @param {Array} allowed
-     */
-    exports.validateValue = function (v, allowed) {
-        if (allowed.indexOf(v) === -1)
-            exports.error('Invalid value of the argument: ' + v);
-    };
-    /**
-     * Throws an exception if n is not a number
-     * @param {Any} n
-     */
-    exports.validateNumber = function (n) {
-        if (!exports.isNumber(n))
-            exports.error('Number is expected but got ' + n + ' instead');
-    };
-    /**
-     * Throws an exception if n is not a positive number
-     * @param n
-     */
-    exports.validatePositiveNumber = function (n) {
-        if (!exports.isNumber(n) || n <= 0)
-            exports.error('Positive number is expected but got ' + n + ' instead');
-    };
-    /**
-     * Throws an exception if b is not a boolean value
-     * @param b
-     */
-    exports.validateBool = function (b) {
-        if (b !== true && b !== false)
-            exports.error('Boolean is expected but got ' + b + ' instead');
-    };
-    /**
      * Returns a random GUID
-     * @returns {string}
      */
     exports.getGuid = function () {
         //noinspection SpellCheckingInspection
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) { var r = Math.random() * 16 | 0, v = c == 'x' ? r : r & 0x3 | 0x8; return v.toString(16); });
-    };
-    /**
-     * Sets the innerHTML property to element. It will escape the issue with table inserting as innerHTML.
-     * @param {HTMLElement} element
-     * @param {String} html
-     */
-    exports.html = function (element, html) {
-        try {
-            element.innerHTML = html;
-        }
-        catch (e) {
-            var tempElement = document.createElement('div');
-            tempElement.innerHTML = html;
-            for (var i = tempElement.childNodes.length - 1; i >= 0; i--) {
-                element.insertBefore(tempElement.childNodes[i], tempElement.childNodes[i + 1]);
-            }
-        }
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+            let r = Math.random() * 16 | 0;
+            let v = c == 'x' ? r : r & 0x3 | 0x8;
+            return v.toString(16);
+        });
     };
     /**
      * Returns true if at least one element of arr1 also exists in arr2
-     * @param {Array} arr1
-     * @param {Array} arr2
-     * @returns {boolean}
-     * TODO: check if it should work backwards also
+     * @param arr1
+     * @param arr2
      */
     exports.arrayIntersect = function (arr1, arr2) {
-        for (var i = 0; i < arr1.length; i++) {
+        for (let i = 0; i < arr1.length; i++) {
             if (arr2.indexOf(arr1[i]) !== -1) {
                 return true;
             }
@@ -259,13 +107,12 @@ define(["require", "exports", "./domEvent"], function (require, exports, domEven
     };
     /**
      * Makes a deep copy af the array
-     * @param {Array} arr
-     * @returns {Array}
+     * @param arr
      */
     exports.copyArray = function (arr) {
-        var copy = [];
-        for (var i = 0, l = arr.length; i < l; i++) {
-            if (exports.isArray(arr[i])) {
+        let copy = [];
+        for (let i = 0, l = arr.length; i < l; i++) {
+            if (Array.isArray(arr[i])) {
                 copy[i] = exports.copyArray(arr[i]);
             }
             else {
@@ -276,15 +123,14 @@ define(["require", "exports", "./domEvent"], function (require, exports, domEven
     };
     /**
      * Makes a deep copy of an object
-     * @param {Object} obj
-     * @returns {*}
+     * @param obj
      * TODO: this will not copy the inner arrays properly
      */
     exports.copyObject = function (obj) {
         if (!(obj instanceof Function) && obj instanceof Object) {
-            var copy = exports.isArray(obj) ? [] : {};
-            var keys = Object.keys(obj);
-            for (var i = 0; i < keys.length; i++) {
+            let copy = Array.isArray(obj) ? [] : {};
+            let keys = Object.keys(obj);
+            for (let i = 0; i < keys.length; i++) {
                 copy[keys[i]] = exports.copyObject(obj[keys[i]]);
             }
             return copy;
@@ -293,13 +139,21 @@ define(["require", "exports", "./domEvent"], function (require, exports, domEven
             return obj;
         }
     };
+    /**
+     * Creates a new <style> node and adds it to the document head section.
+     * @param desc
+     */
     exports.setCssClasses = function (desc) {
-        var classes = Object.keys(desc).map(key => { return getCssText(key, desc[key]); });
+        let classes = Object.keys(desc).map(key => { return getCssText(key, desc[key]); });
         exports.setStyleNode(classes.join('\n'));
     };
     const getCssText = function (className, styles) {
         return '.' + className + '{' + styles + '}';
     };
+    /**
+     * Creates a new <style> node with the given code and adds it to the document head.
+     * @param text
+     */
     exports.setStyleNode = function (text) {
         let node = document.createElement('style');
         node.type = 'text/css';
@@ -311,6 +165,9 @@ define(["require", "exports", "./domEvent"], function (require, exports, domEven
         }
         document.head.appendChild(node);
     };
+    /**
+     * Contains the name of the current browser.
+     */
     exports.browser = (function () {
         let ua = navigator.userAgent, tem, M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
         if (/trident/i.test(M[1])) {
@@ -327,60 +184,19 @@ define(["require", "exports", "./domEvent"], function (require, exports, domEven
             M.splice(1, 1, tem[1]);
         return M.join(' ');
     })();
-    exports.createNode = function (nodeName, cssClass, properties = {}, children = []) {
-        let node = document.createElement(nodeName);
-        node.className = cssClass;
-        exports.extend(node, properties);
-        children.forEach(child => node.appendChild(child));
-        return node;
-    };
-    exports.isIE = exports.browser.search('IE') !== -1;
-    exports.isTouch = 'ontouchstart' in document.documentElement;
     /**
-     * Contains prefixed css properties for transition, transform and transformOrigin
-     * @type {{transition: {func: string, rule: string}, transform: {func: string, rule: string}, transformOrigin: {func: string, rule: string}}}
+     * Contains 'true' if the current browser is Internet Explorer of any version.
      */
-    exports.css = {};
-    if (document.body) {
-        setCssRules();
-    }
-    else {
-        domEvent_1.listenDomEvent(document, 'DOMContentLoaded', setCssRules);
-    }
-    function setCssRules() {
-        exports.css.transition = document.body.style.transition !== undefined ? { func: 'transition', rule: 'transition' } :
-            document.body.style.webkitTransition !== undefined ? {
-                func: 'webkitTransition',
-                rule: '-webkit-transition'
-            } :
-                document.body.style.msTransition !== undefined ? { func: 'msTransition', rule: '-ms-transition' } :
-                    document.body.style.OTransition !== undefined ? {
-                        func: 'OTransition',
-                        rule: '-o-transition'
-                    } :
-                        null;
-        exports.css.transform = document.body.style.transform !== undefined ? { func: 'transform', rule: 'transform' } :
-            document.body.style.webkitTransform !== undefined ? { func: 'webkitTransform', rule: '-webkit-transform' } :
-                document.body.style.OTransform !== undefined ? { func: 'OTransform', rule: '-o-transform' } :
-                    document.body.style.msTransform !== undefined ? {
-                        func: 'msTransform',
-                        rule: '-ms-transform'
-                    } : null;
-        exports.css.transformOrigin = document.body.style.transformOrigin !== undefined ? {
-            func: 'transformOrigin',
-            rule: 'transform-origin'
-        } :
-            document.body.style.webkitTransformOrigin !== undefined ? {
-                func: 'webkitTransformOrigin',
-                rule: '-webkit-transform-origin'
-            } :
-                document.body.style.OTransformOrigin !== undefined ? {
-                    func: 'OTransformOrigin',
-                    rule: '-o-transform-origin'
-                } :
-                    document.body.style.msTransformOrigin !== undefined ? {
-                        func: 'msTransformOrigin',
-                        rule: '-ms-transform-origin'
-                    } : null;
+    exports.isIE = exports.browser.search('IE') !== -1;
+    /**
+     * Contains 'true' if the current browser is run on a touch device.
+     */
+    exports.isTouch = 'ontouchstart' in document.documentElement;
+    /* Simple polyfil for tests */
+    if (typeof window.requestAnimationFrame === 'undefined') {
+        window.requestAnimationFrame = (callback) => {
+            setTimeout(callback, 1000 / 30);
+            return 0;
+        };
     }
 });

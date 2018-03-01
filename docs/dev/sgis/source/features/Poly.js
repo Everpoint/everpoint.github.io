@@ -9,7 +9,7 @@ define(["require", "exports", "./Feature", "../utils/utils", "../Bbox"], functio
         constructor(rings, properties) {
             super(properties);
             if (rings && rings.length > 0) {
-                if (!utils_1.isArray(rings[0][0]))
+                if (!Array.isArray(rings[0][0]))
                     rings = [rings];
                 this.rings = utils_1.copyArray(rings);
             }

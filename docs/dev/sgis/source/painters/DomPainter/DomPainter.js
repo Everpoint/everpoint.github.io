@@ -1,18 +1,17 @@
-define(["require", "exports", "../../Point", "./EventDispatcher", "./LayerRenderer", "./Container", "../../Bbox", "../../utils/utils", "../../utils/math", "../../EventHandler"], function (require, exports, Point_1, EventDispatcher_1, LayerRenderer_1, Container_1, Bbox_1, utils_1, math_1, EventHandler_1) {
+define(["require", "exports", "../../Point", "./EventDispatcher", "./LayerRenderer", "./Container", "../../Map", "../../Bbox", "../../utils/utils", "../../utils/math", "../../EventHandler", "../../LayerGroup", "../../commonEvents"], function (require, exports, Point_1, EventDispatcher_1, LayerRenderer_1, Container_1, Map_1, Bbox_1, utils_1, math_1, EventHandler_1, LayerGroup_1, commonEvents_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     let innerWrapperStyle = 'position: relative; overflow: hidden; width: 100%; height: 100%;';
     let layerWrapperStyle = 'position: absolute; width: 100%; height: 100%; z-index: 0;';
     class DomPainter extends EventHandler_1.EventHandler {
         /**
-         * @constructor
-         * @param {sGis.Map} map - the map to be drawn.
-         * @param {Object} options - key-value list of properties to be assigned to the instance.
+         * @param map - the map to be drawn.
+         * @param options - key-value list of properties to be assigned to the instance.
          */
-        constructor(map, options = null) {
+        constructor(map, { wrapper = null } = {}) {
             super();
             this._map = map;
-            utils_1.assignDefined(this, options);
+            this.wrapper = wrapper;
             this._layerRenderers = new Map();
             this._containers = [];
             this._position = [Infinity, Infinity];
@@ -26,14 +25,13 @@ define(["require", "exports", "../../Point", "./EventDispatcher", "./LayerRender
         }
         /**
          * DOM element, inside of which the map will be drawn. If null is given, the map will not be drawn. If string is given, an element with given id will be searched.
-         * @type HTMLElement|String
          */
         get wrapper() { return this._wrapper; }
-        set wrapper(/** HTMLElement|String */ node) {
+        set wrapper(wrapper) {
             if (this._wrapper)
                 this._clearDOM();
-            if (node) {
-                this._initDOM(node);
+            if (wrapper) {
+                this._initDOM(wrapper);
                 this._eventDispatcher = new EventDispatcher_1.EventDispatcher(this._innerWrapper, this);
                 this._needUpdate = true;
                 this._redrawNeeded = true;
@@ -43,8 +41,9 @@ define(["require", "exports", "../../Point", "./EventDispatcher", "./LayerRender
         get layerRenderers() { return Array.from(this._layerRenderers.values()); }
         /**
          * Sets position and resolution of the map to show the full bounding box in the center of the map
-         * @param {sGis.Bbox} bbox
-         * @param {Boolean} [animate=true] - if set to true, the position will be changed gradually with animation.
+         * @param bbox
+         * @param animate - if set to true, the position will be changed gradually with animation.
+         * @returns the actual bbox of the map after the change.
          */
         show(bbox, animate = true) {
             let projected = bbox.projectTo(this.map.crs);
@@ -53,7 +52,7 @@ define(["require", "exports", "../../Point", "./EventDispatcher", "./LayerRender
             let method = animate ? 'animateTo' : 'setPosition';
             let center = projected.center;
             this.map[method](center, this.map.getAdjustedResolution(Math.max(xResolution, yResolution)));
-            return new Bbox_1.Bbox([center.x - this.width * xResolution, center.y - this.height * yResolution], [center.x + this.width * xResolution, center.y + this.height * yResolution], this.map.crs);
+            return new Bbox_1.Bbox([center[0] - this.width * xResolution, center[1] - this.height * yResolution], [center[0] + this.width * xResolution, center[1] + this.height * yResolution], this.map.crs);
         }
         _updateLayerList() {
             let mapLayers = this._map.getLayers(true, true);
@@ -79,11 +78,11 @@ define(["require", "exports", "../../Point", "./EventDispatcher", "./LayerRender
             this._layerRenderers.delete(layer);
         }
         _setEventListeners() {
-            this._map.on('contentsChange', this._updateLayerList.bind(this));
-            this._map.on('drag', this._onMapDrag.bind(this));
-            this._map.on('dblclick', this._onMapDblClick.bind(this));
-            this._map.on('animationStart', this.forbidUpdate.bind(this));
-            this._map.on('animationEnd', this.allowUpdate.bind(this));
+            this._map.on(LayerGroup_1.ContentsChangeEvent.type, this._updateLayerList.bind(this));
+            this._map.on(commonEvents_1.DragEvent.type, this._onMapDrag.bind(this));
+            this._map.on(commonEvents_1.sGisDoubleClickEvent.type, this._onMapDblClick.bind(this));
+            this._map.on(Map_1.AnimationStartEvent.type, this.forbidUpdate.bind(this));
+            this._map.on(Map_1.AnimationEndEvent.type, this.allowUpdate.bind(this));
         }
         /**
          * Prevents the map to be redrawn.
@@ -129,7 +128,7 @@ define(["require", "exports", "../../Point", "./EventDispatcher", "./LayerRender
                     });
                 }
             }
-            utils_1.requestAnimationFrame(this._repaintBound);
+            window.requestAnimationFrame(this._repaintBound);
         }
         _setNewContainer() {
             this._containers.push(new Container_1.Container(this._staticRendersContainer, this.bbox, this._map.resolution, this._removeEmptyContainers.bind(this)));
@@ -153,7 +152,7 @@ define(["require", "exports", "../../Point", "./EventDispatcher", "./LayerRender
         /**
          * Returns true is the map is currently displayed in the DOM>
          */
-        get isDisplayed() { return this._width && this._height; }
+        get isDisplayed() { return this._width > 0 && this._height > 0; }
         _updateBbox() {
             let mapPosition = this._map.position;
             if (this._position[0] !== mapPosition[0] || this._position[1] !== mapPosition[1] || !math_1.softEquals(this._map.resolution, this._resolution) || this._bboxWidth !== this._width || this._bboxHeight !== this._height) {
@@ -256,9 +255,8 @@ define(["require", "exports", "../../Point", "./EventDispatcher", "./LayerRender
         }
         /**
          * Returns the point in map coordinates, that is located at the given offset from the left top corner of the map.
-         * @param {Number} x
-         * @param {Number} y
-         * @returns {sGis.Point}
+         * @param x
+         * @param y
          */
         getPointFromPxPosition(x, y) {
             let resolution = this._map.resolution;
@@ -270,27 +268,26 @@ define(["require", "exports", "../../Point", "./EventDispatcher", "./LayerRender
         }
         /**
          * For the given point, returns the px offset on the screen from the left top corner of the map.
-         * @param {Number[]} position - point in the map coordinates [x, y]
-         * @returns {{x: number, y: number}}
+         * @param position - point in the map coordinates
          */
         getPxPosition(position) {
-            return {
-                x: (position[0] - this.bbox.xMin) / this._map.resolution,
-                y: (this.bbox.yMax - position[1]) / this._map.resolution
-            };
+            return [
+                (position[0] - this.bbox.xMin) / this._map.resolution,
+                (this.bbox.yMax - position[1]) / this._map.resolution
+            ];
         }
-        _onMapDrag(sGisEvent) {
+        _onMapDrag(event) {
             setTimeout(() => {
-                if (sGisEvent.isCanceled)
+                if (event.isCanceled)
                     return;
-                this._map.move(sGisEvent.offset[0], sGisEvent.offset[1]);
+                this._map.move(event.offset[0], event.offset[1]);
             }, 0);
         }
-        _onMapDblClick(sGisEvent) {
+        _onMapDblClick(event) {
             setTimeout(() => {
-                if (sGisEvent.isCanceled)
+                if (event.isCanceled)
                     return;
-                this._map.animateSetResolution(this._map.resolution / 2, sGisEvent.point);
+                this._map.animateSetResolution(this._map.resolution / 2, event.point);
             }, 0);
         }
     }
