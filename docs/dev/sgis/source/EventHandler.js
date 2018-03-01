@@ -232,7 +232,7 @@ define(["require", "exports", "./utils/utils"], function (require, exports, util
     function getTypes(string) {
         return string.replace(/\.[A-Za-z0-9_-]+/g, '').match(/[A-Za-z0-9_-]+/g) || [];
     }
-    function getNamespaces(/** String */ string) {
+    function getNamespaces(string) {
         return string.match(/\.[A-Za-z0-9_-]+/g) || [];
     }
 });

@@ -9,19 +9,14 @@ define(["require", "exports", "../../serializers/symbolSerializer", "../../rende
         /**
          * @param options - key-value list of the properties to be assigned to the instance.
          */
-        constructor(options = {}) {
+        constructor({ src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=', strokeWidth = 1, strokeColor = 'block', lineDash = [] } = {}) {
             super();
-            //noinspection SpellCheckingInspection
-            this._src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
-            /** Stroke color of the outline. Can be any valid css color string. */
-            this.strokeColor = 'black';
-            /** Stroke width of the outline. */
-            this.strokeWidth = 1;
-            /** Dash pattern for the line as specified in HTML CanvasRenderingContext2D.setLineDash() specification. */
-            this.lineDash = [];
-            Object.assign(this, options);
-            if (!this._image)
-                this.src = this._src;
+            this._image = new Image();
+            this.strokeWidth = strokeWidth;
+            this.strokeColor = strokeColor;
+            this.lineDash = lineDash;
+            this._src = src;
+            this._updateImage();
         }
         renderFunction(feature, resolution, crs) {
             if (!this._image.complete) {
@@ -44,8 +39,11 @@ define(["require", "exports", "../../serializers/symbolSerializer", "../../rende
         get src() { return this._src; }
         set src(src) {
             this._src = src;
+            this._updateImage();
+        }
+        _updateImage() {
             this._image = new Image();
-            this._image.src = src;
+            this._image.src = this._src;
         }
     }
     exports.ImageFill = ImageFill;

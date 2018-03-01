@@ -31,7 +31,7 @@ define(["require", "exports", "./utils/math"], function (require, exports, math)
                 return this.wkid.toString();
             if (this.wkt)
                 return this.wkt;
-            return this.details;
+            return this.details || 'Unknown crs';
         }
         /**
          * Returns true if given crs represents the same spatial reference system. The objects are compared by wkid or by wkt text.
