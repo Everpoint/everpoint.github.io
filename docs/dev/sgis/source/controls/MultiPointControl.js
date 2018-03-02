@@ -1,4 +1,4 @@
-define(["require", "exports", "./Control", "../features/MultiPoint", "../symbols/point/Point"], function (require, exports, Control_1, MultiPoint_1, Point_1) {
+define(["require", "exports", "./Control", "../features/MultiPoint", "../symbols/point/Point", "../commonEvents"], function (require, exports, Control_1, MultiPoint_1, Point_1, commonEvents_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -10,18 +10,15 @@ define(["require", "exports", "./Control", "../features/MultiPoint", "../symbols
      * added to the active layer.
      *
      * @alias sGis.controls.MultiPoint
-     * @extends sGis.Control
-     * @fires sGis.controls.MultiPoint#drawingBegin
-     * @fires sGis.controls.MultiPoint#pointAdd
-     * @fires sGis.controls.MultiPoint#drawingFinish
+     * @fires [[DrawingBeginEvent]]
+     * @fires [[PointAddEvent]]
+     * @fires [[DrawingFinishEvent]]
      */
     class MultiPointControl extends Control_1.Control {
-        /**
-         * @param {sGis.Map} map - map the control will work with
-         * @param {Object} [properties] - key-value set of properties to be set to the instance
-         */
-        constructor(map, { snappingProvider = null, activeLayer = null, isActive = false } = {}) {
+        constructor(map, { snappingProvider, activeLayer, isActive = false } = {}) {
             super(map, { snappingProvider, activeLayer, useTempLayer: true });
+            this._dblClickTime = 0;
+            this._activeFeature = null;
             this.dblClickTimeout = 30;
             this.symbol = new Point_1.PointSymbol();
             this._handleClick = this._handleClick.bind(this);
@@ -29,41 +26,44 @@ define(["require", "exports", "./Control", "../features/MultiPoint", "../symbols
             this.isActive = isActive;
         }
         _activate() {
-            this.map.on('click', this._handleClick);
+            this.map.on(commonEvents_1.sGisClickEvent.type, this._handleClick);
         }
         _deactivate() {
             this.cancelDrawing();
-            this.map.off('click', this._handleClick);
+            this.map.off(commonEvents_1.sGisClickEvent.type, this._handleClick);
         }
-        _handleClick(sGisEvent) {
+        _handleClick(event) {
+            let clickEvent = event;
             setTimeout(() => {
                 if (Date.now() - this._dblClickTime < this.dblClickTimeout)
                     return;
                 if (this._activeFeature) {
-                    this._activeFeature.addPoint(sGisEvent.point);
+                    this._activeFeature.addPoint(clickEvent.point);
                 }
                 else {
-                    this.startNewFeature(sGisEvent.point);
-                    this.fire('drawingBegin');
+                    this.startNewFeature(clickEvent.point);
+                    this.fire(new Control_1.DrawingBeginEvent());
                 }
-                this.fire('pointAdd');
-                this._tempLayer.redraw();
+                this.fire(new Control_1.PointAddEvent());
+                if (this._tempLayer)
+                    this._tempLayer.redraw();
             }, 10);
-            sGisEvent.stopPropagation();
+            event.stopPropagation();
         }
         /**
          * Starts a new feature with the first point at given position. If the control was not active, this method will set it active.
-         * @param {sGis.IPoint} point
+         * @param point
          */
         startNewFeature(point) {
             this.activate();
             this.cancelDrawing();
             this._activeFeature = new MultiPoint_1.MultiPoint([point.position], { crs: this.map.crs, symbol: this.symbol });
-            this._tempLayer.add(this._activeFeature);
+            if (this._tempLayer)
+                this._tempLayer.add(this._activeFeature);
             this._setHandlers();
         }
         _setHandlers() {
-            this.map.addListener('dblclick', this._handleDblclick);
+            this.map.on(commonEvents_1.sGisDoubleClickEvent.type, this._handleDblclick);
         }
         /**
          * Cancels drawing of the current feature, removes the feature and the temp layer. No events are fired.
@@ -71,17 +71,20 @@ define(["require", "exports", "./Control", "../features/MultiPoint", "../symbols
         cancelDrawing() {
             if (!this._activeFeature)
                 return;
-            this.map.removeListener('dblclick', this._handleDblclick);
-            if (this._tempLayer.has(this._activeFeature))
+            this.map.off(commonEvents_1.sGisDoubleClickEvent.type, this._handleDblclick);
+            if (this._tempLayer && this._tempLayer.has(this._activeFeature))
                 this._tempLayer.remove(this._activeFeature);
             this._activeFeature = null;
         }
-        _handleDblclick(sGisEvent) {
+        _handleDblclick(event) {
+            if (!this._activeFeature)
+                return;
+            let dblclickEvent = event;
             let feature = this._activeFeature;
             this.finishDrawing();
-            sGisEvent.stopPropagation();
+            event.stopPropagation();
             this._dblClickTime = Date.now();
-            this.fire('drawingFinish', { feature: feature, browserEvent: sGisEvent.browserEvent });
+            this.fire(new Control_1.DrawingFinishEvent(feature, dblclickEvent.browserEvent));
         }
         /**
          * Finishes drawing of the current feature and moves it to the active layer (if set).
@@ -89,15 +92,14 @@ define(["require", "exports", "./Control", "../features/MultiPoint", "../symbols
         finishDrawing() {
             let feature = this._activeFeature;
             this.cancelDrawing();
-            if (this.activeLayer)
+            if (this.activeLayer && feature)
                 this.activeLayer.add(feature);
         }
         /**
          * The active drawing feature.
-         * @type {sGis.feature.MultiPoint}
          */
         get activeFeature() { return this._activeFeature; }
-        set activeFeature(/** sGis.feature.MultiPoint */ feature) {
+        set activeFeature(feature) {
             if (!this._isActive)
                 return;
             this.cancelDrawing();
@@ -107,22 +109,3 @@ define(["require", "exports", "./Control", "../features/MultiPoint", "../symbols
     }
     exports.MultiPointControl = MultiPointControl;
 });
-/**
- * The drawing of a new feature is started by clicking on the map.
- * @event sGis.controls.MultiPoint#drawingBegin
- * @type {Object}
- * @mixes sGisEvent
- */
-/**
- * A new point is added to the feature by clicking on the map.
- * @event sGis.controls.MultiPoint#pointAdd
- * @type {Object}
- * @mixes sGisEvent
- */
-/**
- * Drawing of the feature is finished by double click and the feature is moved to the active layer (if set).
- * @event sGis.controls.MultiPoint#drawingFinish
- * @type {Object}
- * @mixes sGisEvent
- * @prop {sGis.feature.MultiPoint} feature - feature that was created
- */

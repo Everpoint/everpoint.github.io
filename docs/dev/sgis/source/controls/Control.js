@@ -70,7 +70,7 @@ define(["require", "exports", "../EventHandler", "../layers/FeatureLayer", "../f
          * @param map - map the control will work with.
          * @param __namedParameters - key-value set of properties to be set to the instance
          */
-        constructor(map, { useTempLayer = false, snappingProvider = null, activeLayer = null, isActive = false } = {}) {
+        constructor(map, { useTempLayer = false, snappingProvider, activeLayer, isActive = false } = {}) {
             super();
             this._snappingSymbol = new CrossPointSymbol_1.CrossPointSymbol();
             this._isActive = false;
