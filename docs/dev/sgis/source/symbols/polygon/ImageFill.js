@@ -1,4 +1,4 @@
-define(["require", "exports", "../../serializers/symbolSerializer", "../../renders/Poly", "../PolylineSymbol", "../Symbol"], function (require, exports, symbolSerializer_1, Poly_1, PolylineSymbol_1, Symbol_1) {
+define(["require", "exports", "../../serializers/symbolSerializer", "../../renders/Poly", "../PolylineSymbol", "../Symbol", "../../features/Poly"], function (require, exports, symbolSerializer_1, Poly_1, PolylineSymbol_1, Symbol_1, Poly_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -19,6 +19,8 @@ define(["require", "exports", "../../serializers/symbolSerializer", "../../rende
             this._updateImage();
         }
         renderFunction(feature, resolution, crs) {
+            if (!(feature instanceof Poly_2.Poly))
+                return [];
             if (!this._image.complete) {
                 this._image.onload = feature.redraw.bind(feature);
                 return [];

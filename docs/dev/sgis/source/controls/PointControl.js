@@ -12,7 +12,7 @@ define(["require", "exports", "./Control", "../features/PointFeature", "../symbo
          * @param map
          * @param __namedParameters - key-value set of properties to be set to the instance
          */
-        constructor(map, { activeLayer = null, snappingProvider = null, isActive = false, symbol = new Point_1.PointSymbol() } = {}) {
+        constructor(map, { activeLayer, snappingProvider, isActive = false, symbol = new Point_1.PointSymbol() } = {}) {
             super(map, { activeLayer, snappingProvider, useTempLayer: true });
             this._handleClick = this._handleClick.bind(this);
             this._handleMouseMove = this._handleMouseMove.bind(this);
@@ -29,13 +29,15 @@ define(["require", "exports", "./Control", "../features/PointFeature", "../symbo
         }
         _handleClick(event) {
             event.stopPropagation();
-            let feature = new PointFeature_1.PointFeature(this._snap(event.point.position, event.browserEvent.altKey), { crs: this.map.crs, symbol: this.symbol });
+            let clickEvent = event;
+            let feature = new PointFeature_1.PointFeature(this._snap(clickEvent.point.position, clickEvent.browserEvent.altKey), { crs: this.map.crs, symbol: this.symbol });
             if (this.activeLayer)
                 this.activeLayer.add(feature);
-            this.fire(new Control_1.DrawingFinishEvent(feature, event.browserEvent));
+            this.fire(new Control_1.DrawingFinishEvent(feature, clickEvent.browserEvent));
         }
         _handleMouseMove(event) {
-            this._snap(event.point.position, event.browserEvent.altKey);
+            let mouseMoveEvent = event;
+            this._snap(mouseMoveEvent.point.position, mouseMoveEvent.browserEvent.altKey);
         }
     }
     exports.PointControl = PointControl;

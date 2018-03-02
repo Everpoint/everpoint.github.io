@@ -11,9 +11,9 @@ define(["require", "exports", "./PolyDrag"], function (require, exports, PolyDra
             return [[position, position, position, position]];
         }
         _getUpdatedCoordinates(point) {
-            const coord = this._activeFeature.rings[0];
+            const baseCoord = this._activeFeature.rings[0][0];
             const pointCoord = point.position;
-            return [[coord[0], [coord[1][0], pointCoord[1]], pointCoord, [pointCoord[0], coord[3][1]]]];
+            return [[baseCoord, [baseCoord[0], pointCoord[1]], pointCoord, [pointCoord[0], baseCoord[1]]]];
         }
     }
     exports.Rectangle = Rectangle;

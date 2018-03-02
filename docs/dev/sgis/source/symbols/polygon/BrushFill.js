@@ -1,4 +1,4 @@
-define(["require", "exports", "../../serializers/symbolSerializer", "../../renders/Poly", "../PolylineSymbol", "../../utils/Color", "../Symbol"], function (require, exports, symbolSerializer_1, Poly_1, PolylineSymbol_1, Color_1, Symbol_1) {
+define(["require", "exports", "../../serializers/symbolSerializer", "../../renders/Poly", "../PolylineSymbol", "../../utils/Color", "../Symbol", "../../features/Poly"], function (require, exports, symbolSerializer_1, Poly_1, PolylineSymbol_1, Color_1, Symbol_1, Poly_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     const ALPHA_NORMALIZER = 65025;
@@ -37,6 +37,8 @@ define(["require", "exports", "../../serializers/symbolSerializer", "../../rende
             this._updateBrush();
         }
         renderFunction(feature, resolution, crs) {
+            if (!(feature instanceof Poly_2.Poly))
+                return [];
             let coordinates = PolylineSymbol_1.PolylineSymbol.getRenderedCoordinates(feature, resolution, crs);
             return [new Poly_1.PolyRender(coordinates, {
                     enclosed: true,

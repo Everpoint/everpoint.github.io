@@ -1,4 +1,4 @@
-define(["require", "exports", "../../serializers/symbolSerializer", "../Symbol", "../../utils/Color", "../../utils/utils", "../../resourses/images", "../../renders/StaticVectorImageRender"], function (require, exports, symbolSerializer_1, Symbol_1, Color_1, utils_1, images_1, StaticVectorImageRender_1) {
+define(["require", "exports", "../../serializers/symbolSerializer", "../Symbol", "../../utils/Color", "../../utils/utils", "../../resourses/images", "../../features/PointFeature", "../../renders/StaticVectorImageRender"], function (require, exports, symbolSerializer_1, Symbol_1, Color_1, utils_1, images_1, PointFeature_1, StaticVectorImageRender_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -49,7 +49,7 @@ define(["require", "exports", "../../serializers/symbolSerializer", "../Symbol",
             }
         }
         renderFunction(feature, resolution, crs) {
-            if (!this._maskedSrc)
+            if (!(feature instanceof PointFeature_1.PointFeature) || !this._maskedSrc)
                 return [];
             let position = feature.projectTo(crs).position;
             let pxPosition = [position[0] / resolution, -position[1] / resolution];

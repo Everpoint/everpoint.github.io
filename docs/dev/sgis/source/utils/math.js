@@ -50,7 +50,7 @@ define(["require", "exports"], function (require, exports) {
         for (let ring = 0, l = rings.length; ring < l; ring++) {
             let simplified = [rings[ring][0]];
             for (let i = 1, len = rings[ring].length - 1; i < len; i++) {
-                if (!exports.softEquals(rings[ring][i][0], simplified[simplified.length - 1][0], tolerance) || exports.softEquals(rings[ring][i][1], simplified[simplified.length - 1][1], tolerance)) {
+                if (!exports.softEquals(rings[ring][i][0], simplified[simplified.length - 1][0], tolerance) || !exports.softEquals(rings[ring][i][1], simplified[simplified.length - 1][1], tolerance)) {
                     simplified.push(rings[ring][i]);
                 }
             }

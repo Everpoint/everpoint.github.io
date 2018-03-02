@@ -1,4 +1,4 @@
-define(["require", "exports", "./Symbol", "../serializers/symbolSerializer", "../utils/math", "../renders/Poly"], function (require, exports, Symbol_1, symbolSerializer_1, math_1, Poly_1) {
+define(["require", "exports", "./Symbol", "../serializers/symbolSerializer", "../utils/math", "../renders/Poly", "../features/Poly"], function (require, exports, Symbol_1, symbolSerializer_1, math_1, Poly_1, Poly_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -20,6 +20,8 @@ define(["require", "exports", "./Symbol", "../serializers/symbolSerializer", "..
             Object.assign(this, options);
         }
         renderFunction(feature, resolution, crs) {
+            if (!(feature instanceof Poly_2.Poly))
+                return [];
             let coordinates = PolylineSymbol.getRenderedCoordinates(feature, resolution, crs);
             return [new Poly_1.PolyRender(coordinates, {
                     fillStyle: Poly_1.FillStyle.None,

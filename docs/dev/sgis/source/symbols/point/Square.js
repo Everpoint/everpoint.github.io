@@ -1,4 +1,4 @@
-define(["require", "exports", "../../serializers/symbolSerializer", "../../renders/Poly", "../Symbol", "../../utils/utils"], function (require, exports, symbolSerializer_1, Poly_1, Symbol_1, utils_1) {
+define(["require", "exports", "../../serializers/symbolSerializer", "../../renders/Poly", "../Symbol", "../../features/PointFeature", "../../utils/utils"], function (require, exports, symbolSerializer_1, Poly_1, Symbol_1, PointFeature_1, utils_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -36,6 +36,8 @@ define(["require", "exports", "../../serializers/symbolSerializer", "../../rende
             }
         }
         renderFunction(feature, resolution, crs) {
+            if (!(feature instanceof PointFeature_1.PointFeature))
+                return [];
             let position = feature.projectTo(crs).position;
             let pxPosition = [position[0] / resolution, -position[1] / resolution];
             let halfSize = this.size / 2;

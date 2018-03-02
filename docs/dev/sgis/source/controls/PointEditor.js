@@ -11,8 +11,9 @@ define(["require", "exports", "./Control", "../commonEvents"], function (require
          * @param map - map object the control will work with
          * @param __namedParameters - key-value set of properties to be set to the instance
          */
-        constructor(map, { snappingProvider = null, isActive = false, activeLayer = null } = {}) {
+        constructor(map, { snappingProvider, isActive = false, activeLayer } = {}) {
             super(map, { useTempLayer: true, snappingProvider, activeLayer });
+            this._activeFeature = null;
             this.ignoreEvents = false;
             this._handleDragStart = this._handleDragStart.bind(this);
             this._handleDrag = this._handleDrag.bind(this);
@@ -44,13 +45,17 @@ define(["require", "exports", "./Control", "../commonEvents"], function (require
                 this.activate();
         }
         _handleDragStart(event) {
-            if (this.ignoreEvents)
+            if (this.ignoreEvents || !this._activeFeature)
                 return;
-            event.draggingObject = this._activeFeature;
+            let dragStartEvent = event;
+            dragStartEvent.draggingObject = this._activeFeature;
             event.stopPropagation();
         }
         _handleDrag(event) {
-            this._activeFeature.position = this._snap(event.point.position, event.browserEvent.altKey);
+            if (!this._activeFeature)
+                return;
+            let dragEvent = event;
+            this._activeFeature.position = this._snap(dragEvent.point.position, dragEvent.browserEvent.altKey);
             if (this.activeLayer)
                 this.activeLayer.redraw();
         }

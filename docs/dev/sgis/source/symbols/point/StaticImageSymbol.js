@@ -1,4 +1,4 @@
-define(["require", "exports", "../Symbol", "../../serializers/symbolSerializer", "../../resourses/images", "../../utils/utils", "../../renders/StaticVectorImageRender"], function (require, exports, Symbol_1, symbolSerializer_1, images_1, utils_1, StaticVectorImageRender_1) {
+define(["require", "exports", "../Symbol", "../../serializers/symbolSerializer", "../../resourses/images", "../../features/PointFeature", "../../utils/utils", "../../renders/StaticVectorImageRender"], function (require, exports, Symbol_1, symbolSerializer_1, images_1, PointFeature_1, utils_1, StaticVectorImageRender_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -43,6 +43,8 @@ define(["require", "exports", "../Symbol", "../../serializers/symbolSerializer",
             }
         }
         renderFunction(feature, resolution, crs) {
+            if (!(feature instanceof PointFeature_1.PointFeature))
+                return [];
             let position = feature.projectTo(crs).position;
             let pxPosition = [position[0] / resolution, -position[1] / resolution];
             return [new StaticVectorImageRender_1.StaticVectorImageRender({
