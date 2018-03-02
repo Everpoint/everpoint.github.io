@@ -19,7 +19,7 @@ define(["require", "exports", "./utils/utils"], function (require, exports, util
      * @alias sGis.TileScheme
      */
     class TileScheme {
-        constructor({ origin, levels, limits, reversedY = false, tileWidth = 256, tileHeight = 256 }) {
+        constructor({ origin, levels, limits = [-Infinity, -Infinity, Infinity, Infinity], reversedY = false, tileWidth = 256, tileHeight = 256 }) {
             this._levels = levels.sort((a, b) => a.resolution - b.resolution);
             this._origin = origin;
             this.reversedY = reversedY;

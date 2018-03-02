@@ -16,6 +16,8 @@ define(["require", "exports", "./PolyDrag"], function (require, exports, PolyDra
             return [[]];
         }
         _getUpdatedCoordinates(point) {
+            if (!this._centerPoint)
+                return [];
             let radius = Math.sqrt(Math.pow(this._centerPoint[0] - point.position[0], 2) + Math.pow(this._centerPoint[1] - point.position[1], 2));
             let angleStep = 2 * Math.PI / this.segmentNo;
             let coordinates = [];

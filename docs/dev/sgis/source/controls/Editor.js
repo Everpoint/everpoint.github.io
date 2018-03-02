@@ -35,8 +35,13 @@ define(["require", "exports", "./Control", "../utils/StateManager", "./PointEdit
          * @param map - map object the control will work with
          * @param options - key-value set of properties to be set to the instance
          */
-        constructor(map, { snappingProvider = null, isActive = false, activeLayer = null } = {}) {
+        constructor(map, { snappingProvider, activeLayer, isActive = false } = {}) {
             super(map, { snappingProvider, activeLayer });
+            this._ignoreEvents = false;
+            this._scaling = true;
+            this._rotation = true;
+            this._dragging = true;
+            this._vertexEditing = true;
             this._activeFeature = null;
             this._deselectAllowed = true;
             /**
@@ -76,7 +81,7 @@ define(["require", "exports", "./Control", "../utils/StateManager", "./PointEdit
         }
         _getPolyEditorSnappingProvider() {
             if (!this.snappingProvider)
-                return null;
+                return undefined;
             const result = this.snappingProvider.clone();
             if (result instanceof SnappingProviderBase_1.SnappingProviderBase) {
                 result.snappingMethods = result.snappingMethods.concat([SnappingMethods_1.emptySnapping]);
@@ -105,10 +110,12 @@ define(["require", "exports", "./Control", "../utils/StateManager", "./PointEdit
             domEvent_1.listenDomEvent(document, 'keydown', this._handleKeyDown);
         }
         _handleFeatureAdd(event) {
-            event.features.forEach(f => this._setListener(f));
+            let featuresAddEvent = event;
+            featuresAddEvent.features.forEach(f => this._setListener(f));
         }
         _handleFeatureRemove(event) {
-            event.features.forEach(f => this._removeListener(f));
+            let featuresRemoveEvent = event;
+            featuresRemoveEvent.features.forEach(f => this._removeListener(f));
         }
         _setListener(feature) {
             feature.on(commonEvents_1.sGisClickEvent.type + this._ns, this._handleFeatureClick.bind(this, feature));
@@ -122,6 +129,8 @@ define(["require", "exports", "./Control", "../utils/StateManager", "./PointEdit
         }
         _deactivate() {
             this._deselect();
+            if (!this.activeLayer)
+                return;
             this.activeLayer.features.forEach(this._removeListener, this);
             this.activeLayer.off('featureAdd', this._handleFeatureAdd);
             this.activeLayer.off('featureRemove', this._handleFeatureRemove);
@@ -167,7 +176,8 @@ define(["require", "exports", "./Control", "../utils/StateManager", "./PointEdit
             else if (feature instanceof Poly_1.Poly) {
                 this._activatePolyControls(feature);
             }
-            this.activeLayer.redraw();
+            if (this.activeLayer)
+                this.activeLayer.redraw();
             this._saveState();
             this.fire(new FeatureSelectEvent(feature));
         }
@@ -190,7 +200,8 @@ define(["require", "exports", "./Control", "../utils/StateManager", "./PointEdit
             let feature = this._activeFeature;
             this._activeFeature.clearTempSymbol();
             this._activeFeature = null;
-            this.activeLayer.redraw();
+            if (this.activeLayer)
+                this.activeLayer.redraw();
             this.fire(new FeatureDeselectEvent(feature));
         }
         _updateTransformControl() {
@@ -215,7 +226,7 @@ define(["require", "exports", "./Control", "../utils/StateManager", "./PointEdit
             this._rotation = mode.indexOf('rotate') >= 0;
             this._dragging = mode.indexOf('drag') >= 0;
             this._scaling = mode.indexOf('scale') >= 0;
-            if (this._activeFeature && this._activeFeature.rings) {
+            if (this._activeFeature instanceof Poly_1.Poly) {
                 this._polyEditor.deactivate();
                 this._polyTransform.deactivate();
                 this._activatePolyControls(this._activeFeature);
@@ -235,7 +246,8 @@ define(["require", "exports", "./Control", "../utils/StateManager", "./PointEdit
                 this.prohibitEvent(FeatureDeselectEvent.type);
                 this._deselect();
                 this.allowEvent(FeatureDeselectEvent.type);
-                this.activeLayer.remove(feature);
+                if (this.activeLayer)
+                    this.activeLayer.remove(feature);
                 this._saveState();
                 this.fire(new FeatureRemoveEvent(feature));
             }
@@ -263,7 +275,9 @@ define(["require", "exports", "./Control", "../utils/StateManager", "./PointEdit
             }
         }
         _saveState() {
-            this._states.setState({ feature: this._activeFeature, coordinates: this._activeFeature && this._activeFeature.coordinates });
+            let coordinates = this.activeFeature === null ? null
+                : this.activeFeature instanceof Poly_1.Poly ? this.activeFeature.rings : this.activeFeature.position;
+            this._states.setState({ feature: this._activeFeature, coordinates: coordinates });
         }
         /**
          * Undo last change.
@@ -278,13 +292,13 @@ define(["require", "exports", "./Control", "../utils/StateManager", "./PointEdit
             this._setState(this._states.redo());
         }
         _setState(state) {
-            if (!state)
+            if (!state || !this.activeLayer)
                 return this._deselect();
-            if (!state.coordinates && this.activeLayer.features.indexOf(state.feature) >= 0) {
+            if (!state.coordinates && state.feature && this.activeLayer.features.indexOf(state.feature) >= 0) {
                 this.activeFeature = null;
                 this.activeLayer.remove(state.feature);
             }
-            else if (state.coordinates && this.activeLayer.features.indexOf(state.feature) < 0) {
+            else if (state.coordinates && state.feature && this.activeLayer.features.indexOf(state.feature) < 0) {
                 this._setCoordinates(state);
                 this.activeLayer.add(state.feature);
                 this.activeFeature = state.feature;

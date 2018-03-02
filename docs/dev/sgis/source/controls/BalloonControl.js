@@ -6,7 +6,7 @@ define(["require", "exports", "./Control", "../commonEvents", "../features/Ballo
      * @example controls/Balloon_Control
      */
     class BalloonControl extends Control_1.Control {
-        constructor(map, { painter = null } = {}) {
+        constructor(map, { painter } = {}) {
             super(map, { useTempLayer: true });
             this.painter = painter;
             this._ns = '.' + utils_1.getGuid;
@@ -28,16 +28,17 @@ define(["require", "exports", "./Control", "../commonEvents", "../features/Ballo
             else if (feature instanceof PointFeature_1.PointFeature) {
                 balloon.position = feature.position;
             }
-            if (this._activeBalloon) {
+            if (this._activeBalloon && this._tempLayer) {
                 this._tempLayer.remove(this._activeBalloon);
             }
             if (!this._isActive)
                 this.activate();
-            this._tempLayer.add(balloon);
+            if (this._tempLayer)
+                this._tempLayer.add(balloon);
             this._activeBalloon = balloon;
         }
         _onRender() {
-            if (!this.painter)
+            if (!this.painter || !this._activeBalloon)
                 return;
             let node = this._symbol.getNode(this._activeBalloon);
             if (!node)
@@ -78,7 +79,7 @@ define(["require", "exports", "./Control", "../commonEvents", "../features/Ballo
         }
         _deactivate() {
             this.map.off('click', this._onMapClick);
-            this._activeBalloon = null;
+            this._activeBalloon = undefined;
         }
         _onMapClick() {
             this.deactivate();

@@ -36,6 +36,8 @@ define(["require", "exports", "./Point", "./TileScheme", "./Crs", "./LayerGroup"
     class Map extends LayerGroup_1.LayerGroup {
         constructor({ position = new Point_1.Point([55.755831, 37.617673]).projectTo(Crs_1.webMercator).position, resolution = 611.4962262812505 / 2, crs = Crs_1.webMercator, centerPoint, tileScheme = TileScheme_1.TileScheme.default, animationTime = 300, changeEndDelay = 300, minResolution = -1, maxResolution = -1, layers = [] } = {}) {
             super(layers);
+            this._animationStopped = true;
+            this._animationTarget = null;
             this._crs = crs;
             this._position = centerPoint ? centerPoint.projectTo(crs).position : position;
             this._resolution = resolution;
@@ -128,9 +130,9 @@ define(["require", "exports", "./Point", "./TileScheme", "./Crs", "./LayerGroup"
          * @param resolution
          * @param basePoint - Base point of zooming
          */
-        animateSetResolution(resolution, basePoint = null) {
+        animateSetResolution(resolution, basePoint) {
             let adjustedResolution = this.getAdjustedResolution(resolution);
-            let newPosition = this._getScaledPosition(adjustedResolution, this._getBase(basePoint));
+            let newPosition = this._getScaledPosition(adjustedResolution, basePoint && this._getBase(basePoint));
             this.animateTo(newPosition, adjustedResolution);
         }
         /**
@@ -213,7 +215,7 @@ define(["require", "exports", "./Point", "./TileScheme", "./Crs", "./LayerGroup"
          * @param doNotAdjust - do not adjust resolution to the round ones
          */
         setResolution(resolution, basePoint = null, doNotAdjust = false) {
-            this.setPosition(this._getScaledPosition(resolution, this._getBase(basePoint)), doNotAdjust ? resolution : this.getAdjustedResolution(resolution));
+            this.setPosition(this._getScaledPosition(resolution, basePoint && this._getBase(basePoint)), doNotAdjust ? resolution : this.getAdjustedResolution(resolution));
         }
         /**
          * Geographical position of the center of the map given in map coordinate system

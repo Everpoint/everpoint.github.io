@@ -115,7 +115,7 @@ define(["require", "exports", "../EventHandler", "../layers/FeatureLayer", "../f
             }
             else {
                 this._deactivate();
-                if (this._map.contains(this._tempLayer)) {
+                if (this._tempLayer && this._map.contains(this._tempLayer)) {
                     this._map.removeLayer(this._tempLayer);
                 }
                 this._tempLayer = null;

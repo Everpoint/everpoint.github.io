@@ -82,9 +82,7 @@ define(["require", "exports", "../Crs", "../EventHandler"], function (require, e
     }
     exports.Feature = Feature;
     class FeatureSymbolContainer {
-        constructor(feature, symbol = null) {
-            this._tempSymbol = null;
-            this._cached = null;
+        constructor(feature, symbol) {
             this._feature = feature;
             this._symbol = symbol;
         }
@@ -101,7 +99,7 @@ define(["require", "exports", "../Crs", "../EventHandler"], function (require, e
         render(resolution, crs) {
             if (this._feature.hidden || !this.symbol)
                 return [];
-            if (!this._needToRender(resolution, crs))
+            if (this._cached && !this._needToRender(resolution, crs))
                 return this._cached.renders;
             this._cached = {
                 resolution: resolution,
@@ -120,14 +118,14 @@ define(["require", "exports", "../Crs", "../EventHandler"], function (require, e
             return !this._cached || this._cached.resolution !== resolution || this._cached.crs !== crs || this._cached.renders.length === 0;
         }
         reset() {
-            this._cached = null;
+            this._cached = undefined;
         }
         setTempSymbol(symbol) {
             this._tempSymbol = symbol;
             this.reset();
         }
         clearTempSymbol() {
-            this._tempSymbol = null;
+            this._tempSymbol = undefined;
             this.reset();
         }
         get isTempSymbolSet() { return !!this._tempSymbol; }
