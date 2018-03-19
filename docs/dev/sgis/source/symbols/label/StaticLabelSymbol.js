@@ -1,4 +1,4 @@
-define(["require", "exports", "../Symbol", "../../renders/VectorLabel", "../../features/Label"], function (require, exports, Symbol_1, VectorLabel_1, Label_1) {
+define(["require", "exports", "../Symbol", "../../renders/VectorLabel"], function (require, exports, Symbol_1, VectorLabel_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /**
@@ -18,7 +18,7 @@ define(["require", "exports", "../Symbol", "../../renders/VectorLabel", "../../f
             this.fillColor = fillColor;
         }
         renderFunction(feature, resolution, crs) {
-            if (!(feature instanceof Label_1.LabelFeature) || !feature.crs.canProjectTo(crs))
+            if (!feature.crs.canProjectTo(crs))
                 return [];
             let position = feature.projectTo(crs).position;
             let pxPosition = [position[0] / resolution + (this.offset[0] || 0), -position[1] / resolution + (this.offset[1] || 0)];
