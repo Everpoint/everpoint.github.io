@@ -124,7 +124,8 @@ define(["require", "exports", "./Canvas", "../../renders/Render", "../../renders
             let renders = this._layer.getRenders(bbox, this._master.map.resolution);
             if (this._layer.updateProhibited)
                 return;
-            this.currentContainer = this._master.currContainer;
+            if (this.currentContainer !== this._master.currContainer)
+                this.moveToLastContainer();
             this._resetCanvas(bbox);
             this._removeCanvas();
             this._removeOutdatedRenders(renders);
@@ -174,8 +175,6 @@ define(["require", "exports", "./Canvas", "../../renders/Render", "../../renders
             }
         }
         _drawImageRender(render) {
-            if (render.error)
-                return;
             render.node.style.zIndex = this._zIndex.toString();
             this._currentContainer.addNode(render.node, render.width, render.height, render.bbox);
             if (render.onDisplayed)
@@ -232,7 +231,7 @@ define(["require", "exports", "./Canvas", "../../renders/Render", "../../renders
                 this._master.currContainer.addNode(this._canvas.node, this._canvas.width, this._canvas.height, this._canvas.bbox);
                 this._canvasContainer = this._master.currContainer;
             }
-            this._currentContainer = this._master.currContainer;
+            this.currentContainer = this._master.currContainer;
         }
         _moveRendersToLastContainer() {
             let container = this._master.currContainer;

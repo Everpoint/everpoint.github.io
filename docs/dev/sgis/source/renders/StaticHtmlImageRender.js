@@ -4,7 +4,6 @@ define(["require", "exports", "./StaticImageRender", "../Point"], function (requ
     class StaticHtmlImageRender extends StaticImageRender_1.StaticImageRender {
         constructor({ src, bbox, width, height, opacity, onLoad, onDisplayed = undefined, onRemoved = undefined }) {
             super({ src, width, height, opacity, onLoad });
-            this.isComplete = true;
             this.bbox = bbox;
             this.onDisplayed = onDisplayed;
             this.onRemoved = onRemoved;

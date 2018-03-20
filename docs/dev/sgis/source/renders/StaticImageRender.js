@@ -4,7 +4,6 @@ define(["require", "exports", "./Render"], function (require, exports, Render_1)
     class StaticImageRender extends Render_1.StaticRender {
         constructor({ src, width = 0, height = 0, onLoad = null, opacity = 1, offset = [0, 0] }) {
             super();
-            this._isReady = false;
             this.offset = offset;
             this.onLoad = onLoad;
             this._opacity = opacity;
@@ -16,12 +15,10 @@ define(["require", "exports", "./Render"], function (require, exports, Render_1)
         _createNode() {
             this._node = new Image();
             this._node.onload = () => {
-                this._isReady = true;
                 if (this.onLoad)
                     this.onLoad();
             };
             this._node.onerror = (err) => {
-                this._error = err;
                 this._node.onload(err);
             };
             if (this._width > 0)
@@ -30,7 +27,6 @@ define(["require", "exports", "./Render"], function (require, exports, Render_1)
                 this._node.height = this._height;
             this._node.src = this._src;
         }
-        get error() { return this._error; }
         get node() {
             if (this._node)
                 return this._node;
@@ -45,6 +41,9 @@ define(["require", "exports", "./Render"], function (require, exports, Render_1)
         }
         get isReady() {
             return this._node && this._node.complete;
+        }
+        get error() {
+            return this._node && this._node.complete && this._node.naturalWidth === 0;
         }
         get opacity() { return parseFloat(this.node.style.opacity); }
         set opacity(value) {

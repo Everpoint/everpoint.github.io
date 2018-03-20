@@ -10,6 +10,12 @@ var __rest = (this && this.__rest) || function (s, e) {
 define(["require", "exports", "../TileScheme", "./Layer", "../Crs", "../Bbox", "../renders/StaticHtmlImageRender"], function (require, exports, TileScheme_1, Layer_1, Crs_1, Bbox_1, StaticHtmlImageRender_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    class TileRender extends StaticHtmlImageRender_1.StaticHtmlImageRender {
+        constructor() {
+            super(...arguments);
+            this.isComplete = true;
+        }
+    }
     /**
      * A layer that is drawn as a set of tile images received from server. The layer calculates tile indexes (x, y, z)
      * according to the tile scheme and requested resolution, then inserts them into url mask and creates ImageFeatures
@@ -54,9 +60,9 @@ define(["require", "exports", "../TileScheme", "./Layer", "../Crs", "../Bbox", "
             let isSetComplete = true;
             for (let index of indexes) {
                 let tile = this._getRender(index);
-                if (tile.isReady)
+                if (tile.isReady && !tile.error)
                     renders.push(tile);
-                if (!tile.isComplete || !tile.isReady)
+                if (!tile.error && (!tile.isComplete || !tile.isReady))
                     isSetComplete = false;
             }
             if (isSetComplete) {
@@ -78,35 +84,32 @@ define(["require", "exports", "../TileScheme", "./Layer", "../Crs", "../Bbox", "
             let adjX = this.cycleX ? this._getAdjustedIndex(index.x, index.level) : index.x;
             let adjY = this.cycleY ? this._getAdjustedIndex(index.y, index.level) : index.y;
             let bbox = this._getTileBbox(index);
-            let tile = new StaticHtmlImageRender_1.StaticHtmlImageRender({
+            let tile = new TileRender({
                 src: this.getTileUrl(adjX, adjY, index.z),
                 width: this.tileWidth,
                 height: this.tileHeight,
                 bbox,
                 onLoad: () => this.redraw()
             });
-            if (this._transitionTime > 0) {
-                tile.node.style.opacity = '0';
-                tile.node.style.transition = `opacity ${this.transitionTime / 1000}s`;
-                tile.isComplete = false;
-            }
+            this._cacheTile(tileId, tile);
+            if (this.transitionTime <= 0)
+                return tile;
+            tile.node.style.opacity = '0';
+            tile.node.style.transition = `opacity ${this.transitionTime / 1000}s`;
+            tile.isComplete = false;
             tile.onDisplayed = () => {
-                if (this.transitionTime > 0)
+                setTimeout(() => {
+                    tile.node.style.opacity = this.opacity.toString();
                     setTimeout(() => {
-                        tile.node.style.opacity = this.opacity.toString();
-                        setTimeout(() => {
-                            tile.isComplete = true;
-                            this.redraw();
-                        }, this.transitionTime);
-                    }, 0);
+                        tile.isComplete = true;
+                        this.redraw();
+                    }, this.transitionTime);
+                }, 0);
             };
             tile.onRemoved = () => {
-                if (this.transitionTime > 0) {
-                    tile.node.style.opacity = '0';
-                    tile.isComplete = false;
-                }
+                tile.node.style.opacity = '0';
+                tile.isComplete = false;
             };
-            this._cacheTile(tileId, tile);
             return tile;
         }
         _getTileBbox(index) {
@@ -189,6 +192,11 @@ define(["require", "exports", "../TileScheme", "./Layer", "../Crs", "../Bbox", "
                     this._tileCache[tileId].node.style.opacity = opacity.toString();
             }
             this.redraw();
+        }
+        clearCache() {
+            this._tileCache = {};
+            this._cachedIndexes = [];
+            this._previousTiles = [];
         }
         /**
          * Opacity transition time in milliseconds with which tiles are added to the map.
