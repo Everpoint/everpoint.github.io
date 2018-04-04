@@ -20,38 +20,52 @@ define(["require", "exports", "./Feature", "../Point", "../symbols/point/Point",
             let projected = Point_1.Point.prototype.projectTo.call(this, crs);
             return new PointFeature_1.PointFeature(projected.position, { crs: crs, symbol: this.symbol });
         }
-        centreOfMass() {
-            const [x, y] = this._features.reduce((prev, curr) => [prev[0] + curr.x, prev[1] + curr.y], [0, 0]);
-            return [x / this._features.length, y / this._features.length];
-        }
-        ;
         features() {
             return this._features;
         }
         get position() {
-            const [x, y] = this.centreOfMass();
-            return [x, y];
+            const coordinates = [0, 0];
+            for (let i = 0; i < this._features.length; i++) {
+                coordinates[0] += this._features[i].centroid[0];
+                coordinates[1] += this._features[i].centroid[1];
+            }
+            return [coordinates[0] / this._features.length, coordinates[1] / this._features.length];
         }
         set position(position) {
-            this._position = position;
-            this.redraw();
+            this._position = [position[0], position[1]];
         }
         get bbox() {
-            const [x, y] = this.centreOfMass();
-            return new Bbox_1.Bbox([x, y], [x, y], this.crs);
+            if (this._bbox)
+                return this._bbox;
+            let xMin = Number.MAX_VALUE;
+            let yMin = Number.MAX_VALUE;
+            let xMax = Number.MIN_VALUE;
+            let yMax = Number.MIN_VALUE;
+            this._features.forEach(feature => {
+                xMin = Math.min(xMin, feature.centroid[0]);
+                yMin = Math.min(yMin, feature.centroid[1]);
+                xMax = Math.max(xMax, feature.centroid[0]);
+                yMax = Math.max(yMax, feature.centroid[1]);
+            });
+            this._bbox = new Bbox_1.Bbox([xMin, yMin], [xMax, yMax], this.crs);
+            return this._bbox;
         }
         get point() { return new Point_1.Point(this.position, this.crs); }
-        set point(point) { this.position = point.projectTo(this.crs).position; }
-        get x() { return this.centreOfMass()[0]; }
+        get x() { return this.position[0]; }
         set x(x) {
-            this._position[0] = x;
+            this.position[0] = x;
             this.redraw();
         }
-        get y() { return this.centreOfMass()[1]; }
+        get y() { return this.position[1]; }
         set y(y) {
-            this._position[1] = y;
+            this.position[1] = y;
             this.redraw();
         }
+        /**
+         * @deprecated
+         */
+        get coordinates() { return [this.position[0], this.position[1]]; }
+        set coordinates(position) { this.position = [position[0], position[1]]; }
         get centroid() { return this.position; }
     }
     exports.FeatureGroup = FeatureGroup;
