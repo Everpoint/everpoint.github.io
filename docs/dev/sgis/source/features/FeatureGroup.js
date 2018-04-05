@@ -7,32 +7,42 @@ var __rest = (this && this.__rest) || function (s, e) {
             t[p[i]] = s[p[i]];
     return t;
 };
-define(["require", "exports", "./Feature", "../Point", "../symbols/point/Point", "./PointFeature", "../Bbox"], function (require, exports, Feature_1, Point_1, Point_2, PointFeature_1, Bbox_1) {
+define(["require", "exports", "./Feature", "../Point", "../symbols/point/Point", "../Bbox", "./PointFeature"], function (require, exports, Feature_1, Point_1, Point_2, Bbox_1, PointFeature_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class FeatureGroup extends Feature_1.Feature {
         constructor(features, _a = {}) {
             var { symbol = new Point_2.PointSymbol() } = _a, params = __rest(_a, ["symbol"]);
             super(Object.assign({ symbol }, params));
-            this._features = features;
+            this._features = features.map(feature => {
+                if (this.crs.equals(feature.crs))
+                    return feature;
+                else {
+                    let projected = feature.projectTo(this.crs);
+                    return new PointFeature_1.PointFeature(projected.position, { crs: this.crs, symbol: this.symbol });
+                }
+            });
+        }
+        /**
+         * Returns a copy of the feature. Only generic properties are copied.
+         */
+        clone() {
+            return new FeatureGroup(this._features, { crs: this.crs, symbol: this.symbol });
         }
         projectTo(crs) {
-            let projected = Point_1.Point.prototype.projectTo.call(this, crs);
-            return new PointFeature_1.PointFeature(projected.position, { crs: crs, symbol: this.symbol });
+            return new FeatureGroup(this._features, { crs: crs, symbol: this.symbol });
         }
         features() {
             return this._features;
         }
         get position() {
-            const coordinates = [0, 0];
+            let x = 0;
+            let y = 0;
             for (let i = 0; i < this._features.length; i++) {
-                coordinates[0] += this._features[i].centroid[0];
-                coordinates[1] += this._features[i].centroid[1];
+                x += this._features[i].centroid[0];
+                y += this._features[i].centroid[1];
             }
-            return [coordinates[0] / this._features.length, coordinates[1] / this._features.length];
-        }
-        set position(position) {
-            this._position = [position[0], position[1]];
+            return [x / this._features.length, y / this._features.length];
         }
         get bbox() {
             if (this._bbox)
@@ -52,20 +62,11 @@ define(["require", "exports", "./Feature", "../Point", "../symbols/point/Point",
         }
         get point() { return new Point_1.Point(this.position, this.crs); }
         get x() { return this.position[0]; }
-        set x(x) {
-            this.position[0] = x;
-            this.redraw();
-        }
         get y() { return this.position[1]; }
-        set y(y) {
-            this.position[1] = y;
-            this.redraw();
-        }
         /**
          * @deprecated
          */
         get coordinates() { return [this.position[0], this.position[1]]; }
-        set coordinates(position) { this.position = [position[0], position[1]]; }
         get centroid() { return this.position; }
     }
     exports.FeatureGroup = FeatureGroup;
