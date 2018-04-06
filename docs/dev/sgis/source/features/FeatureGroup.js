@@ -30,7 +30,7 @@ define(["require", "exports", "./Feature", "../Point", "../symbols/point/Point",
             return new FeatureGroup(this._features, { crs: this.crs, symbol: this.symbol });
         }
         projectTo(crs) {
-            return new FeatureGroup(this._features, { crs: crs, symbol: this.symbol });
+            return new FeatureGroup(this._features, { crs, symbol: this.symbol });
         }
         features() {
             return this._features;
