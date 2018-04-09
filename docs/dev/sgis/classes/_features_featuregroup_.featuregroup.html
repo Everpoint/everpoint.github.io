@@ -110,8 +110,8 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite"><a href="_features_featuregroup_.featuregroup.html#bbox" class="tsd-kind-icon">bbox</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite"><a href="_features_featuregroup_.featuregroup.html#centroid" class="tsd-kind-icon">centroid</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="_features_featuregroup_.featuregroup.html#coordinates" class="tsd-kind-icon">coordinates</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_features_featuregroup_.featuregroup.html#crs" class="tsd-kind-icon">crs</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="_features_featuregroup_.featuregroup.html#features" class="tsd-kind-icon">features</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_features_featuregroup_.featuregroup.html#hidden" class="tsd-kind-icon">hidden</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_features_featuregroup_.featuregroup.html#istempsymbolset" class="tsd-kind-icon">is<wbr>Temp<wbr>Symbol<wbr>Set</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_features_featuregroup_.featuregroup.html#originalsymbol" class="tsd-kind-icon">original<wbr>Symbol</a></li>
@@ -129,7 +129,6 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_features_featuregroup_.featuregroup.html#allowevent" class="tsd-kind-icon">allow<wbr>Event</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_features_featuregroup_.featuregroup.html#cleartempsymbol" class="tsd-kind-icon">clear<wbr>Temp<wbr>Symbol</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_features_featuregroup_.featuregroup.html#clone" class="tsd-kind-icon">clone</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_features_featuregroup_.featuregroup.html#features" class="tsd-kind-icon">features</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_features_featuregroup_.featuregroup.html#fire" class="tsd-kind-icon">fire</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_features_featuregroup_.featuregroup.html#forwardevent" class="tsd-kind-icon">forward<wbr>Event</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_features_featuregroup_.featuregroup.html#haslistener" class="tsd-kind-icon">has<wbr>Listener</a></li>
@@ -158,20 +157,20 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Feature<wbr>Group<span class="tsd-signature-symbol">(</span>features<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, __namedParameters<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_features_feature_.featureparams.html" class="tsd-signature-type">FeatureParams</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_features_featuregroup_.featuregroup.html" class="tsd-signature-type">FeatureGroup</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Feature<wbr>Group<span class="tsd-signature-symbol">(</span>features<span class="tsd-signature-symbol">: </span><a href="_features_feature_.feature.html" class="tsd-signature-type">Feature</a><span class="tsd-signature-symbol">[]</span>, __namedParameters<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_features_feature_.featureparams.html" class="tsd-signature-type">FeatureParams</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_features_featuregroup_.featuregroup.html" class="tsd-signature-type">FeatureGroup</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/FeatureGroup.ts#L11">features/FeatureGroup.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/FeatureGroup.ts#L10">features/FeatureGroup.ts:10</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>features: <span class="tsd-signature-type">any</span></h5>
+									<h5>features: <a href="_features_feature_.feature.html" class="tsd-signature-type">Feature</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> __namedParameters: <a href="../interfaces/_features_feature_.featureparams.html" class="tsd-signature-type">FeatureParams</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
@@ -199,7 +198,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#eventflags">eventFlags</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/EventHandler.ts#L91">EventHandler.ts:91</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/EventHandler.ts#L91">EventHandler.ts:91</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -210,7 +209,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#persistonmap">persistOnMap</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/Feature.ts#L27">features/Feature.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/Feature.ts#L27">features/Feature.ts:27</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -234,7 +233,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#bbox">bbox</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/FeatureGroup.ts#L51">features/FeatureGroup.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/FeatureGroup.ts#L49">features/FeatureGroup.ts:49</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_bbox_.bbox.html" class="tsd-signature-type">Bbox</a></h4>
@@ -252,33 +251,9 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#centroid">centroid</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/FeatureGroup.ts#L81">features/FeatureGroup.ts:81</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/FeatureGroup.ts#L35">features/FeatureGroup.ts:35</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
-					<a name="coordinates" class="tsd-anchor"></a>
-					<h3>coordinates</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> coordinates<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/FeatureGroup.ts#L79">features/FeatureGroup.ts:79</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>deprecated</dt>
-									<dd>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></h4>
 						</li>
 					</ul>
@@ -294,7 +269,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#crs">crs</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/Feature.ts#L102">features/Feature.ts:102</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/Feature.ts#L102">features/Feature.ts:102</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -303,6 +278,23 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="_crs_.crs.html" class="tsd-signature-type">Crs</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="features" class="tsd-anchor"></a>
+					<h3>features</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> features<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_features_feature_.feature.html" class="tsd-signature-type">Feature</a><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/FeatureGroup.ts#L31">features/FeatureGroup.ts:31</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="_features_feature_.feature.html" class="tsd-signature-type">Feature</a><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -317,7 +309,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#hidden">hidden</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/Feature.ts#L113">features/Feature.ts:113</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/Feature.ts#L113">features/Feature.ts:113</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -340,7 +332,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#istempsymbolset">isTempSymbolSet</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/Feature.ts#L92">features/Feature.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/Feature.ts#L92">features/Feature.ts:92</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -363,7 +355,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#originalsymbol">originalSymbol</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/Feature.ts#L97">features/Feature.ts:97</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/Feature.ts#L97">features/Feature.ts:97</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -385,7 +377,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/FeatureGroup.ts#L70">features/FeatureGroup.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/FeatureGroup.ts#L68">features/FeatureGroup.ts:68</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_point_.point.html" class="tsd-signature-type">Point</a></h4>
@@ -402,7 +394,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/FeatureGroup.ts#L39">features/FeatureGroup.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/FeatureGroup.ts#L37">features/FeatureGroup.ts:37</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../modules/_basetypes_.html#coordinates" class="tsd-signature-type">Coordinates</a></h4>
@@ -421,7 +413,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#symbol">symbol</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/Feature.ts#L107">features/Feature.ts:107</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/Feature.ts#L107">features/Feature.ts:107</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -435,7 +427,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#symbol">symbol</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/Feature.ts#L108">features/Feature.ts:108</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/Feature.ts#L108">features/Feature.ts:108</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -463,7 +455,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/FeatureGroup.ts#L72">features/FeatureGroup.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/FeatureGroup.ts#L70">features/FeatureGroup.ts:70</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -480,7 +472,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/FeatureGroup.ts#L74">features/FeatureGroup.ts:74</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/FeatureGroup.ts#L72">features/FeatureGroup.ts:72</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -501,7 +493,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/EventHandler.ts#L147">EventHandler.ts:147</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/EventHandler.ts#L147">EventHandler.ts:147</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -545,7 +537,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#allowevent">allowEvent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/EventHandler.ts#L208">EventHandler.ts:208</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/EventHandler.ts#L208">EventHandler.ts:208</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -577,7 +569,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#cleartempsymbol">clearTempSymbol</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/Feature.ts#L85">features/Feature.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/Feature.ts#L85">features/Feature.ts:85</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -599,32 +591,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/FeatureGroup.ts#L27">features/FeatureGroup.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/FeatureGroup.ts#L23">features/FeatureGroup.ts:23</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns a copy of the feature. Only generic properties are copied.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="_features_featuregroup_.featuregroup.html" class="tsd-signature-type">FeatureGroup</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="features" class="tsd-anchor"></a>
-					<h3>features</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">features<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_features_feature_.feature.html" class="tsd-signature-type">Feature</a><span class="tsd-signature-symbol">[]</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/FeatureGroup.ts#L35">features/FeatureGroup.ts:35</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="_features_feature_.feature.html" class="tsd-signature-type">Feature</a><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -639,7 +609,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#fire">fire</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/EventHandler.ts#L128">EventHandler.ts:128</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/EventHandler.ts#L128">EventHandler.ts:128</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -681,7 +651,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#forwardevent">forwardEvent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/EventHandler.ts#L104">EventHandler.ts:104</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/EventHandler.ts#L104">EventHandler.ts:104</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -713,7 +683,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#haslistener">hasListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/EventHandler.ts#L218">EventHandler.ts:218</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/EventHandler.ts#L218">EventHandler.ts:218</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -751,7 +721,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#haslisteners">hasListeners</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/EventHandler.ts#L233">EventHandler.ts:233</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/EventHandler.ts#L233">EventHandler.ts:233</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -784,7 +754,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#hide">hide</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/Feature.ts#L67">features/Feature.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/Feature.ts#L67">features/Feature.ts:67</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -807,7 +777,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#off">off</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/EventHandler.ts#L270">EventHandler.ts:270</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/EventHandler.ts#L270">EventHandler.ts:270</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -842,7 +812,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#on">on</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/EventHandler.ts#L265">EventHandler.ts:265</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/EventHandler.ts#L265">EventHandler.ts:265</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -880,7 +850,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#once">once</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/EventHandler.ts#L166">EventHandler.ts:166</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/EventHandler.ts#L166">EventHandler.ts:166</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -918,7 +888,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#prohibitevent">prohibitEvent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/EventHandler.ts#L200">EventHandler.ts:200</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/EventHandler.ts#L200">EventHandler.ts:200</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -951,7 +921,7 @@
 								<p>Implementation of <a href="../interfaces/_point_.ipoint.html">IPoint</a>.<a href="../interfaces/_point_.ipoint.html#projectto">projectTo</a></p>
 								<p>Overrides <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#projectto">projectTo</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/FeatureGroup.ts#L31">features/FeatureGroup.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/FeatureGroup.ts#L27">features/FeatureGroup.ts:27</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -975,7 +945,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#redraw">redraw</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/Feature.ts#L60">features/Feature.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/Feature.ts#L60">features/Feature.ts:60</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -998,7 +968,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#removealllisteners">removeAllListeners</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/EventHandler.ts#L258">EventHandler.ts:258</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/EventHandler.ts#L258">EventHandler.ts:258</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1021,7 +991,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_eventhandler_.eventhandler.html">EventHandler</a>.<a href="_eventhandler_.eventhandler.html#removelistener">removeListener</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/EventHandler.ts#L175">EventHandler.ts:175</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/EventHandler.ts#L175">EventHandler.ts:175</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1059,7 +1029,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#render">render</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/Feature.ts#L55">features/Feature.ts:55</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/Feature.ts#L55">features/Feature.ts:55</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1094,7 +1064,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#settempsymbol">setTempSymbol</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/Feature.ts#L78">features/Feature.ts:78</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/Feature.ts#L78">features/Feature.ts:78</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1125,7 +1095,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#show">show</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/Feature.ts#L72">features/Feature.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/Feature.ts#L72">features/Feature.ts:72</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1148,7 +1118,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_features_feature_.feature.html">Feature</a>.<a href="_features_feature_.feature.html#setdefaultcrs">setDefaultCrs</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/ad1311d/source/features/Feature.ts#L37">features/Feature.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/a08d51c/source/features/Feature.ts#L37">features/Feature.ts:37</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1207,11 +1177,11 @@
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_features_featuregroup_.featuregroup.html#centroid" class="tsd-kind-icon">centroid</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-								<a href="_features_featuregroup_.featuregroup.html#coordinates" class="tsd-kind-icon">coordinates</a>
-							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 								<a href="_features_featuregroup_.featuregroup.html#crs" class="tsd-kind-icon">crs</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="_features_featuregroup_.featuregroup.html#features" class="tsd-kind-icon">features</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 								<a href="_features_featuregroup_.featuregroup.html#hidden" class="tsd-kind-icon">hidden</a>
@@ -1248,9 +1218,6 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_features_featuregroup_.featuregroup.html#clone" class="tsd-kind-icon">clone</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_features_featuregroup_.featuregroup.html#features" class="tsd-kind-icon">features</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_features_featuregroup_.featuregroup.html#fire" class="tsd-kind-icon">fire</a>

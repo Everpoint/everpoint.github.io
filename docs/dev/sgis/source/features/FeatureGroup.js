@@ -7,7 +7,7 @@ var __rest = (this && this.__rest) || function (s, e) {
             t[p[i]] = s[p[i]];
     return t;
 };
-define(["require", "exports", "./Feature", "../Point", "../symbols/point/Point", "../Bbox", "./PointFeature"], function (require, exports, Feature_1, Point_1, Point_2, Bbox_1, PointFeature_1) {
+define(["require", "exports", "./Feature", "../Point", "../symbols/point/Point", "../Bbox"], function (require, exports, Feature_1, Point_1, Point_2, Bbox_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class FeatureGroup extends Feature_1.Feature {
@@ -19,22 +19,20 @@ define(["require", "exports", "./Feature", "../Point", "../symbols/point/Point",
                     return feature;
                 else {
                     let projected = feature.projectTo(this.crs);
-                    return new PointFeature_1.PointFeature(projected.position, { crs: this.crs, symbol: this.symbol });
+                    return projected;
                 }
             });
         }
-        /**
-         * Returns a copy of the feature. Only generic properties are copied.
-         */
         clone() {
             return new FeatureGroup(this._features, { crs: this.crs, symbol: this.symbol });
         }
         projectTo(crs) {
             return new FeatureGroup(this._features, { crs, symbol: this.symbol });
         }
-        features() {
+        get features() {
             return this._features;
         }
+        get centroid() { return this.position; }
         get position() {
             let x = 0;
             let y = 0;
@@ -52,10 +50,10 @@ define(["require", "exports", "./Feature", "../Point", "../symbols/point/Point",
             let xMax = Number.MIN_VALUE;
             let yMax = Number.MIN_VALUE;
             this._features.forEach(feature => {
-                xMin = Math.min(xMin, feature.centroid[0]);
-                yMin = Math.min(yMin, feature.centroid[1]);
-                xMax = Math.max(xMax, feature.centroid[0]);
-                yMax = Math.max(yMax, feature.centroid[1]);
+                xMin = Math.min(xMin, feature.bbox.xMin);
+                yMin = Math.min(yMin, feature.bbox.yMin);
+                xMax = Math.max(xMax, feature.bbox.xMax);
+                yMax = Math.max(yMax, feature.bbox.yMax);
             });
             this._bbox = new Bbox_1.Bbox([xMin, yMin], [xMax, yMax], this.crs);
             return this._bbox;
@@ -63,11 +61,6 @@ define(["require", "exports", "./Feature", "../Point", "../symbols/point/Point",
         get point() { return new Point_1.Point(this.position, this.crs); }
         get x() { return this.position[0]; }
         get y() { return this.position[1]; }
-        /**
-         * @deprecated
-         */
-        get coordinates() { return [this.position[0], this.position[1]]; }
-        get centroid() { return this.position; }
     }
     exports.FeatureGroup = FeatureGroup;
 });
