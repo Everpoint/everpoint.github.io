@@ -7,60 +7,35 @@ var __rest = (this && this.__rest) || function (s, e) {
             t[p[i]] = s[p[i]];
     return t;
 };
-define(["require", "exports", "./Feature", "../Point", "../symbols/point/Point", "../Bbox"], function (require, exports, Feature_1, Point_1, Point_2, Bbox_1) {
+define(["require", "exports", "./Feature", "../Point", "../symbols/point/Point", "./PointFeature", "../Bbox"], function (require, exports, Feature_1, Point_1, Point_2, PointFeature_1, Bbox_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class FeatureGroup extends Feature_1.Feature {
-        constructor(features, _a = {}) {
+        constructor(position, _a = {}) {
             var { symbol = new Point_2.PointSymbol() } = _a, params = __rest(_a, ["symbol"]);
             super(Object.assign({ symbol }, params));
-            this._features = features.map(feature => {
-                if (this.crs.equals(feature.crs))
-                    return feature;
-                else {
-                    let projected = feature.projectTo(this.crs);
-                    return projected;
-                }
-            });
-        }
-        clone() {
-            return new FeatureGroup(this._features, { crs: this.crs, symbol: this.symbol });
+            this._position = position;
         }
         projectTo(crs) {
-            return new FeatureGroup(this._features, { crs, symbol: this.symbol });
+            let projected = Point_1.Point.prototype.projectTo.call(this, crs);
+            return new PointFeature_1.PointFeature(projected.position, { crs: crs, symbol: this.symbol });
         }
         get features() {
             return this._features;
         }
+        get bbox() { return new Bbox_1.Bbox(this._position, this._position, this.crs); }
+        get position() { return [this._position[0], this._position[1]]; }
+        get x() { return this._position[0]; }
+        set x(x) {
+            this._position[0] = x;
+            this.redraw();
+        }
+        get y() { return this._position[1]; }
+        set y(y) {
+            this._position[1] = y;
+            this.redraw();
+        }
         get centroid() { return this.position; }
-        get position() {
-            let x = 0;
-            let y = 0;
-            for (let i = 0; i < this._features.length; i++) {
-                x += this._features[i].centroid[0];
-                y += this._features[i].centroid[1];
-            }
-            return [x / this._features.length, y / this._features.length];
-        }
-        get bbox() {
-            if (this._bbox)
-                return this._bbox;
-            let xMin = Number.MAX_VALUE;
-            let yMin = Number.MAX_VALUE;
-            let xMax = Number.MIN_VALUE;
-            let yMax = Number.MIN_VALUE;
-            this._features.forEach(feature => {
-                xMin = Math.min(xMin, feature.bbox.xMin);
-                yMin = Math.min(yMin, feature.bbox.yMin);
-                xMax = Math.max(xMax, feature.bbox.xMax);
-                yMax = Math.max(yMax, feature.bbox.yMax);
-            });
-            this._bbox = new Bbox_1.Bbox([xMin, yMin], [xMax, yMax], this.crs);
-            return this._bbox;
-        }
-        get point() { return new Point_1.Point(this.position, this.crs); }
-        get x() { return this.position[0]; }
-        get y() { return this.position[1]; }
     }
     exports.FeatureGroup = FeatureGroup;
 });
