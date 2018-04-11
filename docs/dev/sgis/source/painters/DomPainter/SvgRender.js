@@ -40,7 +40,7 @@ define(["require", "exports", "../../renders/Arc", "../../renders/Poly", "../../
                 stroke: this._baseRender.strokeColor,
                 'stroke-dasharray': this._baseRender.lineDash && this._baseRender.lineDash.length > 0 ? this._baseRender.lineDash.join(',') : undefined,
                 'stroke-width': this._baseRender.strokeWidth,
-                fill: this._baseRender.fillStyle === Poly_1.FillStyle.Color ? this._baseRender.fillColor : undefined,
+                fill: this._baseRender.fillStyle === Poly_1.FillStyle.Color ? this._baseRender.fillColor : 'none',
                 fillImage: this._baseRender.fillStyle === Poly_1.FillStyle.Image ? this._baseRender.fillImage : undefined,
                 width: path.width,
                 height: path.height,
