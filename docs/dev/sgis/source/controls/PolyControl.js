@@ -83,7 +83,7 @@ define(["require", "exports", "./Control", "../commonEvents"], function (require
             this._activeFeature.redraw();
             if (this._tempLayer)
                 this._tempLayer.redraw();
-            this.fire(event);
+            this.fire(new Control_1.ChangeEvent(ringIndex, pointIndex));
         }
         _handleDblclick(event) {
             let feature = this._activeFeature;

@@ -17,7 +17,7 @@ define(["require", "exports", "../serializers/symbolSerializer", "../renders/Ren
     }
     exports.Symbol = Symbol;
     class DynamicPointSymbol extends Symbol {
-        constructor({ offset = [5, 0], onRender } = {}) {
+        constructor({ offset = [0, 0], onRender } = {}) {
             super();
             this.offset = offset;
             this.onRender = onRender;
@@ -31,14 +31,23 @@ define(["require", "exports", "../serializers/symbolSerializer", "../renders/Ren
             dynamicFeature.__dynamicSymbolRender = new Render_1.DynamicRender({
                 node: node,
                 onRender: this.onRender,
-                update: (bbox, resolution) => {
-                    if (!dynamicFeature.crs.canProjectTo(bbox.crs))
+                update: (bbox = null, resolution = null) => {
+                    if (bbox === null)
+                        bbox = dynamicFeature.__lastBbox;
+                    if (resolution === null)
+                        resolution = dynamicFeature.__lastResolution;
+                    if (!bbox || !resolution || !dynamicFeature.crs.canProjectTo(bbox.crs))
                         return;
                     let point = dynamicFeature.projectTo(bbox.crs);
                     let dx = Math.round((point.x - bbox.xMin) / resolution + this.offset[0]);
                     let dy = Math.round((bbox.yMax - point.y) / resolution + this.offset[1]);
                     node.style.left = `${dx.toString()}px`;
                     node.style.top = `${dy.toString()}px`;
+                    dynamicFeature.__lastBbox = bbox;
+                    dynamicFeature.__lastResolution = resolution;
+                },
+                redraw: () => {
+                    this._updateFeatureNode(dynamicFeature);
                 }
             });
             this._setEventListeners(dynamicFeature);
@@ -61,6 +70,9 @@ define(["require", "exports", "../serializers/symbolSerializer", "../renders/Ren
                     });
                 }
             });
+        }
+        _updateFeatureNode(feature) {
+            // do nothing
         }
     }
     exports.DynamicPointSymbol = DynamicPointSymbol;

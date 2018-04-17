@@ -35,6 +35,8 @@ define(["require", "exports", "./Control", "../geotools", "../Point", "../featur
             /** If set to false it will be not possible to move the feature as whole. */
             this.featureDragAllowed = true;
             this.ignoreEvents = false;
+            this._activeRing = null;
+            this._activeIndex = null;
             this.onFeatureRemove = onFeatureRemove;
             this._handleMousemove = this._handleMousemove.bind(this);
             this._handleDragStart = this._handleDragStart.bind(this);
@@ -123,6 +125,7 @@ define(["require", "exports", "./Control", "../geotools", "../Point", "../featur
                 this.activeLayer.redraw();
             this.fire(new Control_1.ChangeEvent(this._activeRing, this._activeIndex));
         }
+        get isDraggingVertex() { return this._activeRing !== null; }
         _handleDragEnd() {
             this._activeRing = null;
             this._activeIndex = null;

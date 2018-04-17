@@ -25,6 +25,10 @@ define(["require", "exports", "../Symbol", "../../utils/utils"], function (requi
                 node.className = this.cssClassName;
             return node;
         }
+        _updateFeatureNode(feature) {
+            let node = this.getNode(feature);
+            node.innerText = feature.content;
+        }
     }
     exports.DynamicLabelSymbol = DynamicLabelSymbol;
 });

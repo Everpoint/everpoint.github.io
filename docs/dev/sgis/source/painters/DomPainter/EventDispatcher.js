@@ -32,7 +32,11 @@ define(["require", "exports", "../../utils/domEvent", "../../commonEvents"], fun
             let targetRender = null;
             for (let i = layerRenderers.length - 1; i >= 0; i--) {
                 let [caughtRender, intersectionType] = layerRenderers[i].getEventCatcher(event.eventFlag, position);
-                if (Array.isArray(intersectionType)) {
+                if (caughtRender && caughtRender.contourIndex >= 0 && caughtRender.pointIndex >= 0) {
+                    event.contourIndex = caughtRender.contourIndex;
+                    event.pointIndex = caughtRender.pointIndex;
+                }
+                else if (Array.isArray(intersectionType)) {
                     event.contourIndex = intersectionType[0];
                     event.pointIndex = intersectionType[1];
                 }
@@ -59,7 +63,7 @@ define(["require", "exports", "../../utils/domEvent", "../../commonEvents"], fun
         _listenFor(node, eventType, handler) {
             domEvent_1.listenDomEvent(node, eventType, (event) => {
                 let target = (event && event.target);
-                let cancelEvent = false;
+                let cancelEvent = event.defaultPrevented;
                 while (target && target !== node) {
                     if (target.doNotBubbleToMap) {
                         cancelEvent = true;

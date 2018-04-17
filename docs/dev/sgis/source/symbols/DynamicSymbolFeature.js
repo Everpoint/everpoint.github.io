@@ -5,6 +5,8 @@ define(["require", "exports", "../features/PointFeature"], function (require, ex
         constructor() {
             super(...arguments);
             this.__dynamicSymbolRender = null;
+            this.__lastBbox = null;
+            this.__lastResolution = null;
         }
     }
     exports.DynamicSymbolFeature = DynamicSymbolFeature;

@@ -119,6 +119,11 @@ define(["require", "exports", "../Crs", "../EventHandler"], function (require, e
         }
         reset() {
             this._cached = undefined;
+            let dynamicFeature = this._feature;
+            if (dynamicFeature.__dynamicSymbolRender) {
+                dynamicFeature.__dynamicSymbolRender.update();
+                dynamicFeature.__dynamicSymbolRender.redraw(dynamicFeature);
+            }
         }
         setTempSymbol(symbol) {
             this._tempSymbol = symbol;

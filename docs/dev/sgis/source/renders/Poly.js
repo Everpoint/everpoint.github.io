@@ -41,7 +41,10 @@ define(["require", "exports", "./Render", "../geotools"], function (require, exp
         }
         get isVector() { return true; }
         contains(position) {
-            return geotools_1.contains(this.coordinates, position, this.strokeWidth / 2 + this.lineContainsTolerance);
+            let polygonContains = geotools_1.contains(this.coordinates, position, this.strokeWidth / 2 + this.lineContainsTolerance);
+            if (this.enclosed)
+                return polygonContains;
+            return Array.isArray(polygonContains) && polygonContains[1] !== this.coordinates[polygonContains[0]].length - 1 ? polygonContains : false;
         }
     }
     exports.PolyRender = PolyRender;

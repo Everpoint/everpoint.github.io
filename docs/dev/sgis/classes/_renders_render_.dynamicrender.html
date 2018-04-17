@@ -95,8 +95,11 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_renders_render_.dynamicrender.html#contourindex" class="tsd-kind-icon">contour<wbr>Index</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_renders_render_.dynamicrender.html#node" class="tsd-kind-icon">node</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_renders_render_.dynamicrender.html#onrender" class="tsd-kind-icon">on<wbr>Render</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_renders_render_.dynamicrender.html#pointindex" class="tsd-kind-icon">point<wbr>Index</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_renders_render_.dynamicrender.html#redraw" class="tsd-kind-icon">redraw</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_renders_render_.dynamicrender.html#update" class="tsd-kind-icon">update</a></li>
 							</ul>
 						</section>
@@ -129,7 +132,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/2cc9b1d/source/renders/Render.ts#L53">renders/Render.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/62be0da/source/renders/Render.ts#L60">renders/Render.ts:60</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -156,21 +159,42 @@
 											</ul>
 										</li>
 										<li class="tsd-parameter">
-											<h5>update<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></h5>
+											<h5>redraw<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></h5>
 											<ul class="tsd-parameters">
 												<li class="tsd-parameter-siganture">
 													<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable tsd-is-not-exported">
-														<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>bbox<span class="tsd-signature-symbol">: </span><a href="_bbox_.bbox.html" class="tsd-signature-type">Bbox</a>, resolution<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+														<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>feature<span class="tsd-signature-symbol">: </span><a href="_features_feature_.feature.html" class="tsd-signature-type">Feature</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 													</ul>
 													<ul class="tsd-descriptions">
 														<li class="tsd-description">
 															<h4 class="tsd-parameters-title">Parameters</h4>
 															<ul class="tsd-parameters">
 																<li>
-																	<h5>bbox: <a href="_bbox_.bbox.html" class="tsd-signature-type">Bbox</a></h5>
+																	<h5>feature: <a href="_features_feature_.feature.html" class="tsd-signature-type">Feature</a></h5>
+																</li>
+															</ul>
+															<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li class="tsd-parameter">
+											<h5>update<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></h5>
+											<ul class="tsd-parameters">
+												<li class="tsd-parameter-siganture">
+													<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable tsd-is-not-exported">
+														<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>bbox<span class="tsd-signature-symbol">?: </span><a href="_bbox_.bbox.html" class="tsd-signature-type">Bbox</a>, resolution<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+													</ul>
+													<ul class="tsd-descriptions">
+														<li class="tsd-description">
+															<h4 class="tsd-parameters-title">Parameters</h4>
+															<ul class="tsd-parameters">
+																<li>
+																	<h5><span class="tsd-flag ts-flagOptional">Optional</span> bbox: <a href="_bbox_.bbox.html" class="tsd-signature-type">Bbox</a></h5>
 																</li>
 																<li>
-																	<h5>resolution: <span class="tsd-signature-type">number</span></h5>
+																	<h5><span class="tsd-flag ts-flagOptional">Optional</span> resolution: <span class="tsd-signature-type">number</span></h5>
 																</li>
 															</ul>
 															<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -189,13 +213,24 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="contourindex" class="tsd-anchor"></a>
+					<h3>contour<wbr>Index</h3>
+					<div class="tsd-signature tsd-kind-icon">contour<wbr>Index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;-1</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_renders_render_.render.html">Render</a>.<a href="_renders_render_.render.html#contourindex">contourIndex</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/62be0da/source/renders/Render.ts#L21">renders/Render.ts:21</a></li>
+						</ul>
+					</aside>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="node" class="tsd-anchor"></a>
 					<h3>node</h3>
 					<div class="tsd-signature tsd-kind-icon">node<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/2cc9b1d/source/renders/Render.ts#L51">renders/Render.ts:51</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/62be0da/source/renders/Render.ts#L57">renders/Render.ts:57</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -205,7 +240,7 @@
 					<div class="tsd-signature tsd-kind-icon">on<wbr>Render<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/2cc9b1d/source/renders/Render.ts#L53">renders/Render.ts:53</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/62be0da/source/renders/Render.ts#L60">renders/Render.ts:60</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -224,13 +259,34 @@
 						</ul>
 					</div>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="pointindex" class="tsd-anchor"></a>
+					<h3>point<wbr>Index</h3>
+					<div class="tsd-signature tsd-kind-icon">point<wbr>Index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;-1</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_renders_render_.render.html">Render</a>.<a href="_renders_render_.render.html#pointindex">pointIndex</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/62be0da/source/renders/Render.ts#L22">renders/Render.ts:22</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="redraw" class="tsd-anchor"></a>
+					<h3>redraw</h3>
+					<div class="tsd-signature tsd-kind-icon">redraw<span class="tsd-signature-symbol">:</span> <a href="../modules/_renders_render_.html#redrawmethod" class="tsd-signature-type">RedrawMethod</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/62be0da/source/renders/Render.ts#L59">renders/Render.ts:59</a></li>
+						</ul>
+					</aside>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="update" class="tsd-anchor"></a>
 					<h3>update</h3>
 					<div class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">:</span> <a href="../modules/_renders_render_.html#updatemethod" class="tsd-signature-type">UpdateMethod</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/2cc9b1d/source/renders/Render.ts#L52">renders/Render.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/62be0da/source/renders/Render.ts#L58">renders/Render.ts:58</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -248,7 +304,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_renders_render_.render.html">Render</a>.<a href="_renders_render_.render.html#listensfor">listensFor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/2cc9b1d/source/renders/Render.ts#L20">renders/Render.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/62be0da/source/renders/Render.ts#L24">renders/Render.ts:24</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/_eventhandler_.mouseeventflags.html" class="tsd-signature-type">MouseEventFlags</a></h4>
@@ -269,7 +325,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_renders_render_.render.html">Render</a>.<a href="_renders_render_.render.html#contains">contains</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/2cc9b1d/source/renders/Render.ts#L47">renders/Render.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/62be0da/source/renders/Render.ts#L53">renders/Render.ts:53</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -293,7 +349,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_renders_render_.render.html">Render</a>.<a href="_renders_render_.render.html#listenfor">listenFor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/2cc9b1d/source/renders/Render.ts#L26">renders/Render.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/62be0da/source/renders/Render.ts#L30">renders/Render.ts:30</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -320,7 +376,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_renders_render_.render.html">Render</a>.<a href="_renders_render_.render.html#triggerevent">triggerEvent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/2cc9b1d/source/renders/Render.ts#L22">renders/Render.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/62be0da/source/renders/Render.ts#L26">renders/Render.ts:26</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -356,11 +412,20 @@
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="_renders_render_.dynamicrender.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="_renders_render_.dynamicrender.html#contourindex" class="tsd-kind-icon">contour<wbr>Index</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_renders_render_.dynamicrender.html#node" class="tsd-kind-icon">node</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_renders_render_.dynamicrender.html#onrender" class="tsd-kind-icon">on<wbr>Render</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="_renders_render_.dynamicrender.html#pointindex" class="tsd-kind-icon">point<wbr>Index</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_renders_render_.dynamicrender.html#redraw" class="tsd-kind-icon">redraw</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_renders_render_.dynamicrender.html#update" class="tsd-kind-icon">update</a>
@@ -395,6 +460,9 @@
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
 						<a href="../modules/_renders_render_.html#intersectiontype" class="tsd-kind-icon">Intersection<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/_renders_render_.html#redrawmethod" class="tsd-kind-icon">Redraw<wbr>Method</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
 						<a href="../modules/_renders_render_.html#rendereventhandler" class="tsd-kind-icon">Render<wbr>Event<wbr>Handler</a>

@@ -89,6 +89,7 @@
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_renders_render_.html#intersectiontype" class="tsd-kind-icon">Intersection<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_renders_render_.html#redrawmethod" class="tsd-kind-icon">Redraw<wbr>Method</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_renders_render_.html#rendereventhandler" class="tsd-kind-icon">Render<wbr>Event<wbr>Handler</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_renders_render_.html#updatemethod" class="tsd-kind-icon">Update<wbr>Method</a></li>
 							</ul>
@@ -104,9 +105,40 @@
 					<div class="tsd-signature tsd-kind-icon">Intersection<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/2cc9b1d/source/renders/Render.ts#L6">renders/Render.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/62be0da/source/renders/Render.ts#L7">renders/Render.ts:7</a></li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
+					<a name="redrawmethod" class="tsd-anchor"></a>
+					<h3>Redraw<wbr>Method</h3>
+					<div class="tsd-signature tsd-kind-icon">Redraw<wbr>Method<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/62be0da/source/renders/Render.ts#L43">renders/Render.ts:43</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>feature<span class="tsd-signature-symbol">: </span><a href="../classes/_features_feature_.feature.html" class="tsd-signature-type">Feature</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>feature: <a href="../classes/_features_feature_.feature.html" class="tsd-signature-type">Feature</a></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
 					<a name="rendereventhandler" class="tsd-anchor"></a>
@@ -114,7 +146,7 @@
 					<div class="tsd-signature tsd-kind-icon">Render<wbr>Event<wbr>Handler<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/2cc9b1d/source/renders/Render.ts#L8">renders/Render.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/62be0da/source/renders/Render.ts#L9">renders/Render.ts:9</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -145,7 +177,7 @@
 					<div class="tsd-signature tsd-kind-icon">Update<wbr>Method<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/2cc9b1d/source/renders/Render.ts#L38">renders/Render.ts:38</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/62be0da/source/renders/Render.ts#L42">renders/Render.ts:42</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -153,17 +185,17 @@
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter-siganture">
 								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>bbox<span class="tsd-signature-symbol">: </span><a href="../classes/_bbox_.bbox.html" class="tsd-signature-type">Bbox</a>, resolution<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>bbox<span class="tsd-signature-symbol">?: </span><a href="../classes/_bbox_.bbox.html" class="tsd-signature-type">Bbox</a>, resolution<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
-												<h5>bbox: <a href="../classes/_bbox_.bbox.html" class="tsd-signature-type">Bbox</a></h5>
+												<h5><span class="tsd-flag ts-flagOptional">Optional</span> bbox: <a href="../classes/_bbox_.bbox.html" class="tsd-signature-type">Bbox</a></h5>
 											</li>
 											<li>
-												<h5>resolution: <span class="tsd-signature-type">number</span></h5>
+												<h5><span class="tsd-flag ts-flagOptional">Optional</span> resolution: <span class="tsd-signature-type">number</span></h5>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -205,6 +237,9 @@
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
 						<a href="_renders_render_.html#intersectiontype" class="tsd-kind-icon">Intersection<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="_renders_render_.html#redrawmethod" class="tsd-kind-icon">Redraw<wbr>Method</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
 						<a href="_renders_render_.html#rendereventhandler" class="tsd-kind-icon">Render<wbr>Event<wbr>Handler</a>

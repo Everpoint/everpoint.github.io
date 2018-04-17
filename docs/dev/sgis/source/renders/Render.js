@@ -5,6 +5,8 @@ define(["require", "exports", "../EventHandler"], function (require, exports, Ev
         constructor() {
             this._listensFor = EventHandler_1.MouseEventFlags.None;
             this._eventHandler = null;
+            this.contourIndex = -1;
+            this.pointIndex = -1;
         }
         get listensFor() { return this._listensFor; }
         triggerEvent(event) {
@@ -27,11 +29,12 @@ define(["require", "exports", "../EventHandler"], function (require, exports, Ev
         contains(position) {
             return false;
         }
-        constructor({ node, update, onRender }) {
+        constructor({ node, update, redraw, onRender }) {
             super();
             this.node = node;
             this.update = update;
             this.onRender = onRender;
+            this.redraw = redraw;
         }
     }
     exports.DynamicRender = DynamicRender;
