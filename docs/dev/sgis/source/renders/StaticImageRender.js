@@ -25,6 +25,7 @@ define(["require", "exports", "./Render"], function (require, exports, Render_1)
                 this._node.width = this._width;
             if (this._height > 0)
                 this._node.height = this._height;
+            this._node.style.opacity = this._opacity.toString();
             this._node.src = this._src;
         }
         get node() {
