@@ -1,6 +1,7 @@
 define(["require", "exports", "../../serializers/symbolSerializer", "../Symbol", "../../utils/Color", "../../utils/utils", "../../resourses/images", "../../features/PointFeature", "../../renders/StaticVectorImageRender"], function (require, exports, symbolSerializer_1, Symbol_1, Color_1, utils_1, images_1, PointFeature_1, StaticVectorImageRender_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    const MAX_TRIES = 3;
     /**
      * Symbol of point drawn as masked image.
      * @alias sGis.symbol.point.MaskedImage
@@ -101,13 +102,20 @@ define(["require", "exports", "../../serializers/symbolSerializer", "../Symbol",
             this._updateMasked();
         }
         _isLoaded() { return this._image.complete && this._mask.complete; }
-        _updateMasked() {
+        _updateMasked(triesNo = 0) {
             if (!this._mask || !this._image || !this._isLoaded())
                 return;
             let canvas = document.createElement('canvas');
             canvas.width = this._mask.width;
             canvas.height = this._mask.height;
             let ctx = canvas.getContext('2d');
+            if (canvas.width === 0 || canvas.height === 0) {
+                // IE sometimes forgets to change the size of canvas and fails to draw the image. Need to check for that.
+                if (triesNo > MAX_TRIES)
+                    return;
+                setTimeout(() => this._updateMasked(triesNo + 1), 0);
+                return;
+            }
             ctx.drawImage(this._mask, 0, 0);
             let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             this._recolorMask(imageData);
@@ -116,6 +124,13 @@ define(["require", "exports", "../../serializers/symbolSerializer", "../Symbol",
             resultCanvas.width = this._image.width;
             resultCanvas.height = this._image.height;
             let resultCtx = resultCanvas.getContext('2d');
+            if (resultCanvas.width === 0 || resultCanvas.height === 0) {
+                // IE sometimes forgets to change the size of canvas and fails to draw the image. Need to check for that.
+                if (triesNo > MAX_TRIES)
+                    return;
+                setTimeout(() => this._updateMasked(triesNo + 1), 0);
+                return;
+            }
             resultCtx.drawImage(this._image, 0, 0);
             resultCtx.drawImage(canvas, 0, 0);
             this._maskedSrc = resultCanvas.toDataURL();
