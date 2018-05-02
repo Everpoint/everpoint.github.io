@@ -156,6 +156,10 @@ define(["require", "exports", "./Control", "../utils/StateManager", "./PointEdit
             this._select(feature);
         }
         _handleFeatureClick(feature, event) {
+            if (!this.isActive) {
+                this._removeListener(feature);
+                return;
+            }
             if (this.ignoreEvents)
                 return;
             event.stopPropagation();

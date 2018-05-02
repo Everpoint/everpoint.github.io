@@ -27,9 +27,10 @@ define(["require", "exports"], function (require, exports) {
         return function () {
             if (timer)
                 clearTimeout(timer);
+            let args = arguments;
             timer = window.setTimeout(function () {
                 timer = null;
-                func.apply(this, arguments);
+                func.apply(this, args);
             }, interval);
         };
     };
