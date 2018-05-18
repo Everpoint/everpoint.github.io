@@ -33,7 +33,9 @@ define(["require", "exports", "../../utils/math", "../../geotools"], function (r
                 const projectedPoint = geotools_1.pointToLineProjection(position, [contour[i - 1], contour[i]]);
                 let minX = Math.min(contour[i - 1][0], contour[i][0]);
                 let maxX = Math.max(contour[i - 1][0], contour[i][0]);
-                if (projectedPoint[0] < minX || projectedPoint[0] > maxX)
+                let minY = Math.min(contour[i - 1][1], contour[i][1]);
+                let maxY = Math.max(contour[i - 1][1], contour[i][1]);
+                if (projectedPoint[0] < minX || projectedPoint[0] > maxX || projectedPoint[1] < minY || projectedPoint[1] > maxY)
                     continue;
                 const distanceSq = math_1.squareDistance(projectedPoint, position);
                 if (distanceSq < currDistanceSq) {
