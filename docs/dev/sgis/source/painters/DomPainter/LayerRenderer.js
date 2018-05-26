@@ -243,16 +243,15 @@ define(["require", "exports", "./Canvas", "../../renders/Render", "../../renders
         }
         getEventCatcher(eventFlag, position) {
             if (!this._eventCatchers[eventFlag])
-                return [null, null];
+                return null;
             let keys = Array.from(this._eventCatchers[eventFlag].keys());
             for (let i = keys.length - 1; i >= 0; i--) {
                 let render = keys[i];
-                let intersectionType = render.contains && render.contains(position);
-                if (intersectionType) {
-                    return [render, intersectionType];
+                if (render.contains(position)) {
+                    return render;
                 }
             }
-            return [null, null];
+            return null;
         }
     }
     exports.LayerRenderer = LayerRenderer;

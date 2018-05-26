@@ -31,16 +31,7 @@ define(["require", "exports", "../../utils/domEvent", "../../commonEvents"], fun
             let mouseOutEvent, mouseOverEvent;
             let targetRender = null;
             for (let i = layerRenderers.length - 1; i >= 0; i--) {
-                let [caughtRender, intersectionType] = layerRenderers[i].getEventCatcher(event.eventFlag, position);
-                if (caughtRender && caughtRender.contourIndex >= 0 && caughtRender.pointIndex >= 0) {
-                    event.contourIndex = caughtRender.contourIndex;
-                    event.pointIndex = caughtRender.pointIndex;
-                }
-                else if (Array.isArray(intersectionType)) {
-                    event.contourIndex = intersectionType[0];
-                    event.pointIndex = intersectionType[1];
-                }
-                targetRender = caughtRender;
+                targetRender = layerRenderers[i].getEventCatcher(event.eventFlag, position);
                 if (targetRender)
                     break;
             }

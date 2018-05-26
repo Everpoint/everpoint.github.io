@@ -2,12 +2,10 @@ define(["require", "exports", "./EventHandler"], function (require, exports, Eve
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class sGisMouseEvent extends EventHandler_1.sGisEvent {
-        constructor({ type, flag }, { point, browserEvent, contourIndex = null, pointIndex = null }) {
+        constructor({ type, flag }, { point, browserEvent }) {
             super(type);
             this.point = point;
             this.browserEvent = browserEvent;
-            this.contourIndex = contourIndex;
-            this.pointIndex = pointIndex;
             this.eventFlag = flag;
         }
     }

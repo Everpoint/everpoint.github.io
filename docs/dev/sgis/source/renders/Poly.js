@@ -43,8 +43,8 @@ define(["require", "exports", "./Render", "../geotools"], function (require, exp
         contains(position) {
             let polygonContains = geotools_1.contains(this.coordinates, position, this.strokeWidth / 2 + this.lineContainsTolerance);
             if (this.enclosed)
-                return polygonContains;
-            return Array.isArray(polygonContains) && polygonContains[1] !== this.coordinates[polygonContains[0]].length - 1 ? polygonContains : false;
+                return !!polygonContains;
+            return Array.isArray(polygonContains) && polygonContains[1] !== this.coordinates[polygonContains[0]].length - 1;
         }
     }
     exports.PolyRender = PolyRender;
