@@ -2,7 +2,7 @@ define(["require", "exports", "../../features/FeatureGroup", "../../utils/utils"
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class GridClusterProvider {
-        constructor({ size = 44 } = {}) {
+        constructor(size = 244) {
             this._features = [];
             this._size = size;
             this._resolution = 0;
@@ -51,6 +51,9 @@ define(["require", "exports", "../../features/FeatureGroup", "../../utils/utils"
                     utils_1.error(new Error(`Feature ${f} is not in the GridClusterProvider`));
                 this._features.splice(index, 1);
             });
+        }
+        has(feature) {
+            return this._features.indexOf(feature) !== -1;
         }
     }
     exports.GridClusterProvider = GridClusterProvider;

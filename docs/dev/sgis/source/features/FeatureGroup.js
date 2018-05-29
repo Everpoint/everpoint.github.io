@@ -27,11 +27,8 @@ define(["require", "exports", "./Feature", "../Point", "../symbols/point/Point",
             this._features = features.map(feature => {
                 if (this.crs.equals(feature.crs))
                     return feature;
-                else {
-                    const projected = feature.projectTo(this.crs);
-                    const assigned = Object.assign(feature, projected);
-                    return assigned;
-                }
+                else
+                    return feature.projectTo(this.crs);
             });
         }
         clone() {
