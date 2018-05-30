@@ -2,7 +2,7 @@ define(["require", "exports", "../../features/FeatureGroup", "../../utils/utils"
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class GridClusterProvider {
-        constructor(size = 244) {
+        constructor(size = 88) {
             this._features = [];
             this._size = size;
             this._resolution = 0;
@@ -16,8 +16,8 @@ define(["require", "exports", "../../features/FeatureGroup", "../../utils/utils"
                 const groups = {};
                 for (let i = 0; i < this._features.length; i++) {
                     const point = this._features[i].projectTo(bbox.crs);
-                    const indexX = Math.round(point.centroid[0] / size);
-                    const indexY = Math.round(point.centroid[1] / size);
+                    const indexX = Math.floor(point.centroid[0] / size);
+                    const indexY = Math.floor(point.centroid[1] / size);
                     if (groups[`${indexX}-${indexY}`]) {
                         groups[`${indexX}-${indexY}`].push(this._features[i]);
                     }
