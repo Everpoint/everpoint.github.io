@@ -22,7 +22,7 @@ define(["require", "exports", "../utils/Color", "../utils/utils"], function (req
         let keys = Object.keys(symbolDescriptions);
         for (let i = 0; i < keys.length; i++) {
             let desc = symbolDescriptions[keys[i]];
-            if (symbol instanceof desc.Constructor) {
+            if (symbol.constructor === desc.Constructor) {
                 let serialized = { symbolName: keys[i] };
                 desc.properties.forEach(prop => {
                     let value = symbol[prop];
