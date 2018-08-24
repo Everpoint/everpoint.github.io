@@ -3,6 +3,13 @@ define(["require", "exports", "../../Point", "./EventDispatcher", "./LayerRender
     Object.defineProperty(exports, "__esModule", { value: true });
     let innerWrapperStyle = 'position: relative; overflow: hidden; width: 100%; height: 100%;';
     let layerWrapperStyle = 'position: absolute; width: 100%; height: 100%; z-index: 0;';
+    class MapResize extends EventHandler_1.sGisEvent {
+        constructor() {
+            super(MapResize.type);
+        }
+    }
+    MapResize.type = 'mapResize';
+    exports.MapResize = MapResize;
     class DomPainter extends EventHandler_1.EventHandler {
         /**
          * @param map - the map to be drawn.
@@ -10,6 +17,7 @@ define(["require", "exports", "../../Point", "./EventDispatcher", "./LayerRender
          */
         constructor(map, { wrapper = null } = {}) {
             super();
+            this._fireMapResize = utils_1.debounce(() => this.fire(new MapResize()), this._map && this._map.changeEndDelay || 300);
             this._map = map;
             this.wrapper = wrapper;
             this._layerRenderers = new Map();
@@ -146,8 +154,13 @@ define(["require", "exports", "../../Point", "./EventDispatcher", "./LayerRender
             this._containers.splice(i, 1);
         }
         _updateSize() {
-            this._width = this._wrapper ? this._wrapper.clientWidth || this._wrapper.offsetWidth : 0;
-            this._height = this._wrapper ? this._wrapper.clientHeight || this._wrapper.offsetHeight : 0;
+            const newWidth = this._wrapper ? this._wrapper.clientWidth || this._wrapper.offsetWidth : 0;
+            const newHeight = this._wrapper ? this._wrapper.clientHeight || this._wrapper.offsetHeight : 0;
+            if (this._width !== newWidth || this._height !== newHeight) {
+                this._fireMapResize();
+            }
+            this._width = newWidth;
+            this._height = newHeight;
         }
         /**
          * Returns true is the map is currently displayed in the DOM>
