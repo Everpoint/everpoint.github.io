@@ -4,8 +4,10 @@ define(["require", "exports", "../../Point", "./EventDispatcher", "./LayerRender
     let innerWrapperStyle = 'position: relative; overflow: hidden; width: 100%; height: 100%;';
     let layerWrapperStyle = 'position: absolute; width: 100%; height: 100%; z-index: 0;';
     class MapResize extends EventHandler_1.sGisEvent {
-        constructor() {
+        constructor(width, height) {
             super(MapResize.type);
+            this.width = width;
+            this.height = height;
         }
     }
     MapResize.type = 'mapResize';
@@ -17,7 +19,7 @@ define(["require", "exports", "../../Point", "./EventDispatcher", "./LayerRender
          */
         constructor(map, { wrapper = null } = {}) {
             super();
-            this._fireMapResize = utils_1.debounce(() => this.fire(new MapResize()), this._map && this._map.changeEndDelay || 300);
+            this._fireMapResize = utils_1.debounce((width, height) => this.fire(new MapResize(width, height)), this._map && this._map.changeEndDelay || 300);
             this._map = map;
             this.wrapper = wrapper;
             this._layerRenderers = new Map();
@@ -157,7 +159,7 @@ define(["require", "exports", "../../Point", "./EventDispatcher", "./LayerRender
             const newWidth = this._wrapper ? this._wrapper.clientWidth || this._wrapper.offsetWidth : 0;
             const newHeight = this._wrapper ? this._wrapper.clientHeight || this._wrapper.offsetHeight : 0;
             if (this._width !== newWidth || this._height !== newHeight) {
-                this._fireMapResize();
+                this._fireMapResize(newWidth, newHeight);
             }
             this._width = newWidth;
             this._height = newHeight;
