@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>everGis - address search api usage</title>
+    <title>EverGis - Address search api usage</title>
 
     <script src="//everpoint.github.io/everGis-bundle.js"></script>
 
@@ -16,10 +16,10 @@
 
 <script>
     window.onload = function() {
-        sGis.spatialProcessor.Connector.prototype.apiLoginUrl = 'http://evg-inst.everpoint.ru/EverCloud/Strategis.Server.Authorization/Authorize.svc/Login';
+        sGis.spatialProcessor.Connector.prototype.apiLoginUrl = '//evg-inst.everpoint.ru/EverCloud/Strategis.Server.Authorization/Authorize.svc/Login';
 
         var sp = new sGis.SpatialProcessor({
-            url: 'http://evg-inst.everpoint.ru/EverCloud/SpatialProcessor/IIS/',
+            url: '//evg-inst.everpoint.ru/EverCloud/SpatialProcessor/IIS/',
             services: ['osm']
         });
 
