@@ -12371,7 +12371,7 @@ sGis.module('sp.Connector', [
                 var self = this;
                 if (login && password) {
                     var spUrl = this._url.substr(-4, 4) === 'IIS/' ? this._url.substr(0, this._url.length - 4) : this._url,
-                        url = this.apiLoginUrl.replace(/%sp%/, spUrl) + '?userName=' + login + '&password=' + encodeURIComponent(password) + '&ts=' + new Date().getTime();
+                        url = this.apiLoginUrl.replace(/%sp%/, spUrl) + '?login=' + login + '&password=' + encodeURIComponent(password) + '&ts=' + new Date().getTime();
                     sGis.utils.ajax({
                         url: url,
                         success: function (data, textStatus) {
