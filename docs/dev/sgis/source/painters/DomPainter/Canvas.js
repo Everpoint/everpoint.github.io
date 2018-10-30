@@ -6,10 +6,16 @@ define(["require", "exports", "../../renders/Arc", "../../renders/Point", "../..
      * @ignore
      */
     class Canvas {
-        constructor() {
-            this._setNode();
+        constructor(canvasNode) {
+            if (canvasNode) {
+                this._canvasNode = canvasNode;
+                this._ctx = this._canvasNode.getContext('2d');
+            }
+            else {
+                this._createNode();
+            }
         }
-        _setNode() {
+        _createNode() {
             this._canvasNode = document.createElement('canvas');
             this._canvasNode.style.pointerEvents = 'none';
             this._ctx = this._canvasNode.getContext('2d');
