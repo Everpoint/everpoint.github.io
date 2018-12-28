@@ -1,0 +1,463 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class ZkServerGroupManager
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class ZkServerGroupManager
+   ">
+    <meta name="generator" content="docfx 2.40.6.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="SPCore.ZooKeeper.ZkServerGroupManager">
+  
+  
+  <h1 id="SPCore_ZooKeeper_ZkServerGroupManager" data-uid="SPCore.ZooKeeper.ZkServerGroupManager" class="text-break">Class ZkServerGroupManager
+  </h1>
+  <div class="markdown level0 summary"><p>Group manager that uses ZooKeeper servers for inter-server communication and coordination.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">ZkServerGroupManager</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="SPCore.Common.IServerGroupManager.html">IServerGroupManager</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="SPCore.ZooKeeper.html">SPCore.ZooKeeper</a></h6>
+  <h6><strong>Assembly</strong>: ZooKeeper.dll</h6>
+  <h5 id="SPCore_ZooKeeper_ZkServerGroupManager_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class ZkServerGroupManager : IServerGroupManager</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="SPCore_ZooKeeper_ZkServerGroupManager__ctor_" data-uid="SPCore.ZooKeeper.ZkServerGroupManager.#ctor*"></a>
+  <h4 id="SPCore_ZooKeeper_ZkServerGroupManager__ctor_System_String_System_String_" data-uid="SPCore.ZooKeeper.ZkServerGroupManager.#ctor(System.String,System.String)">ZkServerGroupManager(String, String)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="SPCore.ZooKeeper.ZkServerGroupManager.html">ZkServerGroupManager</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ZkServerGroupManager(string connectionString, string nodeAddress)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">connectionString</span></td>
+        <td><p>Connection string to zookeeper.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">nodeAddress</span></td>
+        <td><p>This servers IP address (with port) to be used for incoming requests from other nodes.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.Common.Exceptions.InvalidConfigurationException.html">InvalidConfigurationException</a></td>
+        <td><p>If manager fails to initialize with the given configuration.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="SPCore_ZooKeeper_ZkServerGroupManager_ConfigurationProvider_" data-uid="SPCore.ZooKeeper.ZkServerGroupManager.ConfigurationProvider*"></a>
+  <h4 id="SPCore_ZooKeeper_ZkServerGroupManager_ConfigurationProvider" data-uid="SPCore.ZooKeeper.ZkServerGroupManager.ConfigurationProvider">ConfigurationProvider</h4>
+  <div class="markdown level1 summary"><p>Gets the configuration provider.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IModulesConfigurationProvider ConfigurationProvider { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.Common.Configuration.IModulesConfigurationProvider.html">IModulesConfigurationProvider</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_ZooKeeper_ZkServerGroupManager_IsCoordinatorAsync_" data-uid="SPCore.ZooKeeper.ZkServerGroupManager.IsCoordinatorAsync*"></a>
+  <h4 id="SPCore_ZooKeeper_ZkServerGroupManager_IsCoordinatorAsync" data-uid="SPCore.ZooKeeper.ZkServerGroupManager.IsCoordinatorAsync">IsCoordinatorAsync</h4>
+  <div class="markdown level1 summary"><p>Returns true if at the moment the server is the coordinator in the server group.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; IsCoordinatorAsync { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Boolean</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_ZooKeeper_ZkServerGroupManager_SessionDataProvider_" data-uid="SPCore.ZooKeeper.ZkServerGroupManager.SessionDataProvider*"></a>
+  <h4 id="SPCore_ZooKeeper_ZkServerGroupManager_SessionDataProvider" data-uid="SPCore.ZooKeeper.ZkServerGroupManager.SessionDataProvider">SessionDataProvider</h4>
+  <div class="markdown level1 summary"><p>Gets the session data provider.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ISessionDataProvider SessionDataProvider { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.Common.Sessions.ISessionDataProvider.html">ISessionDataProvider</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="SPCore_ZooKeeper_ZkServerGroupManager_GetEventManager_" data-uid="SPCore.ZooKeeper.ZkServerGroupManager.GetEventManager*"></a>
+  <h4 id="SPCore_ZooKeeper_ZkServerGroupManager_GetEventManager" data-uid="SPCore.ZooKeeper.ZkServerGroupManager.GetEventManager">GetEventManager()</h4>
+  <div class="markdown level1 summary"><p>Creates an event manager that works around all servers in cluster.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEventManager GetEventManager()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.Common.Events.IEventManager.html">IEventManager</a></td>
+        <td><p>Event manager.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_ZooKeeper_ZkServerGroupManager_GetQueueManagerAsync_" data-uid="SPCore.ZooKeeper.ZkServerGroupManager.GetQueueManagerAsync*"></a>
+  <h4 id="SPCore_ZooKeeper_ZkServerGroupManager_GetQueueManagerAsync__1_System_String_" data-uid="SPCore.ZooKeeper.ZkServerGroupManager.GetQueueManagerAsync``1(System.String)">GetQueueManagerAsync&lt;T&gt;(String)</h4>
+  <div class="markdown level1 summary"><p>Creates a queue managers for the specified queue name.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;IQueueManager&lt;T&gt;&gt; GetQueueManagerAsync&lt;T&gt;(string queueName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">queueName</span></td>
+        <td><p>Name of the queue.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="SPCore.Common.Scheduler.IQueueManager-1.html">IQueueManager</a>&lt;T&gt;&gt;</td>
+        <td><p>Cloud queue manager.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td><p>Type of the items in the queue.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_ZooKeeper_ZkServerGroupManager_JoinGroupAsync_" data-uid="SPCore.ZooKeeper.ZkServerGroupManager.JoinGroupAsync*"></a>
+  <h4 id="SPCore_ZooKeeper_ZkServerGroupManager_JoinGroupAsync" data-uid="SPCore.ZooKeeper.ZkServerGroupManager.JoinGroupAsync">JoinGroupAsync()</h4>
+  <div class="markdown level1 summary"><p>Tries to join the server group. Throws exception if connection is failed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task JoinGroupAsync()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td><p>The <span class="xref">System.Threading.Tasks.Task</span>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_ZooKeeper_ZkServerGroupManager_ListGroupAsync_" data-uid="SPCore.ZooKeeper.ZkServerGroupManager.ListGroupAsync*"></a>
+  <h4 id="SPCore_ZooKeeper_ZkServerGroupManager_ListGroupAsync" data-uid="SPCore.ZooKeeper.ZkServerGroupManager.ListGroupAsync">ListGroupAsync()</h4>
+  <div class="markdown level1 summary"><p>List the server group.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;IEnumerable&lt;string&gt;&gt; ListGroupAsync()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;&gt;</td>
+        <td><p>The <span class="xref">System.Threading.Tasks.Task</span>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_ZooKeeper_ZkServerGroupManager_Reset_" data-uid="SPCore.ZooKeeper.ZkServerGroupManager.Reset*"></a>
+  <h4 id="SPCore_ZooKeeper_ZkServerGroupManager_Reset_System_String_" data-uid="SPCore.ZooKeeper.ZkServerGroupManager.Reset(System.String)">Reset(String)</h4>
+  <div class="markdown level1 summary"><p>Resets the server group. It restarts all servers in cluster with the new configuration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Reset(string providerRowConfig)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">providerRowConfig</span></td>
+        <td><p>New configuration to be used.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="SPCore.Common.IServerGroupManager.html">IServerGroupManager</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

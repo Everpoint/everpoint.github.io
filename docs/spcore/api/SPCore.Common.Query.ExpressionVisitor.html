@@ -1,0 +1,1187 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class ExpressionVisitor
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class ExpressionVisitor
+   ">
+    <meta name="generator" content="docfx 2.40.6.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="SPCore.Common.Query.ExpressionVisitor">
+  
+  
+  <h1 id="SPCore_Common_Query_ExpressionVisitor" data-uid="SPCore.Common.Query.ExpressionVisitor" class="text-break">Class ExpressionVisitor
+  </h1>
+  <div class="markdown level0 summary"><p>This is the copy of <span class="xref">System.Linq.Expressions.ExpressionVisitor</span>. It is needed here because we need to
+use some internal methods of the original class.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">ExpressionVisitor</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="SPCore.Common.Query.html">SPCore.Common.Query</a></h6>
+  <h6><strong>Assembly</strong>: Common.dll</h6>
+  <h5 id="SPCore_Common_Query_ExpressionVisitor_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class ExpressionVisitor</code></pre>
+  </div>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_Visit_" data-uid="SPCore.Common.Query.ExpressionVisitor.Visit*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_Visit_System_Linq_Expressions_Expression_" data-uid="SPCore.Common.Query.ExpressionVisitor.Visit(System.Linq.Expressions.Expression)">Visit(Expression)</h4>
+  <div class="markdown level1 summary"><p><span class="xref">System.Linq.Expressions.ExpressionVisitor.Visit(System.Linq.Expressions.Expression)</span></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual Expression Visit(Expression exp)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><span class="parametername">exp</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><p>New expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitBinary_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitBinary*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitBinary_System_Linq_Expressions_BinaryExpression_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitBinary(System.Linq.Expressions.BinaryExpression)">VisitBinary(BinaryExpression)</h4>
+  <div class="markdown level1 summary"><p>Visits <span class="xref">System.Linq.Expressions.BinaryExpression</span> expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual Expression VisitBinary(BinaryExpression b)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.BinaryExpression</span></td>
+        <td><span class="parametername">b</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitBinding_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitBinding*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitBinding_System_Linq_Expressions_MemberBinding_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitBinding(System.Linq.Expressions.MemberBinding)">VisitBinding(MemberBinding)</h4>
+  <div class="markdown level1 summary"><p>Visits <span class="xref">System.Linq.Expressions.MemberBinding</span> expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual MemberBinding VisitBinding(MemberBinding binding)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.MemberBinding</span></td>
+        <td><span class="parametername">binding</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.MemberBinding</span></td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitBindingList_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitBindingList*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitBindingList_System_Collections_ObjectModel_ReadOnlyCollection_System_Linq_Expressions_MemberBinding__" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitBindingList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.MemberBinding})">VisitBindingList(ReadOnlyCollection&lt;MemberBinding&gt;)</h4>
+  <div class="markdown level1 summary"><p>Visits a set of expressions.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual IEnumerable&lt;MemberBinding&gt; VisitBindingList(ReadOnlyCollection&lt;MemberBinding&gt; original)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.ObjectModel.ReadOnlyCollection</span>&lt;<span class="xref">System.Linq.Expressions.MemberBinding</span>&gt;</td>
+        <td><span class="parametername">original</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.Linq.Expressions.MemberBinding</span>&gt;</td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitConditional_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitConditional*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitConditional_System_Linq_Expressions_ConditionalExpression_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitConditional(System.Linq.Expressions.ConditionalExpression)">VisitConditional(ConditionalExpression)</h4>
+  <div class="markdown level1 summary"><p>Visits <span class="xref">System.Linq.Expressions.ConditionalExpression</span> expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual Expression VisitConditional(ConditionalExpression c)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.ConditionalExpression</span></td>
+        <td><span class="parametername">c</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitConstant_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitConstant*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitConstant_System_Linq_Expressions_ConstantExpression_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitConstant(System.Linq.Expressions.ConstantExpression)">VisitConstant(ConstantExpression)</h4>
+  <div class="markdown level1 summary"><p>Visits <span class="xref">System.Linq.Expressions.ConstantExpression</span> expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual Expression VisitConstant(ConstantExpression c)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.ConstantExpression</span></td>
+        <td><span class="parametername">c</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitElementInitializer_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitElementInitializer*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitElementInitializer_System_Linq_Expressions_ElementInit_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitElementInitializer(System.Linq.Expressions.ElementInit)">VisitElementInitializer(ElementInit)</h4>
+  <div class="markdown level1 summary"><p>Visits <span class="xref">System.Linq.Expressions.ElementInit</span> expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual ElementInit VisitElementInitializer(ElementInit initializer)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.ElementInit</span></td>
+        <td><span class="parametername">initializer</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.ElementInit</span></td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitElementInitializerList_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitElementInitializerList*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitElementInitializerList_System_Collections_ObjectModel_ReadOnlyCollection_System_Linq_Expressions_ElementInit__" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitElementInitializerList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.ElementInit})">VisitElementInitializerList(ReadOnlyCollection&lt;ElementInit&gt;)</h4>
+  <div class="markdown level1 summary"><p>Visits a set of expressions.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual IEnumerable&lt;ElementInit&gt; VisitElementInitializerList(ReadOnlyCollection&lt;ElementInit&gt; original)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.ObjectModel.ReadOnlyCollection</span>&lt;<span class="xref">System.Linq.Expressions.ElementInit</span>&gt;</td>
+        <td><span class="parametername">original</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.Linq.Expressions.ElementInit</span>&gt;</td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitExpressionList_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitExpressionList*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitExpressionList_System_Collections_ObjectModel_ReadOnlyCollection_System_Linq_Expressions_Expression__" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitExpressionList(System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.Expression})">VisitExpressionList(ReadOnlyCollection&lt;Expression&gt;)</h4>
+  <div class="markdown level1 summary"><p>Visits a set of expressions.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual ReadOnlyCollection&lt;Expression&gt; VisitExpressionList(ReadOnlyCollection&lt;Expression&gt; original)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.ObjectModel.ReadOnlyCollection</span>&lt;<span class="xref">System.Linq.Expressions.Expression</span>&gt;</td>
+        <td><span class="parametername">original</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.ObjectModel.ReadOnlyCollection</span>&lt;<span class="xref">System.Linq.Expressions.Expression</span>&gt;</td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitInvocation_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitInvocation*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitInvocation_System_Linq_Expressions_InvocationExpression_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitInvocation(System.Linq.Expressions.InvocationExpression)">VisitInvocation(InvocationExpression)</h4>
+  <div class="markdown level1 summary"><p>Visits <span class="xref">System.Linq.Expressions.InvocationExpression</span> expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual Expression VisitInvocation(InvocationExpression iv)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.InvocationExpression</span></td>
+        <td><span class="parametername">iv</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitLambda_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitLambda*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitLambda_System_Linq_Expressions_LambdaExpression_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitLambda(System.Linq.Expressions.LambdaExpression)">VisitLambda(LambdaExpression)</h4>
+  <div class="markdown level1 summary"><p>Visits <span class="xref">System.Linq.Expressions.LambdaExpression</span> expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual Expression VisitLambda(LambdaExpression lambda)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.LambdaExpression</span></td>
+        <td><span class="parametername">lambda</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitListInit_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitListInit*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitListInit_System_Linq_Expressions_ListInitExpression_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitListInit(System.Linq.Expressions.ListInitExpression)">VisitListInit(ListInitExpression)</h4>
+  <div class="markdown level1 summary"><p>Visits <span class="xref">System.Linq.Expressions.ListInitExpression</span> expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual Expression VisitListInit(ListInitExpression init)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.ListInitExpression</span></td>
+        <td><span class="parametername">init</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitMemberAccess_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitMemberAccess*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitMemberAccess_System_Linq_Expressions_MemberExpression_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitMemberAccess(System.Linq.Expressions.MemberExpression)">VisitMemberAccess(MemberExpression)</h4>
+  <div class="markdown level1 summary"><p>Visits <span class="xref">System.Linq.Expressions.MemberExpression</span> expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual Expression VisitMemberAccess(MemberExpression m)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.MemberExpression</span></td>
+        <td><span class="parametername">m</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitMemberAssignment_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitMemberAssignment*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitMemberAssignment_System_Linq_Expressions_MemberAssignment_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitMemberAssignment(System.Linq.Expressions.MemberAssignment)">VisitMemberAssignment(MemberAssignment)</h4>
+  <div class="markdown level1 summary"><p>Visits <span class="xref">System.Linq.Expressions.MemberAssignment</span> expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual MemberAssignment VisitMemberAssignment(MemberAssignment assignment)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.MemberAssignment</span></td>
+        <td><span class="parametername">assignment</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.MemberAssignment</span></td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitMemberInit_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitMemberInit*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitMemberInit_System_Linq_Expressions_MemberInitExpression_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitMemberInit(System.Linq.Expressions.MemberInitExpression)">VisitMemberInit(MemberInitExpression)</h4>
+  <div class="markdown level1 summary"><p>Visits <span class="xref">System.Linq.Expressions.MemberInitExpression</span> expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual Expression VisitMemberInit(MemberInitExpression init)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.MemberInitExpression</span></td>
+        <td><span class="parametername">init</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitMemberListBinding_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitMemberListBinding*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitMemberListBinding_System_Linq_Expressions_MemberListBinding_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitMemberListBinding(System.Linq.Expressions.MemberListBinding)">VisitMemberListBinding(MemberListBinding)</h4>
+  <div class="markdown level1 summary"><p>Visits <span class="xref">System.Linq.Expressions.MemberListBinding</span> expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual MemberListBinding VisitMemberListBinding(MemberListBinding binding)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.MemberListBinding</span></td>
+        <td><span class="parametername">binding</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.MemberListBinding</span></td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitMemberMemberBinding_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitMemberMemberBinding*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitMemberMemberBinding_System_Linq_Expressions_MemberMemberBinding_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitMemberMemberBinding(System.Linq.Expressions.MemberMemberBinding)">VisitMemberMemberBinding(MemberMemberBinding)</h4>
+  <div class="markdown level1 summary"><p>Visits <span class="xref">System.Linq.Expressions.MemberMemberBinding</span> expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual MemberMemberBinding VisitMemberMemberBinding(MemberMemberBinding binding)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.MemberMemberBinding</span></td>
+        <td><span class="parametername">binding</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.MemberMemberBinding</span></td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitMethodCall_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitMethodCall*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitMethodCall_System_Linq_Expressions_MethodCallExpression_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitMethodCall(System.Linq.Expressions.MethodCallExpression)">VisitMethodCall(MethodCallExpression)</h4>
+  <div class="markdown level1 summary"><p>Visits <span class="xref">System.Linq.Expressions.MethodCallExpression</span> expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual Expression VisitMethodCall(MethodCallExpression m)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.MethodCallExpression</span></td>
+        <td><span class="parametername">m</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitNew_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitNew*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitNew_System_Linq_Expressions_NewExpression_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitNew(System.Linq.Expressions.NewExpression)">VisitNew(NewExpression)</h4>
+  <div class="markdown level1 summary"><p>Visits <span class="xref">System.Linq.Expressions.NewExpression</span> expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual NewExpression VisitNew(NewExpression nex)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.NewExpression</span></td>
+        <td><span class="parametername">nex</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.NewExpression</span></td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitNewArray_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitNewArray*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitNewArray_System_Linq_Expressions_NewArrayExpression_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitNewArray(System.Linq.Expressions.NewArrayExpression)">VisitNewArray(NewArrayExpression)</h4>
+  <div class="markdown level1 summary"><p>Visits <span class="xref">System.Linq.Expressions.NewArrayExpression</span> expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual Expression VisitNewArray(NewArrayExpression na)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.NewArrayExpression</span></td>
+        <td><span class="parametername">na</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitParameter_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitParameter*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitParameter_System_Linq_Expressions_ParameterExpression_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitParameter(System.Linq.Expressions.ParameterExpression)">VisitParameter(ParameterExpression)</h4>
+  <div class="markdown level1 summary"><p>Visits <span class="xref">System.Linq.Expressions.ParameterExpression</span> expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual Expression VisitParameter(ParameterExpression p)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.ParameterExpression</span></td>
+        <td><span class="parametername">p</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitTypeIs_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitTypeIs*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitTypeIs_System_Linq_Expressions_TypeBinaryExpression_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitTypeIs(System.Linq.Expressions.TypeBinaryExpression)">VisitTypeIs(TypeBinaryExpression)</h4>
+  <div class="markdown level1 summary"><p>Visits <span class="xref">System.Linq.Expressions.TypeBinaryExpression</span> expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual Expression VisitTypeIs(TypeBinaryExpression b)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.TypeBinaryExpression</span></td>
+        <td><span class="parametername">b</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Query_ExpressionVisitor_VisitUnary_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitUnary*"></a>
+  <h4 id="SPCore_Common_Query_ExpressionVisitor_VisitUnary_System_Linq_Expressions_UnaryExpression_" data-uid="SPCore.Common.Query.ExpressionVisitor.VisitUnary(System.Linq.Expressions.UnaryExpression)">VisitUnary(UnaryExpression)</h4>
+  <div class="markdown level1 summary"><p>Visits <span class="xref">System.Linq.Expressions.UnaryExpression</span> expression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual Expression VisitUnary(UnaryExpression u)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.UnaryExpression</span></td>
+        <td><span class="parametername">u</span></td>
+        <td><p>Expression to visit.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Linq.Expressions.Expression</span></td>
+        <td><p>Result expression.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

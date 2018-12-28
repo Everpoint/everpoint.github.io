@@ -1,0 +1,588 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class MultipointGeometry
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class MultipointGeometry
+   ">
+    <meta name="generator" content="docfx 2.40.6.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry">
+  
+  
+  <h1 id="SPCore_GeoMath_Geometry_MultipointGeometry" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry" class="text-break">Class MultipointGeometry
+  </h1>
+  <div class="markdown level0 summary"><p>Multipoint Geometry</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">MultipointGeometry</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="SPCore.GeoMath.Geometry.IMultipointGeometry.html">IMultipointGeometry</a></div>
+    <div><a class="xref" href="SPCore.GeoMath.Geometry.IGeometry.html">IGeometry</a></div>
+    <div><a class="xref" href="SPCore.GeoMath.Geometry.IPointCollection.html">IPointCollection</a></div>
+    <div><span class="xref">System.Collections.Generic.IReadOnlyList</span>&lt;<a class="xref" href="SPCore.GeoMath.Geometry.IVector.html">IVector</a>&gt;</div>
+    <div><span class="xref">System.Collections.Generic.IReadOnlyCollection</span>&lt;<a class="xref" href="SPCore.GeoMath.Geometry.IVector.html">IVector</a>&gt;</div>
+    <div><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="SPCore.GeoMath.Geometry.IVector.html">IVector</a>&gt;</div>
+    <div><span class="xref">System.Collections.IEnumerable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="SPCore.GeoMath.Geometry.html">SPCore.GeoMath.Geometry</a></h6>
+  <h6><strong>Assembly</strong>: GeoMath.dll</h6>
+  <h5 id="SPCore_GeoMath_Geometry_MultipointGeometry_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Serializable]
+public class MultipointGeometry : IMultipointGeometry, IGeometry, IPointCollection, IReadOnlyList&lt;IVector&gt;, IReadOnlyCollection&lt;IVector&gt;, IEnumerable&lt;IVector&gt;, IEnumerable</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="SPCore_GeoMath_Geometry_MultipointGeometry__ctor_" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.#ctor*"></a>
+  <h4 id="SPCore_GeoMath_Geometry_MultipointGeometry__ctor_SPCore_GeoMath_Geometry_IVector___SPCore_GeoMath_CoordSystems_ISpatialReference_" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.#ctor(SPCore.GeoMath.Geometry.IVector[],SPCore.GeoMath.CoordSystems.ISpatialReference)">MultipointGeometry(IVector[], ISpatialReference)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="SPCore.GeoMath.Geometry.MultipointGeometry.html">MultipointGeometry</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MultipointGeometry(IVector[] points, ISpatialReference sr = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.GeoMath.Geometry.IVector.html">IVector</a>[]</td>
+        <td><span class="parametername">points</span></td>
+        <td><p>Array of the points.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="SPCore.GeoMath.CoordSystems.ISpatialReference.html">ISpatialReference</a></td>
+        <td><span class="parametername">sr</span></td>
+        <td><p>Spatial reference.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="SPCore_GeoMath_Geometry_MultipointGeometry_Centroid_" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.Centroid*"></a>
+  <h4 id="SPCore_GeoMath_Geometry_MultipointGeometry_Centroid" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.Centroid">Centroid</h4>
+  <div class="markdown level1 summary"><p>Center point of the geometry.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IVector Centroid { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.GeoMath.Geometry.IVector.html">IVector</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_GeoMath_Geometry_MultipointGeometry_Count_" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.Count*"></a>
+  <h4 id="SPCore_GeoMath_Geometry_MultipointGeometry_Count" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.Count">Count</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Count { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_GeoMath_Geometry_MultipointGeometry_Envelope_" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.Envelope*"></a>
+  <h4 id="SPCore_GeoMath_Geometry_MultipointGeometry_Envelope" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.Envelope">Envelope</h4>
+  <div class="markdown level1 summary"><p>Rectangular geometry.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public EnvelopeGeometry Envelope { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.GeoMath.Geometry.EnvelopeGeometry.html">EnvelopeGeometry</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_GeoMath_Geometry_MultipointGeometry_GeometryType_" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.GeometryType*"></a>
+  <h4 id="SPCore_GeoMath_Geometry_MultipointGeometry_GeometryType" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.GeometryType">GeometryType</h4>
+  <div class="markdown level1 summary"><p>Geometry type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonProperty(&quot;geometryType&quot;)]
+public GeometryType GeometryType { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.GeoMath.Geometry.GeometryType.html">GeometryType</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_GeoMath_Geometry_MultipointGeometry_Item_" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.Item*"></a>
+  <h4 id="SPCore_GeoMath_Geometry_MultipointGeometry_Item_System_Int32_" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.Item(System.Int32)">Item[Int32]</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IVector this[int index] { get; }</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">index</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.GeoMath.Geometry.IVector.html">IVector</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_GeoMath_Geometry_MultipointGeometry_Points_" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.Points*"></a>
+  <h4 id="SPCore_GeoMath_Geometry_MultipointGeometry_Points" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.Points">Points</h4>
+  <div class="markdown level1 summary"><p>Points of the multipoint.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonProperty(&quot;points&quot;)]
+public EditablePointCollection Points { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.GeoMath.Geometry.EditablePointCollection.html">EditablePointCollection</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_GeoMath_Geometry_MultipointGeometry_Sr_" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.Sr*"></a>
+  <h4 id="SPCore_GeoMath_Geometry_MultipointGeometry_Sr" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.Sr">Sr</h4>
+  <div class="markdown level1 summary"><p>Spatial reference of the geometry. If null, all spatial reference checks are skipped.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonProperty(&quot;sr&quot;)]
+public ISpatialReference Sr { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.GeoMath.CoordSystems.ISpatialReference.html">ISpatialReference</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="SPCore_GeoMath_Geometry_MultipointGeometry_GetEnumerator_" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.GetEnumerator*"></a>
+  <h4 id="SPCore_GeoMath_Geometry_MultipointGeometry_GetEnumerator" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.GetEnumerator">GetEnumerator()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerator&lt;IVector&gt; GetEnumerator()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerator</span>&lt;<a class="xref" href="SPCore.GeoMath.Geometry.IVector.html">IVector</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_GeoMath_Geometry_MultipointGeometry_Project_" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.Project*"></a>
+  <h4 id="SPCore_GeoMath_Geometry_MultipointGeometry_Project_SPCore_GeoMath_CoordSystems_Projections_IProjection_" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.Project(SPCore.GeoMath.CoordSystems.Projections.IProjection)">Project(IProjection)</h4>
+  <div class="markdown level1 summary"><p>Projects the geometry using the given projection. This method changes the geometry in use.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Project(IProjection projection)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.GeoMath.CoordSystems.Projections.IProjection.html">IProjection</a></td>
+        <td><span class="parametername">projection</span></td>
+        <td><p>Projection to apply. Calling code is responsible for checking that the projection is compatible with the geometry own spatial reference.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="eii">Explicit Interface Implementations
+  </h3>
+  
+  
+  <a id="SPCore_GeoMath_Geometry_MultipointGeometry_SPCore_GeoMath_Geometry_IGeometry_Copy_" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.SPCore#GeoMath#Geometry#IGeometry#Copy*"></a>
+  <h4 id="SPCore_GeoMath_Geometry_MultipointGeometry_SPCore_GeoMath_Geometry_IGeometry_Copy" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.SPCore#GeoMath#Geometry#IGeometry#Copy">IGeometry.Copy()</h4>
+  <div class="markdown level1 summary"><p>Returns a copy of the geometry.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IGeometry IGeometry.Copy()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.GeoMath.Geometry.IGeometry.html">IGeometry</a></td>
+        <td><p>A new geometry object that is a copy of the given one.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_GeoMath_Geometry_MultipointGeometry_SPCore_GeoMath_Geometry_IMultipointGeometry_Copy_" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.SPCore#GeoMath#Geometry#IMultipointGeometry#Copy*"></a>
+  <h4 id="SPCore_GeoMath_Geometry_MultipointGeometry_SPCore_GeoMath_Geometry_IMultipointGeometry_Copy" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.SPCore#GeoMath#Geometry#IMultipointGeometry#Copy">IMultipointGeometry.Copy()</h4>
+  <div class="markdown level1 summary"><p>Makes a copy of the multipoint.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IMultipointGeometry IMultipointGeometry.Copy()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.GeoMath.Geometry.IMultipointGeometry.html">IMultipointGeometry</a></td>
+        <td><p>A copy of the multipoint.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_GeoMath_Geometry_MultipointGeometry_SPCore_GeoMath_Geometry_IMultipointGeometry_Points_" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.SPCore#GeoMath#Geometry#IMultipointGeometry#Points*"></a>
+  <h4 id="SPCore_GeoMath_Geometry_MultipointGeometry_SPCore_GeoMath_Geometry_IMultipointGeometry_Points" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.SPCore#GeoMath#Geometry#IMultipointGeometry#Points">IMultipointGeometry.Points</h4>
+  <div class="markdown level1 summary"><p>Points of the multipoint.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IPointCollection IMultipointGeometry.Points { get; }</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.GeoMath.Geometry.IPointCollection.html">IPointCollection</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_GeoMath_Geometry_MultipointGeometry_System_Collections_IEnumerable_GetEnumerator_" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.System#Collections#IEnumerable#GetEnumerator*"></a>
+  <h4 id="SPCore_GeoMath_Geometry_MultipointGeometry_System_Collections_IEnumerable_GetEnumerator" data-uid="SPCore.GeoMath.Geometry.MultipointGeometry.System#Collections#IEnumerable#GetEnumerator">IEnumerable.GetEnumerator()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IEnumerator IEnumerable.GetEnumerator()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.IEnumerator</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="SPCore.GeoMath.Geometry.IMultipointGeometry.html">IMultipointGeometry</a>
+  </div>
+  <div>
+      <a class="xref" href="SPCore.GeoMath.Geometry.IGeometry.html">IGeometry</a>
+  </div>
+  <div>
+      <a class="xref" href="SPCore.GeoMath.Geometry.IPointCollection.html">IPointCollection</a>
+  </div>
+  <div>
+      <span class="xref">System.Collections.Generic.IReadOnlyList&lt;T&gt;</span>
+  </div>
+  <div>
+      <span class="xref">System.Collections.Generic.IReadOnlyCollection&lt;T&gt;</span>
+  </div>
+  <div>
+      <span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span>
+  </div>
+  <div>
+      <span class="xref">System.Collections.IEnumerable</span>
+  </div>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="SPCore.GeoMath.Geometry.GeometryExtensions.html#SPCore_GeoMath_Geometry_GeometryExtensions_Project_SPCore_GeoMath_Geometry_IGeometry_SPCore_GeoMath_CoordSystems_ISpatialReference_">GeometryExtensions.Project(IGeometry, ISpatialReference)</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

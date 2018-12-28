@@ -1,0 +1,3705 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class Dataset
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class Dataset
+   ">
+    <meta name="generator" content="docfx 2.40.6.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="OSGeo.GDAL.Dataset">
+  
+  
+  <h1 id="OSGeo_GDAL_Dataset" data-uid="OSGeo.GDAL.Dataset" class="text-break">Class Dataset
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="OSGeo.GDAL.MajorObject.html">MajorObject</a></div>
+    <div class="level2"><span class="xref">Dataset</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">System.IDisposable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="OSGeo.GDAL.MajorObject.html#OSGeo_GDAL_MajorObject_swigCMemOwn">MajorObject.swigCMemOwn</a>
+    </div>
+    <div>
+      <a class="xref" href="OSGeo.GDAL.MajorObject.html#OSGeo_GDAL_MajorObject_swigParentRef">MajorObject.swigParentRef</a>
+    </div>
+    <div>
+      <a class="xref" href="OSGeo.GDAL.MajorObject.html#OSGeo_GDAL_MajorObject_ThisOwn_true">MajorObject.ThisOwn_true()</a>
+    </div>
+    <div>
+      <a class="xref" href="OSGeo.GDAL.MajorObject.html#OSGeo_GDAL_MajorObject_ThisOwn_false">MajorObject.ThisOwn_false()</a>
+    </div>
+    <div>
+      <a class="xref" href="OSGeo.GDAL.MajorObject.html#OSGeo_GDAL_MajorObject_getCPtr_OSGeo_GDAL_MajorObject_">MajorObject.getCPtr(MajorObject)</a>
+    </div>
+    <div>
+      <a class="xref" href="OSGeo.GDAL.MajorObject.html#OSGeo_GDAL_MajorObject_getCPtrAndDisown_OSGeo_GDAL_MajorObject_System_Object_">MajorObject.getCPtrAndDisown(MajorObject, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="OSGeo.GDAL.MajorObject.html#OSGeo_GDAL_MajorObject_getCPtrAndSetReference_OSGeo_GDAL_MajorObject_System_Object_">MajorObject.getCPtrAndSetReference(MajorObject, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="OSGeo.GDAL.MajorObject.html#OSGeo_GDAL_MajorObject_GetDescription">MajorObject.GetDescription()</a>
+    </div>
+    <div>
+      <a class="xref" href="OSGeo.GDAL.MajorObject.html#OSGeo_GDAL_MajorObject_SetDescription_System_String_">MajorObject.SetDescription(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="OSGeo.GDAL.MajorObject.html#OSGeo_GDAL_MajorObject_GetMetadataDomainList">MajorObject.GetMetadataDomainList()</a>
+    </div>
+    <div>
+      <a class="xref" href="OSGeo.GDAL.MajorObject.html#OSGeo_GDAL_MajorObject_GetMetadata_System_String_">MajorObject.GetMetadata(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="OSGeo.GDAL.MajorObject.html#OSGeo_GDAL_MajorObject_SetMetadata_System_String___System_String_">MajorObject.SetMetadata(String[], String)</a>
+    </div>
+    <div>
+      <a class="xref" href="OSGeo.GDAL.MajorObject.html#OSGeo_GDAL_MajorObject_SetMetadata_System_String_System_String_">MajorObject.SetMetadata(String, String)</a>
+    </div>
+    <div>
+      <a class="xref" href="OSGeo.GDAL.MajorObject.html#OSGeo_GDAL_MajorObject_GetMetadataItem_System_String_System_String_">MajorObject.GetMetadataItem(String, String)</a>
+    </div>
+    <div>
+      <a class="xref" href="OSGeo.GDAL.MajorObject.html#OSGeo_GDAL_MajorObject_SetMetadataItem_System_String_System_String_System_String_">MajorObject.SetMetadataItem(String, String, String)</a>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="OSGeo.GDAL.html">OSGeo.GDAL</a></h6>
+  <h6><strong>Assembly</strong>: Gdal.dll</h6>
+  <h5 id="OSGeo_GDAL_Dataset_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class Dataset : MajorObject, IDisposable</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="OSGeo_GDAL_Dataset__ctor_" data-uid="OSGeo.GDAL.Dataset.#ctor*"></a>
+  <h4 id="OSGeo_GDAL_Dataset__ctor_System_IntPtr_System_Boolean_System_Object_" data-uid="OSGeo.GDAL.Dataset.#ctor(System.IntPtr,System.Boolean,System.Object)">Dataset(IntPtr, Boolean, Object)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Dataset(IntPtr cPtr, bool cMemoryOwn, object parent)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.IntPtr</span></td>
+        <td><span class="parametername">cPtr</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">cMemoryOwn</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">parent</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_RasterCount_" data-uid="OSGeo.GDAL.Dataset.RasterCount*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_RasterCount" data-uid="OSGeo.GDAL.Dataset.RasterCount">RasterCount</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int RasterCount { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_RasterXSize_" data-uid="OSGeo.GDAL.Dataset.RasterXSize*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_RasterXSize" data-uid="OSGeo.GDAL.Dataset.RasterXSize">RasterXSize</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int RasterXSize { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_RasterYSize_" data-uid="OSGeo.GDAL.Dataset.RasterYSize*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_RasterYSize" data-uid="OSGeo.GDAL.Dataset.RasterYSize">RasterYSize</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int RasterYSize { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_AddBand_" data-uid="OSGeo.GDAL.Dataset.AddBand*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_AddBand_OSGeo_GDAL_DataType_System_String___" data-uid="OSGeo.GDAL.Dataset.AddBand(OSGeo.GDAL.DataType,System.String[])">AddBand(DataType, String[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr AddBand(DataType datatype, string[] options)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.DataType.html">DataType</a></td>
+        <td><span class="parametername">datatype</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_AdviseRead_" data-uid="OSGeo.GDAL.Dataset.AdviseRead*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_AdviseRead_System_Int32_System_Int32_System_Int32_System_Int32_OSGeo_GDAL_SWIGTYPE_p_int_OSGeo_GDAL_SWIGTYPE_p_int_System_Int32__System_Int32_OSGeo_GDAL_SWIGTYPE_p_int_System_String___" data-uid="OSGeo.GDAL.Dataset.AdviseRead(System.Int32,System.Int32,System.Int32,System.Int32,OSGeo.GDAL.SWIGTYPE_p_int,OSGeo.GDAL.SWIGTYPE_p_int,System.Int32@,System.Int32,OSGeo.GDAL.SWIGTYPE_p_int,System.String[])">AdviseRead(Int32, Int32, Int32, Int32, SWIGTYPE_p_int, SWIGTYPE_p_int, ref Int32, Int32, SWIGTYPE_p_int, String[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr AdviseRead(int xoff, int yoff, int xsize, int ysize, SWIGTYPE_p_int buf_xsize, SWIGTYPE_p_int buf_ysize, ref int buf_type, int band_list, SWIGTYPE_p_int pband_list, string[] options)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xoff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yoff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xsize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ysize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.SWIGTYPE_p_int.html">SWIGTYPE_p_int</a></td>
+        <td><span class="parametername">buf_xsize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.SWIGTYPE_p_int.html">SWIGTYPE_p_int</a></td>
+        <td><span class="parametername">buf_ysize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_type</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">band_list</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.SWIGTYPE_p_int.html">SWIGTYPE_p_int</a></td>
+        <td><span class="parametername">pband_list</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">options</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_BuildOverviews_" data-uid="OSGeo.GDAL.Dataset.BuildOverviews*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_BuildOverviews_System_String_System_Int32_System_IntPtr_OSGeo_GDAL_Gdal_GDALProgressFuncDelegate_System_String_" data-uid="OSGeo.GDAL.Dataset.BuildOverviews(System.String,System.Int32,System.IntPtr,OSGeo.GDAL.Gdal.GDALProgressFuncDelegate,System.String)">BuildOverviews(String, Int32, IntPtr, Gdal.GDALProgressFuncDelegate, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int BuildOverviews(string resampling, int overviewlist, IntPtr pOverviews, Gdal.GDALProgressFuncDelegate callback, string callback_data)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">resampling</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">overviewlist</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.IntPtr</span></td>
+        <td><span class="parametername">pOverviews</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.Gdal.GDALProgressFuncDelegate.html">Gdal.GDALProgressFuncDelegate</a></td>
+        <td><span class="parametername">callback</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">callback_data</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_BuildOverviews_" data-uid="OSGeo.GDAL.Dataset.BuildOverviews*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_BuildOverviews_System_String_System_Int32___" data-uid="OSGeo.GDAL.Dataset.BuildOverviews(System.String,System.Int32[])">BuildOverviews(String, Int32[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int BuildOverviews(string resampling, int[] overviewlist)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">resampling</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">overviewlist</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_BuildOverviews_" data-uid="OSGeo.GDAL.Dataset.BuildOverviews*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_BuildOverviews_System_String_System_Int32___OSGeo_GDAL_Gdal_GDALProgressFuncDelegate_System_String_" data-uid="OSGeo.GDAL.Dataset.BuildOverviews(System.String,System.Int32[],OSGeo.GDAL.Gdal.GDALProgressFuncDelegate,System.String)">BuildOverviews(String, Int32[], Gdal.GDALProgressFuncDelegate, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int BuildOverviews(string resampling, int[] overviewlist, Gdal.GDALProgressFuncDelegate callback, string callback_data)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">resampling</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">overviewlist</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.Gdal.GDALProgressFuncDelegate.html">Gdal.GDALProgressFuncDelegate</a></td>
+        <td><span class="parametername">callback</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">callback_data</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_CommitTransaction_" data-uid="OSGeo.GDAL.Dataset.CommitTransaction*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_CommitTransaction" data-uid="OSGeo.GDAL.Dataset.CommitTransaction">CommitTransaction()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int CommitTransaction()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_CreateMaskBand_" data-uid="OSGeo.GDAL.Dataset.CreateMaskBand*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_CreateMaskBand_System_Int32_" data-uid="OSGeo.GDAL.Dataset.CreateMaskBand(System.Int32)">CreateMaskBand(Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr CreateMaskBand(int nFlags)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">nFlags</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_Dispose_" data-uid="OSGeo.GDAL.Dataset.Dispose*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_Dispose" data-uid="OSGeo.GDAL.Dataset.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Dispose()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="OSGeo.GDAL.MajorObject.html#OSGeo_GDAL_MajorObject_Dispose">MajorObject.Dispose()</a></div>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_Finalize_" data-uid="OSGeo.GDAL.Dataset.Finalize*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_Finalize" data-uid="OSGeo.GDAL.Dataset.Finalize">Finalize()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void Finalize()</code></pre>
+  </div>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_FlushCache_" data-uid="OSGeo.GDAL.Dataset.FlushCache*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_FlushCache" data-uid="OSGeo.GDAL.Dataset.FlushCache">FlushCache()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void FlushCache()</code></pre>
+  </div>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_getCPtr_" data-uid="OSGeo.GDAL.Dataset.getCPtr*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_getCPtr_OSGeo_GDAL_Dataset_" data-uid="OSGeo.GDAL.Dataset.getCPtr(OSGeo.GDAL.Dataset)">getCPtr(Dataset)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static HandleRef getCPtr(Dataset obj)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.Dataset.html">Dataset</a></td>
+        <td><span class="parametername">obj</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Runtime.InteropServices.HandleRef</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_getCPtrAndDisown_" data-uid="OSGeo.GDAL.Dataset.getCPtrAndDisown*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_getCPtrAndDisown_OSGeo_GDAL_Dataset_System_Object_" data-uid="OSGeo.GDAL.Dataset.getCPtrAndDisown(OSGeo.GDAL.Dataset,System.Object)">getCPtrAndDisown(Dataset, Object)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static HandleRef getCPtrAndDisown(Dataset obj, object parent)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.Dataset.html">Dataset</a></td>
+        <td><span class="parametername">obj</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">parent</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Runtime.InteropServices.HandleRef</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_getCPtrAndSetReference_" data-uid="OSGeo.GDAL.Dataset.getCPtrAndSetReference*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_getCPtrAndSetReference_OSGeo_GDAL_Dataset_System_Object_" data-uid="OSGeo.GDAL.Dataset.getCPtrAndSetReference(OSGeo.GDAL.Dataset,System.Object)">getCPtrAndSetReference(Dataset, Object)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static HandleRef getCPtrAndSetReference(Dataset obj, object parent)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.Dataset.html">Dataset</a></td>
+        <td><span class="parametername">obj</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">parent</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Runtime.InteropServices.HandleRef</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_GetDriver_" data-uid="OSGeo.GDAL.Dataset.GetDriver*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_GetDriver" data-uid="OSGeo.GDAL.Dataset.GetDriver">GetDriver()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Driver GetDriver()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.Driver.html">Driver</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_GetFileList_" data-uid="OSGeo.GDAL.Dataset.GetFileList*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_GetFileList" data-uid="OSGeo.GDAL.Dataset.GetFileList">GetFileList()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string[] GetFileList()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_GetGCPCount_" data-uid="OSGeo.GDAL.Dataset.GetGCPCount*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_GetGCPCount" data-uid="OSGeo.GDAL.Dataset.GetGCPCount">GetGCPCount()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GetGCPCount()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_GetGCPProjection_" data-uid="OSGeo.GDAL.Dataset.GetGCPProjection*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_GetGCPProjection" data-uid="OSGeo.GDAL.Dataset.GetGCPProjection">GetGCPProjection()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string GetGCPProjection()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_GetGCPs_" data-uid="OSGeo.GDAL.Dataset.GetGCPs*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_GetGCPs" data-uid="OSGeo.GDAL.Dataset.GetGCPs">GetGCPs()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GCP[] GetGCPs()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.GCP.html">GCP</a>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_GetGeoTransform_" data-uid="OSGeo.GDAL.Dataset.GetGeoTransform*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_GetGeoTransform_System_Double___" data-uid="OSGeo.GDAL.Dataset.GetGeoTransform(System.Double[])">GetGeoTransform(Double[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void GetGeoTransform(double[] argout)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Double</span>[]</td>
+        <td><span class="parametername">argout</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_GetProjection_" data-uid="OSGeo.GDAL.Dataset.GetProjection*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_GetProjection" data-uid="OSGeo.GDAL.Dataset.GetProjection">GetProjection()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string GetProjection()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_GetProjectionRef_" data-uid="OSGeo.GDAL.Dataset.GetProjectionRef*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_GetProjectionRef" data-uid="OSGeo.GDAL.Dataset.GetProjectionRef">GetProjectionRef()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string GetProjectionRef()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_GetRasterBand_" data-uid="OSGeo.GDAL.Dataset.GetRasterBand*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_GetRasterBand_System_Int32_" data-uid="OSGeo.GDAL.Dataset.GetRasterBand(System.Int32)">GetRasterBand(Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Band GetRasterBand(int nBand)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">nBand</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.Band.html">Band</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_ReadRaster_" data-uid="OSGeo.GDAL.Dataset.ReadRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_ReadRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_Byte___System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_" data-uid="OSGeo.GDAL.Dataset.ReadRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.Byte[],System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32)">ReadRaster(Int32, Int32, Int32, Int32, Byte[], Int32, Int32, Int32, Int32[], Int32, Int32, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr ReadRaster(int xOff, int yOff, int xSize, int ySize, byte[] buffer, int buf_xSize, int buf_ySize, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_ReadRaster_" data-uid="OSGeo.GDAL.Dataset.ReadRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_ReadRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_Byte___System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_OSGeo_GDAL_RasterIOExtraArg_" data-uid="OSGeo.GDAL.Dataset.ReadRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.Byte[],System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32,OSGeo.GDAL.RasterIOExtraArg)">ReadRaster(Int32, Int32, Int32, Int32, Byte[], Int32, Int32, Int32, Int32[], Int32, Int32, Int32, RasterIOExtraArg)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr ReadRaster(int xOff, int yOff, int xSize, int ySize, byte[] buffer, int buf_xSize, int buf_ySize, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace, RasterIOExtraArg extraArg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.RasterIOExtraArg.html">RasterIOExtraArg</a></td>
+        <td><span class="parametername">extraArg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_ReadRaster_" data-uid="OSGeo.GDAL.Dataset.ReadRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_ReadRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_Double___System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_" data-uid="OSGeo.GDAL.Dataset.ReadRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.Double[],System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32)">ReadRaster(Int32, Int32, Int32, Int32, Double[], Int32, Int32, Int32, Int32[], Int32, Int32, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr ReadRaster(int xOff, int yOff, int xSize, int ySize, double[] buffer, int buf_xSize, int buf_ySize, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Double</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_ReadRaster_" data-uid="OSGeo.GDAL.Dataset.ReadRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_ReadRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_Double___System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_OSGeo_GDAL_RasterIOExtraArg_" data-uid="OSGeo.GDAL.Dataset.ReadRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.Double[],System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32,OSGeo.GDAL.RasterIOExtraArg)">ReadRaster(Int32, Int32, Int32, Int32, Double[], Int32, Int32, Int32, Int32[], Int32, Int32, Int32, RasterIOExtraArg)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr ReadRaster(int xOff, int yOff, int xSize, int ySize, double[] buffer, int buf_xSize, int buf_ySize, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace, RasterIOExtraArg extraArg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Double</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.RasterIOExtraArg.html">RasterIOExtraArg</a></td>
+        <td><span class="parametername">extraArg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_ReadRaster_" data-uid="OSGeo.GDAL.Dataset.ReadRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_ReadRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_Int16___System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_" data-uid="OSGeo.GDAL.Dataset.ReadRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.Int16[],System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32)">ReadRaster(Int32, Int32, Int32, Int32, Int16[], Int32, Int32, Int32, Int32[], Int32, Int32, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr ReadRaster(int xOff, int yOff, int xSize, int ySize, short[] buffer, int buf_xSize, int buf_ySize, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int16</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_ReadRaster_" data-uid="OSGeo.GDAL.Dataset.ReadRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_ReadRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_Int16___System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_OSGeo_GDAL_RasterIOExtraArg_" data-uid="OSGeo.GDAL.Dataset.ReadRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.Int16[],System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32,OSGeo.GDAL.RasterIOExtraArg)">ReadRaster(Int32, Int32, Int32, Int32, Int16[], Int32, Int32, Int32, Int32[], Int32, Int32, Int32, RasterIOExtraArg)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr ReadRaster(int xOff, int yOff, int xSize, int ySize, short[] buffer, int buf_xSize, int buf_ySize, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace, RasterIOExtraArg extraArg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int16</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.RasterIOExtraArg.html">RasterIOExtraArg</a></td>
+        <td><span class="parametername">extraArg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_ReadRaster_" data-uid="OSGeo.GDAL.Dataset.ReadRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_ReadRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_" data-uid="OSGeo.GDAL.Dataset.ReadRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32)">ReadRaster(Int32, Int32, Int32, Int32, Int32[], Int32, Int32, Int32, Int32[], Int32, Int32, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr ReadRaster(int xOff, int yOff, int xSize, int ySize, int[] buffer, int buf_xSize, int buf_ySize, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_ReadRaster_" data-uid="OSGeo.GDAL.Dataset.ReadRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_ReadRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_OSGeo_GDAL_RasterIOExtraArg_" data-uid="OSGeo.GDAL.Dataset.ReadRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32,OSGeo.GDAL.RasterIOExtraArg)">ReadRaster(Int32, Int32, Int32, Int32, Int32[], Int32, Int32, Int32, Int32[], Int32, Int32, Int32, RasterIOExtraArg)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr ReadRaster(int xOff, int yOff, int xSize, int ySize, int[] buffer, int buf_xSize, int buf_ySize, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace, RasterIOExtraArg extraArg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.RasterIOExtraArg.html">RasterIOExtraArg</a></td>
+        <td><span class="parametername">extraArg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_ReadRaster_" data-uid="OSGeo.GDAL.Dataset.ReadRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_ReadRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_IntPtr_System_Int32_System_Int32_OSGeo_GDAL_DataType_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_" data-uid="OSGeo.GDAL.Dataset.ReadRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.IntPtr,System.Int32,System.Int32,OSGeo.GDAL.DataType,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32)">ReadRaster(Int32, Int32, Int32, Int32, IntPtr, Int32, Int32, DataType, Int32, Int32[], Int32, Int32, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr ReadRaster(int xOff, int yOff, int xSize, int ySize, IntPtr buffer, int buf_xSize, int buf_ySize, DataType buf_type, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.IntPtr</span></td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.DataType.html">DataType</a></td>
+        <td><span class="parametername">buf_type</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_ReadRaster_" data-uid="OSGeo.GDAL.Dataset.ReadRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_ReadRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_IntPtr_System_Int32_System_Int32_OSGeo_GDAL_DataType_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_OSGeo_GDAL_RasterIOExtraArg_" data-uid="OSGeo.GDAL.Dataset.ReadRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.IntPtr,System.Int32,System.Int32,OSGeo.GDAL.DataType,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32,OSGeo.GDAL.RasterIOExtraArg)">ReadRaster(Int32, Int32, Int32, Int32, IntPtr, Int32, Int32, DataType, Int32, Int32[], Int32, Int32, Int32, RasterIOExtraArg)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr ReadRaster(int xOff, int yOff, int xSize, int ySize, IntPtr buffer, int buf_xSize, int buf_ySize, DataType buf_type, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace, RasterIOExtraArg extraArg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.IntPtr</span></td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.DataType.html">DataType</a></td>
+        <td><span class="parametername">buf_type</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.RasterIOExtraArg.html">RasterIOExtraArg</a></td>
+        <td><span class="parametername">extraArg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_ReadRaster_" data-uid="OSGeo.GDAL.Dataset.ReadRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_ReadRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_Single___System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_" data-uid="OSGeo.GDAL.Dataset.ReadRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.Single[],System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32)">ReadRaster(Int32, Int32, Int32, Int32, Single[], Int32, Int32, Int32, Int32[], Int32, Int32, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr ReadRaster(int xOff, int yOff, int xSize, int ySize, float[] buffer, int buf_xSize, int buf_ySize, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_ReadRaster_" data-uid="OSGeo.GDAL.Dataset.ReadRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_ReadRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_Single___System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_OSGeo_GDAL_RasterIOExtraArg_" data-uid="OSGeo.GDAL.Dataset.ReadRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.Single[],System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32,OSGeo.GDAL.RasterIOExtraArg)">ReadRaster(Int32, Int32, Int32, Int32, Single[], Int32, Int32, Int32, Int32[], Int32, Int32, Int32, RasterIOExtraArg)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr ReadRaster(int xOff, int yOff, int xSize, int ySize, float[] buffer, int buf_xSize, int buf_ySize, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace, RasterIOExtraArg extraArg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.RasterIOExtraArg.html">RasterIOExtraArg</a></td>
+        <td><span class="parametername">extraArg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_RollbackTransaction_" data-uid="OSGeo.GDAL.Dataset.RollbackTransaction*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_RollbackTransaction" data-uid="OSGeo.GDAL.Dataset.RollbackTransaction">RollbackTransaction()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int RollbackTransaction()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_SetGCPs_" data-uid="OSGeo.GDAL.Dataset.SetGCPs*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_SetGCPs_OSGeo_GDAL_GCP___System_String_" data-uid="OSGeo.GDAL.Dataset.SetGCPs(OSGeo.GDAL.GCP[],System.String)">SetGCPs(GCP[], String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr SetGCPs(GCP[] pGCPs, string pszGCPProjection)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.GCP.html">GCP</a>[]</td>
+        <td><span class="parametername">pGCPs</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">pszGCPProjection</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_SetGeoTransform_" data-uid="OSGeo.GDAL.Dataset.SetGeoTransform*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_SetGeoTransform_System_Double___" data-uid="OSGeo.GDAL.Dataset.SetGeoTransform(System.Double[])">SetGeoTransform(Double[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr SetGeoTransform(double[] argin)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Double</span>[]</td>
+        <td><span class="parametername">argin</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_SetProjection_" data-uid="OSGeo.GDAL.Dataset.SetProjection*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_SetProjection_System_String_" data-uid="OSGeo.GDAL.Dataset.SetProjection(System.String)">SetProjection(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr SetProjection(string prj)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">prj</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_StartTransaction_" data-uid="OSGeo.GDAL.Dataset.StartTransaction*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_StartTransaction_System_Int32_" data-uid="OSGeo.GDAL.Dataset.StartTransaction(System.Int32)">StartTransaction(Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int StartTransaction(int force)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">force</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_WriteRaster_" data-uid="OSGeo.GDAL.Dataset.WriteRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_WriteRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_Byte___System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_" data-uid="OSGeo.GDAL.Dataset.WriteRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.Byte[],System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32)">WriteRaster(Int32, Int32, Int32, Int32, Byte[], Int32, Int32, Int32, Int32[], Int32, Int32, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr WriteRaster(int xOff, int yOff, int xSize, int ySize, byte[] buffer, int buf_xSize, int buf_ySize, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_WriteRaster_" data-uid="OSGeo.GDAL.Dataset.WriteRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_WriteRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_Byte___System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_OSGeo_GDAL_RasterIOExtraArg_" data-uid="OSGeo.GDAL.Dataset.WriteRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.Byte[],System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32,OSGeo.GDAL.RasterIOExtraArg)">WriteRaster(Int32, Int32, Int32, Int32, Byte[], Int32, Int32, Int32, Int32[], Int32, Int32, Int32, RasterIOExtraArg)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr WriteRaster(int xOff, int yOff, int xSize, int ySize, byte[] buffer, int buf_xSize, int buf_ySize, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace, RasterIOExtraArg extraArg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.RasterIOExtraArg.html">RasterIOExtraArg</a></td>
+        <td><span class="parametername">extraArg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_WriteRaster_" data-uid="OSGeo.GDAL.Dataset.WriteRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_WriteRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_Double___System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_" data-uid="OSGeo.GDAL.Dataset.WriteRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.Double[],System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32)">WriteRaster(Int32, Int32, Int32, Int32, Double[], Int32, Int32, Int32, Int32[], Int32, Int32, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr WriteRaster(int xOff, int yOff, int xSize, int ySize, double[] buffer, int buf_xSize, int buf_ySize, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Double</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_WriteRaster_" data-uid="OSGeo.GDAL.Dataset.WriteRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_WriteRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_Double___System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_OSGeo_GDAL_RasterIOExtraArg_" data-uid="OSGeo.GDAL.Dataset.WriteRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.Double[],System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32,OSGeo.GDAL.RasterIOExtraArg)">WriteRaster(Int32, Int32, Int32, Int32, Double[], Int32, Int32, Int32, Int32[], Int32, Int32, Int32, RasterIOExtraArg)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr WriteRaster(int xOff, int yOff, int xSize, int ySize, double[] buffer, int buf_xSize, int buf_ySize, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace, RasterIOExtraArg extraArg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Double</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.RasterIOExtraArg.html">RasterIOExtraArg</a></td>
+        <td><span class="parametername">extraArg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_WriteRaster_" data-uid="OSGeo.GDAL.Dataset.WriteRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_WriteRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_Int16___System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_" data-uid="OSGeo.GDAL.Dataset.WriteRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.Int16[],System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32)">WriteRaster(Int32, Int32, Int32, Int32, Int16[], Int32, Int32, Int32, Int32[], Int32, Int32, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr WriteRaster(int xOff, int yOff, int xSize, int ySize, short[] buffer, int buf_xSize, int buf_ySize, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int16</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_WriteRaster_" data-uid="OSGeo.GDAL.Dataset.WriteRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_WriteRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_Int16___System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_OSGeo_GDAL_RasterIOExtraArg_" data-uid="OSGeo.GDAL.Dataset.WriteRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.Int16[],System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32,OSGeo.GDAL.RasterIOExtraArg)">WriteRaster(Int32, Int32, Int32, Int32, Int16[], Int32, Int32, Int32, Int32[], Int32, Int32, Int32, RasterIOExtraArg)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr WriteRaster(int xOff, int yOff, int xSize, int ySize, short[] buffer, int buf_xSize, int buf_ySize, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace, RasterIOExtraArg extraArg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int16</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.RasterIOExtraArg.html">RasterIOExtraArg</a></td>
+        <td><span class="parametername">extraArg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_WriteRaster_" data-uid="OSGeo.GDAL.Dataset.WriteRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_WriteRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_" data-uid="OSGeo.GDAL.Dataset.WriteRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32)">WriteRaster(Int32, Int32, Int32, Int32, Int32[], Int32, Int32, Int32, Int32[], Int32, Int32, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr WriteRaster(int xOff, int yOff, int xSize, int ySize, int[] buffer, int buf_xSize, int buf_ySize, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_WriteRaster_" data-uid="OSGeo.GDAL.Dataset.WriteRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_WriteRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_OSGeo_GDAL_RasterIOExtraArg_" data-uid="OSGeo.GDAL.Dataset.WriteRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32,OSGeo.GDAL.RasterIOExtraArg)">WriteRaster(Int32, Int32, Int32, Int32, Int32[], Int32, Int32, Int32, Int32[], Int32, Int32, Int32, RasterIOExtraArg)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr WriteRaster(int xOff, int yOff, int xSize, int ySize, int[] buffer, int buf_xSize, int buf_ySize, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace, RasterIOExtraArg extraArg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.RasterIOExtraArg.html">RasterIOExtraArg</a></td>
+        <td><span class="parametername">extraArg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_WriteRaster_" data-uid="OSGeo.GDAL.Dataset.WriteRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_WriteRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_IntPtr_System_Int32_System_Int32_OSGeo_GDAL_DataType_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_" data-uid="OSGeo.GDAL.Dataset.WriteRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.IntPtr,System.Int32,System.Int32,OSGeo.GDAL.DataType,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32)">WriteRaster(Int32, Int32, Int32, Int32, IntPtr, Int32, Int32, DataType, Int32, Int32[], Int32, Int32, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr WriteRaster(int xOff, int yOff, int xSize, int ySize, IntPtr buffer, int buf_xSize, int buf_ySize, DataType buf_type, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.IntPtr</span></td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.DataType.html">DataType</a></td>
+        <td><span class="parametername">buf_type</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_WriteRaster_" data-uid="OSGeo.GDAL.Dataset.WriteRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_WriteRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_IntPtr_System_Int32_System_Int32_OSGeo_GDAL_DataType_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_OSGeo_GDAL_RasterIOExtraArg_" data-uid="OSGeo.GDAL.Dataset.WriteRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.IntPtr,System.Int32,System.Int32,OSGeo.GDAL.DataType,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32,OSGeo.GDAL.RasterIOExtraArg)">WriteRaster(Int32, Int32, Int32, Int32, IntPtr, Int32, Int32, DataType, Int32, Int32[], Int32, Int32, Int32, RasterIOExtraArg)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr WriteRaster(int xOff, int yOff, int xSize, int ySize, IntPtr buffer, int buf_xSize, int buf_ySize, DataType buf_type, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace, RasterIOExtraArg extraArg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.IntPtr</span></td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.DataType.html">DataType</a></td>
+        <td><span class="parametername">buf_type</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.RasterIOExtraArg.html">RasterIOExtraArg</a></td>
+        <td><span class="parametername">extraArg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_WriteRaster_" data-uid="OSGeo.GDAL.Dataset.WriteRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_WriteRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_Single___System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_" data-uid="OSGeo.GDAL.Dataset.WriteRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.Single[],System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32)">WriteRaster(Int32, Int32, Int32, Int32, Single[], Int32, Int32, Int32, Int32[], Int32, Int32, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr WriteRaster(int xOff, int yOff, int xSize, int ySize, float[] buffer, int buf_xSize, int buf_ySize, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OSGeo_GDAL_Dataset_WriteRaster_" data-uid="OSGeo.GDAL.Dataset.WriteRaster*"></a>
+  <h4 id="OSGeo_GDAL_Dataset_WriteRaster_System_Int32_System_Int32_System_Int32_System_Int32_System_Single___System_Int32_System_Int32_System_Int32_System_Int32___System_Int32_System_Int32_System_Int32_OSGeo_GDAL_RasterIOExtraArg_" data-uid="OSGeo.GDAL.Dataset.WriteRaster(System.Int32,System.Int32,System.Int32,System.Int32,System.Single[],System.Int32,System.Int32,System.Int32,System.Int32[],System.Int32,System.Int32,System.Int32,OSGeo.GDAL.RasterIOExtraArg)">WriteRaster(Int32, Int32, Int32, Int32, Single[], Int32, Int32, Int32, Int32[], Int32, Int32, Int32, RasterIOExtraArg)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CPLErr WriteRaster(int xOff, int yOff, int xSize, int ySize, float[] buffer, int buf_xSize, int buf_ySize, int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace, RasterIOExtraArg extraArg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">yOff</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_xSize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">buf_ySize</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandCount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">bandMap</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">pixelSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lineSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">bandSpace</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.RasterIOExtraArg.html">RasterIOExtraArg</a></td>
+        <td><span class="parametername">extraArg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OSGeo.GDAL.CPLErr.html">CPLErr</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">System.IDisposable</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

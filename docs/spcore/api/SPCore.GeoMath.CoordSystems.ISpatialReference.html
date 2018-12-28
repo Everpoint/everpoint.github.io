@@ -1,0 +1,377 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Interface ISpatialReference
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Interface ISpatialReference
+   ">
+    <meta name="generator" content="docfx 2.40.6.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="SPCore.GeoMath.CoordSystems.ISpatialReference">
+  
+  
+  <h1 id="SPCore_GeoMath_CoordSystems_ISpatialReference" data-uid="SPCore.GeoMath.CoordSystems.ISpatialReference" class="text-break">Interface ISpatialReference
+  </h1>
+  <div class="markdown level0 summary"><p>Spatial reference is an object that specifies the geodetic datum and projection parameters of the coordinate system in use.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="SPCore.GeoMath.CoordSystems.html">SPCore.GeoMath.CoordSystems</a></h6>
+  <h6><strong>Assembly</strong>: GeoMath.dll</h6>
+  <h5 id="SPCore_GeoMath_CoordSystems_ISpatialReference_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonConverter(typeof(SpatialReferenceJsonConverter))]
+public interface ISpatialReference</code></pre>
+  </div>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="SPCore_GeoMath_CoordSystems_ISpatialReference_Authority_" data-uid="SPCore.GeoMath.CoordSystems.ISpatialReference.Authority*"></a>
+  <h4 id="SPCore_GeoMath_CoordSystems_ISpatialReference_Authority" data-uid="SPCore.GeoMath.CoordSystems.ISpatialReference.Authority">Authority</h4>
+  <div class="markdown level1 summary"><p>Publishing authority of the spatial reference. E.g. EPSG or OSG.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">string Authority { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_GeoMath_CoordSystems_ISpatialReference_Datum_" data-uid="SPCore.GeoMath.CoordSystems.ISpatialReference.Datum*"></a>
+  <h4 id="SPCore_GeoMath_CoordSystems_ISpatialReference_Datum" data-uid="SPCore.GeoMath.CoordSystems.ISpatialReference.Datum">Datum</h4>
+  <div class="markdown level1 summary"><p>The ellipsoid that this spatial reference is based on.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IDatum Datum { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.GeoMath.CoordSystems.IDatum.html">IDatum</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_GeoMath_CoordSystems_ISpatialReference_Description_" data-uid="SPCore.GeoMath.CoordSystems.ISpatialReference.Description*"></a>
+  <h4 id="SPCore_GeoMath_CoordSystems_ISpatialReference_Description" data-uid="SPCore.GeoMath.CoordSystems.ISpatialReference.Description">Description</h4>
+  <div class="markdown level1 summary"><p>Human readable description of the spatial reference.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">string Description { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_GeoMath_CoordSystems_ISpatialReference_Dimensions_" data-uid="SPCore.GeoMath.CoordSystems.ISpatialReference.Dimensions*"></a>
+  <h4 id="SPCore_GeoMath_CoordSystems_ISpatialReference_Dimensions" data-uid="SPCore.GeoMath.CoordSystems.ISpatialReference.Dimensions">Dimensions</h4>
+  <div class="markdown level1 summary"><p>Number of coordinate dimensions in this spatial reference.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">int Dimensions { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_GeoMath_CoordSystems_ISpatialReference_Id_" data-uid="SPCore.GeoMath.CoordSystems.ISpatialReference.Id*"></a>
+  <h4 id="SPCore_GeoMath_CoordSystems_ISpatialReference_Id" data-uid="SPCore.GeoMath.CoordSystems.ISpatialReference.Id">Id</h4>
+  <div class="markdown level1 summary"><p>Numerical ID of the spatial reference as given by the publishing authority. E.g. for EPSG:3857 id is '3857'.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">int Id { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_GeoMath_CoordSystems_ISpatialReference_Wkt_" data-uid="SPCore.GeoMath.CoordSystems.ISpatialReference.Wkt*"></a>
+  <h4 id="SPCore_GeoMath_CoordSystems_ISpatialReference_Wkt" data-uid="SPCore.GeoMath.CoordSystems.ISpatialReference.Wkt">Wkt</h4>
+  <div class="markdown level1 summary"><p>Well known text as specified by <a href="http://docs.opengeospatial.org/is/12-063r5/12-063r5.html">http://docs.opengeospatial.org/is/12-063r5/12-063r5.html</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">string Wkt { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="SPCore_GeoMath_CoordSystems_ISpatialReference_GetProjection_" data-uid="SPCore.GeoMath.CoordSystems.ISpatialReference.GetProjection*"></a>
+  <h4 id="SPCore_GeoMath_CoordSystems_ISpatialReference_GetProjection_SPCore_GeoMath_CoordSystems_ISpatialReference_" data-uid="SPCore.GeoMath.CoordSystems.ISpatialReference.GetProjection(SPCore.GeoMath.CoordSystems.ISpatialReference)">GetProjection(ISpatialReference)</h4>
+  <div class="markdown level1 summary"><p>Searches for a projection from this spatial reference to the given.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IProjection GetProjection(ISpatialReference target)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.GeoMath.CoordSystems.ISpatialReference.html">ISpatialReference</a></td>
+        <td><span class="parametername">target</span></td>
+        <td><p>Spatial reference to project to.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.GeoMath.CoordSystems.Projections.IProjection.html">IProjection</a></td>
+        <td><p>Found projection.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_GeoMath_CoordSystems_ISpatialReference_TryGetProjection_" data-uid="SPCore.GeoMath.CoordSystems.ISpatialReference.TryGetProjection*"></a>
+  <h4 id="SPCore_GeoMath_CoordSystems_ISpatialReference_TryGetProjection_SPCore_GeoMath_CoordSystems_ISpatialReference_SPCore_GeoMath_CoordSystems_Projections_IProjection__" data-uid="SPCore.GeoMath.CoordSystems.ISpatialReference.TryGetProjection(SPCore.GeoMath.CoordSystems.ISpatialReference,SPCore.GeoMath.CoordSystems.Projections.IProjection@)">TryGetProjection(ISpatialReference, out IProjection)</h4>
+  <div class="markdown level1 summary"><p>Searches for a projection from this spatial reference to the given.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">bool TryGetProjection(ISpatialReference target, out IProjection projection)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.GeoMath.CoordSystems.ISpatialReference.html">ISpatialReference</a></td>
+        <td><span class="parametername">target</span></td>
+        <td><p>Spatial reference to project to.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="SPCore.GeoMath.CoordSystems.Projections.IProjection.html">IProjection</a></td>
+        <td><span class="parametername">projection</span></td>
+        <td><p>Found projection.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>True if the projection is found, false otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

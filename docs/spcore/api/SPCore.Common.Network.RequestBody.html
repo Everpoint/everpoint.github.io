@@ -1,0 +1,349 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class RequestBody
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class RequestBody
+   ">
+    <meta name="generator" content="docfx 2.40.6.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="SPCore.Common.Network.RequestBody">
+  
+  
+  <h1 id="SPCore_Common_Network_RequestBody" data-uid="SPCore.Common.Network.RequestBody" class="text-break">Class RequestBody
+  </h1>
+  <div class="markdown level0 summary"><p>The body of a client request.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">RequestBody</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="SPCore.Common.Network.IRequestBody.html">IRequestBody</a></div>
+    <div><span class="xref">System.IDisposable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="SPCore.Common.Network.html">SPCore.Common.Network</a></h6>
+  <h6><strong>Assembly</strong>: Common.dll</h6>
+  <h5 id="SPCore_Common_Network_RequestBody_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class RequestBody : IRequestBody, IDisposable</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="SPCore_Common_Network_RequestBody__ctor_" data-uid="SPCore.Common.Network.RequestBody.#ctor*"></a>
+  <h4 id="SPCore_Common_Network_RequestBody__ctor_System_IO_Stream_System_Int64_System_String_System_Text_Encoding_" data-uid="SPCore.Common.Network.RequestBody.#ctor(System.IO.Stream,System.Int64,System.String,System.Text.Encoding)">RequestBody(Stream, Int64, String, Encoding)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="SPCore.Common.Network.RequestBody.html">RequestBody</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RequestBody(Stream inputStream, long contentLength, string contentType, Encoding encoding)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.IO.Stream</span></td>
+        <td><span class="parametername">inputStream</span></td>
+        <td><p>The input stream.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">contentLength</span></td>
+        <td><p>The content length.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">contentType</span></td>
+        <td><p>The content type.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Text.Encoding</span></td>
+        <td><span class="parametername">encoding</span></td>
+        <td><p>The encoding.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="SPCore_Common_Network_RequestBody_ContentType_" data-uid="SPCore.Common.Network.RequestBody.ContentType*"></a>
+  <h4 id="SPCore_Common_Network_RequestBody_ContentType" data-uid="SPCore.Common.Network.RequestBody.ContentType">ContentType</h4>
+  <div class="markdown level1 summary"><p>Mime-type of the request content.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RequestBodyType ContentType { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.Common.Network.RequestBodyType.html">RequestBodyType</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="SPCore_Common_Network_RequestBody_Dispose_" data-uid="SPCore.Common.Network.RequestBody.Dispose*"></a>
+  <h4 id="SPCore_Common_Network_RequestBody_Dispose" data-uid="SPCore.Common.Network.RequestBody.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+  
+  
+  <a id="SPCore_Common_Network_RequestBody_GetSectionAsync_" data-uid="SPCore.Common.Network.RequestBody.GetSectionAsync*"></a>
+  <h4 id="SPCore_Common_Network_RequestBody_GetSectionAsync_System_String_" data-uid="SPCore.Common.Network.RequestBody.GetSectionAsync(System.String)">GetSectionAsync(String)</h4>
+  <div class="markdown level1 summary"><p>For multipart form data, returns a stream for the section with the given name. Returns null if no such section exists.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;RequestBodyPart&gt; GetSectionAsync(string sectionName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">sectionName</span></td>
+        <td><p>Name of the section.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="SPCore.Common.Network.RequestBodyPart.html">RequestBodyPart</a>&gt;</td>
+        <td><p>Stream of that section.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Network_RequestBody_GetStream_" data-uid="SPCore.Common.Network.RequestBody.GetStream*"></a>
+  <h4 id="SPCore_Common_Network_RequestBody_GetStream" data-uid="SPCore.Common.Network.RequestBody.GetStream">GetStream()</h4>
+  <div class="markdown level1 summary"><p>Returns the stream of the request content.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Stream GetStream()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.IO.Stream</span></td>
+        <td><p>Stream content.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Network_RequestBody_GetString_" data-uid="SPCore.Common.Network.RequestBody.GetString*"></a>
+  <h4 id="SPCore_Common_Network_RequestBody_GetString" data-uid="SPCore.Common.Network.RequestBody.GetString">GetString()</h4>
+  <div class="markdown level1 summary"><p>Reads the body to the end and returns the contents as a string.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string GetString()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>Body string.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="SPCore.Common.Network.IRequestBody.html">IRequestBody</a>
+  </div>
+  <div>
+      <span class="xref">System.IDisposable</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

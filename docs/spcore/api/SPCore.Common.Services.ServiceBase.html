@@ -1,0 +1,762 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class ServiceBase
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class ServiceBase
+   ">
+    <meta name="generator" content="docfx 2.40.6.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="SPCore.Common.Services.ServiceBase">
+  
+  
+  <h1 id="SPCore_Common_Services_ServiceBase" data-uid="SPCore.Common.Services.ServiceBase" class="text-break">Class ServiceBase
+  </h1>
+  <div class="markdown level0 summary"><p>Base class for all services in spatial processor.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">ServiceBase</span></div>
+      <div class="level2"><a class="xref" href="SPCore.Common.ClientNotification.NotificationService.html">NotificationService</a></div>
+      <div class="level2"><a class="xref" href="SPCore.Common.Import.ImportService.html">ImportService</a></div>
+      <div class="level2"><a class="xref" href="SPCore.Common.Scheduler.SchedulerService.html">SchedulerService</a></div>
+      <div class="level2"><a class="xref" href="SPCore.Common.Security.SecurityService.html">SecurityService</a></div>
+      <div class="level2"><a class="xref" href="SPCore.Common.ServiceManger.FailedInitializationService.html">FailedInitializationService</a></div>
+      <div class="level2"><a class="xref" href="SPCore.Common.ServiceManger.ServiceManagerService.html">ServiceManagerService</a></div>
+      <div class="level2"><a class="xref" href="SPCore.Common.Services.TileServices.TileServiceBase.html">TileServiceBase</a></div>
+      <div class="level2"><a class="xref" href="SPCore.Common.StaticContentManager.FileUploadService.html">FileUploadService</a></div>
+      <div class="level2"><a class="xref" href="SPCore.Modules.Core.CoreService.html">CoreService</a></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="SPCore.Common.Services.ISpService.html">ISpService</a></div>
+    <div><a class="xref" href="SPCore.Common.Services.IRoutingTarget.html">IRoutingTarget</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="SPCore.Common.Services.html">SPCore.Common.Services</a></h6>
+  <h6><strong>Assembly</strong>: Common.dll</h6>
+  <h5 id="SPCore_Common_Services_ServiceBase_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class ServiceBase : ISpService, IRoutingTarget</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="SPCore_Common_Services_ServiceBase__ctor_" data-uid="SPCore.Common.Services.ServiceBase.#ctor*"></a>
+  <h4 id="SPCore_Common_Services_ServiceBase__ctor_System_String_SPCore_Common_Security_ISecurityManager_SPCore_Common_ServiceManger_AccessControlList_" data-uid="SPCore.Common.Services.ServiceBase.#ctor(System.String,SPCore.Common.Security.ISecurityManager,SPCore.Common.ServiceManger.AccessControlList)">ServiceBase(String, ISecurityManager, AccessControlList)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="SPCore.Common.Services.ServiceBase.html">ServiceBase</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected ServiceBase(string name, ISecurityManager securityManager, AccessControlList acl)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>Service name.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="SPCore.Common.Security.ISecurityManager.html">ISecurityManager</a></td>
+        <td><span class="parametername">securityManager</span></td>
+        <td><p>Server security manager.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="SPCore.Common.ServiceManger.AccessControlList.html">AccessControlList</a></td>
+        <td><span class="parametername">acl</span></td>
+        <td><p>Access control list for the server.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="SPCore_Common_Services_ServiceBase_Acl_" data-uid="SPCore.Common.Services.ServiceBase.Acl*"></a>
+  <h4 id="SPCore_Common_Services_ServiceBase_Acl" data-uid="SPCore.Common.Services.ServiceBase.Acl">Acl</h4>
+  <div class="markdown level1 summary"><p>Access control list of the service.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AccessControlList Acl { get; protected set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.Common.ServiceManger.AccessControlList.html">AccessControlList</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Services_ServiceBase_Alias_" data-uid="SPCore.Common.Services.ServiceBase.Alias*"></a>
+  <h4 id="SPCore_Common_Services_ServiceBase_Alias" data-uid="SPCore.Common.Services.ServiceBase.Alias">Alias</h4>
+  <div class="markdown level1 summary"><p>User-friendly name of the service.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Alias { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Services_ServiceBase_ChangedDate_" data-uid="SPCore.Common.Services.ServiceBase.ChangedDate*"></a>
+  <h4 id="SPCore_Common_Services_ServiceBase_ChangedDate" data-uid="SPCore.Common.Services.ServiceBase.ChangedDate">ChangedDate</h4>
+  <div class="markdown level1 summary"><p>The date when service was last modified.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DateTime ChangedDate { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.DateTime</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Services_ServiceBase_CreatedDate_" data-uid="SPCore.Common.Services.ServiceBase.CreatedDate*"></a>
+  <h4 id="SPCore_Common_Services_ServiceBase_CreatedDate" data-uid="SPCore.Common.Services.ServiceBase.CreatedDate">CreatedDate</h4>
+  <div class="markdown level1 summary"><p>The date when service was created.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DateTime CreatedDate { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.DateTime</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Services_ServiceBase_DefaultOperation_" data-uid="SPCore.Common.Services.ServiceBase.DefaultOperation*"></a>
+  <h4 id="SPCore_Common_Services_ServiceBase_DefaultOperation" data-uid="SPCore.Common.Services.ServiceBase.DefaultOperation">DefaultOperation</h4>
+  <div class="markdown level1 summary"><p>The operation that will be called if the service is requested with operation name.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ServiceOperation DefaultOperation { get; protected set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.Common.Services.Operations.ServiceOperation.html">ServiceOperation</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Services_ServiceBase_Description_" data-uid="SPCore.Common.Services.ServiceBase.Description*"></a>
+  <h4 id="SPCore_Common_Services_ServiceBase_Description" data-uid="SPCore.Common.Services.ServiceBase.Description">Description</h4>
+  <div class="markdown level1 summary"><p>Description of the service.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Description { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Services_ServiceBase_FullName_" data-uid="SPCore.Common.Services.ServiceBase.FullName*"></a>
+  <h4 id="SPCore_Common_Services_ServiceBase_FullName" data-uid="SPCore.Common.Services.ServiceBase.FullName">FullName</h4>
+  <div class="markdown level1 summary"><p>Service name with its parents (managers) names, e.g. &quot;parent1/parent2/serviceName&quot;.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string FullName { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Services_ServiceBase_Name_" data-uid="SPCore.Common.Services.ServiceBase.Name*"></a>
+  <h4 id="SPCore_Common_Services_ServiceBase_Name" data-uid="SPCore.Common.Services.ServiceBase.Name">Name</h4>
+  <div class="markdown level1 summary"><p>Service identifier. Required.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Name { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Services_ServiceBase_Owner_" data-uid="SPCore.Common.Services.ServiceBase.Owner*"></a>
+  <h4 id="SPCore_Common_Services_ServiceBase_Owner" data-uid="SPCore.Common.Services.ServiceBase.Owner">Owner</h4>
+  <div class="markdown level1 summary"><p>Owner of the service.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Owner { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Services_ServiceBase_Preview_" data-uid="SPCore.Common.Services.ServiceBase.Preview*"></a>
+  <h4 id="SPCore_Common_Services_ServiceBase_Preview" data-uid="SPCore.Common.Services.ServiceBase.Preview">Preview</h4>
+  <div class="markdown level1 summary"><p>Link to the preview image of the service.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Preview { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Services_ServiceBase_SecurityManager_" data-uid="SPCore.Common.Services.ServiceBase.SecurityManager*"></a>
+  <h4 id="SPCore_Common_Services_ServiceBase_SecurityManager" data-uid="SPCore.Common.Services.ServiceBase.SecurityManager">SecurityManager</h4>
+  <div class="markdown level1 summary"><p>The security manager of the server.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected ISecurityManager SecurityManager { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.Common.Security.ISecurityManager.html">ISecurityManager</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Services_ServiceBase_Type_" data-uid="SPCore.Common.Services.ServiceBase.Type*"></a>
+  <h4 id="SPCore_Common_Services_ServiceBase_Type" data-uid="SPCore.Common.Services.ServiceBase.Type">Type</h4>
+  <div class="markdown level1 summary"><p>Service type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract string Type { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="SPCore_Common_Services_ServiceBase_ClearAsync_" data-uid="SPCore.Common.Services.ServiceBase.ClearAsync*"></a>
+  <h4 id="SPCore_Common_Services_ServiceBase_ClearAsync" data-uid="SPCore.Common.Services.ServiceBase.ClearAsync">ClearAsync()</h4>
+  <div class="markdown level1 summary"><p>Prepare service for removal, clear special content.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual Task ClearAsync()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td><p>Task.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Services_ServiceBase_GetOperations_" data-uid="SPCore.Common.Services.ServiceBase.GetOperations*"></a>
+  <h4 id="SPCore_Common_Services_ServiceBase_GetOperations" data-uid="SPCore.Common.Services.ServiceBase.GetOperations">GetOperations()</h4>
+  <div class="markdown level1 summary"><p>Returns a list of operations that the user has access to.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;ServiceOperation&gt; GetOperations()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="SPCore.Common.Services.Operations.ServiceOperation.html">ServiceOperation</a>&gt;</td>
+        <td><p>A list of operations.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Services_ServiceBase_GetPermissions_" data-uid="SPCore.Common.Services.ServiceBase.GetPermissions*"></a>
+  <h4 id="SPCore_Common_Services_ServiceBase_GetPermissions" data-uid="SPCore.Common.Services.ServiceBase.GetPermissions">GetPermissions()</h4>
+  <div class="markdown level1 summary"><p>Returns the set of permissions that the current user has for this service.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Permissions GetPermissions()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.Common.ServiceManger.Permissions.html">Permissions</a></td>
+        <td><p>Set of permissions.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Services_ServiceBase_GetRoutingTargetAsync_" data-uid="SPCore.Common.Services.ServiceBase.GetRoutingTargetAsync*"></a>
+  <h4 id="SPCore_Common_Services_ServiceBase_GetRoutingTargetAsync_System_String_" data-uid="SPCore.Common.Services.ServiceBase.GetRoutingTargetAsync(System.String)">GetRoutingTargetAsync(String)</h4>
+  <div class="markdown level1 summary"><p>This method is called to find a routing target for the request. Must be overwritten for services that use custom routing rules.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual Task&lt;IRoutingTarget&gt; GetRoutingTargetAsync(string targetName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">targetName</span></td>
+        <td><p>Requested operation/routing target name.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="SPCore.Common.Services.IRoutingTarget.html">IRoutingTarget</a>&gt;</td>
+        <td><p>The routing target for the request.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Services_ServiceBase_GetServiceInfo_" data-uid="SPCore.Common.Services.ServiceBase.GetServiceInfo*"></a>
+  <h4 id="SPCore_Common_Services_ServiceBase_GetServiceInfo" data-uid="SPCore.Common.Services.ServiceBase.GetServiceInfo">GetServiceInfo()</h4>
+  <div class="markdown level1 summary"><p>Returns information of the service for the client.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual IServiceInfo GetServiceInfo()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.Common.Services.IServiceInfo.html">IServiceInfo</a></td>
+        <td><p>Service info.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Services_ServiceBase_ProcessRequestAsync_" data-uid="SPCore.Common.Services.ServiceBase.ProcessRequestAsync*"></a>
+  <h4 id="SPCore_Common_Services_ServiceBase_ProcessRequestAsync_SPCore_Common_Network_RequestContext_System_Threading_CancellationToken_" data-uid="SPCore.Common.Services.ServiceBase.ProcessRequestAsync(SPCore.Common.Network.RequestContext,System.Threading.CancellationToken)">ProcessRequestAsync(RequestContext, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Main method of the service that is called when a request for service is invoked by client.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;IMessageResponse&gt; ProcessRequestAsync(RequestContext context, CancellationToken cancellationToken)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.Common.Network.RequestContext.html">RequestContext</a></td>
+        <td><span class="parametername">context</span></td>
+        <td><p>Client request context.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">cancellationToken</span></td>
+        <td><p>Cancellation token for the request.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="SPCore.Common.Network.Responses.IMessageResponse.html">IMessageResponse</a>&gt;</td>
+        <td><p>A message response for client.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="SPCore_Common_Services_ServiceBase_RegisterOperation_" data-uid="SPCore.Common.Services.ServiceBase.RegisterOperation*"></a>
+  <h4 id="SPCore_Common_Services_ServiceBase_RegisterOperation_SPCore_Common_Services_Operations_ServiceOperation_" data-uid="SPCore.Common.Services.ServiceBase.RegisterOperation(SPCore.Common.Services.Operations.ServiceOperation)">RegisterOperation(ServiceOperation)</h4>
+  <div class="markdown level1 summary"><p>Adds an operation to the service.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void RegisterOperation(ServiceOperation operation)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="SPCore.Common.Services.Operations.ServiceOperation.html">ServiceOperation</a></td>
+        <td><span class="parametername">operation</span></td>
+        <td><p>Operation to add.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="SPCore.Common.Services.ISpService.html">ISpService</a>
+  </div>
+  <div>
+      <a class="xref" href="SPCore.Common.Services.IRoutingTarget.html">IRoutingTarget</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
