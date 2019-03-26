@@ -18,7 +18,7 @@ define(["require", "exports", "./StaticVectorImageRender"], function (require, e
      * layer renderer to draw it as a simple image.
      */
     class VectorLabel extends StaticVectorImageRender_1.StaticVectorImageRender {
-        constructor({ position, text, horizontalAlignment = HorizontalAlignment.Right, verticalAlignment = VerticalAlignment.Middle, fontSize = 14, fontFamily = 'arial', fontStyle = null, strokeColor = 'white', strokeWidth = 2, fillColor = 'black' }) {
+        constructor({ position, text, horizontalAlignment = HorizontalAlignment.Right, verticalAlignment = VerticalAlignment.Middle, fontSize = 14, fontFamily = 'arial', fontStyle = null, fontWeight, strokeColor = 'white', strokeWidth = 2, fillColor = 'black' }) {
             super({ src: '', position: position });
             this._text = text;
             this.horizontalAlignment = horizontalAlignment;
@@ -26,6 +26,7 @@ define(["require", "exports", "./StaticVectorImageRender"], function (require, e
             this.fontSize = fontSize;
             this.fontFamily = fontFamily;
             this.fontStyle = fontStyle;
+            this.fontWeight = fontWeight;
             this.strokeColor = strokeColor;
             this.strokeWidth = strokeWidth;
             this.fillColor = fillColor;
@@ -42,6 +43,8 @@ define(["require", "exports", "./StaticVectorImageRender"], function (require, e
             let font = '';
             if (this.fontStyle)
                 font += this.fontStyle + ' ';
+            if (this.fontWeight)
+                font += this.fontWeight + ' ';
             font += `${this.fontSize}px ${this.fontFamily}`;
             return font;
         }
