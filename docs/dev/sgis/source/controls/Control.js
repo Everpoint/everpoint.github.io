@@ -70,9 +70,8 @@ define(["require", "exports", "../EventHandler", "../layers/FeatureLayer", "../f
          * @param map - map the control will work with.
          * @param __namedParameters - key-value set of properties to be set to the instance
          */
-        constructor(map, { useTempLayer = false, snappingProvider, activeLayer, isActive = false } = {}) {
+        constructor(map, { useTempLayer = false, snappingProvider, activeLayer, isActive = false, snappingSymbol = new CrossPointSymbol_1.CrossPointSymbol() } = {}) {
             super();
-            this._snappingSymbol = new CrossPointSymbol_1.CrossPointSymbol();
             this._isActive = false;
             /**
              * Temporary feature layer that is added to the map when the control is activated. It is used to show snapping point
@@ -83,6 +82,7 @@ define(["require", "exports", "../EventHandler", "../layers/FeatureLayer", "../f
             this.useTempLayer = useTempLayer;
             this.snappingProvider = snappingProvider;
             this.activeLayer = activeLayer;
+            this._snappingSymbol = snappingSymbol;
             if (isActive)
                 this.isActive = isActive;
         }

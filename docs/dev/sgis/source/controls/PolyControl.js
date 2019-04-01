@@ -40,25 +40,21 @@ define(["require", "exports", "./Control", "../commonEvents"], function (require
         }
         _handleClick(event) {
             let clickEvent = event;
-            setTimeout(() => {
-                if (Date.now() - this._dblClickTime < 30)
-                    return;
-                if (this._activeFeature) {
-                    if (clickEvent.browserEvent.ctrlKey) {
-                        this.startNewRing();
-                    }
-                    else {
-                        this._activeFeature.addPoint(this._snap(clickEvent.point.position, clickEvent.browserEvent.altKey), this._activeFeature.rings.length - 1);
-                    }
+            if (this._activeFeature) {
+                if (clickEvent.browserEvent.ctrlKey) {
+                    this.startNewRing();
                 }
                 else {
-                    this.startNewFeature(clickEvent.point);
-                    this.fire(new Control_1.DrawingBeginEvent());
+                    this._activeFeature.addPoint(this._snap(clickEvent.point.position, clickEvent.browserEvent.altKey), this._activeFeature.rings.length - 1);
                 }
-                this.fire(new Control_1.PointAddEvent());
-                if (this._tempLayer)
-                    this._tempLayer.redraw();
-            }, 10);
+            }
+            else {
+                this.startNewFeature(clickEvent.point);
+                this.fire(new Control_1.DrawingBeginEvent());
+            }
+            this.fire(new Control_1.PointAddEvent());
+            if (this._tempLayer)
+                this._tempLayer.redraw();
             event.stopPropagation();
         }
         /**
