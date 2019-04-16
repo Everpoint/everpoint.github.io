@@ -111,12 +111,15 @@ define(["require", "exports", "./Control", "../symbols/point/Point", "../symbols
             this._rotationHandle.on(commonEvents_1.DragEndEvent.type, this._handleRotationEnd);
             this._tempLayer.add(this._rotationHandle);
         }
+        getScaleHandleSymbol(index) {
+            return this.scaleHandleSymbol.clone();
+        }
         _setScaleHandles() {
             this._scaleHandles = [];
             for (let i = 0; i < 9; i++) {
                 if (i === 4)
                     continue;
-                let symbol = this.scaleHandleSymbol.clone();
+                let symbol = this.getScaleHandleSymbol(i);
                 let xk = i % 3 - 1;
                 let yk = 1 - Math.floor(i / 3);
                 symbol.offset = [this.scaleHandleOffset * xk, this.scaleHandleOffset * yk];
