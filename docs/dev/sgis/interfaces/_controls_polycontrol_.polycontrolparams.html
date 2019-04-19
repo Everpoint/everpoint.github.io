@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>PolySnappingProviderParams | @evergis/sgis</title>
+	<title>PolyControlParams | @evergis/sgis</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_controls_snapping_polysnappingprovider_.html">&quot;controls/snapping/PolySnappingProvider&quot;</a>
+					<a href="../modules/_controls_polycontrol_.html">&quot;controls/PolyControl&quot;</a>
 				</li>
 				<li>
-					<a href="_controls_snapping_polysnappingprovider_.polysnappingproviderparams.html">PolySnappingProviderParams</a>
+					<a href="_controls_polycontrol_.polycontrolparams.html">PolyControlParams</a>
 				</li>
 			</ul>
-			<h1>Interface PolySnappingProviderParams</h1>
+			<h1>Interface PolyControlParams</h1>
 		</div>
 	</div>
 </header>
@@ -73,10 +73,10 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="_controls_snapping_snappingproviderbase_.snappingproviderbaseparams.html" class="tsd-signature-type">SnappingProviderBaseParams</a>
+						<a href="_controls_control_.controlwithsymbolparams.html" class="tsd-signature-type">ControlWithSymbolParams</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">PolySnappingProviderParams</span>
+								<span class="target">PolyControlParams</span>
 							</li>
 						</ul>
 					</li>
@@ -89,9 +89,13 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_controls_snapping_polysnappingprovider_.polysnappingproviderparams.html#feature" class="tsd-kind-icon">feature</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_controls_snapping_polysnappingprovider_.polysnappingproviderparams.html#snappingdistance" class="tsd-kind-icon">snapping<wbr>Distance</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_controls_snapping_polysnappingprovider_.polysnappingproviderparams.html#snappingmethods" class="tsd-kind-icon">snapping<wbr>Methods</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_controls_polycontrol_.polycontrolparams.html#activelayer" class="tsd-kind-icon">active<wbr>Layer</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_controls_polycontrol_.polycontrolparams.html#dblclickmintime" class="tsd-kind-icon">dbl<wbr>Click<wbr>Min<wbr>Time</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_controls_polycontrol_.polycontrolparams.html#isactive" class="tsd-kind-icon">is<wbr>Active</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_controls_polycontrol_.polycontrolparams.html#snappingprovider" class="tsd-kind-icon">snapping<wbr>Provider</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_controls_polycontrol_.polycontrolparams.html#snappingsymbol" class="tsd-kind-icon">snapping<wbr>Symbol</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_controls_polycontrol_.polycontrolparams.html#symbol" class="tsd-kind-icon">symbol</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_controls_polycontrol_.polycontrolparams.html#usetemplayer" class="tsd-kind-icon">use<wbr>Temp<wbr>Layer</a></li>
 							</ul>
 						</section>
 					</div>
@@ -99,58 +103,110 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="activelayer" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> active<wbr>Layer</h3>
+					<div class="tsd-signature tsd-kind-icon">active<wbr>Layer<span class="tsd-signature-symbol">:</span> <a href="../classes/_layers_featurelayer_.featurelayer.html" class="tsd-signature-type">FeatureLayer</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_controls_control_.controlparams.html">ControlParams</a>.<a href="_controls_control_.controlparams.html#activelayer">activeLayer</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/0abc7ef/source/controls/Control.ts#L103">controls/Control.ts:103</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>see</dt>
+							<dd>
+								<p><a href="../classes/_controls_control_.control.html#activelayer">Control.activeLayer</a></p>
+							</dd>
+						</dl>
+					</div>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="feature" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> feature</h3>
-					<div class="tsd-signature tsd-kind-icon">feature<span class="tsd-signature-symbol">:</span> <a href="../classes/_features_poly_.poly.html" class="tsd-signature-type">Poly</a></div>
+					<a name="dblclickmintime" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> dbl<wbr>Click<wbr>Min<wbr>Time</h3>
+					<div class="tsd-signature tsd-kind-icon">dbl<wbr>Click<wbr>Min<wbr>Time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/0abc7ef/source/controls/snapping/PolySnappingProvider.ts#L11">controls/snapping/PolySnappingProvider.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/0abc7ef/source/controls/PolyControl.ts#L15">controls/PolyControl.ts:15</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="isactive" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> is<wbr>Active</h3>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>Active<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_controls_control_.controlparams.html">ControlParams</a>.<a href="_controls_control_.controlparams.html#isactive">isActive</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/0abc7ef/source/controls/Control.ts#L105">controls/Control.ts:105</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>see</dt>
 							<dd>
-								<p><a href="../classes/_controls_snapping_polysnappingprovider_.polysnappingprovider.html#feature">PolySnappingProvider.feature</a></p>
+								<p><a href="../classes/_controls_control_.control.html#isactive">Control.isActive</a></p>
 							</dd>
 						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="snappingdistance" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> snapping<wbr>Distance</h3>
-					<div class="tsd-signature tsd-kind-icon">snapping<wbr>Distance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="snappingprovider" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> snapping<wbr>Provider</h3>
+					<div class="tsd-signature tsd-kind-icon">snapping<wbr>Provider<span class="tsd-signature-symbol">:</span> <a href="_controls_snapping_isnappingprovider_.isnappingprovider.html" class="tsd-signature-type">ISnappingProvider</a></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_controls_snapping_snappingproviderbase_.snappingproviderbaseparams.html">SnappingProviderBaseParams</a>.<a href="_controls_snapping_snappingproviderbase_.snappingproviderbaseparams.html#snappingdistance">snappingDistance</a></p>
+						<p>Inherited from <a href="_controls_control_.controlparams.html">ControlParams</a>.<a href="_controls_control_.controlparams.html#snappingprovider">snappingProvider</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/0abc7ef/source/controls/snapping/SnappingProviderBase.ts#L11">controls/snapping/SnappingProviderBase.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/0abc7ef/source/controls/Control.ts#L101">controls/Control.ts:101</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>see</dt>
 							<dd>
-								<p><a href="../classes/_controls_snapping_snappingproviderbase_.snappingproviderbase.html#snappingdistance">SnappingProviderBase.snappingDistance</a></p>
+								<p><a href="../classes/_controls_control_.control.html#snappingprovider">Control.snappingProvider</a></p>
 							</dd>
 						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="snappingmethods" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> snapping<wbr>Methods</h3>
-					<div class="tsd-signature tsd-kind-icon">snapping<wbr>Methods<span class="tsd-signature-symbol">:</span> <a href="../modules/_controls_snapping_snappingmethods_.html#snappingmethod" class="tsd-signature-type">SnappingMethod</a><span class="tsd-signature-symbol">[]</span></div>
+					<a name="snappingsymbol" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> snapping<wbr>Symbol</h3>
+					<div class="tsd-signature tsd-kind-icon">snapping<wbr>Symbol<span class="tsd-signature-symbol">:</span> <a href="../classes/_symbols_symbol_.symbol.html" class="tsd-signature-type">Symbol</a><span class="tsd-signature-symbol">&lt;</span><a href="../classes/_features_pointfeature_.pointfeature.html" class="tsd-signature-type">PointFeature</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_controls_snapping_snappingproviderbase_.snappingproviderbaseparams.html">SnappingProviderBaseParams</a>.<a href="_controls_snapping_snappingproviderbase_.snappingproviderbaseparams.html#snappingmethods">snappingMethods</a></p>
+						<p>Inherited from <a href="_controls_control_.controlparams.html">ControlParams</a>.<a href="_controls_control_.controlparams.html#snappingsymbol">snappingSymbol</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/0abc7ef/source/controls/snapping/SnappingProviderBase.ts#L13">controls/snapping/SnappingProviderBase.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/0abc7ef/source/controls/Control.ts#L107">controls/Control.ts:107</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="symbol" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> symbol</h3>
+					<div class="tsd-signature tsd-kind-icon">symbol<span class="tsd-signature-symbol">:</span> <a href="../classes/_symbols_symbol_.symbol.html" class="tsd-signature-type">Symbol</a><span class="tsd-signature-symbol">&lt;</span><a href="../classes/_features_feature_.feature.html" class="tsd-signature-type">Feature</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_controls_control_.controlwithsymbolparams.html">ControlWithSymbolParams</a>.<a href="_controls_control_.controlwithsymbolparams.html#symbol">symbol</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/0abc7ef/source/controls/Control.ts#L111">controls/Control.ts:111</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="usetemplayer" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> use<wbr>Temp<wbr>Layer</h3>
+					<div class="tsd-signature tsd-kind-icon">use<wbr>Temp<wbr>Layer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_controls_control_.controlparams.html">ControlParams</a>.<a href="_controls_control_.controlparams.html#usetemplayer">useTempLayer</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/0abc7ef/source/controls/Control.ts#L99">controls/Control.ts:99</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
 							<dt>see</dt>
 							<dd>
-								<p><a href="../classes/_controls_snapping_snappingproviderbase_.snappingproviderbase.html#snappingmethods">SnappingProviderBase.snappingMethods</a></p>
+								<p><a href="../classes/_controls_control_.control.html#usetemplayer">Control.useTempLayer</a></p>
 							</dd>
 						</dl>
 					</div>
@@ -164,28 +220,40 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_controls_snapping_polysnappingprovider_.html">"controls/snapping/<wbr>Poly<wbr>Snapping<wbr>Provider"</a>
+						<a href="../modules/_controls_polycontrol_.html">"controls/<wbr>Poly<wbr>Control"</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/_controls_snapping_polysnappingprovider_.polysnappingprovider.html" class="tsd-kind-icon">Poly<wbr>Snapping<wbr>Provider</a>
+						<a href="../classes/_controls_polycontrol_.polycontrol.html" class="tsd-kind-icon">Poly<wbr>Control</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_controls_snapping_polysnappingprovider_.polysnappingproviderparams.html" class="tsd-kind-icon">Poly<wbr>Snapping<wbr>Provider<wbr>Params</a>
+						<a href="_controls_polycontrol_.polycontrolparams.html" class="tsd-kind-icon">Poly<wbr>Control<wbr>Params</a>
 						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_controls_polycontrol_.polycontrolparams.html#activelayer" class="tsd-kind-icon">active<wbr>Layer</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_controls_snapping_polysnappingprovider_.polysnappingproviderparams.html#feature" class="tsd-kind-icon">feature</a>
+								<a href="_controls_polycontrol_.polycontrolparams.html#dblclickmintime" class="tsd-kind-icon">dbl<wbr>Click<wbr>Min<wbr>Time</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="_controls_snapping_polysnappingprovider_.polysnappingproviderparams.html#snappingdistance" class="tsd-kind-icon">snapping<wbr>Distance</a>
+								<a href="_controls_polycontrol_.polycontrolparams.html#isactive" class="tsd-kind-icon">is<wbr>Active</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="_controls_snapping_polysnappingprovider_.polysnappingproviderparams.html#snappingmethods" class="tsd-kind-icon">snapping<wbr>Methods</a>
+								<a href="_controls_polycontrol_.polycontrolparams.html#snappingprovider" class="tsd-kind-icon">snapping<wbr>Provider</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_controls_polycontrol_.polycontrolparams.html#snappingsymbol" class="tsd-kind-icon">snapping<wbr>Symbol</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_controls_polycontrol_.polycontrolparams.html#symbol" class="tsd-kind-icon">symbol</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_controls_polycontrol_.polycontrolparams.html#usetemplayer" class="tsd-kind-icon">use<wbr>Temp<wbr>Layer</a>
 							</li>
 						</ul>
 					</li>

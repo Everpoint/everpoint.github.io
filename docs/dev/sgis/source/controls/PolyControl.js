@@ -17,7 +17,7 @@ define(["require", "exports", "./Control", "../commonEvents"], function (require
          * @param map - map the control will work with
          * @param __namedParameters - key-value set of properties to be set to the instance
          */
-        constructor(map, { snappingProvider, activeLayer, isActive = false, symbol } = {}) {
+        constructor(map, { snappingProvider, activeLayer, isActive = false, symbol, dblClickMinTime = 30 } = {}) {
             super(map, { snappingProvider, activeLayer, useTempLayer: true });
             this._dblClickTime = 0;
             this._activeFeature = null;
@@ -26,6 +26,7 @@ define(["require", "exports", "./Control", "../commonEvents"], function (require
             this._handleDblclick = this._handleDblclick.bind(this);
             this.symbol = symbol;
             this.isActive = isActive;
+            this.dblClickMinTime = dblClickMinTime;
         }
         _activate() {
             this.map.on(commonEvents_1.sGisClickEvent.type, this._handleClick);
@@ -40,21 +41,25 @@ define(["require", "exports", "./Control", "../commonEvents"], function (require
         }
         _handleClick(event) {
             let clickEvent = event;
-            if (this._activeFeature) {
-                if (clickEvent.browserEvent.ctrlKey) {
-                    this.startNewRing();
+            setTimeout(() => {
+                if (Date.now() - this._dblClickTime < this.dblClickMinTime)
+                    return;
+                if (this._activeFeature) {
+                    if (clickEvent.browserEvent.ctrlKey) {
+                        this.startNewRing();
+                    }
+                    else {
+                        this._activeFeature.addPoint(this._snap(clickEvent.point.position, clickEvent.browserEvent.altKey), this._activeFeature.rings.length - 1);
+                    }
                 }
                 else {
-                    this._activeFeature.addPoint(this._snap(clickEvent.point.position, clickEvent.browserEvent.altKey), this._activeFeature.rings.length - 1);
+                    this.startNewFeature(clickEvent.point);
+                    this.fire(new Control_1.DrawingBeginEvent());
                 }
-            }
-            else {
-                this.startNewFeature(clickEvent.point);
-                this.fire(new Control_1.DrawingBeginEvent());
-            }
-            this.fire(new Control_1.PointAddEvent());
-            if (this._tempLayer)
-                this._tempLayer.redraw();
+                this.fire(new Control_1.PointAddEvent());
+                if (this._tempLayer)
+                    this._tempLayer.redraw();
+            }, 10);
             event.stopPropagation();
         }
         /**
