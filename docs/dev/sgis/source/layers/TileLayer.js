@@ -50,9 +50,14 @@ define(["require", "exports", "../TileScheme", "./Layer", "../Crs", "../Bbox", "
          * @param level - scale level of the tile.
          */
         getTileUrl(xIndex, yIndex, level) {
-            return this._urlMask.replace('{x}', xIndex.toString())
-                .replace('{y}', yIndex.toString())
-                .replace('{z}', level.toString());
+            if (typeof this._urlMask === "string") {
+                return this._urlMask.replace('{x}', xIndex.toString())
+                    .replace('{y}', yIndex.toString())
+                    .replace('{z}', level.toString());
+            }
+            else {
+                return this._urlMask(xIndex, yIndex, level);
+            }
         }
         getRenders(bbox, resolution) {
             let indexes = this._getTileIndexes(bbox, resolution);
