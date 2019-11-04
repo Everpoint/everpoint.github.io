@@ -30,8 +30,11 @@ define(["require", "exports", "./Layer", "../renders/StaticHtmlImageRender"], fu
             if (needRedraw) {
                 this._loadNextRender(bbox, resolution);
             }
-            if (this._nextRender !== this._currentRender && this._nextRender.isReady) {
+            if (this._nextRender !== this._currentRender && this._nextRender.isReady && !this._nextRender.error) {
                 this._currentRender = this._nextRender;
+            }
+            if (this._nextRender.error) {
+                this._currentRender = undefined;
             }
             this._forceUpdate = false;
             return this._currentRender ? [this._currentRender] : [];
