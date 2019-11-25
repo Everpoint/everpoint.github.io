@@ -123,6 +123,7 @@ define(["require", "exports", "./Point", "./TileScheme", "./Crs", "./LayerGroup"
         getAdjustedResolution(resolution, direction = false) {
             if (!this.tileScheme)
                 return resolution;
+            resolution = Math.min(Math.max(resolution, this.minResolution || 0), this.maxResolution || Number.MAX_VALUE);
             return this.tileScheme.getAdjustedResolution(resolution, direction);
         }
         /**
