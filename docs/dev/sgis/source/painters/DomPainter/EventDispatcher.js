@@ -1,7 +1,7 @@
 define(["require", "exports", "../../utils/domEvent", "../../commonEvents"], function (require, exports, domEvent_1, commonEvents_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    const MIN_WHEEL_DELAY = 50;
+    const MIN_WHEEL_DELAY = 300;
     /**
      * @alias sGis.painter.domPainter.EventDispatcher
      */
