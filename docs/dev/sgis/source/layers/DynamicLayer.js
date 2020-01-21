@@ -78,6 +78,10 @@ define(["require", "exports", "./Layer", "../renders/StaticHtmlImageRender"], fu
             this._forceUpdate = true;
             this.fire(new Layer_1.PropertyChangeEvent('source'));
         }
+        resetRender() {
+            this._nextRender = undefined;
+            this.forceUpdate();
+        }
         get opacity() { return this.getOpacity(); }
         set opacity(opacity) {
             this.setOpacity(opacity);

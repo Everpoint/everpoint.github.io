@@ -17,8 +17,8 @@ define(["require", "exports", "./controls/PolyControl", "./Map", "./controls/Cir
     exports.event = eventModule;
     exports.Bbox = Bbox_1.Bbox;
     exports.Control = Control_1.Control;
-    exports.version = "0.5.0-alpha.3";
-    exports.releaseDate = "26.11.2019";
+    exports.version = "0.5.0-alpha.4";
+    exports.releaseDate = "21.01.2020";
     let utilsModulesExt = {};
     Object.assign(utilsModulesExt, utilsModule, { Color: Color_1.Color });
     exports.controls = {
