@@ -30,14 +30,11 @@ define(["require", "exports", "./Layer", "../renders/StaticHtmlImageRender"], fu
             if (needRedraw) {
                 this._loadNextRender(bbox, resolution);
             }
-            if (this._nextRender !== this._currentRender && this._nextRender.isReady && !this._nextRender.error) {
+            if (this._nextRender !== this._currentRender && this._nextRender.isReady) {
                 this._currentRender = this._nextRender;
             }
-            if (this._nextRender.error) {
-                this._currentRender = undefined;
-            }
             this._forceUpdate = false;
-            return this._currentRender ? [this._currentRender] : [];
+            return this._currentRender && !this._currentRender.error ? [this._currentRender] : [];
         }
         _loadNextRender(bbox, resolution) {
             if (this._currentRender === this._nextRender) {
@@ -54,6 +51,9 @@ define(["require", "exports", "./Layer", "../renders/StaticHtmlImageRender"], fu
                     opacity: this.opacity,
                     onLoad: () => {
                         this.redraw();
+                    },
+                    onError: (err) => {
+                        this.fire(new Layer_1.LayerErrorEvent(err));
                     },
                     onDisplayed: () => {
                         this._startNextLoad();
@@ -77,10 +77,6 @@ define(["require", "exports", "./Layer", "../renders/StaticHtmlImageRender"], fu
         forceUpdate() {
             this._forceUpdate = true;
             this.fire(new Layer_1.PropertyChangeEvent('source'));
-        }
-        resetRender() {
-            this._nextRender = undefined;
-            this.forceUpdate();
         }
         get opacity() { return this.getOpacity(); }
         set opacity(opacity) {

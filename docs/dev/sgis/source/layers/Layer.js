@@ -28,6 +28,18 @@ define(["require", "exports", "../EventHandler"], function (require, exports, Ev
     VisibilityChangeEvent.type = 'visibilityChange';
     exports.VisibilityChangeEvent = VisibilityChangeEvent;
     /**
+     * Layer unable to be loaded.
+     * @event LayerErrorEvent
+     */
+    class LayerErrorEvent extends EventHandler_1.sGisEvent {
+        constructor(error) {
+            super(LayerErrorEvent.type);
+            this.error = error;
+        }
+    }
+    LayerErrorEvent.type = 'layerError';
+    exports.LayerErrorEvent = LayerErrorEvent;
+    /**
      * Base class for all map layers. A layer is a container for features, that is responsible for filter out (or create)
      * features for requested bbox and resolution.
      * @alias sGis.Layer

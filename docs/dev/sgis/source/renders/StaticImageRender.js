@@ -2,10 +2,11 @@ define(["require", "exports", "./Render"], function (require, exports, Render_1)
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class StaticImageRender extends Render_1.StaticRender {
-        constructor({ src, width = 0, height = 0, onLoad = null, opacity = 1, offset = [0, 0] }) {
+        constructor({ src, width = 0, height = 0, onLoad = null, onError = null, opacity = 1, offset = [0, 0] }) {
             super();
             this.offset = offset;
             this.onLoad = onLoad;
+            this.onError = onError;
             this._opacity = opacity;
             this._width = width;
             this._height = height;
@@ -19,7 +20,8 @@ define(["require", "exports", "./Render"], function (require, exports, Render_1)
                     this.onLoad();
             };
             this._node.onerror = (err) => {
-                this._node.onload(err);
+                if (this.onError)
+                    this.onError(err);
             };
             if (this._width > 0)
                 this._node.width = this._width;

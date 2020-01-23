@@ -85,6 +85,7 @@
 						<section class="tsd-index-section ">
 							<h3>Events</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-event tsd-parent-kind-external-module"><a href="_layers_layer_.html#layererrorevent" class="tsd-kind-icon">Layer<wbr>Error<wbr>Event</a></li>
 								<li class="tsd-kind-event tsd-parent-kind-external-module"><a href="_layers_layer_.html#propertychangeevent" class="tsd-kind-icon">Property<wbr>Change<wbr>Event</a></li>
 								<li class="tsd-kind-event tsd-parent-kind-external-module"><a href="_layers_layer_.html#visibilitychangeevent" class="tsd-kind-icon">Visibility<wbr>Change<wbr>Event</a></li>
 							</ul>
@@ -95,12 +96,155 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Events</h2>
 				<section class="tsd-panel tsd-member tsd-kind-event tsd-parent-kind-external-module">
+					<a name="layererrorevent" class="tsd-anchor"></a>
+					<h3>Layer<wbr>Error<wbr>Event</h3>
+					<div class="tsd-signature tsd-kind-icon">Layer<wbr>Error<wbr>Event<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/layers/Layer.ts#L50">layers/Layer.ts:50</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Layer unable to be loaded.</p>
+						</div>
+					</div>
+					<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-event tsd-is-overwrite">
+						<a name="layererrorevent.constructor" class="tsd-anchor"></a>
+						<h3>constructor</h3>
+						<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-event tsd-is-overwrite">
+							<li class="tsd-signature tsd-kind-icon">new <wbr>Layer<wbr>Error<wbr>Event<span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ErrorEvent</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_layers_layer_.html#layererrorevent" class="tsd-signature-type">LayerErrorEvent</a></li>
+						</ul>
+						<ul class="tsd-descriptions">
+							<li class="tsd-description">
+								<aside class="tsd-sources">
+									<p>Overrides <a href="../classes/_eventhandler_.sgisevent.html">sGisEvent</a>.<a href="../classes/_eventhandler_.sgisevent.html#constructor">constructor</a></p>
+									<ul>
+										<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/layers/Layer.ts#L56">layers/Layer.ts:56</a></li>
+									</ul>
+								</aside>
+								<h4 class="tsd-parameters-title">Parameters</h4>
+								<ul class="tsd-parameters">
+									<li>
+										<h5>error: <span class="tsd-signature-type">ErrorEvent</span></h5>
+									</li>
+								</ul>
+								<h4 class="tsd-returns-title">Returns <a href="_layers_layer_.html#layererrorevent" class="tsd-signature-type">LayerErrorEvent</a></h4>
+							</li>
+						</ul>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-event">
+						<a name="layererrorevent.error" class="tsd-anchor"></a>
+						<h3>error</h3>
+						<div class="tsd-signature tsd-kind-icon">error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ErrorEvent</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/layers/Layer.ts#L56">layers/Layer.ts:56</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p> Error event that happened</p>
+							</div>
+						</div>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-event tsd-is-inherited">
+						<a name="layererrorevent.sourceobject" class="tsd-anchor"></a>
+						<h3><span class="tsd-flag ts-flagOptional">Optional</span> source<wbr>Object</h3>
+						<div class="tsd-signature tsd-kind-icon">source<wbr>Object<span class="tsd-signature-symbol">:</span> <a href="../classes/_eventhandler_.eventhandler.html" class="tsd-signature-type">EventHandler</a></div>
+						<aside class="tsd-sources">
+							<p>Inherited from <a href="../classes/_eventhandler_.sgisevent.html">sGisEvent</a>.<a href="../classes/_eventhandler_.sgisevent.html#sourceobject">sourceObject</a></p>
+							<ul>
+								<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/EventHandler.ts#L50">EventHandler.ts:50</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Original object that triggered the event. If the event is forwarded to another object, the original source object
+								will be set in this parameter.</p>
+							</div>
+						</div>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-event tsd-is-inherited">
+						<a name="layererrorevent.type" class="tsd-anchor"></a>
+						<h3>type</h3>
+						<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+						<aside class="tsd-sources">
+							<p>Inherited from <a href="../classes/_eventhandler_.sgisevent.html">sGisEvent</a>.<a href="../classes/_eventhandler_.sgisevent.html#type">type</a></p>
+							<ul>
+								<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/EventHandler.ts#L44">EventHandler.ts:44</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Name of the event.</p>
+							</div>
+						</div>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-event tsd-is-static">
+						<a name="layererrorevent.type-1" class="tsd-anchor"></a>
+						<h3><span class="tsd-flag ts-flagStatic">Static</span> type</h3>
+						<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;layerError&quot;</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/layers/Layer.ts#L51">layers/Layer.ts:51</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-event tsd-is-inherited">
+						<a name="layererrorevent.stoppropagation" class="tsd-anchor"></a>
+						<h3>stop<wbr>Propagation</h3>
+						<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-event tsd-is-inherited">
+							<li class="tsd-signature tsd-kind-icon">stop<wbr>Propagation<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						</ul>
+						<ul class="tsd-descriptions">
+							<li class="tsd-description">
+								<aside class="tsd-sources">
+									<p>Inherited from <a href="../classes/_eventhandler_.sgisevent.html">sGisEvent</a>.<a href="../classes/_eventhandler_.sgisevent.html#stoppropagation">stopPropagation</a></p>
+									<ul>
+										<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/EventHandler.ts#L62">EventHandler.ts:62</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Prevents any further event handlers to be called for this event.</p>
+									</div>
+								</div>
+								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							</li>
+						</ul>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-event tsd-is-inherited">
+						<a name="layererrorevent.iscanceled" class="tsd-anchor"></a>
+						<h3>is<wbr>Canceled</h3>
+						<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-event tsd-is-inherited">
+							<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> isCanceled<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						</ul>
+						<ul class="tsd-descriptions">
+							<li class="tsd-description">
+								<aside class="tsd-sources">
+									<p>Inherited from <a href="../classes/_eventhandler_.sgisevent.html">sGisEvent</a>.<a href="../classes/_eventhandler_.sgisevent.html#iscanceled">isCanceled</a></p>
+									<ul>
+										<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/EventHandler.ts#L69">EventHandler.ts:69</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Whether the .stopPropagation() method has been called for this event.</p>
+									</div>
+								</div>
+								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							</li>
+						</ul>
+					</section>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-event tsd-parent-kind-external-module">
 					<a name="propertychangeevent" class="tsd-anchor"></a>
 					<h3>Property<wbr>Change<wbr>Event</h3>
 					<div class="tsd-signature tsd-kind-icon">Property<wbr>Change<wbr>Event<span class="tsd-signature-symbol">:</span> </div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/4fdd564/source/layers/Layer.ts#L17">layers/Layer.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/layers/Layer.ts#L17">layers/Layer.ts:17</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -109,7 +253,7 @@
 						</div>
 					</div>
 					<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-event tsd-is-overwrite">
-						<a name="propertychangeevent.constructor" class="tsd-anchor"></a>
+						<a name="propertychangeevent.constructor-1" class="tsd-anchor"></a>
 						<h3>constructor</h3>
 						<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-event tsd-is-overwrite">
 							<li class="tsd-signature tsd-kind-icon">new <wbr>Property<wbr>Change<wbr>Event<span class="tsd-signature-symbol">(</span>propertyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_layers_layer_.html#propertychangeevent" class="tsd-signature-type">PropertyChangeEvent</a></li>
@@ -119,7 +263,7 @@
 								<aside class="tsd-sources">
 									<p>Overrides <a href="../classes/_eventhandler_.sgisevent.html">sGisEvent</a>.<a href="../classes/_eventhandler_.sgisevent.html#constructor">constructor</a></p>
 									<ul>
-										<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/4fdd564/source/layers/Layer.ts#L23">layers/Layer.ts:23</a></li>
+										<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/layers/Layer.ts#L23">layers/Layer.ts:23</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -145,7 +289,7 @@
 						<div class="tsd-signature tsd-kind-icon">property<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/4fdd564/source/layers/Layer.ts#L23">layers/Layer.ts:23</a></li>
+								<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/layers/Layer.ts#L23">layers/Layer.ts:23</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -155,13 +299,13 @@
 						</div>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-event tsd-is-inherited">
-						<a name="propertychangeevent.sourceobject" class="tsd-anchor"></a>
+						<a name="propertychangeevent.sourceobject-1" class="tsd-anchor"></a>
 						<h3><span class="tsd-flag ts-flagOptional">Optional</span> source<wbr>Object</h3>
 						<div class="tsd-signature tsd-kind-icon">source<wbr>Object<span class="tsd-signature-symbol">:</span> <a href="../classes/_eventhandler_.eventhandler.html" class="tsd-signature-type">EventHandler</a></div>
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="../classes/_eventhandler_.sgisevent.html">sGisEvent</a>.<a href="../classes/_eventhandler_.sgisevent.html#sourceobject">sourceObject</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/4fdd564/source/EventHandler.ts#L50">EventHandler.ts:50</a></li>
+								<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/EventHandler.ts#L50">EventHandler.ts:50</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -172,13 +316,13 @@
 						</div>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-event tsd-is-inherited">
-						<a name="propertychangeevent.type" class="tsd-anchor"></a>
+						<a name="propertychangeevent.type-2" class="tsd-anchor"></a>
 						<h3>type</h3>
 						<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="../classes/_eventhandler_.sgisevent.html">sGisEvent</a>.<a href="../classes/_eventhandler_.sgisevent.html#type">type</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/4fdd564/source/EventHandler.ts#L44">EventHandler.ts:44</a></li>
+								<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/EventHandler.ts#L44">EventHandler.ts:44</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -188,17 +332,17 @@
 						</div>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-event tsd-is-static">
-						<a name="propertychangeevent.type-1" class="tsd-anchor"></a>
+						<a name="propertychangeevent.type-3" class="tsd-anchor"></a>
 						<h3><span class="tsd-flag ts-flagStatic">Static</span> type</h3>
 						<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;propertyChange&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/4fdd564/source/layers/Layer.ts#L18">layers/Layer.ts:18</a></li>
+								<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/layers/Layer.ts#L18">layers/Layer.ts:18</a></li>
 							</ul>
 						</aside>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-event tsd-is-inherited">
-						<a name="propertychangeevent.stoppropagation" class="tsd-anchor"></a>
+						<a name="propertychangeevent.stoppropagation-1" class="tsd-anchor"></a>
 						<h3>stop<wbr>Propagation</h3>
 						<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-event tsd-is-inherited">
 							<li class="tsd-signature tsd-kind-icon">stop<wbr>Propagation<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
@@ -208,7 +352,7 @@
 								<aside class="tsd-sources">
 									<p>Inherited from <a href="../classes/_eventhandler_.sgisevent.html">sGisEvent</a>.<a href="../classes/_eventhandler_.sgisevent.html#stoppropagation">stopPropagation</a></p>
 									<ul>
-										<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/4fdd564/source/EventHandler.ts#L62">EventHandler.ts:62</a></li>
+										<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/EventHandler.ts#L62">EventHandler.ts:62</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -221,7 +365,7 @@
 						</ul>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-event tsd-is-inherited">
-						<a name="propertychangeevent.iscanceled" class="tsd-anchor"></a>
+						<a name="propertychangeevent.iscanceled-1" class="tsd-anchor"></a>
 						<h3>is<wbr>Canceled</h3>
 						<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-event tsd-is-inherited">
 							<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> isCanceled<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
@@ -231,7 +375,7 @@
 								<aside class="tsd-sources">
 									<p>Inherited from <a href="../classes/_eventhandler_.sgisevent.html">sGisEvent</a>.<a href="../classes/_eventhandler_.sgisevent.html#iscanceled">isCanceled</a></p>
 									<ul>
-										<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/4fdd564/source/EventHandler.ts#L69">EventHandler.ts:69</a></li>
+										<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/EventHandler.ts#L69">EventHandler.ts:69</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -250,7 +394,7 @@
 					<div class="tsd-signature tsd-kind-icon">Visibility<wbr>Change<wbr>Event<span class="tsd-signature-symbol">:</span> </div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/4fdd564/source/layers/Layer.ts#L38">layers/Layer.ts:38</a></li>
+							<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/layers/Layer.ts#L38">layers/Layer.ts:38</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -259,7 +403,7 @@
 						</div>
 					</div>
 					<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-event tsd-is-overwrite">
-						<a name="visibilitychangeevent.constructor-1" class="tsd-anchor"></a>
+						<a name="visibilitychangeevent.constructor-2" class="tsd-anchor"></a>
 						<h3>constructor</h3>
 						<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-event tsd-is-overwrite">
 							<li class="tsd-signature tsd-kind-icon">new <wbr>Visibility<wbr>Change<wbr>Event<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_layers_layer_.html#visibilitychangeevent" class="tsd-signature-type">VisibilityChangeEvent</a></li>
@@ -269,7 +413,7 @@
 								<aside class="tsd-sources">
 									<p>Overrides <a href="../classes/_eventhandler_.sgisevent.html">sGisEvent</a>.<a href="../classes/_eventhandler_.sgisevent.html#constructor">constructor</a></p>
 									<ul>
-										<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/4fdd564/source/layers/Layer.ts#L39">layers/Layer.ts:39</a></li>
+										<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/layers/Layer.ts#L39">layers/Layer.ts:39</a></li>
 									</ul>
 								</aside>
 								<h4 class="tsd-returns-title">Returns <a href="_layers_layer_.html#visibilitychangeevent" class="tsd-signature-type">VisibilityChangeEvent</a></h4>
@@ -277,13 +421,13 @@
 						</ul>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-event tsd-is-inherited">
-						<a name="visibilitychangeevent.sourceobject-1" class="tsd-anchor"></a>
+						<a name="visibilitychangeevent.sourceobject-2" class="tsd-anchor"></a>
 						<h3><span class="tsd-flag ts-flagOptional">Optional</span> source<wbr>Object</h3>
 						<div class="tsd-signature tsd-kind-icon">source<wbr>Object<span class="tsd-signature-symbol">:</span> <a href="../classes/_eventhandler_.eventhandler.html" class="tsd-signature-type">EventHandler</a></div>
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="../classes/_eventhandler_.sgisevent.html">sGisEvent</a>.<a href="../classes/_eventhandler_.sgisevent.html#sourceobject">sourceObject</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/4fdd564/source/EventHandler.ts#L50">EventHandler.ts:50</a></li>
+								<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/EventHandler.ts#L50">EventHandler.ts:50</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -294,13 +438,13 @@
 						</div>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-event tsd-is-inherited">
-						<a name="visibilitychangeevent.type-2" class="tsd-anchor"></a>
+						<a name="visibilitychangeevent.type-4" class="tsd-anchor"></a>
 						<h3>type</h3>
 						<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 						<aside class="tsd-sources">
 							<p>Inherited from <a href="../classes/_eventhandler_.sgisevent.html">sGisEvent</a>.<a href="../classes/_eventhandler_.sgisevent.html#type">type</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/4fdd564/source/EventHandler.ts#L44">EventHandler.ts:44</a></li>
+								<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/EventHandler.ts#L44">EventHandler.ts:44</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -310,17 +454,17 @@
 						</div>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-event tsd-is-static">
-						<a name="visibilitychangeevent.type-3" class="tsd-anchor"></a>
+						<a name="visibilitychangeevent.type-5" class="tsd-anchor"></a>
 						<h3><span class="tsd-flag ts-flagStatic">Static</span> type</h3>
 						<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;visibilityChange&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/4fdd564/source/layers/Layer.ts#L39">layers/Layer.ts:39</a></li>
+								<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/layers/Layer.ts#L39">layers/Layer.ts:39</a></li>
 							</ul>
 						</aside>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-event tsd-is-inherited">
-						<a name="visibilitychangeevent.stoppropagation-1" class="tsd-anchor"></a>
+						<a name="visibilitychangeevent.stoppropagation-2" class="tsd-anchor"></a>
 						<h3>stop<wbr>Propagation</h3>
 						<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-event tsd-is-inherited">
 							<li class="tsd-signature tsd-kind-icon">stop<wbr>Propagation<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
@@ -330,7 +474,7 @@
 								<aside class="tsd-sources">
 									<p>Inherited from <a href="../classes/_eventhandler_.sgisevent.html">sGisEvent</a>.<a href="../classes/_eventhandler_.sgisevent.html#stoppropagation">stopPropagation</a></p>
 									<ul>
-										<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/4fdd564/source/EventHandler.ts#L62">EventHandler.ts:62</a></li>
+										<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/EventHandler.ts#L62">EventHandler.ts:62</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -343,7 +487,7 @@
 						</ul>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-event tsd-is-inherited">
-						<a name="visibilitychangeevent.iscanceled-1" class="tsd-anchor"></a>
+						<a name="visibilitychangeevent.iscanceled-2" class="tsd-anchor"></a>
 						<h3>is<wbr>Canceled</h3>
 						<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-event tsd-is-inherited">
 							<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> isCanceled<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
@@ -353,7 +497,7 @@
 								<aside class="tsd-sources">
 									<p>Inherited from <a href="../classes/_eventhandler_.sgisevent.html">sGisEvent</a>.<a href="../classes/_eventhandler_.sgisevent.html#iscanceled">isCanceled</a></p>
 									<ul>
-										<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/4fdd564/source/EventHandler.ts#L69">EventHandler.ts:69</a></li>
+										<li>Defined in <a href="https://github.com/Everpoint/sGis/blob/e77199b/source/EventHandler.ts#L69">EventHandler.ts:69</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -386,6 +530,9 @@
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/_layers_layer_.layerconstructorparams.html" class="tsd-kind-icon">Layer<wbr>Constructor<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-event tsd-parent-kind-external-module">
+						<a href="_layers_layer_.html#layererrorevent" class="tsd-kind-icon">Layer<wbr>Error<wbr>Event</a>
 					</li>
 					<li class=" tsd-kind-event tsd-parent-kind-external-module">
 						<a href="_layers_layer_.html#propertychangeevent" class="tsd-kind-icon">Property<wbr>Change<wbr>Event</a>
