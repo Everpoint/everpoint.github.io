@@ -7,22 +7,36 @@
         
         <meta name="robots" content="noindex" />
         
+        
+
+
+        <!-- Custom HTML head -->
+        
+
 
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
         <link rel="shortcut icon" href="favicon.png">
+        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
+        
         <link rel="stylesheet" href="css/print.css" media="print">
+        
 
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
 
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
@@ -38,7 +52,7 @@
         <!-- Provide site root to javascript -->
         <script type="text/javascript">
             var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "light";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
@@ -83,7 +97,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="query_language.html"><strong aria-hidden="true">1.</strong> Язык атрибутивных запросов</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">EverGIS Spatial Processing Core</a></li><li class="chapter-item expanded affix "><li class="part-title">Описание работы сервера</li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> Части системы</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">1.1.</strong> Виды ресурсов</div></li><li class="chapter-item expanded "><a href="parts_of_system/permissions.html"><strong aria-hidden="true">1.2.</strong> Система прав и разрешений</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">1.2.1.</strong> Списки контроля доступа (ACL)</div></li><li class="chapter-item expanded "><a href="parts_of_system/permissions/policies.html"><strong aria-hidden="true">1.2.2.</strong> Политики доступа</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.3.</strong> REST Api</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.4.</strong> Очередь задач</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Векторные слои</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="query_language.html"><strong aria-hidden="true">2.1.</strong> Язык атрибутивных запросов</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.2.</strong> Оформление слоёв</div></li></ol></li><li class="chapter-item expanded "><li class="part-title">Для разработчиков</li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Документация к коду</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Настройка сервера</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Написание плагинов</div></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -118,9 +132,11 @@
                     <h1 class="menu-title">EverGIS documentation</h1>
 
                     <div class="right-buttons">
+                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
+                        
                         
                     </div>
                 </div>
@@ -149,7 +165,103 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>Атрибутивные запросы в EverGIS используются для:</p>
+                        <p>EverGIS Spatial Processing Core - сервер системы EverGIS</p>
+<p>Ключевым понятием системы разрешений EverGIS является понятение роли
+пользователя. Каждый пользователь может иметь одну или более ролей. Права на
+ресурсы и политики задаются для ролей, а не для пользователей. Если пользователь
+имеет несколько ролей, для которых задано определенное разрешение, для данного
+пользователя будет применяться наименее строгое ограничение.</p>
+<p>Роли могут иметь произвольное название и назначаться любым пользователям. Кроме
+этого в системе есть системные роли:</p>
+<ul>
+<li>
+<p><code>__public</code> - роль, которая добавлюется всем без исключения пользователям
+системы, авторизованным и неавторизованным. Если, например, добавить
+разрешение на чтение слоя <code>osm</code> для роли <code>__public</code>, то данный слой будет
+доступен на чтение для неавторизованных пользователей, а также для всех
+авторизованных пользователей системы.</p>
+</li>
+<li>
+<p><code>__superuser</code> - роль суперпользователя. Если пользователь имеет данную роль, к
+нему не применяются никакие проверки разрешений в системе. Данный пользователь
+будет иметь возможность читать, изменить и удалять любые ресурсы и данные в
+системе, а также выполнять некоторые действия, которые доступны только этой
+пользователям с этой ролью (например, изменять политики доступов в системе).</p>
+</li>
+<li>
+<p><code>__&lt;user_name&gt;</code> - роль пользователя. Для каждого зарегестрированного
+пользователя создается его личная роль. Например, пользователю <code>vasya</code> после
+регистрации будет назначено две роли: <code>__public</code> и <code>__vasya</code>. При создании
+ресурсов пользователем, таким ресурсам по умалочанию назначается список
+контроля доступа, состоящий из одной записи: <code>роль пользователя - ALL</code>,
+означающая, что пользователь, создавший ресурс, имеет доступ к данному ресурсу
+без ограничений</p>
+</li>
+</ul>
+<h1><a class="header" href="#Система-прав-и-разрешений" id="Система-прав-и-разрешений">Система прав и разрешений</a></h1>
+<p>Система прав и разрешений EverGIS состоит из двух частей:</p>
+<ol>
+<li>
+<p>Права на доступ к ресурсам. Эти права представлюят из себя списки контроля
+доступа (Access Control List, ACL) к слоям, таблицам и проектам в системе.</p>
+</li>
+<li>
+<p><a href="parts_of_system/./permissions/policies.html">Набор политик для доступа</a> к выполнению
+определенных действий. Например, политика может определять ограничения на
+количество ресурсов, которые пользователи с заданной ролью может создавать.</p>
+</li>
+</ol>
+<p>Политики доступа определяют разрешения для пользователей на выполнения
+определенных действий в системе.</p>
+<p>Каждая политика имеет три параметра:</p>
+<ul>
+<li>тип политики - определяет, какого то, как эта политика применяется в системе</li>
+<li>роль пользователя, для которой применяется данная политика</li>
+<li>численное значение, определяющее ограничение, задаваемое данной политикой. Для
+каждого типа политики это значение может означать разные вещи. Смотри описание
+каждой из политик для подробного описания.</li>
+</ul>
+<p>Управление политиками производится через API security/policies, досутпное только
+суперпользователю.</p>
+<h1><a class="header" href="#createtable-createlayer-createproject" id="createtable-createlayer-createproject">CreateTable, CreateLayer, CreateProject</a></h1>
+<p>Эти три политики определяют количество ресурсов, которыми может владеть
+пользователь:</p>
+<ul>
+<li><code>CreateTable</code> - количество таблиц</li>
+<li><code>CreateLayer</code> - количество слоёв</li>
+<li><code>CreateProject</code> - количество проектов (карт)</li>
+</ul>
+<p>&quot;Владеть ресурсом&quot; означает, что значение поля <code>owner</code> ресурса совпадает с
+именем пользователя.</p>
+<p>Данные ограничения приверяются при попытке создать новый ресурс соответствующего
+типа. Если количество ресурсов, которыми пользователь владеет, равно или больше
+численного значения, заданного в политике, создание ресурса будет запрещено и
+сервер вернет ответ с кодом 402.</p>
+<p>Если политика задает отрицательное ограничение, считается, что разрешено
+создание ресурсов соответствующего типа без ограничений.</p>
+<p>Если для одного пользователя применяется несколько политик одного типа, то
+применяется наименее строгое из ограничений. Например, если для пользователя
+применяются политики типа <code>CreateTable</code> со значениями 20, 100, -1, то для
+этого пользователя при создании таблиц будет применяться значение -1
+(без ограничений).</p>
+<h1><a class="header" href="#maxfeaturesinonetable" id="maxfeaturesinonetable">MaxFeaturesInOneTable</a></h1>
+<p>Задает ограничение на количество строк в одной таблице с данными. Если значение
+в политики отрицательное, пользователю разрешено добавлять записи в таблицы без
+ограничений.</p>
+<p>Данное ограничение применятся при создании объектов в слое или таблице любыми
+способами: при добавлении нового объекта в слой, при импорте объектов из файла,
+при копировании слоёв и таблиц и т.д.</p>
+<h1><a class="header" href="#Ограничения-по-умполчанию" id="Ограничения-по-умполчанию">Ограничения по умполчанию</a></h1>
+<p>Сервер позволяет задать политики по умолчанию, которые применяются для всех
+пользователей. Если не переопределно в конфигурации сервера, данные ограничения
+составляют:</p>
+<ul>
+<li><code>CreateTable</code> - 20</li>
+<li><code>CreateLayer</code> - 200</li>
+<li><code>CreateProject</code> - 200</li>
+<li><code>MaxFeaturesInOneTable</code> - 20 000</li>
+</ul>
+<p>Атрибутивные запросы в EverGIS используются для:</p>
 <ul>
 <li>
 <p>написания условий для фильтрации объектов в слоях, при запросе данных, при
@@ -303,10 +415,10 @@ double_attr &gt;= 1.5 &amp;&amp; double_attr &lt; 5
         
 
         
-        
+
         
         <script type="text/javascript">
-            window.playpen_copyable = true;
+            window.playground_copyable = true;
         </script>
         
 
