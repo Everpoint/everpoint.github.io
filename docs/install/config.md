@@ -2,6 +2,7 @@
 layout: default
 title: Конфигурация
 parent: Установка
+nav_order: 3
 ---
 ## Описание конфигурационного файла SPCore.json
 ```javascript

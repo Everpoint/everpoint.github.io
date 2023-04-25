@@ -2,6 +2,7 @@
 layout: default
 title: Запуск
 parent: Установка
+nav_order: 2
 ---
 ## Загрузить образ серверного приложения в репозиторий докера
 ```docker load -i /evergis/spcore.tar```

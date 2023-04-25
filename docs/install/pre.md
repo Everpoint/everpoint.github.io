@@ -2,6 +2,7 @@
 layout: default
 title: Подготовка
 parent: Установка
+nav_order: 1
 ---
 ## Проверить запущены ли Postgres и ZooKeeper.
 ## Проверить, что в БД Postgres установлено расширение Postgis выполнив SQL запрос к этой БД:
