@@ -41,8 +41,8 @@ nav_external_links:
     hide_icon: false # set to true to hide the external link icon - defaults to false
 
 callouts:
-  warning:
-    title: Important
+  important:
+    title: Важно
     color: orange
 # Exclude from processing.
 # The following items will not be processed, by default.
