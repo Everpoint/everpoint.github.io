@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="320px" height="124px" viewBox="0 0 320 124" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 58 (101010) - https://sketch.com -->
+    <title>26B500DE-7A1E-449D-8E01-E8E4109DA46F</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="312" height="116" rx="2"></rect>
+        <filter x="-2.2%" y="-4.3%" width="104.5%" height="112.1%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.15 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <polygon id="path-3" points="17.5555556 12.5975944 28.6666667 12.5975944 32 20.7225944 25.3333333 25.0975944 18.6666667 32.5975944 12 30.0975944 16 23"></polygon>
+        <filter x="-25.0%" y="-20.0%" width="150.0%" height="150.0%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0.666666667   0 0 0 0 1  0 0 0 0.15 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <polygon id="path-5" points="21.3482806 16.6535614 25.0055639 16 27 19.9957711 24.1741403 21 21.3482806 22.5975944"></polygon>
+        <filter x="-61.9%" y="-37.9%" width="223.9%" height="206.1%" filterUnits="objectBoundingBox" id="filter-6">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0.666666667   0 0 0 0 1  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Help-7" transform="translate(-696.000000, -648.000000)">
+            <g id="Group-5" transform="translate(501.000000, 208.000000)">
+                <g id="Group-3" transform="translate(0.000000, 258.000000)">
+                    <g id="Group-7-Copy" transform="translate(24.000000, 152.000000)">
+                        <g id="Pic-9" transform="translate(175.000000, 32.000000)">
+                            <g id="Atoms/Card/normal">
+                                <g id="Blank">
+                                    <g>
+                                        <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                                        <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                                    </g>
+                                </g>
+                            </g>
+                            <g id="zone" transform="translate(16.000000, 17.000000)" fill-rule="nonzero">
+                                <polygon id="Rectangle-Copy-2" fill="#BFEAFF" points="10.5853659 6.19834115 36.3414634 5 46 20.578435 32.0487805 30.1651643 17.0379383 45 2 37.3552112 7.36585366 24.7761592"></polygon>
+                                <g id="Rectangle-Copy-5">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                                    <use fill="#FFFFFF" xlink:href="#path-3"></use>
+                                </g>
+                                <g id="Rectangle-Copy-6">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                                    <use fill="#00AAFF" xlink:href="#path-5"></use>
+                                </g>
+                            </g>
+                            <g id="Atoms/inputText/normal" transform="translate(80.000000, 16.000000)" fill="#000000" font-family="Roboto-Regular, Roboto" font-size="16" font-weight="normal" opacity="0.870000005">
+                                <text>
+                                    <tspan x="0" y="15">Зона автомобильной </tspan>
+                                    <tspan x="0" y="34">доступности</tspan>
+                                </text>
+                            </g>
+                            <g id="Atoms/inputLabel/normal" transform="translate(80.000000, 58.000000)" fill="#000000" font-family="Roboto-Regular, Roboto" font-size="12" font-weight="normal" letter-spacing="0.100000001" opacity="0.539999962">
+                                <text>
+                                    <tspan x="0" y="11">Построение зоны, до границы </tspan>
+                                    <tspan x="0" y="25">которой можно доехать из ее центра </tspan>
+                                    <tspan x="0" y="39">за указанное время</tspan>
+                                </text>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

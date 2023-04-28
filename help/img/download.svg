@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="320px" height="104px" viewBox="0 0 320 104" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 58 (101010) - https://sketch.com -->
+    <title>249BD3CB-CA02-4105-83D1-6E54827CCD07</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="312" height="96" rx="2"></rect>
+        <filter x="-2.2%" y="-5.2%" width="104.5%" height="114.6%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.15 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <circle id="path-3" cx="24" cy="24" r="14"></circle>
+        <filter x="-17.9%" y="-14.3%" width="135.7%" height="135.7%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0.666666667   0 0 0 0 1  0 0 0 0.15 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <circle id="path-5" cx="24" cy="24" r="6"></circle>
+        <filter x="-29.2%" y="-20.8%" width="158.3%" height="158.3%" filterUnits="objectBoundingBox" id="filter-6">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0.666666667   0 0 0 0 1  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Help-6" transform="translate(-696.000000, -664.000000)">
+            <g id="Group-5" transform="translate(501.000000, 208.000000)">
+                <g id="Group-3" transform="translate(0.000000, 274.000000)">
+                    <g id="Group-7-Copy" transform="translate(24.000000, 152.000000)">
+                        <g id="Pic-6" transform="translate(175.000000, 32.000000)">
+                            <g id="Atoms/Card/normal">
+                                <g id="Blank">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                                </g>
+                            </g>
+                            <g id="buffer" transform="translate(16.000000, 24.000000)" fill-rule="nonzero">
+                                <circle id="Oval" fill="#BFEAFF" cx="24" cy="24" r="22"></circle>
+                                <g id="Oval-Copy">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                                    <use fill="#FFFFFF" xlink:href="#path-3"></use>
+                                </g>
+                                <g id="Oval-Copy-2">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                                    <use fill="#00AAFF" xlink:href="#path-5"></use>
+                                </g>
+                            </g>
+                            <g id="Atoms/inputText/normal" transform="translate(80.000000, 23.000000)" fill="#000000" font-family="Roboto-Regular, Roboto" font-size="16" font-weight="normal" opacity="0.870000005">
+                                <text>
+                                    <tspan x="0" y="15">Буферные зоны</tspan>
+                                </text>
+                            </g>
+                            <g id="Atoms/inputLabel/normal" transform="translate(80.000000, 45.000000)" fill="#000000" font-family="Roboto-Regular, Roboto" font-size="12" font-weight="normal" letter-spacing="0.100000001" opacity="0.539999962">
+                                <text>
+                                    <tspan x="0" y="11">Построение окружностей заданного </tspan>
+                                    <tspan x="0" y="25">радиуса вокруг объектов слоя</tspan>
+                                </text>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
