@@ -59,7 +59,20 @@ with open(filePath, 'rb') as f:
     files = {"file": f}
     data = {'rewrite': True}
     fileProps = session.post(url=uploadFileUrl, files=files, data=data, headers=headers).json()
+
+fileProps
 ```
+<details>
+<summary>Просмотреть ответ сервера</summary>
+
+{% highlight python %}
+
+{'fileId': 'road_density.zip', 
+ 'url': None}
+
+{% endhighlight %}
+
+</details>
 
 В ответе от сервера (переменная `fileProps`) под ключом `fileId` содержится идентификатор файла в хранилище, к которому необходимо будет обращаться на дальнейших этапах загрузки.
 
