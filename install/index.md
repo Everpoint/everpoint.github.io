@@ -2,6 +2,7 @@
 layout: default
 title: Установка
 has_children: true
+nav_order: 1
 ---
 
 # Общее описание
