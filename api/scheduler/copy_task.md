@@ -2,7 +2,7 @@
 layout: default
 title: Копирование
 parent: Планировщик
-grandparent: EverGIS API
+grand_parent: EverGIS API
 nav_order: 1
 ---
 

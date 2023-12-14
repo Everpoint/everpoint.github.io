@@ -2,7 +2,7 @@
 layout: default
 title: Инструменты геообработки
 parent: Планировщик
-grandparent: EverGIS API
+grand_parent: EverGIS API
 nav_order: 30
 ---
 

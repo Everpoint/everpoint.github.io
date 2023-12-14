@@ -2,7 +2,7 @@
 layout: default
 title: Пайплайны
 parent: Планировщик
-grandparent: EverGIS API
+grand_parent: EverGIS API
 nav_order: 20
 ---
 
