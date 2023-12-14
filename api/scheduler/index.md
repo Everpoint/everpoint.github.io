@@ -2,6 +2,8 @@
 layout: default
 title: Планировщик
 parent: EverGIS API
+has_toc: false
+has_children: true
 nav_order: 10
 ---
 
