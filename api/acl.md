@@ -2,7 +2,7 @@
 layout: default
 title: Настройки доступа (ACL)
 parent: EverGIS API
-nav_order: 7
+nav_order: 50
 ---
 
 # Настройки доступа (ACL)
