@@ -229,7 +229,7 @@ JSON body:
 {
     "files": ["landsat_test_image.tif"], 
     "attributes": {
-        "name": "Снимки Landsat-8", 
+        "name": "Снимок Landsat-8", 
         "dateofimage": "2023-12-08T12:00:00+00:00"
     }, 
     "polygonize": false, 
