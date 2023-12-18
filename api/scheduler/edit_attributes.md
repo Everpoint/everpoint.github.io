@@ -10,6 +10,7 @@ nav_order: 10
 Чтобы создать задачу на расчёт значений атрибута, необходимо выполнить **POST**-запрос:
 ```
 POST {host}/scheduler/tasks#type=editAttributes
+Content-Type: application/json
 ```
 <details>
 <summary>JSON body</summary>
@@ -107,7 +108,6 @@ POST {host}/scheduler/tasks#type=editAttributes
 ```python
 import requests
 import json
-from pprint import pprint
 
 def login(username, password): # производит авторизацию и возвращает объект сессии
     authUrl = f'{host}/account/login/'
@@ -143,13 +143,13 @@ target = {
 attribute = 'height'
 attributeType = 'Double'
 editExpression = 'floors * 2.7'
-createNewAttribute = False
+createNewAttribute = True
 condition = "purpose == 'Жилой дом'"
 
 editProps = {
     'target': target,
     'attribute': attribute,
-    # 'attributeType': attributeType,
+    'attributeType': attributeType,
     'editExpression': editExpression,
     'createNewAttribute': createNewAttribute,
     'condition': condition

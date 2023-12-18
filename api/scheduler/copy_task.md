@@ -10,6 +10,7 @@ nav_order: 1
 Копирование данных в EverGIS Online осуществляется с помощью задачи типа `type=copy`:
 ```
 POST {host}/scheduler/tasks#type=copy
+Content-Type: application/json
 ```
 <details>
 <summary>JSON body</summary>
@@ -148,7 +149,7 @@ POST {host}/scheduler/tasks#type=copy
 ## Параметры
 Чтобы создать задачу копирования, необходимо в теле запроса указать следующие параметры:
 
-- `source` - описание исходного ресурса, из которого будут скопированы данные (**обязательный параметр**). [Подробнее об описаниях ресурсов](/api/scheduler/sources). 
+- `source` - описание исходного ресурса, из которого будут скопированы данные (**обязательный параметр**). [Подробнее об описаниях ресурсов](/api/scheduler/sources);
 - `target` - описание целевого ресурса, в который будут скопированы данные (**обязательный параметр**);
 - `attributeMapping` - сопоставление атрибутов исходного и целевого ресурса;
 - `condition` - [выражение](/help/attr_query) для атрибутивной фильтрации копируемых объектов;
@@ -164,7 +165,6 @@ POST {host}/scheduler/tasks#type=copy
     "sourceAttr1": "targetAttr1",
     "sourceAttr2": "targetAttr2",
     "sourceAttr3": "targetAttr3",
-    ...
 }
 ```
 
