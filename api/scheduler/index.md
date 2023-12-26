@@ -31,15 +31,16 @@ nav_order: 10
 POST {host}/scheduler/tasks#type={taskType}
 Content-Type: application/json
 ```
-JSON-тело запроса зависит от вида создаваемой задачи. Возможные виды задач:
+JSON-тело запроса зависит от вида создаваемой задачи:
 - [Копирование](/api/scheduler/copy_task) `type=copy`;
 - [Расчёт значений атрибутов на основе EQL-выражений](/api/scheduler/edit_attributes) `type=editAttributes`;
 - [Инструменты геообработки](/api/scheduler/spatial_tools):
-    - Агрегация `type=aggregate`;
     - Построение буферных зон `type=buffer`;
     - Построение зоны доступности `type=route`;
     - Выборка геометрией `type=filterCopy`;
-    - Геометрический оверлей `type=overlay`.
+    - Объединение геометрий `type=union`;
+    - Геометрический оверлей `type=overlay`;
+    - Агрегация `type=aggregate`;
 - [Загрузка файлов в растровый каталог](/api/scheduler/tiling) `type=tiling`;
 - [Пайплайн (последовательность нескольких задач)](/api/scheduler/pipeline) `type=pipeline`;
 
