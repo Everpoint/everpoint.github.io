@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Добавление объекта в слой
-parent: Таблицы, слои, карты
+parent: Работа с объектами
 grand_parent: EverGIS API
 nav_order: 3
 ---
