@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Работа с объектами в слоях EverGIS
+title: Работа с объектами
 parent: EverGIS API
 has_toc: true
 has_children: true
