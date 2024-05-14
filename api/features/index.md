@@ -2,7 +2,7 @@
 layout: default
 title: Работа с объектами в слоях EverGIS
 parent: EverGIS API
-has_toc: false
+has_toc: true
 has_children: true
 nav_order: 2
 ---
